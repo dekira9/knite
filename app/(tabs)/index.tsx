@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Keyboard, TouchableWithoutFeedback, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Keyboard, TouchableWithoutFeedback, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { Image } from 'expo-image';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import raglanState from '@/state/raglanState';
+
 export default function IntroScreen() {
-  const [headCircumference, setHeadCircumference] = useState('58');
-  const [neckCircumference, setNeckCircumference] = useState('36');
-  const [chestCircumference, setChestCircumference] = useState('92');
-  const [stitchDensity, setStitchDensity] = useState('2.4');
-  const [rowDensity, setRowDensity] = useState('3.2');
+  const insets = useSafeAreaInsets();
+  const [headCircumference, setHeadCircumference] = useState('58'); // Og
+  const [neckCircumference, setNeckCircumference] = useState('36'); // Os
+  const [chestCircumference, setChestCircumference] = useState('92'); // Ogr
+  const [stitchDensity, setStitchDensity] = useState('2.4'); //p-
+  const [rowDensity, setRowDensity] = useState('3.2'); // p'
   const [fitType, setFitType] = useState('fitted');
   const [result, setResult] = useState('');
+  const [gridData, setGridData] = useState<{ width: number; height: number }[]>([]);
 
   const calculateRaglan = () => {
     const head = parseFloat(headCircumference.replace(',', '.'));
@@ -31,7 +37,6 @@ export default function IntroScreen() {
     const LFrontO = (LOsm - 4 * K / stitches) / 8 * 3;
     const LO_p = Math.round(LOsm * stitches) / stitches;
     const LFrontO_p = Math.round(LFrontO * stitches) / stitches;
-    console.log('LOsm', LOsm)
 
     const NRrez = Math.round(Hrez * rows);
     const SO = Math.round((LOsm * stitches) / 2) * 2;
@@ -52,19 +57,26 @@ export default function IntroScreen() {
         fit = 0; // Slim-fit
     }
 
-    const LFrontOGr = (chest + fit) / 2;
-    const SFrontOGr = Math.round(LFrontOGr * stitches / 2) * 2;
+    const SFit = Math.round(fit * stitches);
+    const SOgr = Math.round(chest * stitches / 2) * 2;
 
-    const LPodr = Math.round(((chest + fit) * 0.08) * stitches) / stitches;
-    const SPodr = LPodr * stitches;
+    // const LPodr = Math.round(((chest + fit) * 0.08) * stitches) / stitches;
+    // const SPodr = LPodr * stitches;
+    const SPodr = Math.round((SOgr + SFit) * 0.08);
 
-    const Sfx = Math.round(((SFrontOGr - SFrontO - K - SPodr) / 2) / 2) * 2;
+    // const LFrontOGr = (chest - 4 * K / stitches  - LPodr * 2+ fit) / 2;
+    // const SFrontOGr = Math.round(LFrontOGr * stitches / 2) * 2;
+    const SFrontOGr = Math.round((SOgr - 4 * K - 2 * SPodr + SFit) / 2);
+
+    const Sfx = Math.round(((SFrontOGr - SFrontO) / 2) / 2) * 2;
     const NRfx = Sfx * 2;
     const Lfx = Sfx / stitches;
     const LRfx = NRfx / rows;
 
     const Kfront_cm = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
-
+    const SKfront = Math.round(Kfront_cm * stitches);
+    const SKa = K - SKfront;
+    
     const Rostok = neck / 6 - 1;
     const NRostok = Math.round((Rostok * rows) / 2) * 2;
 
@@ -91,151 +103,244 @@ export default function IntroScreen() {
     const prib_1x4_f = NHFront > 2 * Sfx ? (NHFront / 2 - Sfx) : 0;
     const PR_1X2_f = prib_1x2 !== 0 ? (NHFront - prib_1x1 - prib_1x4)/2 : 0;
 
-    const increaseTypes = [
-      { type: '1x2', value: prib_1x2_f },
-      { type: '1x3', value: prib_1x3_f },
-      { type: '1x4', value: prib_1x4_f },
-      { type: '1x1', value: prib_1x1_f }
-    ];
+    // Логика выбора типа прибавок
+    let usedIncreaseType: string[] = [];
 
-    // Filter out increase types with non-positive values
-    const validIncreaseTypes = increaseTypes.filter(inc => inc.value > 0);
-
-    // Define priority order for combinations
-    const priorityCombinations = [
-      ['1x2', '1x4'],
-      ['1x2', '1x4', '1x1'],
-      ['1x2', '1x1'],
-      ['1x4', '1x1'],
-      ['1x2', '1x3'],
-      ['1x3', '1x1'],
-      ['1x2', '1x3', '1x1'],
-      ['1x2'],
-      ['1x4'],
-      ['1x3'],
-      ['1x1']
-    ];
-
-    let foundCombinations = [];
-
-    for (const combination of priorityCombinations) {
-      const total = combination.reduce((sum, type) => {
-        const increase = validIncreaseTypes.find(inc => inc.type === type);
-        return sum + (increase ? increase.value : 0);
-      }, 0);
-
-      if (total === Sfx) {
-        foundCombinations.push(combination.join(', '));
-      }
+    if (PR_1X2_f > 0 && prib_1x4_f > 0 && PR_1X2_f + prib_1x4_f === Sfx) {
+      usedIncreaseType.push('1x2, 1x4');
+    }
+    if (PR_1X2_f > 0 && prib_1x4_f > 0 && prib_1x1_f > 0 && PR_1X2_f + prib_1x4_f + prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x2, 1x4, 1x1');
+    }
+    if (PR_1X2_f > 0 && prib_1x1_f > 0 && PR_1X2_f + prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x2, 1x1');
+    }
+    if (prib_1x4_f > 0 && prib_1x1_f > 0 && prib_1x4_f + prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x4, 1x1');
+    }
+    if (prib_1x2_f > 0 && prib_1x3_f > 0 && prib_1x2_f + prib_1x3_f === Sfx) {
+      usedIncreaseType.push('1x2, 1x3');
+    }
+    if (prib_1x3_f > 0 && prib_1x1_f > 0 && prib_1x3_f + prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x3, 1x1');
+    }
+    if (prib_1x2_f > 0 && prib_1x3_f > 0 && prib_1x1_f > 0 && prib_1x2_f + prib_1x3_f + prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x2, 1x3, 1x1');
+    }
+    if (prib_1x2_f > 0 && prib_1x2_f === Sfx) {
+      usedIncreaseType.push('1x2');
+    }
+    if (prib_1x4_f > 0 && prib_1x4_f === Sfx) {
+      usedIncreaseType.push('1x4');
+    }
+    if (prib_1x3_f > 0 && prib_1x3_f === Sfx) {
+      usedIncreaseType.push('1x3');
+    }
+    if (prib_1x1_f > 0 && prib_1x1_f === Sfx) {
+      usedIncreaseType.push('1x1');
     }
 
-    const usedIncreaseType = foundCombinations.length > 0 ? foundCombinations.join(' | ') : 'Нет подходящего типа прибавок';
+    // Convert the list to a string for display
+    const usedIncreaseTypeString = usedIncreaseType.length > 0 ? usedIncreaseType.join(' | ') : 'Нет подходящего типа прибавок';
 
     setResult(`
+      Как сидит в петлях: ${SFit}
       Количество петель набора горловины: ${SO}
       Высота резинки в рядах: ${NRrez}
       Количество петель переда: ${SFrontO}
       Набор петель на рукова: ${Sa}
       Петли в регланной линии: ${K}
+      Петли в регланной линии на корпус: ${SKfront}
+      Петли в регланной линии на рукава: ${SKa}
       Рядов высота переда без резинки: ${NHFront}
       Высота ростка в рядах: ${NRostok}
       Количество петель переда по груди: ${SFrontOGr}
       Петли подрез под каждым рукавом: ${SPodr}
       Петли прибавка: ${Sfx}
-      Петли prib_1x1: ${prib_1x1}
-      Петли prib_1x2: ${prib_1x2}
-      Петли prib_1x3: ${prib_1x3}
-      Петли prib_1x4: ${prib_1x4}
-      Петли PR_1X2: ${PR_1X2}
 
-      Петли prib_1x1_f: ${prib_1x1_f}
-      Петли prib_1x2_f: ${prib_1x2_f}
-      Петли prib_1x3_f: ${prib_1x3_f}
-      Петли prib_1x4_f: ${prib_1x4_f}
-      Петли PR_1X2_f: ${PR_1X2_f}
-
-      Используемые типы прибавок: ${usedIncreaseType}
+      Используемый тип прибавок: ${usedIncreaseTypeString}
     `);
+    // Петли prib_1x1: ${prib_1x1}
+    // Петли prib_1x2: ${prib_1x2}
+    // Петли prib_1x3: ${prib_1x3}
+    // Петли prib_1x4: ${prib_1x4}
+    // Петли PR_1X2: ${PR_1X2}
+
+    // Петли prib_1x1_f: ${prib_1x1_f}
+    // Петли prib_1x2_f: ${prib_1x2_f}
+    // Петли prib_1x3_f: ${prib_1x3_f}
+    // Петли prib_1x4_f: ${prib_1x4_f}
+    // Петли PR_1X2_f: ${PR_1X2_f}
+
+    raglanState.setRaglanData({
+      SO,
+      NRrez,
+      SFrontO,
+      Sa,
+      K,
+      SKfront,
+      SKa,
+      NHFront,
+      NRostok,
+      SFrontOGr,
+      SPodr,
+      Sfx,
+      prib_1x1,
+      prib_1x2,
+      prib_1x3,
+      prib_1x4,
+      PR_1X2,
+      prib_1x1_f,
+      prib_1x2_f,
+      prib_1x3_f,
+      prib_1x4_f,
+      PR_1X2_f,
+      usedIncreaseType,
+      usedIncreaseTypeString,
+      fit,
+    });
   };
 
+  const fitOptions = [
+    { label: 'Slim-fit', value: 'fitted' },
+    { label: 'Norm', value: 'semi-fitted' },
+    { label: 'Free', value: 'loose' },
+    { label: 'Super Free', value: 'oversized' },
+  ];
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Welcome to KnitApp!</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Обхват головы (см)"
-            keyboardType="numeric"
-            value={headCircumference}
-            onChangeText={setHeadCircumference}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Обхват шеи (см)"
-            keyboardType="numeric"
-            value={neckCircumference}
-            onChangeText={setNeckCircumference}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Обхват груди (см)"
-            keyboardType="numeric"
-            value={chestCircumference}
-            onChangeText={setChestCircumference}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Плотность вязания (петли в 10 см)"
-            keyboardType="numeric"
-            value={stitchDensity}
-            onChangeText={setStitchDensity}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Плотность вязания (ряды в 10 см)"
-            keyboardType="numeric"
-            value={rowDensity}
-            onChangeText={setRowDensity}
-          />
-          <Picker
-            selectedValue={fitType}
-            style={styles.picker}
-            onValueChange={(itemValue) => setFitType(itemValue)}
-          >
-            <Picker.Item label="В облипку" value="fitted" />
-            <Picker.Item label="Полуприлегающий" value="semi-fitted" />
-            <Picker.Item label="Свободный" value="loose" />
-            <Picker.Item label="Оверсайз" value="oversized" />
-          </Picker>
-          <View style={styles.buttonContainer}>
-            <Button title="Рассчитать реглан" onPress={calculateRaglan} />
+    <View style={{ flex: 1 }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingTop: insets.top, paddingBottom: insets.bottom + 100 }]}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Lets knit!</Text>
+            <Image source={require('@/assets/images/main.png')} style={styles.mainImage} />
+            
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+              <Image 
+                contentFit="contain" 
+                source={require('@/assets/images/head.svg')} 
+                style={{ width: 70, height: 70 }} 
+              />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <Text style={styles.label}>Обхват головы (см)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Обхват головы (см)"
+                  keyboardType="numeric"
+                  value={headCircumference}
+                  onChangeText={setHeadCircumference}
+                />
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+              <Image 
+                contentFit="contain" 
+                source={require('@/assets/images/neck.svg')} 
+                style={{ width: 70, height: 70 }} 
+              />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <Text style={styles.label}>Обхват шеи (см)</Text>
+                <TextInput
+              style={styles.input}
+              placeholder="Обхват шеи (см)"
+              keyboardType="numeric"
+              value={neckCircumference}
+                  onChangeText={setNeckCircumference}
+                />
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+              <Image 
+                contentFit="contain" 
+                source={require('@/assets/images/chest.svg')} 
+                style={{ width: 70, height: 70 }} 
+              />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <Text style={styles.label}>Обхват груди (см)</Text>
+                <TextInput
+              style={styles.input}
+              placeholder="Обхват груди (см)"
+              keyboardType="numeric"
+              value={chestCircumference}
+                  onChangeText={setChestCircumference}
+                />
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+              <Image 
+                contentFit="contain" 
+                source={require('@/assets/images/density.svg')} 
+                style={{ width: 100, height: 100 }} 
+              />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <Text style={styles.label}>Плотность вязания (петли в 10 см)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Плотность вязания (петли в 10 см)"
+                  keyboardType="numeric"
+                  value={stitchDensity}
+                  onChangeText={setStitchDensity}
+                />
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+              <Image 
+                contentFit="contain" 
+                source={require('@/assets/images/density3.svg')} 
+                style={{ width: 105, height: 105 }} 
+              />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <Text style={styles.label}>Плотность вязания (ряды в 10 см)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Плотность вязания (ряды в 10 см)"
+                  keyboardType="numeric"
+                  value={rowDensity}
+                  onChangeText={setRowDensity}
+                />
+              </View>
+            </View>
+            <View style={styles.buttonGroup}>
+              {fitOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.fitButton,
+                    fitType === option.value && styles.selectedFitButton,
+                  ]}
+                  onPress={() => setFitType(option.value)}
+                >
+                  <Text style={styles.fitButtonText}>{option.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title="Рассчитать реглан" onPress={calculateRaglan} />
+            </View>
+            {result ? <Text style={styles.result}>{result}</Text> : null}
           </View>
-          {result ? <Text style={styles.result}>{result}</Text> : null}
-        </View>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 5,
-    height: Dimensions.get('window').height+ 400,
   },
   container: {
     width: '100%',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
     backgroundColor: '#f5f5f5',
   },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
+  mainImage: {
+    width: '100%',
+    height: 180,
   },
   title: {
     fontSize: 28,
@@ -258,7 +363,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
-    width: '100%',
+    width: '80%',
   },
   result: {
     marginTop: 20,
@@ -273,5 +378,34 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
     width: '100%',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+    alignSelf: 'flex-start',
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  fitButton: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    alignItems: 'center',
+    marginHorizontal: 5,
+    justifyContent: 'center',
+  },
+  selectedFitButton: {
+    backgroundColor: '#ddd',
+  },
+  fitButtonText: {
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
   },
 });
