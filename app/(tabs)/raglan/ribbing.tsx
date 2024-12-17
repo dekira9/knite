@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet, Dimensions, ScrollView, Text, Button } from 'react-native';
+import React, { useState, useEffect, useMemo, useLayoutEffect } from 'react';
+import { View, StyleSheet, Dimensions, ScrollView, Text, Button, ActivityIndicator } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import raglanState from '@/state/raglanState';
 import Slider from '@react-native-community/slider';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const RibbingScreen = observer(() => {
   const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, SO } = raglanState;
@@ -15,6 +16,7 @@ const RibbingScreen = observer(() => {
   const bottomWidth = SFrontO + 2 * Sfx;
   const maxNodes = Math.max(topWidth, bottomWidth);
   const thickness = NRrez;
+  const insets = useSafeAreaInsets();
 
   const [lastRowHighlight, setLastRowHighlight] = useState(0);
 
@@ -23,9 +25,30 @@ const RibbingScreen = observer(() => {
 
   const [currentNodes, setCurrentNodes] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const adjustCellSize = (delta) => {
-    setCellSize(prevSize => Math.max(5, prevSize + delta));
+    setIsLoading(true);
+    
+    // Откладываем изменение размера ячейки на следующий тик
+    setTimeout(() => {
+      setCellSize(prevSize => Math.max(5, prevSize + delta));
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsLoading(false);
+        });
+      });
+    }, 0);
   };
+
+  // Убедимся, что loading overlay отрисовывается поверх всего контента
+  useLayoutEffect(() => {
+    if (isLoading) {
+      // Форсируем перерисовку
+      requestAnimationFrame(() => {});
+    }
+  }, [isLoading]);
 
   const toggleDistributionMode = () => {
     setDistributionMode(prevMode => (prevMode === 'sequential' ? 'even' : 'sequential'));
@@ -78,10 +101,10 @@ const RibbingScreen = observer(() => {
   const defaultColor = 'red';
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.infoText}>Текущий режим: {distributionMode === 'sequential' ? 'Последовательный' : 'Равномерный'}</Text>
+    <ScrollView contentContainerStyle={[styles.container, { paddingTop: insets.top }]}>
+      {/* <Text style={styles.infoText}>Текущий режим: {distributionMode === 'sequential' ? 'Последовательный' : 'Равномерный'}</Text>
       <Text style={styles.infoText}>Трапеция: верхняя грань {SFrontO}, нижняя грань {bottomWidth}</Text>
-      <Text style={styles.infoText}>Количество рядов: {NHFront}</Text>
+      <Text style={styles.infoText}>Количество рядов: {NHFront}</Text> */}
       <View style={styles.buttonContainer}>
         <Button title="Меньше" onPress={() => adjustCellSize(-1)} />
         <Button title="Больше" onPress={() => adjustCellSize(1)} />
@@ -91,7 +114,7 @@ const RibbingScreen = observer(() => {
         contentContainerStyle={styles.scrollContainer}
         showsHorizontalScrollIndicator={false}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 200}}>
           <View style={styles.grid}>
             {/* pre first row */}
             {Array.from({ length: 2 }).map((_, rowIndex) => (
@@ -202,6 +225,12 @@ const RibbingScreen = observer(() => {
                         },
                       ]}
                     >
+                      { colIndex === totalEmptyCells + 3 && (
+                        <Text style={{ color: 'white', fontSize: 8 }}>{thickness - rowIndex}</Text>
+                      )}
+                      { colIndex === totalEmptyCells - 2 && rowIndex === 0 && (
+                        <Text style={{ color: 'black', fontSize: 8 }}>{thickness - rowIndex}</Text>
+                      )}
                     </View>
                   );
                 })}
@@ -491,6 +520,11 @@ const RibbingScreen = observer(() => {
           </View>
         </ScrollView>
       </ScrollView>
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      )}
     </ScrollView>
   );
 });
@@ -606,7 +640,18 @@ const styles = StyleSheet.create({
     left: 0,
     width: 35,
     height: 24,
-  }
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
 });
 
 export default RibbingScreen; 

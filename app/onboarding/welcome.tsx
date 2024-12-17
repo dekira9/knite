@@ -8,7 +8,7 @@ export default function WelcomeScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/main.png')}
+        source={require('../../assets/images/regular-collar.png')}
         style={styles.image}
         resizeMode="contain"
       />

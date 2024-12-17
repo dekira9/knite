@@ -4,9 +4,14 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import raglanState from '@/state/raglanState';
+import onboardingState from '@/state/onboardingState';
+import { observer } from 'mobx-react-lite';
+import i18n from '@/utils/translations';
 
-export default function IntroScreen() {
+const IntroScreen = observer(() => {
+  const currentLanguage = onboardingState.language;
   const insets = useSafeAreaInsets();
+  const measurementSystem = onboardingState.measurementSystem;
   const [headCircumference, setHeadCircumference] = useState('58'); // Og
   const [neckCircumference, setNeckCircumference] = useState('36'); // Os
   const [chestCircumference, setChestCircumference] = useState('92'); // Ogr
@@ -148,7 +153,7 @@ export default function IntroScreen() {
       Количество петель набора горловины: ${SO}
       Высота резинки в рядах: ${NRrez}
       Количество петель переда: ${SFrontO}
-      Набор петель на рукова: ${Sa}
+      Набор петель на рукава: ${Sa}
       Петли в регланной линии: ${K}
       Петли в регланной линии на корпус: ${SKfront}
       Петли в регланной линии на рукава: ${SKa}
@@ -214,93 +219,193 @@ export default function IntroScreen() {
         <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingTop: insets.top, paddingBottom: insets.bottom + 100 }]}>
           <View style={styles.container}>
             <Text style={styles.title}>Lets knit!</Text>
-            <Image source={require('@/assets/images/main.png')} style={styles.mainImage} />
+            <Image source={require('@/assets/images/regular-collar.png')} style={styles.mainImage} />
             
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
-              <Image 
-                contentFit="contain" 
-                source={require('@/assets/images/head.svg')} 
-                style={{ width: 70, height: 70 }} 
-              />
-              <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.label}>Обхват головы (см)</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Обхват головы (см)"
-                  keyboardType="numeric"
-                  value={headCircumference}
-                  onChangeText={setHeadCircumference}
+            {measurementSystem === 'metric' ? (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/head.svg')} 
+                  style={{ width: 70, height: 70 }} 
                 />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('headCircumference') + ' (cm)'}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('headCircumference') + ' (cm)'}
+                    keyboardType="numeric"
+                    value={headCircumference}
+                    onChangeText={setHeadCircumference}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
-              <Image 
-                contentFit="contain" 
-                source={require('@/assets/images/neck.svg')} 
-                style={{ width: 70, height: 70 }} 
-              />
-              <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.label}>Обхват шеи (см)</Text>
-                <TextInput
-              style={styles.input}
-              placeholder="Обхват шеи (см)"
-              keyboardType="numeric"
-              value={neckCircumference}
-                  onChangeText={setNeckCircumference}
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/head.svg')} 
+                  style={{ width: 70, height: 70 }} 
                 />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('headCircumference') + ' (in)'}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('headCircumference') + ' (in)'}
+                    keyboardType="numeric"
+                    value={headCircumference}
+                    onChangeText={setHeadCircumference}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
-              <Image 
-                contentFit="contain" 
-                source={require('@/assets/images/chest.svg')} 
-                style={{ width: 70, height: 70 }} 
-              />
-              <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.label}>Обхват груди (см)</Text>
-                <TextInput
-              style={styles.input}
-              placeholder="Обхват груди (см)"
-              keyboardType="numeric"
-              value={chestCircumference}
-                  onChangeText={setChestCircumference}
+            )}
+            {measurementSystem === 'metric' ? (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/neck.svg')} 
+                  style={{ width: 70, height: 70 }} 
                 />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('neckCircumference') + ' (cm)'}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('neckCircumference') + ' (cm)'}
+                    keyboardType="numeric"
+                    value={neckCircumference}
+                    onChangeText={setNeckCircumference}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
-              <Image 
-                contentFit="contain" 
-                source={require('@/assets/images/density.svg')} 
-                style={{ width: 100, height: 100 }} 
-              />
-              <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.label}>Плотность вязания (петли в 10 см)</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Плотность вязания (петли в 10 см)"
-                  keyboardType="numeric"
-                  value={stitchDensity}
-                  onChangeText={setStitchDensity}
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/neck.svg')} 
+                  style={{ width: 70, height: 70 }} 
                 />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('neckCircumference') + ' (in)'}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('neckCircumference') + ' (in)'}
+                    keyboardType="numeric"
+                    value={neckCircumference}
+                    onChangeText={setNeckCircumference}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
-              <Image 
-                contentFit="contain" 
+            )}
+            {measurementSystem === 'metric' ? (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/chest.svg')} 
+                  style={{ width: 70, height: 70 }} 
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('chestCircumference') + ' (cm)'}</Text>
+                  <TextInput
+                style={styles.input}
+                placeholder={i18n.t('chestCircumference') + ' (cm)'}
+                keyboardType="numeric"
+                value={chestCircumference}
+                    onChangeText={setChestCircumference}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/chest.svg')} 
+                  style={{ width: 70, height: 70 }} 
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('chestCircumference') + ' (in)'}</Text>
+                  <TextInput
+                style={styles.input}
+                placeholder={i18n.t('chestCircumference') + ' (in)'}
+                keyboardType="numeric"
+                value={chestCircumference}
+                    onChangeText={setChestCircumference}
+                  />
+                </View>
+              </View>
+            )}
+            {measurementSystem === 'metric' ? (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/density.svg')} 
+                  style={{ width: 100, height: 100 }} 
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('stitchDensityCM')}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('stitchDensityCM')}
+                    keyboardType="numeric"
+                    value={stitchDensity}
+                    onChangeText={setStitchDensity}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/density.svg')} 
+                  style={{ width: 100, height: 100 }} 
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('stitchDensityIN')}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('stitchDensityIN')}
+                    keyboardType="numeric"
+                    value={stitchDensity}
+                    onChangeText={setStitchDensity}
+                  />
+                </View>
+              </View>
+            )}
+            {measurementSystem === 'metric' ? (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
                 source={require('@/assets/images/density3.svg')} 
                 style={{ width: 105, height: 105 }} 
               />
               <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.label}>Плотность вязания (ряды в 10 см)</Text>
+                <Text style={styles.label}>{i18n.t('rowDensityCM')}</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Плотность вязания (ряды в 10 см)"
+                  placeholder={i18n.t('rowDensityCM')}
                   keyboardType="numeric"
                   value={rowDensity}
                   onChangeText={setRowDensity}
                 />
               </View>
             </View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10 }}>
+                <Image 
+                  contentFit="contain" 
+                  source={require('@/assets/images/density3.svg')} 
+                  style={{ width: 105, height: 105 }} 
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <Text style={styles.label}>{i18n.t('rowDensityIN')}</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={i18n.t('rowDensityIN')}
+                    keyboardType="numeric"
+                    value={rowDensity}
+                    onChangeText={setRowDensity}
+                  />
+                </View>
+              </View>
+            )}
             <View style={styles.buttonGroup}>
               {fitOptions.map((option) => (
                 <TouchableOpacity
@@ -324,7 +429,7 @@ export default function IntroScreen() {
       </TouchableWithoutFeedback>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -409,3 +514,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default IntroScreen;

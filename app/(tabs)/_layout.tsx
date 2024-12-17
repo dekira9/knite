@@ -7,6 +7,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -18,6 +19,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        // tabBarShowLabel: false,
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
@@ -26,12 +28,19 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="intro"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Input',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="list-ol" size={28} color={color} />,
         }}
       />
+      {/* <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Input2',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="list-ol" size={28} color={color} />,
+        }}
+      /> */}
       <Tabs.Screen
         name="raglan"
         options={{

@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { observer } from 'mobx-react-lite';
 import * as Localization from 'expo-localization';
 import onboardingState from '@/state/onboardingState';
+import i18n, {updateLocale} from '@/utils/translations';
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const languages = [
   { code: 'en', name: 'English', nativeName: 'English' },
@@ -27,10 +31,17 @@ const languages = [
 
 const LanguageScreen = observer(() => {
   const router = useRouter();
+  const { from } = useLocalSearchParams();
 
   const selectLanguage = (langCode: string) => {
     onboardingState.setLanguage(langCode);
-    router.push('/onboarding/measurement');
+    updateLocale(langCode);
+    
+    if (from === 'settings') {
+      router.back();
+    } else {
+      router.push('/onboarding/measurement');
+    }
   };
 
   const deviceLanguage = Localization.getLocales()[0].languageCode;
@@ -38,7 +49,8 @@ const LanguageScreen = observer(() => {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <Text style={styles.title}>Choose Your Language</Text>
+        {/* <Text style={styles.title}>{i18n.t('onboardingLanguage')}</Text> */}
+        <Text style={styles.title}>Choose language</Text>
         
         {languages.map((lang) => (
           <TouchableOpacity
@@ -47,9 +59,9 @@ const LanguageScreen = observer(() => {
             onPress={() => selectLanguage(lang.code)}
           >
             <Text style={styles.languageName}>{lang.nativeName}</Text>
-            {lang.name !== lang.nativeName && (
-              <Text style={styles.languageNameTranslation}>{lang.name}</Text>
-            )}
+
+            <Text style={styles.languageNameTranslation}>{lang.name}</Text>
+
           </TouchableOpacity>
         ))}
       </View>
@@ -73,7 +85,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   subtitle: {
     fontSize: 18,
@@ -82,7 +94,7 @@ const styles = StyleSheet.create({
   },
   languageButton: {
     backgroundColor: '#f0f0f0',
-    width: '80%',
+    width: windowWidth * 0.7,
     padding: 20,
     borderRadius: 15,
     marginBottom: 15,
