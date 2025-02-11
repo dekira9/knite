@@ -1,15 +1,19 @@
-import { Stack } from 'expo-router';
+import IntroProgress from '@/app/components/IntroProgress';
+import onboardingState from '@/state/onboardingState';
+import { Stack, usePathname } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
-import IntroProgress from '@/app/components/IntroProgress';
 
 export default function IntroLayout() {
+  const pathname = usePathname();
+  const shouldShowProgress = !['/input', '/input/result'].includes(pathname);
+
   return (
     <View style={{ flex: 1 }}>
-      <IntroProgress />
+      {shouldShowProgress && <IntroProgress />}
       <Stack
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#f5f5f5',
           },
@@ -48,6 +52,12 @@ export default function IntroLayout() {
           name="row-density"
           options={{
             title: 'Row Density',
+          }}
+        />
+        <Stack.Screen
+          name="ribbing-width"
+          options={{
+            title: 'Ribbing Width',
           }}
         />
         <Stack.Screen

@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import raglanVisualizationState from '@/state/raglanVisualizationState';
 
-const RibbinScreen = observer(() => {
+const RaglanScreen = observer(() => {
   const { highlightedRows, lastRowHighlight, currentSection } = raglanVisualizationState;
   const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, SO } = introState;
   const router = useRouter();
@@ -245,10 +245,10 @@ const RibbinScreen = observer(() => {
           <Button title="Меньше" onPress={() => adjustCellSize(-1)} />
           <Button title="Больше" onPress={() => adjustCellSize(1)} />
         </View> */}
-        {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button title="highlight next" onPress={highlightNextRow} />
           <Button title="highlight previous" onPress={highlightPreviousRow} />
-        </View> */}
+        </View>
         <View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -675,6 +675,47 @@ const RibbinScreen = observer(() => {
                   })}
                 </View>
               ))}
+              {/* Front */}
+              {Array.from({ length: NHFront }).map((_, rowIndex) => {
+                let currentWidth = frontTopWidth;
+                const additionalSquares = calculateAdditionalSquares[rowIndex];
+
+                currentWidth += 2 * additionalSquares;
+                const totalWidth = currentWidth;
+                const totalEmptyCells = (maxNodes - totalWidth) / 2;
+
+                return (
+                  <View 
+                    key={rowIndex} 
+                    style={styles.row}
+                  >
+                    {Array.from({ length: maxNodes }).map((_, colIndex) => {
+                      const isVisible = colIndex >= totalEmptyCells && colIndex < totalEmptyCells + totalWidth;
+                      const isRectangle = colIndex >= ((maxNodes - frontTopWidth) / 2) && colIndex < ((maxNodes - frontTopWidth) / 2 + frontTopWidth);
+                      const isLastHighlighted = (
+                        currentSection === 'front' && 
+                        rowIndex === highlightedRows - 1 && 
+                        colIndex < lastRowHighlight
+                      );
+                      
+                      return (
+                        <View
+                          key={colIndex}
+                          style={[
+                            styles.cell,
+                            { 
+                              width: cellSize, 
+                              height: cellSize,
+                              opacity: isVisible ? 1 : 0,
+                              backgroundColor: (isLastHighlighted ? 'purple' : (isRectangle ? '#D3D3D3' : 'transparent')),
+                            },
+                          ]}
+                        />
+                      );
+                    })}
+                  </View>
+                );
+              })}
             </View>
           </ScrollView>
         </ScrollView>
@@ -882,4 +923,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RibbinScreen; 
+export default RaglanScreen; 

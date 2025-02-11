@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import i18n from '@/utils/translations';
 import onboardingState from '@/state/onboardingState';
 import { Image } from 'expo-image';
+import IntroProgress from './IntroProgress';
 
 interface MeasurementInputProps {
   title: string;
@@ -20,6 +21,8 @@ interface MeasurementInputProps {
   nextScreen: string;
   imageSource: any;
   isLast?: boolean;
+  doNotShowCM?: boolean;
+  onNext?: () => boolean;
 }
 
 export default function MeasurementInput({
@@ -29,6 +32,8 @@ export default function MeasurementInput({
   nextScreen,
   imageSource,
   isLast = false,
+  doNotShowCM=false,
+  onNext,
 }: MeasurementInputProps) {
   const router = useRouter();
   const measurementSystem = onboardingState.measurementSystem;
@@ -45,6 +50,10 @@ export default function MeasurementInput({
   }, []);
 
   const handleNext = () => {
+    if (onNext) {
+      const shouldProceed = onNext();
+      if (!shouldProceed) return;
+    }
     router.push(nextScreen);
   };
 
@@ -68,7 +77,7 @@ export default function MeasurementInput({
             keyboardType="numeric"
             placeholder={`${title} (${unit})`}
           />
-          <Text style={styles.unit}>{unit}</Text>
+          {!doNotShowCM && <Text style={styles.unit}>{unit}</Text>}
         </View>
 
         <TouchableOpacity

@@ -28,19 +28,24 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="intro"
+        name="input"
         options={{
           title: 'Input',
           tabBarIcon: ({ color }) => <FontAwesome6 name="list-ol" size={28} color={color} />,
+          tabBarButton: (props) => (
+            <HapticTab
+              {...props}
+              onPress={(e) => {
+                // If we're already on an intro screen, don't navigate
+                if (props.accessibilityState?.selected) {
+                  return;
+                }
+                props.onPress?.(e);
+              }}
+            />
+          ),
         }}
       />
-      {/* <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Input2',
-          tabBarIcon: ({ color }) => <FontAwesome6 name="list-ol" size={28} color={color} />,
-        }}
-      /> */}
       <Tabs.Screen
         name="raglan"
         options={{

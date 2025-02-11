@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Redirect, Stack } from 'expo-router';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
+import introState from '@/state/introState';
 import { View, ActivityIndicator } from 'react-native';
 
 export const unstable_settings = {
@@ -13,7 +14,10 @@ const RootLayout = observer(() => {
 
   useEffect(() => {
     const loadState = async () => {
-      await onboardingState.loadPersistedState();
+      await Promise.all([
+        onboardingState.loadPersistedState(),
+        introState.loadPersistedState()
+      ]);
       setIsLoading(false);
     };
     loadState();

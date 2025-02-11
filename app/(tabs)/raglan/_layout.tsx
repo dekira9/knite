@@ -1,51 +1,61 @@
-import { Stack } from 'expo-router';
+import { Tabs } from 'expo-router';
 import React from 'react';
+import { useColorScheme, View } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function RaglanLayout() {
+  const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets();
+
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        headerStyle: {
-          backgroundColor: '#f5f5f5',
-        },
-      }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Реглан',
-        }}
-      />
-      <Stack.Screen
-        name="front"
-        options={{
-          title: 'Перед',
-        }}
-      />
-      <Stack.Screen
-        name="back"
-        options={{
-          title: 'Спина',
-        }}
-      />
-      <Stack.Screen
-        name="sleeve"
-        options={{
-          title: 'Рукав',
-        }}
-      />
-      <Stack.Screen
-        name="ribbing"
-        options={{
-          title: 'Резинка',
-        }}
-      />
-      <Stack.Screen
-        name="raglan-line"
-        options={{
-          title: 'Линия реглана',
-        }}
-      />
-    </Stack>
+    <View style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarPosition: 'top',
+          tabBarStyle: {
+            backgroundColor: Colors[colorScheme ?? 'light'].background,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          tabBarIndicatorStyle: {
+            backgroundColor: Colors[colorScheme ?? 'light'].tint,
+          },
+        }}>
+        <Tabs.Screen
+          name="ribbing"
+          options={{
+            title: 'Резинка',
+          }}
+        />
+        <Tabs.Screen
+          name="front"
+          options={{
+            title: 'Перед',
+          }}
+        />
+        <Tabs.Screen
+          name="sleeve"
+          options={{
+            title: 'Рукав',
+          }}
+        />
+        <Tabs.Screen
+          name="back"
+          options={{
+            title: 'Спина',
+          }}
+        />
+        <Tabs.Screen
+          name="raglan-line"
+          options={{
+            title: 'Линия реглана',
+          }}
+        />
+
+      </Tabs>
+    </View>
   );
 } 

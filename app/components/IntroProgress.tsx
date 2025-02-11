@@ -4,13 +4,13 @@ import { usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const INTRO_STEPS = [
-  '/intro/head',
-  '/intro/neck',
-  '/intro/chest',
-  '/intro/stitch-density',
-  '/intro/row-density',
-  '/intro/fit',
-  '/intro/result',
+  '/input/head',
+  '/input/neck',
+  '/input/chest',
+  '/input/stitch-density',
+  '/input/row-density',
+  '/input/ribbing-width',
+  '/input/fit',
 ];
 
 export default function IntroProgress() {

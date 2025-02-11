@@ -14,16 +14,18 @@ export default observer(() => {
           title={i18n.t('stitchDensityCM')}
           value={introState.stitchDensity}
           onValueChange={introState.setStitchDensity}
-          nextScreen="/intro/row-density"
+          nextScreen="/(tabs)/input/row-density"
           imageSource={require('@/assets/images/density.svg')}
+          doNotShowCM={true}
         />
       ) : (
         <MeasurementInput
           title={i18n.t('stitchDensityIN')}
           value={introState.stitchDensity}
           onValueChange={introState.setStitchDensity}
-          nextScreen="/intro/row-density"
+          nextScreen="/(tabs)/input/row-density"
           imageSource={require('@/assets/images/density.svg')}
+          doNotShowCM={true}
         />
       )}
     </>

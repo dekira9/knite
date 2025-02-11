@@ -1,16 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
+import onboardingState from '@/state/onboardingState';
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  console.log(onboardingState.hasCompletedOnboarding)
 
   return (
     <View style={styles.container}>
       <Image
         source={require('../../assets/images/regular-collar.png')}
         style={styles.image}
-        resizeMode="contain"
+        contentFit="contain"
       />
       <Text style={styles.title}>Welcome to Knitting Calculator</Text>
       <Text style={styles.subtitle}>Your personal assistant in knitting calculations</Text>

@@ -1,5 +1,5 @@
 {
-  "name": "knite",
+  "name": "knit-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -9,7 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "ba": "eas build --platform android --local",
+    "bi": "eas build --platform ios --local",
+    "si": "eas submit -p ios"
   },
   "jest": {
     "preset": "jest-expo"
@@ -20,6 +23,7 @@
     "@react-native-community/slider": "^4.5.5",
     "@react-native-picker/picker": "^2.9.0",
     "@react-navigation/bottom-tabs": "^7.0.0",
+    "@react-navigation/material-top-tabs": "^7.1.0",
     "@react-navigation/native": "^7.0.0",
     "expo": "~52.0.6",
     "expo-blur": "~14.0.1",
@@ -44,7 +48,8 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.1",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-reanimated": "~3.16.1",
+    "react-native-pager-view": "^6.6.1",
+    "react-native-reanimated": "^3.16.6",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.0.0",
     "react-native-web": "~0.19.13",

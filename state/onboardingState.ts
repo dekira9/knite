@@ -41,20 +41,28 @@ const OnboardingState = types
         console.error('Failed to save onboarding state:', error);
       }
     },
+    setPersistedState(state: {
+      language: string;
+      measurementSystem: string;
+      hasCompletedOnboarding: boolean;
+      hasSubscription: boolean;
+    }) {
+      self.language = state.language;
+      self.measurementSystem = state.measurementSystem;
+      self.hasCompletedOnboarding = state.hasCompletedOnboarding;
+      self.hasSubscription = state.hasSubscription;
+    },
     async loadPersistedState() {
       try {
         const state = await AsyncStorage.getItem('onboardingState');
         if (state) {
           const parsedState = JSON.parse(state);
-          self.language = parsedState.language;
-          self.measurementSystem = parsedState.measurementSystem;
-          self.hasCompletedOnboarding = parsedState.hasCompletedOnboarding;
-          self.hasSubscription = parsedState.hasSubscription;
+          this.setPersistedState(parsedState);
         }
       } catch (error) {
         console.error('Failed to load onboarding state:', error);
       }
-    },
+    }
   }));
 
 const onboardingState = OnboardingState.create();

@@ -1,15 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import {screenWidth} from '@/utils/Layout';
 import onboardingState from '@/state/onboardingState';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
 
 export default observer(() => {
   const router = useRouter();
   const currentLanguage = onboardingState.language;
+  const insets = useSafeAreaInsets();
+  console.log(introState.styleChosen)
 
   const raglanStyles = [
     { id: 'regular', label: i18n.t('regularCollar'), image: require('@/assets/images/regular-collar.png') },
@@ -18,11 +22,11 @@ export default observer(() => {
 
   const selectStyle = (styleId: string) => {
     introState.setStyle(styleId);
-    router.push('/intro/head');
+    router.push('/(tabs)/input/head');
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { paddingTop: insets.top }]}>
       <Text style={styles.title}>{i18n.t('chooseStyle')}</Text>
       
       {raglanStyles.map((style) => (

@@ -14,16 +14,18 @@ export default observer(() => {
           title={i18n.t('rowDensityCM')}
           value={introState.rowDensity}
           onValueChange={introState.setRowDensity}
-          nextScreen="/intro/fit"
-        imageSource={require('@/assets/images/density3.svg')}
+          nextScreen="/(tabs)/input/ribbing-width"
+          doNotShowCM={true}
+          imageSource={require('@/assets/images/density3.svg')}
         />
       ) : (
         <MeasurementInput
           title={i18n.t('rowDensityIN')}
           value={introState.rowDensity}
           onValueChange={introState.setRowDensity}
-          nextScreen="/intro/fit"
+          nextScreen="/(tabs)/input/ribbing-width"
           imageSource={require('@/assets/images/density3.svg')}
+          doNotShowCM={true}
         />
       )}
     </>
