@@ -1,3 +1,5 @@
+import introState from "@/state/introState";
+
 interface RaglanInput {
   headCircumference: string;
   neckCircumference: string;
@@ -9,7 +11,7 @@ interface RaglanInput {
 }
 
 interface RaglanOutput {
-  SO: number;
+  Sgor: number;
   NRrez: number;
   SFrontO: number;
   Sa: number;
@@ -34,6 +36,10 @@ interface RaglanOutput {
   usedIncreaseType: string[];
   usedIncreaseTypeString: string;
   fit: number;
+  SFit: number;
+  SOgr: number;
+  SPodr: number;
+  SRostok: number;
 }
 
 export function calculateRaglan({
@@ -56,19 +62,19 @@ export function calculateRaglan({
     return 'Please enter all values correctly.';
   }
 
-  const K = 2; // Петли в регланной линии
-  const Hrez = ribbing; // Высота резинки в см
+  const K = introState.raglanLineWidth; // Используем ширину регланной линии из introState
+  const Hrez = ribbing; // ширина резинки в см
   const pi = Math.PI;
 
   const dr = (head - neck) / (2 * pi);
-  const LOsm = Hrez <= dr ? (head - pi * Hrez) : ((neck + 2 * pi * Hrez) * 0.9);
-  const LFrontO = (LOsm - 4 * K / stitches) / 8 * 3;
-  const LO_p = Math.round(LOsm * stitches) / stitches;
+  const Lgor = Hrez <= dr ? (head - pi * Hrez) : (neck +  pi * Hrez) ;
+  const LFrontO = (Lgor - 4 * K / stitches) / 8 * 3;
+  const LO_p = Math.round(Lgor * stitches) / stitches;
   const LFrontO_p = Math.round(LFrontO * stitches) / stitches;
 
   const NRrez = Math.round(Hrez * rows);
-  const SO = Math.round((LOsm * stitches) / 2) * 2;
-  const SFrontO = Math.round((((SO - 4 * K) / 8 * 3) / 2) * 2);
+  const Sgor = Math.round((Lgor * stitches) / 2) * 2;
+  const SFrontO = Math.round(((Sgor - 4 * K) / 8 * 3) / 2) * 2;
 
   let fit = 0; // Default to "Slim-fit"
   switch (fitType) {
@@ -87,23 +93,25 @@ export function calculateRaglan({
 
   const SFit = Math.round(fit * stitches);
   const SOgr = Math.round(chest * stitches / 2) * 2;
-  const SPodr = Math.round((SOgr + SFit) * 0.08);
-  const SFrontOGr = Math.round((SOgr - 2 * K - 2 * SPodr + SFit) / 2);
+  const SPodr = Math.round((SOgr * 0.08) / 2) * 2;
+  const LKfront = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
+  const SKfront = Math.round(LKfront * stitches); // Move SKfront calculation earlier
+  const SFrontOGr = Math.round((SOgr - 4 * SKfront - 2 * SPodr + SFit) / 4) * 2;
 
-  const Sfx = Math.round(((SFrontOGr - SFrontO) / 2) / 2) * 2;
+  const Sfx = Math.round((SFrontOGr - SFrontO) / 2);
   const NRfx = Sfx * 2;
   const Lfx = Sfx / stitches;
   const LRfx = NRfx / rows;
 
-  const Kfront_cm = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
-  const SKfront = Math.round(Kfront_cm * stitches);
+  
+  
   const SKa = K - SKfront;
   
   const Rostok = neck / 6 - 1;
   const NRostok = Math.round((Rostok * rows) / 2) * 2;
 
-  const Sa = (SO - 2 * SFrontO - 4 * K) / 2;
-  const Ka_cm = K / stitches - Kfront_cm;
+  const Sa = (Sgor - 2 * SFrontO - 4 * K) / 2;
+  const LKa= K / stitches - LKfront;
   const La = Sa / stitches;
   const LK = K / stitches;
   const Ls = 1 / stitches;
@@ -163,8 +171,10 @@ export function calculateRaglan({
 
   const usedIncreaseTypeString = usedIncreaseType.length > 0 ? usedIncreaseType.join(' | ') : 'Нет подходящего типа прибавок';
 
+  const SRostok = SFrontO + 2 * Sfx + 2 * SKfront;
+
   return {
-    SO,
+    Sgor,
     NRrez,
     SFrontO,
     Sa,
@@ -190,5 +200,10 @@ export function calculateRaglan({
     usedIncreaseType,
     usedIncreaseTypeString,
     fit,
+    SFit,
+    SOgr,
+    SPodr,
+    stitches,
+    SRostok,
   };
 } 

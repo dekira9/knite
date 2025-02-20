@@ -16,19 +16,23 @@ export default observer(() => {
   const LK = K / stitches;
   const LRezMin = 2 / rows;
 
-  const LRezMax = (Math.round(((40 - introState.LFrontO - 2 * LK) / 3) * rows / 2) * 2) / rows;
+  const LRezMax = introState.neckCircumference / Math.PI; 
+  
 
   const [localRibbingWidth, setLocalRibbingWidth] = useState(
     2
   );
-
-  const handleValueChange = (value: number) => {
+console.log("localRibbingWidth", localRibbingWidth);
+  //ширина резинки
+  const handleValueChange = (value) => {
+    console.log("value", value);
     setLocalRibbingWidth(value);
+    introState.setRibbingWidth(value);
   };
 
   const handleNext = () => {
     introState.setRibbingWidth(localRibbingWidth);
-    router.push('/input/fit');
+    router.push('(tabs)/input/lineraglan-width');
   };
 
   return (
@@ -44,6 +48,7 @@ export default observer(() => {
         style={styles.slider}
         minimumValue={LRezMin}
         maximumValue={LRezMax}
+
         value={localRibbingWidth}
         onValueChange={handleValueChange}
         step={0.1}
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',

@@ -36,7 +36,7 @@ export default observer(() => {
   const selectFit = (fitId: string) => {
     introState.setFitType(fitId);
     introState.setStyleChosen(true);
-    router.push('/(tabs)/input/result');
+    router.push('/(tabs)/input/ribbing-width');
   };
 
   return (

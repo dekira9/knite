@@ -39,6 +39,7 @@ const IntroState = types
     usedIncreaseTypeString: types.optional(types.string, ''),
     fit: types.optional(types.number, 0),
     ribbingWidth: types.optional(types.number, 2),
+    raglanLineWidth: types.optional(types.number, 0),
   })
   .actions((self) => ({
     setStyle(style: string) {
@@ -81,6 +82,10 @@ const IntroState = types
       self.ribbingWidth = parseInt(value);
       this.persistState();
     },
+    setRaglanLineWidth(width: number) {
+      self.raglanLineWidth = width;
+      this.persistState();
+    },
     async persistState() {
       try {
         const state = {
@@ -118,7 +123,8 @@ const IntroState = types
           usedIncreaseType: self.usedIncreaseType,
           usedIncreaseTypeString: self.usedIncreaseTypeString,
           fit: self.fit,
-          ribbingWidth: self.ribbingWidth
+          ribbingWidth: self.ribbingWidth,
+          raglanLineWidth: self.raglanLineWidth
         };
         await AsyncStorage.setItem('introState', JSON.stringify(state));
       } catch (error) {
@@ -161,6 +167,7 @@ const IntroState = types
       self.usedIncreaseTypeString = state.usedIncreaseTypeString;
       self.fit = state.fit;
       self.ribbingWidth = state.ribbingWidth;
+      self.raglanLineWidth = state.raglanLineWidth;
     },
     async loadPersistedState() {
       try {

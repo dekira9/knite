@@ -14,7 +14,7 @@ import raglanVisualizationState from '@/state/raglanVisualizationState';
 
 const SleeveScreen = observer(() => {
   const { highlightedRows, lastRowHighlight, currentSection } = raglanVisualizationState;
-  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, SO } = introState;
+  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
   const router = useRouter();
 
   const [pribMode, setPribMode] = useState(usedIncreaseType[0]);

@@ -38,14 +38,14 @@ const IntroScreen = observer(() => {
     const pi = Math.PI;
 
     const dr = (head - neck) / (2 * pi);
-    const LOsm = Hrez <= dr ? (head - pi * Hrez) : ((neck + 2 * pi * Hrez) * 0.9);
-    const LFrontO = (LOsm - 4 * K / stitches) / 8 * 3;
-    const LO_p = Math.round(LOsm * stitches) / stitches;
+    const Lgor = Hrez <= dr ? (head - pi * Hrez) : ((neck + 2 * pi * Hrez) * 0.9);
+    const LFrontO = (Lgor - 4 * K / stitches) / 8 * 3;
+    const LO_p = Math.round(Lgor * stitches) / stitches;
     const LFrontO_p = Math.round(LFrontO * stitches) / stitches;
 
     const NRrez = Math.round(Hrez * rows);
-    const SO = Math.round((LOsm * stitches) / 2) * 2;
-    const SFrontO = Math.round((((SO - 4 * K) / 8 * 3) / 2) * 2);
+    const Sgor = Math.round((Lgor * stitches) / 2) * 2;
+    const SFrontO = Math.round((((Sgor - 4 * K) / 8 * 3) / 2) * 2);
 
     let fit = 0; // Default to "Slim-fit"
     switch (fitType) {
@@ -65,9 +65,9 @@ const IntroScreen = observer(() => {
     const SFit = Math.round(fit * stitches);
     const SOgr = Math.round(chest * stitches / 2) * 2;
 
-    // const LPodr = Math.round(((chest + fit) * 0.08) * stitches) / stitches;
+    // const LPodr = Math.round((chest * 0.08) * stitches) / stitches;
     // const SPodr = LPodr * stitches;
-    const SPodr = Math.round((SOgr + SFit) * 0.08);
+    const SPodr = Math.round((SOgr * 0.08) / 2) * 2;
 
     // const LFrontOGr = (chest - 4 * K / stitches  - LPodr * 2+ fit) / 2;
     // const SFrontOGr = Math.round(LFrontOGr * stitches / 2) * 2;
@@ -78,15 +78,15 @@ const IntroScreen = observer(() => {
     const Lfx = Sfx / stitches;
     const LRfx = NRfx / rows;
 
-    const Kfront_cm = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
-    const SKfront = Math.round(Kfront_cm * stitches);
+    const LKfront = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
+    const SKfront = Math.round(LKfront * stitches);
     const SKa = K - SKfront;
     
     const Rostok = neck / 6 - 1;
     const NRostok = Math.round((Rostok * rows) / 2) * 2;
 
-    const Sa = (SO - 2 * SFrontO - 4 * K) / 2;
-    const Ka_cm = K / stitches - Kfront_cm;
+    const Sa = (Sgor - 2 * SFrontO - 4 * K) / 2;
+    const LKa= K / stitches - LKfront;
     const La = Sa / stitches;
     const LK = K / stitches;
     const Ls = 1 / stitches;
@@ -150,7 +150,7 @@ const IntroScreen = observer(() => {
 
     setResult(`
       Как сидит в петлях: ${SFit}
-      Количество петель набора горловины: ${SO}
+      Количество петель набора горловины: ${Sgor}
       Высота резинки в рядах: ${NRrez}
       Количество петель переда: ${SFrontO}
       Набор петель на рукава: ${Sa}
@@ -178,7 +178,7 @@ const IntroScreen = observer(() => {
     // Петли PR_1X2_f: ${PR_1X2_f}
 
     raglanState.setRaglanData({
-      SO,
+      Sgor,
       NRrez,
       SFrontO,
       Sa,

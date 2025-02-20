@@ -2,7 +2,7 @@ import { types } from "mobx-state-tree";
 
 const RaglanState = types
   .model({
-    SO: types.optional(types.number, 0),
+    Sgor: types.optional(types.number, 0),
     NRrez: types.optional(types.number, 0),
     SFrontO: types.optional(types.number, 0),
     Sa: types.optional(types.number, 0),

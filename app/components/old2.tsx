@@ -14,7 +14,7 @@ import raglanVisualizationState from '@/state/raglanVisualizationState';
 
 const RaglanScreen = observer(() => {
   const { highlightedRows, lastRowHighlight, currentSection } = raglanVisualizationState;
-  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, SO } = introState;
+  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
   const router = useRouter();
 
   const [pribMode, setPribMode] = useState(usedIncreaseType[0]);
@@ -536,7 +536,7 @@ const RaglanScreen = observer(() => {
                           {rowIndex === 0 && colIndex === totalEmptyCells - K + Math.round(topWidth / 2) && <Text style={styles.topWidthText}>{SFrontO}</Text>}
                           {rowIndex === 0 && colIndex === totalEmptyCells + topWidth - K + 1 && <Text style={styles.KText}>{K}</Text>}
                           {rowIndex === Math.round(Sa/2) - 1 && colIndex === totalEmptyCells - K + 2 && <Text style={styles.sideText}>{Sa}</Text>}
-                          {rowIndex === Math.round(Sa/2) - 1 && colIndex === totalEmptyCells - K + Math.round(topWidth / 2) - 1 && <Text style={styles.middleText}>{SO}</Text>}                        
+                          {rowIndex === Math.round(Sa/2) - 1 && colIndex === totalEmptyCells - K + Math.round(topWidth / 2) - 1 && <Text style={styles.middleText}>{Sgor}</Text>}                        
                           {rowIndex === Math.round(Sa/2) - 1 && colIndex === totalEmptyCells + topWidth - K + 1 && <Text style={styles.sideText}>{Sa}</Text>}
                           {rowIndex === Sa - 1 && colIndex === totalEmptyCells - K + 2 && <Text style={styles.KText}>{K}</Text>}
                           {rowIndex === Sa - 1 && colIndex === totalEmptyCells - K + Math.round(topWidth / 2) && <Text style={styles.topWidthText}>{SFrontO}</Text>}
