@@ -963,6 +963,86 @@ const created = {
   lt: "Sukurtas",
 };  
 
+const additionsOnOneSide = {
+  en: "Additions on one side",
+  ru: "Прибавки на одну сторону",
+  sv: "Ökningar på ena sida",
+  no: "Økninger på en side",  
+  fi: "Yhden puolen lisäykset",
+  de: "Eine Seitenverlängerung",
+  fr: "Ajouts sur un côté",
+  es: "Aumentos en un lado",
+  ja: "片側の増加",
+  cs: "Přidávání na jednu stranu",  
+  bg: "Прибавки на една страна",
+  sk: "Pridávanie na jednu stranu",
+  ko: "한 쪽의 증가",
+  tr: "Bir tarafındaki artışlar",
+  ar: "الزيادات على جانب واحد",
+  pt: "Aumentos em um lado",  
+  lt: "Vienojo pusių pridėjimai",
+};
+
+const option = {
+  en: "Option",
+  ru: "Вариант",
+  sv: "Alternativ",
+  no: "Alternativ",
+  fi: "Vaihtoehto",
+  de: "Option",
+  fr: "Option",
+  es: "Opción",
+  ja: "オプション",
+  cs: "Možnost",
+  bg: "Вариант",
+  sk: "Možnosť",
+  ko: "옵션",
+  tr: "Seçenek",
+  ar: "خيار",
+  pt: "Opção",
+  lt: "Pasirinkimas",
+};
+
+const per = {
+  en: "per",
+  ru: "на",
+  sv: "per",
+  no: "per",
+  fi: "per",
+  de: "per",
+  fr: "par",
+  es: "por",
+  ja: "パー",
+  cs: "na",
+  bg: "на",
+  sk: "na",
+  ko: "퍼",
+  tr: "per",
+  ar: "per",
+  pt: "por",
+  lt: "per",
+};
+
+const sm = {
+  en: "sm",
+  ru: "см",
+  sv: "cm",
+  no: "cm",
+  fi: "cm",
+  de: "cm",
+  fr: "cm",
+  es: "cm",
+  ja: "cm",
+  cs: "cm",
+  bg: "cm",
+  sk: "cm",
+  ko: "cm",
+  tr: "cm",
+  ar: "cm",
+  pt: "cm",
+  lt: "cm",
+};        
+
 
 // Create translations object with all supported languages
 const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => {
@@ -1017,8 +1097,10 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       corpus: corpus[key],
       backLengthening: backLengthening[key],
       created: created[key],
-      
-
+      additionsOnOneSide: additionsOnOneSide[key],
+      option: option[key],
+      per: per[key],
+      sm: sm[key],
 
       // Add other translations here as needed
     }

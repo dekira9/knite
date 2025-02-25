@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Image } from 'expo-image';
@@ -12,20 +12,31 @@ const LineraglanWidth = () => {
   const router = useRouter();
   const Kmin = 1;
   const Kmax = Math.floor((introState.Sgor - 16) / 4);
-  const [sliderValue, setSliderValue] = useState(Kmin.toString());
+  const [sliderValue, setSliderValue] = useState(introState.raglanLineWidth.toString());
+
+  useEffect(() => {
+    // Синхронизируем значение слайдера с TextInput
+    setSliderValue(introState.raglanLineWidth.toString());
+  }, [introState.raglanLineWidth]);
 
   // Функция для обработки изменений в Slider
   const handleSliderChange = (value) => {
-    setSliderValue(value.toString());
     introState.setRaglanLineWidth(value); // Обновляем ширину регланной линии в introState
   };
 
   // Функция для обработки изменений в TextInput
   const handleTextInputChange = (value) => {
-    const numericValue = parseInt(value, 10);
-    if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= Kmax) {
-      setSliderValue(value);
-      introState.setRaglanLineWidth(numericValue); // Обновляем ширину регланной линии в introState
+    if (value === '') {
+      setSliderValue(''); // Позволяем очистить поле ввода
+      introState.setRaglanLineWidth(Kmin); // Устанавливаем минимальное значение по умолчанию
+    } else {
+      const numericValue = parseInt(value, 10);
+      if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= Kmax) {
+        setSliderValue(value);
+        introState.setRaglanLineWidth(numericValue);
+      } else {
+        setSliderValue(''); // Очищаем поле ввода, если значение некорректно
+      }
     }
   };
 
@@ -43,12 +54,19 @@ const LineraglanWidth = () => {
       />
       <Text style={styles.title}>{i18n.t('RaglanLineWidth')}</Text>
       <View style={styles.inputContainer}>
+      <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) - 1).toString())}>
+        <Text style={styles.arrow}>-</Text>
+      </TouchableOpacity>
         <TextInput
           style={styles.input}
           value={sliderValue}
           keyboardType="numeric"
-          onChangeText={handleTextInputChange}
+          placeholder="Введите значение"
+          onChangeText={handleTextInputChange}  
         />
+        <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) + 1).toString())}>
+          <Text style={styles.arrow}>+</Text>
+        </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('stitches')}</Text>
       </View>
       <Slider
@@ -58,6 +76,9 @@ const LineraglanWidth = () => {
         step={1}
         value={parseInt(sliderValue, 10)}
         onValueChange={handleSliderChange}
+        minimumTrackTintColor="#000000"
+  maximumTrackTintColor="#CCCCCC"
+  thumbTintColor="#000000" // Эта строка определяет цвет бегунка
       />
       <View style={styles.sliderLabels}>
         <Text style={styles.labelText}>{Kmin} {i18n.t('stitches')}</Text>
@@ -114,13 +135,13 @@ const styles = StyleSheet.create({
   input: {
     //width: 80,
     //height: 60,
-    borderColor: '#ccc',
-    borderWidth: 0,
-    borderRadius: 5,
-    textAlign: 'right',
-    marginRight: 10,
     fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    width: '30%',
+    paddingHorizontal: 10,
   },
   inputLabel: {
     fontSize: 24,
@@ -137,5 +158,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '500',
+  },
+  arrow: {
+    fontSize: 30,
+    paddingHorizontal: 10,
+    color: '#808080',
   },
 });

@@ -36,7 +36,14 @@ export default observer(() => {
   const selectFit = (fitId: string) => {
     introState.setFitType(fitId);
     introState.setStyleChosen(true);
-    router.push('/(tabs)/input/ribbing-width');
+
+    // Determine the next screen based on the selected style
+    const selectedStyle = introState.style; // Assuming style is stored in introState
+    if (selectedStyle === 'regular') {
+      router.push('/(tabs)/input/ribbing-width');
+    } else if (selectedStyle === 'v-neck') {
+      router.push('/(tabs)/input/ribbing-width-vneck');
+    }
   };
 
   return (

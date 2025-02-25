@@ -91,7 +91,7 @@ export function calculateRaglan({
       fit = 0; // Slim-fit
   }
 
-  const SFit = Math.round(fit * stitches);
+  const SFit = Math.round(fit * stitches/2)*2;
   const SOgr = Math.round(chest * stitches / 2) * 2;
   const SPodr = Math.round((SOgr * 0.08) / 2) * 2;
   const LKfront = (K / 2 - Math.floor(K / 2)) === 0 ? K / (2 * stitches) : ((K / 2) + 1 / 2) / stitches;
