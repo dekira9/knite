@@ -7,6 +7,7 @@ import i18n from '@/utils/translations';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import {screenWidth} from '@/utils/Layout';
+
 export default observer(() => {
   const router = useRouter();
   {/* Calculate min and max values*/}
@@ -19,11 +20,10 @@ export default observer(() => {
   const LRezMax = introState.neckCircumference / Math.PI; 
   
 
-  const [localRibbingWidth, setLocalRibbingWidth] = useState(
-    2
-  );
+  const [localRibbingWidth, setLocalRibbingWidth] = useState(2);
 console.log("localRibbingWidth", localRibbingWidth);
- {/* //ширина резинки*/}
+ 
+{/* //ширина резинки*/}
  const handleValueChange = (value) => {
   if (value === '') {
     setLocalRibbingWidth(''); // Позволяем очистить поле ввода
@@ -100,6 +100,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
+  image: {
+    width: screenWidth * 0.8,
+    height: 200,
+    marginBottom: 20,
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -127,24 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  nextButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 30,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  image: {
-    width: screenWidth * 0.8,
-    height: 200,
-    marginBottom: 20,
-  },
-  inputContainer: {
+    inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
@@ -164,9 +152,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   inputLabel: {
-    fontSize: 18,
     marginLeft: 1,
     fontWeight: 'bold',
     fontSize: 24
+  },
+  nextButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 8,
+    marginTop: 30,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '500',
   },
 }); 

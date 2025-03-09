@@ -16,5 +16,7 @@ export default observer(() => {
         imageSource={require('@/assets/images/head.svg')}
       />
     </>
+    
   );
+  
 }); 

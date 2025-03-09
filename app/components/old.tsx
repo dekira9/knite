@@ -99,28 +99,28 @@ const IntroScreen = observer(() => {
     const prib_1x1 = (NHFront - 2 * Sfx) < 0 ? (2 * Sfx - NHFront) : 0;
     const prib_1x3 = NHFront > 2 * Sfx ? 3 * (NHFront - 2 * Sfx) : 0;
     const prib_1x2 = NHFront - prib_1x1 - prib_1x3;
-    const prib_1x4 = NHFront > 2 * Sfx ? 4 * (NHFront / 2 - Sfx) : 0;
-    const PR_1X2 = NHFront - prib_1x1 - prib_1x4;
+    const PR_1x4 = NHFront > 2 * Sfx ? 4 * (NHFront / 2 - Sfx) : 0;
+    const PR_1x2 = NHFront - prib_1x1 - PR_1x4;
 
     const prib_1x1_f = (NHFront - 2 * Sfx) < 0 ? (2 * Sfx - NHFront) : 0;
     const prib_1x3_f = NHFront > 2 * Sfx ? (NHFront - 2 * Sfx) : 0;
     const prib_1x2_f = prib_1x2 !== 0 ? (NHFront - prib_1x1 - prib_1x3)/2 : 0;
-    const prib_1x4_f = NHFront > 2 * Sfx ? (NHFront / 2 - Sfx) : 0;
-    const PR_1X2_f = prib_1x2 !== 0 ? (NHFront - prib_1x1 - prib_1x4)/2 : 0;
+    const PR_1x4_f = NHFront > 2 * Sfx ? (NHFront / 2 - Sfx) : 0;
+    const PR_1x2_f = prib_1x2 !== 0 ? (NHFront - prib_1x1 - PR_1x4)/2 : 0;
 
     // Логика выбора типа прибавок
     let usedIncreaseType: string[] = [];
 
-    if (PR_1X2_f > 0 && prib_1x4_f > 0 && PR_1X2_f + prib_1x4_f === Sfx) {
+    if (PR_1x2_f > 0 && PR_1x4_f > 0 && PR_1x2_f + PR_1x4_f === Sfx) {
       usedIncreaseType.push('1x2, 1x4');
     }
-    if (PR_1X2_f > 0 && prib_1x4_f > 0 && prib_1x1_f > 0 && PR_1X2_f + prib_1x4_f + prib_1x1_f === Sfx) {
+    if (PR_1x2_f > 0 && PR_1x4_f > 0 && prib_1x1_f > 0 && PR_1x2_f + PR_1x4_f + prib_1x1_f === Sfx) {
       usedIncreaseType.push('1x2, 1x4, 1x1');
     }
-    if (PR_1X2_f > 0 && prib_1x1_f > 0 && PR_1X2_f + prib_1x1_f === Sfx) {
+    if (PR_1x2_f > 0 && prib_1x1_f > 0 && PR_1x2_f + prib_1x1_f === Sfx) {
       usedIncreaseType.push('1x2, 1x1');
     }
-    if (prib_1x4_f > 0 && prib_1x1_f > 0 && prib_1x4_f + prib_1x1_f === Sfx) {
+    if (PR_1x4_f > 0 && prib_1x1_f > 0 && PR_1x4_f + prib_1x1_f === Sfx) {
       usedIncreaseType.push('1x4, 1x1');
     }
     if (prib_1x2_f > 0 && prib_1x3_f > 0 && prib_1x2_f + prib_1x3_f === Sfx) {
@@ -135,7 +135,7 @@ const IntroScreen = observer(() => {
     if (prib_1x2_f > 0 && prib_1x2_f === Sfx) {
       usedIncreaseType.push('1x2');
     }
-    if (prib_1x4_f > 0 && prib_1x4_f === Sfx) {
+    if (PR_1x4_f > 0 && PR_1x4_f === Sfx) {
       usedIncreaseType.push('1x4');
     }
     if (prib_1x3_f > 0 && prib_1x3_f === Sfx) {
@@ -168,14 +168,14 @@ const IntroScreen = observer(() => {
     // Петли prib_1x1: ${prib_1x1}
     // Петли prib_1x2: ${prib_1x2}
     // Петли prib_1x3: ${prib_1x3}
-    // Петли prib_1x4: ${prib_1x4}
-    // Петли PR_1X2: ${PR_1X2}
+    // Петли PR_1x4: ${PR_1x4}
+    // Петли PR_1x2: ${PR_1x2}
 
     // Петли prib_1x1_f: ${prib_1x1_f}
     // Петли prib_1x2_f: ${prib_1x2_f}
     // Петли prib_1x3_f: ${prib_1x3_f}
-    // Петли prib_1x4_f: ${prib_1x4_f}
-    // Петли PR_1X2_f: ${PR_1X2_f}
+    // Петли PR_1x4_f: ${PR_1x4_f}
+    // Петли PR_1x2_f: ${PR_1x2_f}
 
     raglanState.setRaglanData({
       Sgor,
@@ -193,13 +193,13 @@ const IntroScreen = observer(() => {
       prib_1x1,
       prib_1x2,
       prib_1x3,
-      prib_1x4,
-      PR_1X2,
+      PR_1x4,
+      PR_1x2,
       prib_1x1_f,
       prib_1x2_f,
       prib_1x3_f,
-      prib_1x4_f,
-      PR_1X2_f,
+      PR_1x4_f,
+      PR_1x2_f,
       usedIncreaseType,
       usedIncreaseTypeString,
       fit,

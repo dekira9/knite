@@ -14,7 +14,7 @@ import raglanVisualizationState from '@/state/raglanVisualizationState';
 
 const FrontScreen = observer(() => {
   const { highlightedRows, lastRowHighlight, currentSection } = raglanVisualizationState;
-  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
+  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1x2_f, PR_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
   const router = useRouter();
 
   const [pribMode, setPribMode] = useState(usedIncreaseType[0]);
@@ -90,10 +90,10 @@ const FrontScreen = observer(() => {
     const calculations = Array(NHFront).fill(0).map((_, rowIndex) => {
       let additionalSquares = 0;
       if (pribMode === '1x2, 1x4') {
-        if (rowIndex < PR_1X2_f * 2) {
+        if (rowIndex < PR_1x2_f * 2) {
           additionalSquares = Math.floor(rowIndex / 2);
-        } else if (rowIndex < PR_1X2_f * 2 + prib_1x4_f * 4) {
-          additionalSquares = PR_1X2_f + Math.floor((rowIndex - PR_1X2_f * 2) / 4);
+        } else if (rowIndex < PR_1x2_f * 2 + PR_1x4_f * 4) {
+          additionalSquares = PR_1x2_f + Math.floor((rowIndex - PR_1x2_f * 2) / 4);
         }
       } else if (pribMode === '1x2, 1x3') {
         if (rowIndex < prib_1x2_f * 2) {
@@ -105,7 +105,7 @@ const FrontScreen = observer(() => {
       return additionalSquares;
     });
     return calculations;
-  }, [pribMode, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NHFront]);
+  }, [pribMode, PR_1x2_f, PR_1x4_f, prib_1x2_f, prib_1x3_f, NHFront]);
 
   console.log('currentSection', currentSection);
   console.log('highlightedRows', highlightedRows);

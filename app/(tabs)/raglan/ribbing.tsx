@@ -14,7 +14,7 @@ import raglanVisualizationState from '@/state/raglanVisualizationState';
 
 const RibbinScreen = observer(() => {
   const { highlightedRows, lastRowHighlight, currentSection } = raglanVisualizationState;
-  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
+  const { SFrontO, Sfx, NHFront, usedIncreaseType, PR_1x2_f, PR_1x4_f, prib_1x2_f, prib_1x3_f, NRostok, SKfront, SPodr, Sa, NRrez, Sgor } = introState;
   const router = useRouter();
 
   const [pribMode, setPribMode] = useState(usedIncreaseType[0]);
@@ -90,10 +90,10 @@ const RibbinScreen = observer(() => {
     const calculations = Array(NHFront).fill(0).map((_, rowIndex) => {
       let additionalSquares = 0;
       if (pribMode === '1x2, 1x4') {
-        if (rowIndex < PR_1X2_f * 2) {
+        if (rowIndex < PR_1x2_f * 2) {
           additionalSquares = Math.floor(rowIndex / 2);
-        } else if (rowIndex < PR_1X2_f * 2 + prib_1x4_f * 4) {
-          additionalSquares = PR_1X2_f + Math.floor((rowIndex - PR_1X2_f * 2) / 4);
+        } else if (rowIndex < PR_1x2_f * 2 + PR_1x4_f * 4) {
+          additionalSquares = PR_1x2_f + Math.floor((rowIndex - PR_1x2_f * 2) / 4);
         }
       } else if (pribMode === '1x2, 1x3') {
         if (rowIndex < prib_1x2_f * 2) {
@@ -105,7 +105,7 @@ const RibbinScreen = observer(() => {
       return additionalSquares;
     });
     return calculations;
-  }, [pribMode, PR_1X2_f, prib_1x4_f, prib_1x2_f, prib_1x3_f, NHFront]);
+  }, [pribMode, PR_1x2_f, PR_1x4_f, prib_1x2_f, prib_1x3_f, NHFront]);
 
   console.log('currentSection', currentSection);
   console.log('highlightedRows', highlightedRows);
@@ -262,6 +262,7 @@ const RibbinScreen = observer(() => {
                   opacity: 1,
                   backgroundColor: 'red',
                   marginRight: 10,
+                  
                 },
               ]}
             />
@@ -368,6 +369,7 @@ const RibbinScreen = observer(() => {
                       highlightedRows <= thickness && 
                       rowIndex === thickness - highlightedRows
                     );
+                    
 
                     // rest of left side
                     for (let i = 0; i < K; i++) {
@@ -377,6 +379,7 @@ const RibbinScreen = observer(() => {
                         borderStyle = 'dashed';
                       }
                     }
+                   
                     // reverse left side
                     for (let i = 0; i < Math.min(rowIndex, K); i++) {
                       if (colIndex - rowIndex + i * 2 + thickness + 1 === totalEmptyCells) {
@@ -413,7 +416,7 @@ const RibbinScreen = observer(() => {
                             height: cellSize,
                             opacity: isVisible ? 1 : 0,
                             backgroundColor: isLastHighlighted ? 'purple' : backgroundColor,
-                            borderStyle,
+                            borderStyle: borderStyle as 'solid' | 'dotted' | 'dashed',
                             justifyContent: 'center',
                             alignItems: 'center',
                           },
@@ -484,11 +487,25 @@ const RibbinScreen = observer(() => {
                             width: cellSize, 
                             height: cellSize,
                             opacity: isVisible ? 1 : 0,
-                            backgroundColor,
-                            borderStyle,
+                            backgroundColor: 'transparent',
+                            borderStyle: borderStyle as 'solid' | 'dotted' | 'dashed',
                           },
                         ]}
-                      />
+                      >{/*добавка для поворота квадратов*/ }
+                        {isVisible && (
+                          <View style={[
+                            styles.halfCell,
+                            {
+                              width: cellSize,
+                              height: cellSize,
+                              backgroundColor,
+                              transform: [{ rotate: '45deg' }],
+                            }
+                          ]} />
+                        )}
+
+
+                      </View>
                     );
                   })}
                 </View>
@@ -528,7 +545,7 @@ const RibbinScreen = observer(() => {
                               // opacity: isVisible ? 1 : 0,
                               backgroundColor: isVisible ? backgroundColor : 'transparent',
                               borderWidth: isVisible ? 1 : 0,
-                              borderStyle,
+                              borderStyle: 'solid',
                             },
                           ]}
                         >
@@ -599,7 +616,7 @@ const RibbinScreen = observer(() => {
                             height: cellSize,
                             opacity: isVisible ? 1 : 0,
                             backgroundColor,
-                            borderStyle,
+                            borderStyle: borderStyle as 'solid' | 'dotted' | 'dashed',
                           },
                         ]}
                       />
@@ -667,7 +684,7 @@ const RibbinScreen = observer(() => {
                             height: cellSize,
                             opacity: isVisible ? 1 : 0,
                             backgroundColor: isLastHighlighted ? 'purple' : backgroundColor,
-                            borderStyle,
+                            borderStyle: borderStyle as 'solid' | 'dotted' | 'dashed',
                           },
                         ]}
                       />
@@ -879,6 +896,17 @@ const styles = StyleSheet.create({
     color: '#333',
     minWidth: 30,
     textAlign: 'center',
+  },
+  halfCell: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'transparent',
   },
 });
 
