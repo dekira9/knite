@@ -12,18 +12,45 @@ const DepthNeckV = () => {
   const router = useRouter();
   
   const results = introState.calculateRaglan();
-  const LHVmin = typeof results === 'string' ? 1 : results.LHVmin || 1; 
-  const LHVmax = typeof results === 'string' ? 5 : results.LHVmax || 5; // Handle both string and RaglanOutput types
-  const [sliderValue, setSliderValue] = useState(introState.depthNeckV.toString());
+  const HrezV = introState.ribbingWidthV;
+  console.log(HrezV);
+  
+  // Округляем значения до 1 десятичного знака
+  const LHVmin = typeof results === 'string' ? 1 : 
+    parseFloat((results.LHVmin || 1).toFixed(1)); 
+  const LHVmax = typeof results === 'string' ? 5 : 
+    parseFloat((results.LHVmax || 5).toFixed(1)); 
+  console.log('LHVmin', LHVmin);
+  console.log('LHVmax', LHVmax);
+  
+  // Инициализируем значение depthNeckV, если оно не определено
+  useEffect(() => {
+    if (introState.depthNeckV === undefined) {
+      introState.setDepthNeckV(LHVmin);
+    }
+  }, [LHVmin]);
+  
+  // Используем безопасную инициализацию состояния для отображения с учетом HrezV
+  const [sliderValue, setSliderValue] = useState(
+    introState.depthNeckV !== undefined ? 
+      (introState.depthNeckV + HrezV).toFixed(1) : 
+      (LHVmin + HrezV).toFixed(1)
+  );
 
   useEffect(() => {
-    // Синхронизируем значение слайдера с TextInput
-    setSliderValue(introState.depthNeckV.toString());
-  }, [introState.depthNeckV]);
+    // Синхронизируем значение слайдера с TextInput, только если depthNeckV определено
+    if (introState.depthNeckV !== undefined) {
+      setSliderValue((introState.depthNeckV + HrezV).toFixed(1));
+    }
+  }, [introState.depthNeckV, HrezV]);
 
   // Функция для обработки изменений в Slider
   const handleSliderChange = (value) => {
-    introState.setDepthNeckV(value); // Обновляем ширину регланной линии в introState
+    // Вычитаем HrezV, чтобы получить чистое значение depthNeckV
+    const actualValue = value - HrezV;
+    // Округляем значение до 1 десятичного знака
+    const roundedValue = parseFloat(actualValue.toFixed(1));
+    introState.setDepthNeckV(roundedValue);
   };
 
   // Функция для обработки изменений в TextInput
@@ -32,10 +59,19 @@ const DepthNeckV = () => {
       setSliderValue(''); // Позволяем очистить поле ввода
       introState.setDepthNeckV(LHVmin); // Устанавливаем минимальное значение по умолчанию
     } else {
-      const numericValue = parseInt(value, 5);
-      if (!isNaN(numericValue) && numericValue >= LHVmin && numericValue <= LHVmax) {
-        setSliderValue(value);
-        introState.setDepthNeckV(numericValue);
+      // Заменяем запятую на точку для корректного парсинга
+      const cleanValue = value.replace(',', '.');
+      const numericValue = parseFloat(cleanValue);
+      
+      // Проверяем с учетом HrezV
+      if (!isNaN(numericValue) && 
+          numericValue >= (LHVmin + HrezV) && 
+          numericValue <= (LHVmax + HrezV)) {
+        // Округляем до 1 десятичного знака
+        const roundedValue = parseFloat(numericValue.toFixed(1));
+        setSliderValue(roundedValue.toFixed(1));
+        // Сохраняем в introState без учета HrezV
+        introState.setDepthNeckV(roundedValue - HrezV);
       } else {
         setSliderValue(''); // Очищаем поле ввода, если значение некорректно
       }
@@ -44,21 +80,26 @@ const DepthNeckV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.depthNeckV);
-    router.push('/input/result');
+    router.push('app/(tabs)/input/resultV');
   };
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('@/assets/images/neckdepthV.svg')}
+        source={require('@/assets/images/neckdepthV.png')}
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('DepthNeck')}</Text>
+      <Text style={styles.title}>{i18n.t('NeckDepth')}</Text>
       <View style={styles.inputContainer}>
-      <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) - 1).toString())}>
-        <Text style={styles.arrow}>-</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          const currentValue = parseFloat(sliderValue) || (LHVmin + HrezV);
+          // Уменьшаем на 0.1 и округляем
+          const newValue = Math.max((LHVmin + HrezV), parseFloat((currentValue - 0.1).toFixed(1)));
+          handleTextInputChange(newValue.toFixed(1));
+        }}>
+          <Text style={styles.arrow}>-</Text>
+        </TouchableOpacity>
         <TextInput
           style={styles.input}
           value={sliderValue}
@@ -66,25 +107,33 @@ const DepthNeckV = () => {
           placeholder="Введите значение"
           onChangeText={handleTextInputChange}  
         />
-        <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) + 1).toString())}>
+        <TouchableOpacity onPress={() => {
+          const currentValue = parseFloat(sliderValue) || (LHVmin + HrezV);
+          // Увеличиваем на 0.1 и округляем
+          const newValue = Math.min((LHVmax + HrezV), parseFloat((currentValue + 0.1).toFixed(1)));
+          handleTextInputChange(newValue.toFixed(1));
+        }}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>{i18n.t('stitches')}</Text>
+        <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
       </View>
       <Slider
         style={styles.slider}
-        minimumValue={LHVmin}
-        maximumValue={LHVmax}
-        step={1}
-        value={parseInt(sliderValue, 10)}
+        minimumValue={LHVmin + HrezV}
+        maximumValue={LHVmax + HrezV}
+        step={0.1} // Шаг 0.1 для десятичных значений
+        value={parseFloat(sliderValue) || (LHVmin + HrezV)}
         onValueChange={handleSliderChange}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#CCCCCC"
-        thumbTintColor="#000000" // Эта строка определяет цвет бегунка
+        thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
-        <Text style={styles.labelText}>{LHVmin} {i18n.t('stitches')}</Text>
-        <Text style={styles.labelText}>{LHVmax} {i18n.t('stitches')}</Text>
+        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
+        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
+        console.log(LHVmin);
+        console.log(LHVmax);
+        console.log(HrezV);
       </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
@@ -127,7 +176,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 14,
-    color: '666',
+    color: '#666',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -135,8 +184,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    //width: 80,
-    //height: 60,
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -148,6 +195,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginLeft: 10,
   },
   nextButton: {
     backgroundColor: '#007AFF',

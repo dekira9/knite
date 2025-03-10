@@ -43,7 +43,7 @@ const LineraglanV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.raglanLineWidthV);
-    router.push('/input/result');
+    router.push('/(tabs)/input/depthneckV');
   };
 
   return (

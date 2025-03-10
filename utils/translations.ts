@@ -1041,8 +1041,46 @@ const sm = {
   ar: "cm",
   pt: "cm",
   lt: "cm",
-};        
+};     
+const AdditionRows = {
+  en: "Addition rows",    
+  ru: "Ряды с прибавками",
+  sv: "rad med tillägg",
+  no: "rad med økninger",
+  fi: "rivi lisäyksellä",
+  de: "Zeile mit Zunahmen",
+  fr: "ligne avec des augmentations",
+  es: "línea con aumentos",
+  ja: "増加行",
+  cs: "řád s přidáváním",
+  bg: "Рядове с прибавки",
+  sk: "rady s pridávaním",
+  ko: "증가 행",
+  tr: "artış satırları",
+  ar: "صفوف مع الزيادات",
+  pt: "linhas com aumentos",
+  lt: "padidinimų eilutės", 
+};
 
+const NeckDepth = {
+  en: "Neck Depth",
+  ru: "Глубина горловины",  
+  sv: "Halsdjup",
+  no: "Halsdybde",
+  fi: "Halssyvyys",
+  de: "Halsabsenkung",
+  fr: "Profondeur de col",
+  es: "Profundidad de cuello",
+  ja: "首の深さ",
+  cs: "Hloubka krku",
+  bg: "Дълбина на гърдата",
+  sk: "Hĺbka krku",
+  ko: "목 깊이",
+  tr: "Boyun Derinliği",
+  ar: "عمق الح脖",
+  pt: "Profundidade do colo",
+  lt: "Kaklo gylis",
+};
 
 // Create translations object with all supported languages
 const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => {
@@ -1101,6 +1139,8 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       option: option[key],
       per: per[key],
       sm: sm[key],
+      AdditionRows: AdditionRows[key],
+      NeckDepth: NeckDepth[key],
 
       // Add other translations here as needed
     }

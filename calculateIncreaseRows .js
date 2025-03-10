@@ -1,9 +1,9 @@
-const calculateIncreaseRows = (NHFront: number, Sfx: number, prib_1x4_f: number, PR_1X2_f: number) => {
-  const KB = Sfx / prib_1x4_f;
-  const B = Array.from({ length: prib_1x4_f }, (_, b) => b + 1);
+const calculateIncreaseRows = (NHFront: number, Sfx: number, PR_1x4_f: number, PR_1x2_f: number) => {
+  const KB = Sfx / PR_1x4_f;
+  const B = Array.from({ length: PR_1x4_f }, (_, b) => b + 1);
   const PozB = B.map(b => Math.round(KB * b));
   console.log('PozB', PozB);
-  const A = Array.from({ length: PR_1X2_f }, (_, a) => a + 1);
+  const A = Array.from({ length: PR_1x2_f }, (_, a) => a + 1);
 
   const increaseRows = [];
   let currentRow = 1;
