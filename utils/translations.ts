@@ -1082,6 +1082,192 @@ const NeckDepth = {
   lt: "Kaklo gylis",
 };
 
+const end = {
+  en: "End",
+  ru: "Конец",
+  sv: "Slut", 
+  no: "Slutt",
+  fi: "Loppu",
+  de: "Ende",
+  fr: "Fin",
+  es: "Fin",
+  ja: "終わり", 
+  cs: "Konec",
+  bg: "Край",
+  sk: "Koniec",
+  ko: "끝",
+  tr: "Son",
+  ar: "نهاية",  
+  pt: "Fim",
+  lt: "Pabaiga",
+};
+const sequenceOfAdditions = {
+  en: "Sequence of additions",
+  ru: "Последовательность прибавок",
+  sv: "Sekvens av tillägg",
+  no: "Sekvens av økninger",
+  fi: "Lisäysten jono",
+  de: "Sequenz der Zunahmen",
+  fr: "Séquence d'augmentations",
+  es: "Secuencia de aumentos",
+  ja: "増加のシーケンス",
+  cs: "Posloupnost přidávání",  
+  bg: "Последователност на прибавки", 
+  sk: "Postupnosť pridávaní",
+  ko: "증가 시퀀스",
+  tr: "Artış dizisi",
+  ar: "تسلسل الزيادات",
+  pt: "Sequência de aumentos",
+  lt: "Pridėjimų seka", 
+  }
+
+const drawingForUnderstanding = {
+  en: "Drawing for understanding",
+  ru: "Рисунок для понимания",
+  sv: "Ritning för förståelse",
+  no: "Tegning for forståelse",
+  fi: "Piirros ymmärtämiseksi",
+  de: "Zeichnung für Verständnis",
+  fr: "Dessin pour la compréhension",
+  es: "Dibujo para entender",
+  ja: "理解のための図", 
+  cs: "Vizualizace pro pochopení",
+  bg: "Чертеж за разбиране",
+  sk: "Vizualizácia pre pochopenie",
+  ko: "이해를 위한 그림",
+  tr: "Anlaşılması için çizim",
+  ar: "رسم للفهم",  
+  pt: "Desen para compreensão",
+  lt: "Pagalvotų supratymo vaizdas",
+};
+
+const calculationForYou = {
+  en: "Calculation for you",
+  ru: "Расчет для вас",
+  sv: "Beräkning för dig",
+  no: "Beregning for deg",
+  fi: "Laskenta sinulle",
+  de: "Berechnung für Sie",
+  fr: "Calcul pour vous",
+  es: "Cálculo para ti",
+  ja: "あなたのための計算",
+  cs: "Výpočet pro vás",
+  bg: "Изчисление за вас",
+  sk: "Výpočet pre vás",
+  ko: "당신을 위한 계산",
+  tr: "Senin için hesaplama",
+  ar: "حساب لك",
+  pt: "Cálculo para você",
+  lt: "Skaičiavimas jums",
+};
+
+const knitTheStitchesFromTheRibbing = {
+  en: "Knit the stitches from the ribbing",
+  ru: "Связать петли из резинки",
+  sv: "Sticka stolpar från ribban",
+  no: "Strikk masker fra rekken",
+  fi: "Silmukat takaisin neulomalla",
+  de: "Stiche aus dem Rippenmuster nehmen",
+  fr: "Tricoter les mailles du ruban",
+  es: "Tejer las mallas del ribete",
+  ja: "リブの編み物から針を刺します",
+  cs: "Vyšijte stehky od rubíku",   
+  bg: "Вържете стежките от ребрата",
+  sk: "Vyšijte stehky od rubíku",
+  ko: "리브의 띠에서 띠를 넣습니다",
+  tr: "İşaretli yapıştırma",
+  ar: "ربط الإبر من الربط",
+  pt: "Costurar as agulhas do rib",
+  lt: "Įvesti stiklų iš reznių",
+};
+
+const decreaseTheStitches = {
+  en: "Decrease the stitches",
+  ru: "Убавить петли",
+  sv: "Minska maskorna",
+  no: "Reduser maskene",
+  fi: "Vähennä silmukoita",
+  de: "Minderung der Maschen",
+  fr: "Diminuer les mailles",
+  es: "Disminuir las mallas",
+  ja: "マスクを減らす",
+  cs: "Snižte stehky",
+  bg: "Намалете стежките",
+  sk: "Zmenšite stehky",
+  ko: "스테이크를 줄입니다",
+  tr: "Stekleri azalt",
+  ar: "قلل الإبر",
+  pt: "Diminuir as agulhas",
+  lt: "Sumažinti stiklus",
+};
+
+const thereAreNoStitches = {
+  en: "There are no stitches",
+  ru: "Нет петель",
+  sv: "Det finns inga maskor",
+  no: "Det er ingen masker",  
+  fi: "Ei silmukoita",
+  de: "Es gibt keine Maschen",
+  fr: "Il n'y a pas de mailles",
+  es: "No hay mallas",
+  ja: "マスクがありません",
+  cs: "Nejsou žádné stehky",  
+  bg: "Няма стежкови",
+  sk: "Nie sú žiadne stehky",
+  ko: "스테이크가 없습니다",
+  tr: "Stek yok",
+  ar: "لا يوجد إبر",
+  pt: "Não há agulhas", 
+  lt: "Nėra stiklų",
+};
+
+const addingStitchesAlongTheRaglanLine = {
+  en: "Adding stitches along the raglan line",
+  ru: "Добавление петель вдоль линии реглана", 
+  sv: "Lägg till maskor längs raglanlinjen",
+  no: "Legg til masker langs raglanlinjen",
+  fi: "Lisää silmukat raglanlinjalla",
+  de: "Maschen entlang der Raglanlinie hinzufügen",
+  fr: "Ajouter des mailles le long de la ligne raglan",
+  es: "Añadir mallas a lo largo de la línea raglan",  
+  ja: "リブの編み物から針を刺します",
+  cs: "Vyšijte stehky od rubíku",
+  bg: "Вържете стежките от ребрата",
+  sk: "Vyšijte stehky od rubíku",
+  ko: "리브의 띠에서 띠를 넣습니다",
+  tr: "İşaretli yapıştırma",  
+  ar: "ربط الإبر من الربط",
+  pt: "Costurar as agulhas do rib",
+  lt: "Įvesti stiklų iš reznių",
+};
+
+const plan = {
+  en: "Plan",
+  ru: "План",
+  sv: "Plan",
+  no: "Plan", 
+  fi: "Plan",
+  de: "Plan",
+  fr: "Plan",
+  es: "Plan",
+  ja: "計画",
+  cs: "Plán", 
+  bg: "План",
+  sk: "Plán",
+  ko: "계획",
+  tr: "Plan",
+  ar: "الخطة",
+  pt: "Plano",
+  lt: "Planas", 
+};
+
+
+
+
+
+
+
+
 // Create translations object with all supported languages
 const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => {
   return {
@@ -1140,7 +1326,16 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       per: per[key],
       sm: sm[key],
       AdditionRows: AdditionRows[key],
-      NeckDepth: NeckDepth[key],
+      NeckDepth: NeckDepth[key as keyof typeof NeckDepth],
+      end: end[key as keyof typeof end],
+      sequenceOfAdditions: sequenceOfAdditions[key as keyof typeof sequenceOfAdditions],
+      drawingForUnderstanding: drawingForUnderstanding[key as keyof typeof drawingForUnderstanding],
+      calculationForYou: calculationForYou[key as keyof typeof calculationForYou],
+      knitTheStitchesFromTheRibbing: knitTheStitchesFromTheRibbing[key as keyof typeof knitTheStitchesFromTheRibbing],
+      thereAreNoStitches: thereAreNoStitches[key as keyof typeof thereAreNoStitches],
+      addingStitchesAlongTheRaglanLine: addingStitchesAlongTheRaglanLine[key as keyof typeof addingStitchesAlongTheRaglanLine],
+      decreaseTheStitches: decreaseTheStitches[key as keyof typeof decreaseTheStitches],
+      plan: plan[key as keyof typeof plan],
 
       // Add other translations here as needed
     }

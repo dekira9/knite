@@ -45,16 +45,21 @@ const DepthNeckV = () => {
   }, [introState.depthNeckV, HrezV]);
 
   // Функция для обработки изменений в Slider
-  const handleSliderChange = (value) => {
+  const handleSliderChange = (value: number) => {
+    // Округляем значение до одного десятичного знака
+    const roundedValue = parseFloat(value.toFixed(1));
     // Вычитаем HrezV, чтобы получить чистое значение depthNeckV
-    const actualValue = value - HrezV;
-    // Округляем значение до 1 десятичного знака
-    const roundedValue = parseFloat(actualValue.toFixed(1));
-    introState.setDepthNeckV(roundedValue);
+    const actualValue = roundedValue - HrezV;
+    
+    // Проверяем, что значение находится в допустимых пределах
+    if (actualValue >= LHVmin && actualValue <= LHVmax) {
+      introState.setDepthNeckV(actualValue);
+      setSliderValue(roundedValue.toFixed(1));
+    }
   };
 
   // Функция для обработки изменений в TextInput
-  const handleTextInputChange = (value) => {
+  const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue(''); // Позволяем очистить поле ввода
       introState.setDepthNeckV(LHVmin); // Устанавливаем минимальное значение по умолчанию
@@ -80,7 +85,7 @@ const DepthNeckV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.depthNeckV);
-    router.push('app/(tabs)/input/resultV');
+    router.push('/input/resultV');
   };
 
   return (
@@ -121,12 +126,12 @@ const DepthNeckV = () => {
         style={styles.slider}
         minimumValue={LHVmin + HrezV}
         maximumValue={LHVmax + HrezV}
-        step={0.1} // Шаг 0.1 для десятичных значений
-        value={parseFloat(sliderValue) || (LHVmin + HrezV)}
+        value={parseFloat(sliderValue)}
         onValueChange={handleSliderChange}
-        minimumTrackTintColor="#000000"
-        maximumTrackTintColor="#CCCCCC"
-        thumbTintColor="#000000"
+        step={0.1}
+        minimumTrackTintColor="#009FE3"
+        maximumTrackTintColor="#000000"
+        thumbTintColor="#009FE3"
       />
       <View style={styles.sliderLabels}>
         <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {i18n.t('sm')}</Text>

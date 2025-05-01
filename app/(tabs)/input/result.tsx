@@ -9,7 +9,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import onboardingState from '@/state/onboardingState';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { screenWidth } from '@/utils/Layout';
-
+import { calculateRaglan } from '@/utils/calculateRaglan';
 
 
 {/*расчет рядов с прибавками для 1x2, 1x4*/}
@@ -201,10 +201,15 @@ export default observer(() => {
     router.navigate('/');
   };
 
+  
+
   const { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 } = calculateIncreaseRows1x2_1x4(results.NHFront, results.Sfx, results.PR_1x4_f, results.PR_1x2_f);
   const { PozD, RowD, RowA23, RowPrib1x2_1x3, resultString23 } = calculateIncreaseRows1x2_1x3(results.NHFront, results.Sfx, results.prib_1x3_f, results.prib_1x2_f);
   const { PozC, RowC, RowN21, RowA21, RowPrib1x2_1x1, resultString21 } = calculateIncreaseRows1x2_1x1(results.NHFront, results.Sfx, results.prib_1x1_f, results.prib_1x2_f);
   const { PozM, RowM, RowN43, RowA43, RowPRib1x4_1x3, resultString43 } = calculateIncreaseRows1x4_1x3(results.NHFront, results.Sfx, results.PRib_1x4_f, results.PRib_1x3_f);  
+  
+  
+  
   {/* ссылка на sleeve copy*/}
   const navigateToSleeveCopy = () => {
     router.navigate('/(tabs)/raglan/sleeve copy');
@@ -216,6 +221,10 @@ export default observer(() => {
   {/* ссылка на back copy*/}
   const navigateToBackCopy = () => {
     router.navigate('/(tabs)/raglan/back copy');
+  };  
+  {/* ссылка на ribbing copy*/}
+  const navigateToRibbingCopy = () => {
+    router.navigate('/(tabs)/raglan/ribbing copy');
   };  
 
 
@@ -290,6 +299,13 @@ export default observer(() => {
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
             <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+            <TouchableOpacity onPress={navigateToRibbingCopy}>
+          <Image
+            source={require('@/assets/images/view.svg')}
+            style={styles.viewImage}  
+            contentFit="contain"
+          />
+          </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>

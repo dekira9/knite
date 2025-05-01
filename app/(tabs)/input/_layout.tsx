@@ -61,6 +61,12 @@ export default function IntroLayout() {
           }}
         />
         <Stack.Screen
+          name="ribbing-widthV"
+          options={{
+            title: 'Ribbing Width',
+          }}
+        />  
+        <Stack.Screen
           name="fit"
           options={{
             title: 'Fit Type',
@@ -70,6 +76,30 @@ export default function IntroLayout() {
           name="result"
           options={{
             title: 'Result',
+          }}
+        />
+        <Stack.Screen
+          name="resultV"
+          options={{
+            title: 'Result',
+          }}
+        />
+        <Stack.Screen
+          name="depthneckV"
+          options={{
+            title: 'Depth Neck',
+          }}
+        />
+        <Stack.Screen
+          name="lineraglan-width"
+          options={{
+            title: 'Lineraglan Width',
+          }}
+        />
+        <Stack.Screen
+          name="lineraglanV"
+          options={{
+            title: 'Lineraglan Width',
           }}
         />
       </Stack>

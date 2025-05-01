@@ -25,7 +25,6 @@ export default observer(() => {
   console.log('шея', introState.neckCircumference);
   console.log('голова', introState.headCircumference); 
   console.log('LRezMaxV', LRezMaxV);
-  console.log('Math.PI', Math.PI);
   console.log('LRezMinV:', LRezMinV);
 
   // Инициализируем значение raglanLineWidthV, если оно не определено
@@ -35,29 +34,29 @@ export default observer(() => {
     }
   }, []);
 
-  const [localVNeckRibbingWidth, setLocalVNeckRibbingWidth] = useState(2);
-console.log("localVNeckRibbingWidth", localVNeckRibbingWidth);
+  const [localRibbingWidthV, setLocalRibbingWidthV] = useState(2);
+console.log("localRibbingWidthV", localRibbingWidthV);
   
   
   {/*// Ширина резинки*/}
   const handleValueChange = (value: string) => {
     if (value === '') {
-      setLocalVNeckRibbingWidth('');
-      introState.setVNeckRibbingWidth(LRezMinV.toString());
+      setLocalRibbingWidthV('');
+      introState.setRibbingWidthV(LRezMinV.toString());
     } else {
       const numericValue = parseFloat(value.replace(',', '.'));
       if (!isNaN(numericValue) && numericValue >= LRezMinV && numericValue <= LRezMaxV) {
         const fixedValue = parseFloat(numericValue.toFixed(1));
-        setLocalVNeckRibbingWidth(fixedValue);
-        introState.setVNeckRibbingWidth(fixedValue.toString());
+        setLocalRibbingWidthV(fixedValue);
+        introState.setRibbingWidthV(fixedValue.toString());
       } else {
-        setLocalVNeckRibbingWidth('');
+        setLocalRibbingWidthV('');
       }
     }
   };
 {/*// переход кнопка*/}
   const handleNext = () => {
-    introState.setVNeckRibbingWidth(localVNeckRibbingWidth.toString());
+    introState.setRibbingWidthV(localRibbingWidthV.toString());
     
     // Убедимся, что raglanLineWidthV инициализирован перед переходом
     if (introState.raglanLineWidthV === undefined) {
@@ -76,17 +75,17 @@ console.log("localVNeckRibbingWidth", localVNeckRibbingWidth);
       />
       <Text style={styles.title}>{i18n.t('ribbingWidth')}</Text>
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={() => setLocalVNeckRibbingWidth(prev => Math.max(LRezMinV, parseFloat((prev - 0.1).toFixed(1))))}>
+        <TouchableOpacity onPress={() => setLocalRibbingWidthV(prev => Math.max(LRezMinV, parseFloat((prev - 0.1).toFixed(1))))}>
           <Text style={styles.arrow}>-</Text>
         </TouchableOpacity>
         <TextInput
           style={styles.valueInput}
-          value={localVNeckRibbingWidth.toString()}
+          value={localRibbingWidthV.toString()}
           onChangeText={handleValueChange}
           keyboardType="numeric"
           placeholder="Введите значение"
         />
-        <TouchableOpacity onPress={() => setLocalVNeckRibbingWidth(prev => Math.min(LRezMaxV, parseFloat((prev + 0.1).toFixed(1))))}>
+        <TouchableOpacity onPress={() => setLocalRibbingWidthV(prev => Math.min(LRezMaxV, parseFloat((prev + 0.1).toFixed(1))))}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
@@ -95,8 +94,8 @@ console.log("localVNeckRibbingWidth", localVNeckRibbingWidth);
         style={styles.slider}
         minimumValue={LRezMinV}
         maximumValue={LRezMaxV}
-        value={localVNeckRibbingWidth}
-        onValueChange={(value) => setLocalVNeckRibbingWidth(parseFloat(value.toFixed(1)))}
+        value={localRibbingWidthV}
+        onValueChange={(value) => setLocalRibbingWidthV(parseFloat(value.toFixed(1)))}
         step={0.1}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#CCCCCC"

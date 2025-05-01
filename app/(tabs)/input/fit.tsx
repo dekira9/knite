@@ -42,7 +42,7 @@ export default observer(() => {
     if (selectedStyle === 'regular') {
       router.push('/(tabs)/input/ribbing-width');
     } else if (selectedStyle === 'v-neck') {
-      router.push('/(tabs)/input/ribbing-width-vneck');
+      router.push('/(tabs)/input/ribbing-widthV');
     }
   };
 

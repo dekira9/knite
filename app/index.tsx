@@ -3,6 +3,12 @@ import onboardingState from "@/state/onboardingState";
 import { Redirect } from "expo-router";
 
 export default function Index() {
-  return <Redirect href={onboardingState.hasCompletedOnboarding ? introState.styleChosen ? "/(tabs)/input/result" : "/(tabs)/input" : "/onboarding"} />;
+  // Если онбординг не завершен, идем на онбординг
+  if (!onboardingState.hasCompletedOnboarding) {
+    return <Redirect href="./onboarding" />;
+  }
+
+  // В остальных случаях идем на страницу стилей
+  return <Redirect href="./(tabs)" />;
 }
 

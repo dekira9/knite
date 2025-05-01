@@ -1,130 +1,274 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import ImageViewer from 'react-native-image-zoom-viewer';  // Import ImageViewer
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import onboardingState from '@/state/onboardingState';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { screenWidth } from '@/utils/Layout';
+import PinchZoomView from 'react-native-pinch-zoom-view';
+import { RaglanOutput } from '@/utils/calculateRaglan'; // Добавляем импорт RaglanOutput
+
+import { number } from 'mobx-state-tree/dist/internal';
 
 
+{/*прибавки в углу резинки V*/}
+export const calculateVNeckIncreases01 = (NRrezV: number, SVfront: number, SpribVcorn: number,RowPribRV1: number,RowPribRVz: number) => {
+ const MRz= Array.from({ length: RowPribRVz }, (_, rz) => rz + 1);
+ const MR1= Array.from({ length: RowPribRV1 }, (_, ra) => ra + 1);
+ const MRN= Array.from({ length: NRrezV }, (_, rn) => rn + 1);
+const KVz = (NRrezV) / RowPribRV1;
+const PozS1=MR1.map(ra => Math.floor(KVz * ra));
+const PozZ= MRN.filter(rn => !PozS1.includes(rn));
 
-{/*расчет рядов с прибавками для 1x2, 1x4*/}
-export const calculateIncreaseRows1x2_1x4 = (NHFront: number, Sfx: number, PR_1x4_f: number, PR_1x2_f: number) => {
-  const KB = Sfx / PR_1x4_f;
-  const B = Array.from({ length: PR_1x4_f }, (_, b) => b + 1);
-  const PozB = B.map(b => Math.floor(KB * b));
+const increases01=Array.from({ length: NRrezV }, (_, index) => {
+  //if (index === 0) {
+   // return 0; // No increase on the first row
+ // } else
+   if (PozZ.includes(index + 1)) {
+    return 0;
+  } else if (PozS1.includes(index + 1)) {
+    return 1;
+  } else {
+    return null; // или любое другое значение по умолчанию
+  }
+});
+   const resultStringV01 = increases01.join(', ');
+  return { 
+    PozS1, 
+    RowPribRV1, 
+    RowPribRVz, 
+    increases01, 
+    resultStringV01 
+  };
+};
+export const calculateVNeckIncreases12 = (
+  NRrezV: number,
+  RowPribRV1: number,
+  RowPribRV2: number
   
-  const A = Array.from({ length: PR_1x2_f }, (_, a) => a + 1);
+) => {
+  if (RowPribRV1 <= 0) {
+    throw new Error("RowPribRV1 должен быть больше нуля");
+  }
+  const MR2 = Array.from({ length: RowPribRV2 }, (_, rb) => rb + 1);
+  const MR1 = Array.from({ length: RowPribRV1 }, (_, ra) => ra + 1);
+  const MRN = Array.from({ length: NRrezV }, (_, rn) => rn + 1);
+  
+  const KVb = (NRrezV) / RowPribRV1;
+  const PozS1 = MR1.map(ra => Math.floor(KVb * ra));
+  const pozS1Set = new Set(PozS1);
+  const PozS2 = MRN.filter(rb => !pozS1Set.has(rb));
+  const pozS2Set = new Set(PozS2);
+  
+  const increases12 = Array.from({ length: NRrezV }, (_, index) => {
+    const position = index + 1;
+    //if (index === 0) {
+     // return 0; // No increase on the first row
+    //} else 
+    if (pozS2Set.has(position)) {
+      return 2;
+    } else if (pozS1Set.has(position)) {
+      return 1;
+    } else {
+      return 0; // Значение по умолчанию, если индекс не принадлежит ни одному из множеств
+    }
+  });
+  
+  const resultStringV12 = increases12.join(', ');
+  console.log('PozS1',PozS1)
+  console.log('PozS2',PozS2)
+  console.log('распред 12',increases12)
+
+  
+  return { 
+    MR2,
+    MR1,
+    PozS1,
+    RowPribRV1,
+    RowPribRV2,
+    increases12,
+    resultStringV12
+  };
+};
+
+export const calculateVNeckIncreases11 = (NRrezV: number, PribRV1: number, SpribVcorn: number) => {
+  console.log('calculateVNeckIncreases11 params:', { NRrezV, PribRV1, SpribVcorn });
+  
+  if (SpribVcorn !== NRrezV) {
+    console.warn('SpribVcorn should equal NRrezV');
+  }
+  
+  // Создаем массив длиной NRrezV, где в каждом ряду по одной прибавке
+  const increases11 = new Array(NRrezV).fill(1);
+  console.log('increases11 array:', increases11);
+  
+  const resultStringV11 = increases11.join(', ');
+  console.log('resultStringV11:', resultStringV11);
+  
+  return {
+    increases11,
+    resultStringV11
+  };
+};
+
+export const calculateVNeckIncreases22 = (NRrezV: number, PribRV2: number,SpribVcorn: number) => {
+   
+ 
+  const MR2 = Array.from({ length: PribRV2 }, (_, ra) => ra + 1);
+  const MRN = Array.from({ length: NRrezV-1 }, (_, rn) => rn + 1);
+  
+  const KVb = (NRrezV-1) / PribRV2;
+  const PozS1 = MR2.map(ra => Math.floor(KVb * ra));
+  const pozS1Set = new Set(PozS1);
+  const PozS2 = MRN.filter(rb => !pozS1Set.has(rb));
+  const pozS2Set = new Set(PozS2);
+  
+  const increases22 = Array.from({ length: NRrezV-1 }, (_, index) => {
+    const position = index + 1;
+   // if (index === 0) {
+    //  return 0; // No increase on the first row
+    //} else 
+    if (pozS2Set.has(position)) {
+      return 2;
+    } else if (pozS1Set.has(position)) {
+      return 2;
+    } else {
+      return 0; // Значение по умолчанию, если индекс не принадлежит ни одному из множеств
+    }
+  });
+  
+  const resultStringV22 = increases22.join(', ');
+ 
+  
+  
+  return { 
+    MR2,
+    PozS1,
+    PribRV2,
+    increases22,
+    resultStringV22 
+  };
+};
+
+
+{/*расчет рядов с прибавками для 1x2, 1x4 по линиям реглана*/}
+export const calculateIncreaseRows1x2_1x4V = (NHFrontV: number, SfxV: number, PR_1x4_fV: number, PR_1x2_fV: number) => {
+  const KBv = SfxV / PR_1x4_fV;
+  const Bv = Array.from({ length: PR_1x4_fV }, (_, b) => b + 1);
+  const PozBv = Bv.map(b => Math.floor(KBv * b));
+  
+  const Av = Array.from({ length: PR_1x2_fV }, (_, a) => a + 1);
    // Создаем массив RowB для рядов с прибавками из PozB
-   const RowB = PozB.map((b, bIndex) => {
+   const RowBv = PozBv.map((b, bIndex) => {
     const adjustedIndex = bIndex + 1; // Индексы начинаются с 1
     const row = (b - 1) * 2 + 1 + (adjustedIndex - 1) * 2;
     
     return row;
   });
-  const RowN = Array.from({ length: NHFront }, (_, i) => i + 1);
+  const RowNv = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
   // Удаляем элементы RowB и три следующих за каждым из них из RowN
-  RowB.forEach(b => {
+  RowBv.forEach(b => {
     for (let i = 0; i < 4; i++) { // Удаляем b и три следующих за ним
-      const index = RowN.indexOf(b + i);
+      const index = RowNv.indexOf(b + i);
       if (index !== -1) {
-        RowN.splice(index, 1);
+        RowNv.splice(index, 1);
       }
     }
   });
 
   // Создаем массив RowA из нечетных чисел RowN
-  const RowA = RowN.filter(n => n % 2 !== 0);
+  const RowAv = RowNv.filter(n => n % 2 !== 0);
 
   // Объединяем RowA и RowB в RowPrib1x2_1x4
-  const RowPrib1x2_1x4 = [...RowA, ...RowB].sort((a, b) => a - b);
+  const RowPrib1x2_1x4V = [...RowAv, ...RowBv].sort((a, b) => a - b);
 
   // Преобразуем RowPrib1x2_1x4 в строку
-  const resultString24 = RowPrib1x2_1x4.join(', ');
+  const resultString24V = RowPrib1x2_1x4V.join(', ');
 
-  return { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 };
+  return { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V };
 };
 
 {/* конец расчета рядов с прибавками для 1x2, 1x4*/}
 
 {/*расчет рядов с прибавками для 1x2, 1x3*/}
-export const calculateIncreaseRows1x2_1x3 = (NHFront: number, Sfx: number, prib_1x3_f: number, prib_1x2_f: number) => {
-  const KD = Sfx / prib_1x3_f;
-  const D = Array.from({ length: prib_1x3_f }, (_, d) => d + 1);
-  const PozD = D.map(d => Math.floor(KD * d));
+export const calculateIncreaseRows1x2_1x3V = (NHFrontV: number, SfxV: number, prib_1x3_fV: number, prib_1x2_fV: number) => {
+  const KDv = SfxV / prib_1x3_fV;
+  const Dv = Array.from({ length: prib_1x3_fV }, (_, d) => d + 1);
+  const PozDv = Dv.map(d => Math.floor(KDv * d));
   
-  const A2 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
+  const A2 = Array.from({ length: prib_1x2_fV }, (_, a) => a + 1);
    // Создаем массив RowD для рядов с прибавками из PozD
-   const RowD = PozD.map((d, dIndex) => {
+   const RowDv = PozDv.map((d, dIndex) => {
     const adjustedIndex = dIndex + 1; // Индексы начинаются с 1
     const row = (d - 1) * 2 + 1 + (adjustedIndex - 1);
     
     return row;
   });
-  const RowN23 = Array.from({ length: NHFront }, (_, i) => i + 1);
+  const RowN23v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
   // Удаляем элементы RowD и два следующих за каждым из них из RowN23
-  RowD.forEach(d => {
+  RowDv.forEach(d => {
     for (let i = 0; i < 3; i++) { // Удаляем d и две следующих за ним
-      const index = RowN23.indexOf(d + i);
+      const index = RowN23v.indexOf(d + i);
       if (index !== -1) {
-        RowN23.splice(index, 1);
+        RowN23v.splice(index, 1);
       }
     }
   });
   // Разбиваем RowN23 на пары и берем первые элементы каждой пары
-  const RowA23 = RowN23.filter((_, index) => (index + 1) % 2 !== 0);
+  const RowA23v = RowN23v.filter((_, index) => (index + 1) % 2 !== 0);
 
-  const RowPrib1x2_1x3 = [...RowA23, ...RowD].sort((a, b) => a - b);
+  const RowPrib1x2_1x3V = [...RowA23v, ...RowDv].sort((a, b) => a - b);
 
-  const resultString23 = RowPrib1x2_1x3.join(', ');
+  const resultString23V = RowPrib1x2_1x3V.join(', ');
 
-  return { PozD, RowD, RowN23, RowA23, RowPrib1x2_1x3, resultString23 };
+  return { PozDv, RowDv, RowN23v, RowA23v, RowPrib1x2_1x3V, resultString23V };
 };
 
 {/* конец расчета рядов с прибавками для 1x2, 1x3*/}
 
 {/*расчет рядов с прибавками для 1x2, 1x1*/}
-export const calculateIncreaseRows1x2_1x1 = (NHFront: number, Sfx: number, prib_1x1_f: number, prib_1x2_f: number) => {
-  const KC = Sfx / prib_1x1_f;
-  const C = Array.from({ length: prib_1x1_f }, (_, c) => c + 1);
-  const PozC = C.map(c => Math.floor(KC * c));
+export const calculateIncreaseRows1x2_1x1V = (NHFrontV: number, SfxV: number, prib_1x1_fV: number, prib_1x2_fV: number) => {
+  const KCv = SfxV / prib_1x1_fV;
+  const Cv = Array.from({ length: prib_1x1_fV }, (_, c) => c + 1);
+  const PozCv = Cv.map(c => Math.floor(KCv * c));
   
-  const A21 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
+  const A21 = Array.from({ length: prib_1x2_fV }, (_, a) => a + 1);
    // Создаем массив RowC для рядов с прибавками из PozC
-   const RowC = PozC.map((c, cIndex) => {
+   const RowCv = PozCv.map((c, cIndex) => {
     const adjustedIndex = cIndex + 1; // Индексы начинаются с 1
     const row = (c - 1) * 2 + 1 - (adjustedIndex - 1);
     
     return row;
   });
-  const RowN21 = Array.from({ length: NHFront }, (_, i) => i + 1);
+  const RowN21v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
   // Удаляем элементы RowC  из RowN
-  RowC.forEach(c => {
-    const index = RowN21.indexOf(c);
+  RowCv.forEach(c => {
+    const index = RowN21v.indexOf(c);
     if (index !== -1) {
-      RowN21.splice(index, 1);
+      RowN21v.splice(index, 1);
     }
   });
   // Разбиваем RowN на пары и берем первые элементы каждой пары
-  const RowA21 = RowN21.filter((_, index) => (index + 1) % 2 !== 0);
-{/* Объединяем RowA21 и RowC в RowPrib1x2_1x1 и сортируем */}
-  const RowPrib1x2_1x1 = [...RowA21, ...RowC].sort((a, b) => a - b);
-// Отладочный вывод для проверки содержимого RowPrib1x2_1x1
+  const RowA21v = RowN21v.filter((_, index) => (index + 1) % 2 !== 0);
+{/* Объединяем RowA21 и RowC в RowPrib1x2_1x1V и сортируем */}
+  const RowPrib1x2_1x1V = [...RowA21v, ...RowCv].sort((a, b) => a - b);
+// Отладочный вывод для проверки содержимого RowPrib1x2_1x1V
 
 
 
 
-  {/* Преобразуем RowPrib1x2_1x1 в строку */}
-  const resultString21 = RowPrib1x2_1x1.join(', ');
+  {/* Преобразуем RowPrib1x2_1x1V в строку */}
+  const resultString21V = RowPrib1x2_1x1V.join(', ');
 
-  return { PozC, RowC, RowN21, RowA21, RowPrib1x2_1x1, resultString21 };
+    return { PozCv, RowCv, RowN21v, RowA21v, RowPrib1x2_1x1V, resultString21V };
 };
 
 {/* конец расчета рядов с прибавками для 1x2, 1x1*/}
@@ -133,20 +277,20 @@ export const calculateIncreaseRows1x2_1x1 = (NHFront: number, Sfx: number, prib_
 
 {/*расчет рядов с прибавками для 1x4, 1x3*/}
 
-export const calculateIncreaseRows1x4_1x3 = (NHFront: number, Sfx: number, PRib_1x4_f: number, PRib_1x3_f: number) => {
+export const calculateIncreaseRows1x4_1x3V = (NHFrontV: number, SfxV: number, PRib_1x4_fV: number, PRib_1x3_fV: number) => {
   // Вычисляем количество прибавок для 1x4 и 1x3
   
  
  // Создаем массивы для прибавок
   
   
-const KM = Sfx / PRib_1x3_f;
-  const M = Array.from({ length: PRib_1x3_f }, (_, m) => m + 1);
-  const PozM = M.map(m => Math.floor(KM * m));
+const KMv = SfxV / PRib_1x3_fV;
+  const Mv = Array.from({ length: PRib_1x3_fV }, (_, m) => m + 1);
+  const PozMv = Mv.map(m => Math.floor(KMv * m));
   
-  const A34 = Array.from({ length: PRib_1x4_f }, (_, a) => a + 1);
+  const A34 = Array.from({ length: PRib_1x4_fV }, (_, a) => a + 1);
   // Создаем массив RowM для рядов с прибавками из PozM
-  const RowM = PozM.map((m, mIndex) => {
+  const RowMv = PozMv.map((m, mIndex) => {
     const adjustedIndex = mIndex + 1; // Индексы начинаются с 1
     const row = (m - 1) * 4 + 1 - (adjustedIndex - 1);
     
@@ -154,58 +298,108 @@ const KM = Sfx / PRib_1x3_f;
     return row;
   });
 
-  const RowN43 = Array.from({ length: NHFront }, (_, i) => i + 1);
+  const RowN43v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
   // Удаляем элементы RowM и два следующих за каждым из них из RowN43
-  RowM.forEach(m => {
+  RowMv.forEach(m => {
     for (let i = 0; i < 3; i++) { // Удаляем m и два следующих за ним
-      const index = RowN43.indexOf(m + i);
+      const index = RowN43v.indexOf(m + i);
       if (index !== -1) {
-        RowN43.splice(index, 1);
+        RowN43v.splice(index, 1);
       }
     }
   });
 
   // Разбиваем RowN43 на четверки и берем первые элементы каждой четверки
-  const RowA43 = [];
-for (let i = 0; i < RowN43.length; i += 4) {
-  RowA43.push(RowN43[i]);
+  const RowA43v = [];
+for (let i = 0; i < RowN43v.length; i += 4) {
+  RowA43v.push(RowN43v[i]);
 }
 
-  const RowPRib1x4_1x3 = [...RowA43, ...RowM].sort((a, b) => a - b);
+  const RowPRib1x4_1x3V = [...RowA43v, ...RowMv].sort((a, b) => a - b);
 
-  const resultString43 = RowPRib1x4_1x3.join(', ');
+  const resultString43V = RowPRib1x4_1x3V.join(', ');
 
-  return { PozM, RowM, RowN43, RowA43, RowPRib1x4_1x3, resultString43 };
+  return { PozMv, RowMv, RowN43v, RowA43v, RowPRib1x4_1x3V, resultString43V };
 };
 
 
 {/* конец расчета рядов с прибавками для 1x4, 1x3*/}
 
 
+
 export default observer(() => {
   const router = useRouter();
   const results = introState.calculateRaglan();
+  const scrollViewRef = useRef<ScrollView>(null); // For main vertical scroll
+  const carouselRef = useRef<ScrollView>(null); // Add ref for carousel
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Определяем isRaglanOutput здесь
+  const isRaglanOutput = (value: any): value is RaglanOutput => {
+    return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value; // Проверяем наличие одного из свойств RaglanOutput
+  };
+  
   const insets = useSafeAreaInsets();
   const currentLanguage = onboardingState.language;
   const tabBarHeight = useBottomTabBarHeight();
-  const ribbingWidth = introState.ribbingWidth;
+  
+  // Получаем значение ribbingWidthV из introState
+  const ribbingWidthV = introState.ribbingWidthV;
+  // Получаем плотность рядов
+  const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
+  // Рассчитываем NRrezV
+ const NRrezV = introState.NRrezV;
 
+  // Используем SpribVcorn из introState
+  const SpribVcorn = introState.SpribVcorn;
+  const RowPribRV1 = introState.RowPribRV1;
+  const RowPribRVz = introState.RowPribRVz;
+  const RowPribRV2 = introState.RowPribRV2;
+  
+  // Вызываем функцию и получаем результат
+  
+  console.log('ribbingWidthV:', ribbingWidthV);
+  console.log('rows:', rows);
+  
   const handleStartKnitting = () => {
-    router.navigate('/(tabs)/raglan/ribbing copy');
+    router.navigate('/(tabs)/raglan/ribbing copyV');
   };
 
   const handleNewStyle = () => {
     introState.setStyleChosen(false);
     router.navigate('/');
   };
-
-  const { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 } = calculateIncreaseRows1x2_1x4(results.NHFront, results.Sfx, results.PR_1x4_f, results.PR_1x2_f);
-  const { PozD, RowD, RowA23, RowPrib1x2_1x3, resultString23 } = calculateIncreaseRows1x2_1x3(results.NHFront, results.Sfx, results.prib_1x3_f, results.prib_1x2_f);
-  const { PozC, RowC, RowN21, RowA21, RowPrib1x2_1x1, resultString21 } = calculateIncreaseRows1x2_1x1(results.NHFront, results.Sfx, results.prib_1x1_f, results.prib_1x2_f);
-  const { PozM, RowM, RowN43, RowA43, RowPRib1x4_1x3, resultString43 } = calculateIncreaseRows1x4_1x3(results.NHFront, results.Sfx, results.PRib_1x4_f, results.PRib_1x3_f);  
-  {/* ссылка на sleeve copy*/}
+  const {  resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2,SpribVcorn);
+  const {  resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1,SpribVcorn);
+  const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
+  const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
+console.log('resultStringV11',resultStringV11)
+ 
+    const { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V } = calculateIncreaseRows1x2_1x4V(
+      results.NHFrontV, results.SfxV, results.PR_1x4_fV, results.PR_1x2_fV
+    );
+    const { PozDv, RowDv, RowN23v, RowA23v, RowPrib1x2_1x3V, resultString23V } = calculateIncreaseRows1x2_1x3V(
+      results.NHFrontV, results.SfxV, results.prib_1x3_fV, results.prib_1x2_fV
+    );
+    const { PozCv, RowCv, RowN21v, RowA21v, RowPrib1x2_1x1V, resultString21V } = calculateIncreaseRows1x2_1x1V(
+      results.NHFrontV, results.SfxV, results.prib_1x1_fV, results.prib_1x2_fV
+    );
+    const { PozMv, RowMv, RowN43v, RowA43v, RowPRib1x4_1x3V, resultString43V } = calculateIncreaseRows1x4_1x3V(
+      results.NHFrontV, results.SfxV, results.PRib_1x4_fV, results.PRib_1x3_fV
+    );
+  
+    // Добавляем вычисление простых строк рядов прибавок
+    const RowPrib1x4V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 4);
+    const RowPrib1x4StringV = RowPrib1x4V.join(', ');
+    const RowPrib1x3V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 3);
+    const RowPrib1x3StringV = RowPrib1x3V.join(', ');
+    const RowPrib1x2V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 2);
+    const RowPrib1x2StringV = RowPrib1x2V.join(', ');
+    const RowPrib1x1V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 1);
+    const RowPrib1x1StringV = RowPrib1x1V.join(', ');
+ 
+  {/* ссылка на sleeve copy */}
   const navigateToSleeveCopy = () => {
     router.navigate('/(tabs)/raglan/sleeve copy');
   };
@@ -213,11 +407,33 @@ export default observer(() => {
   const navigateToFrontCopy = () => {
     router.navigate('/(tabs)/raglan/front copy');
   };
-  {/* ссылка на back copy*/}
-  const navigateToBackCopy = () => {
-    router.navigate('/(tabs)/raglan/back copy');
+  
+  {/* ссылка на ribbing copyV*/}
+  const navigateToRibbingCopyV = () => {
+    router.navigate('/(tabs)/raglan/ribbing copyV');
   };  
 
+  {/* ссылка на back copy*/}
+  const navigateToBackV = () => {
+    router.navigate('/(tabs)/raglan/backV');
+  };
+  
+  // Добавляем функцию навигации для frontV
+  const navigateToFrontV = () => {
+    router.navigate('/(tabs)/raglan/frontV');
+  };
+  
+  const handleScrollToTop = () => {
+    // Scroll to top
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    
+    // Scroll carousel to planVaz3.png (index 1)
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 40;
+      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
+      setCurrentIndex(1); // Update current index to match
+    }, 100); // Small delay to ensure vertical scroll completes first
+  };
 
   if (typeof results === 'string') {
     return (
@@ -233,10 +449,16 @@ export default observer(() => {
     );
   }
 
+  
+
   return (
     <View style={[styles.mainContainer, { paddingTop: insets.top }]}>
-      <ScrollView contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}>
+      <ScrollView 
+        ref={scrollViewRef}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+      >
         <ScrollView 
+          ref={carouselRef} // Add ref to carousel
           horizontal 
           pagingEnabled 
           showsHorizontalScrollIndicator={false}
@@ -249,15 +471,24 @@ export default observer(() => {
           scrollEventThrottle={16}
         >
           <View style={styles.slideContainer}>
-            <Image
-              source={require('../../../assets/images/planOaz.svg')}
+          
+          <Image
+              source={require('../../../assets/images/planVaz2.png')}
               style={styles.slideImage}
               contentFit="contain"
-            />
+             />
+          </View>
+          <View style={styles.slideContainer}>
+          
+          <Image
+              source={require('../../../assets/images/planVaz3.png')}
+              style={styles.slideImage}
+              contentFit="contain"
+             />
           </View>
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../assets/images/regular-collar.png')}
+              source={require('../../../assets/images/v-neck.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -267,7 +498,7 @@ export default observer(() => {
         </ScrollView>
 
         <View style={styles.pagination}>
-          {[0, 1].map((index) => (
+          {[0, 1, 2].map((index) => (
             <View
               key={index}
               style={[
@@ -278,33 +509,45 @@ export default observer(() => {
           ))}
         </View>
 
-        {/* <View style={styles.resultCard}>
-          <Text style={styles.subtitle}>Основная информация</Text>
-          <Text style={styles.resultText}>
-            Вязать по кругу начиная с резинки
-          </Text> 
-        </View> */}
+       
 
         <View style={styles.resultCard}>
 
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
             <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+            <TouchableOpacity onPress={navigateToRibbingCopyV}>
+          <Image
+            source={require('@/assets/images/view.svg')}
+            style={styles.viewImage}  
+            contentFit="contain"
+          />
+          </TouchableOpacity>
+          
           </View>
+
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sgor}
-          </Text>
+    {i18n.t('stitches')}:
+  </Text>
+  <View style={{marginLeft: 10}}>
+    <Text style={styles.resultText}>
+      {i18n.t('start')}: {results.SOcutV}
+    </Text>
+    <Text style={styles.resultText}>
+      {i18n.t('end')}: {results.SOcutV + results.SpribVcorn * 2}
+    </Text>
+  </View>
           <Image
             source={require('@/assets/images/knitcircle.svg')}
             style={styles.styleKnitCircleImage}
             contentFit="contain"
           />
           <Text style={styles.resultText}>
-          {i18n.t('rows')}: {results.NRrez}
+          {i18n.t('rows')}: {results.NRrezV}
           </Text>
           </View> 
-
+          
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>
           {i18n.t('start')}
@@ -319,7 +562,7 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SKfront}
+          {i18n.t('stitches')}: {results.KV}
           </Text>
          </View>
          {/* round*/}
@@ -328,10 +571,10 @@ export default observer(() => {
           </View>
 
          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SFrontO}
+          {i18n.t('stitches')}: {results.SaV}
           </Text>
           </View>
           {/* round*/}
@@ -342,7 +585,30 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.K}
+          {i18n.t('stitches')}: {results.KV}
+          </Text>
+          </View>
+          {/* round*/}
+         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+         <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+          </View>
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+          <Text style={styles.resultText}>
+          {i18n.t('stitches')}: {results.SFrontV}
+          </Text>
+          </View>
+
+          {/* round*/}
+         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+         <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+          </View>
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+          <Text style={styles.resultText}>
+          {i18n.t('stitches')}: {results.KV}
           </Text>
           </View>
           {/* round*/}
@@ -353,10 +619,9 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sa}
+          {i18n.t('stitches')}: {results.SaV}
           </Text>
           </View>
-
           {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
@@ -365,7 +630,7 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.K}
+          {i18n.t('stitches')}: {results.KV}
           </Text>
           </View>
           {/* round*/}
@@ -376,41 +641,41 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SFrontO}
+          {i18n.t('stitches')}: {results.SV}
           </Text>
           </View>
           {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
-          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
-          <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.K}
+         <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+         <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'yellow', borderRightColor: 'transparent', borderBottomColor: 'yellow'}}></View>
+          <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
+          {i18n.t('adding')}: {'\n'}
+          +{results.SpribVcorn}
           </Text>
           </View>
           {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
+{/* adding ribbing*/} 
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1}}></View>
-          <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sa}
-          </Text>
+          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: 'yellow', borderBottomColor: 'yellow'}}></View>
+          <Text style={[styles.resultText, {textAlign: 'center'}]}>
+          {i18n.t('adding')}: {'\n'}
+          +{results.SpribVcorn}
+          </Text> 
           </View>
           {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
-
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SKa}
+          {i18n.t('stitches')}: {results.SV}
           </Text>
           </View>
           
@@ -418,17 +683,74 @@ export default observer(() => {
           </ScrollView>
 
           <Text style={styles.resultText}>
-          {i18n.t('stitches') + ' ' + i18n.t('back')}: {results.SFrontO}
+          {i18n.t('stitches') + ' ' + i18n.t('back')}: {results.SFrontV}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <Text style={styles.resultText}>
+              {i18n.t('stitches') + ' ' + i18n.t('front')}:
+            </Text>
+            <View style={{marginLeft: 10}}>
+              <Text style={styles.resultText}>
+                {i18n.t('start')}: {results.SVO}
+              </Text>
+              <Text style={styles.resultText}>
+                {i18n.t('end')}: {results.SVfront*2}
+              </Text>
+            </View>
+          </View>
+          <Text style={styles.resultText}>
+          {i18n.t('stitches') + ' ' + i18n.t('sleeve')}: {results.SaV}
           </Text>
           <Text style={styles.resultText}>
-          {i18n.t('stitches') + ' ' + i18n.t('front')}: {results.SFrontO}
+          {i18n.t('stitches') + ' ' + i18n.t('raglan')}: {introState.raglanLineWidthV}
           </Text>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches') + ' ' + i18n.t('sleeve')}: {results.Sa}
+          <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 20}]}>
+          {i18n.t('additionsOnOneSide')}: {results.SpribVcorn}
           </Text>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches') + ' ' + i18n.t('raglan')}: {introState.raglanLineWidth}
+          
+        {/* Insert the result of calculateVNeckIncreases here */}
+        <View style={styles.resultCard}>
+          
+          {/*<Text style={styles.resultText}>
+            {i18n.t('vNeckIncreasesResult12')}: {resultStringV12}
           </Text>
+          */}
+          {
+  Math.floor(SpribVcorn / NRrezV) ===1 && SpribVcorn > NRrezV && (
+    <Text style={styles.resultText}>
+      {i18n.t('sequenceOfAdditions')}: {resultStringV12}
+    </Text>
+  )}
+  {
+  Math.floor(SpribVcorn / NRrezV)===0 && (
+    <Text style={styles.resultText}>
+      {i18n.t('sequenceOfAdditions')}: {resultStringV01}
+    </Text>
+  ) 
+}
+{
+  SpribVcorn === NRrezV && (
+    <View style={styles.resultContainer}>
+      <Text style={styles.resultText}>
+        {i18n.t('sequenceOfAdditions')}:
+      </Text>
+      <View style={styles.sequenceContainer}>
+        
+        <Text style={[styles.resultText, styles.numbersText]}>
+          {resultStringV11}
+        </Text>
+      </View>
+    </View>
+  )
+}
+{
+  SpribVcorn === (2*NRrezV) && (
+    <Text style={styles.resultText}>
+      {i18n.t('sequenceOfAdditions')}: {resultStringV22}
+    </Text>
+  )
+}
+        </View>
           
         </View>
 {/* ПРИБАВЛЕНИЯ
@@ -440,22 +762,37 @@ export default observer(() => {
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: +{results.Sfx}
+          {i18n.t('stitches')}: +{results.SfxV}
           </Text>
+          </View>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        
           <Image
-            source={require('@/assets/images/knitcircle.svg')}
-            style={styles.styleKnitCircleImage}
+            source={require('@/assets/images/znts.svg')}
+            style={styles.styleZntsImage}
             contentFit="contain"
-          />
+          /> 
           <Text style={styles.resultText}>
-          {i18n.t('rows')}: {results.NHFront}
+          {i18n.t('rows')}:{results.NHV},
           </Text>
+          
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        
+        <Image
+          source={require('@/assets/images/knitcircle.svg')}
+          style={styles.styleKnitCircleImage}
+          contentFit="contain"
+        /> 
+        <Text style={styles.resultText}>
+        {i18n.t('rows')}:{results.NHFrontV-results.NHV},
+        </Text>
           </View> 
           
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 1 }}>
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('back')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToBackCopy}>
+          <TouchableOpacity onPress={navigateToBackV}>
           <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}  
@@ -470,14 +807,14 @@ export default observer(() => {
           <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#A29FCF', borderBottomColor: '#A29FCF'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           
           <View style={[styles.textBox, {backgroundColor: '#A29FCF',justifyContent: 'center'}]}>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}>
           {i18n.t('stitches')}: {'\n'}
-          {results.SFrontO}
+          {results.SFrontV}
           </Text>
           </View>
 
@@ -486,7 +823,7 @@ export default observer(() => {
           <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#A29FCF', borderRightColor: 'transparent', borderBottomColor: '#A29FCF'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           </View>
@@ -510,14 +847,14 @@ export default observer(() => {
           <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#FDCFE1', borderBottomColor: '#FDCFE1'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           
           <View style={[styles.textBox, {backgroundColor: '#FDCFE1',justifyContent: 'center'}]}>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}>
           {i18n.t('stitches')}: {'\n'}
-          {results.SFrontO}
+          {results.SFrontV}
           </Text>
           </View>
 
@@ -526,7 +863,7 @@ export default observer(() => {
           <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#FDCFE1', borderRightColor: 'transparent', borderBottomColor: '#FDCFE1'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           </View>
@@ -548,14 +885,14 @@ export default observer(() => {
           <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#DAEDBD', borderBottomColor: '#DAEDBD'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           
           <View style={[styles.textBox, {backgroundColor: '#DAEDBD',justifyContent: 'center'}]}>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}>
           {i18n.t('stitches')}: {'\n'}
-          {results.Sa}
+          {results.SaV}
           </Text>
           </View>
 
@@ -564,34 +901,32 @@ export default observer(() => {
           <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#DAEDBD', borderRightColor: 'transparent', borderBottomColor: '#DAEDBD'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
-          +{results.Sfx}
+          +{results.SfxV}
           </Text>
           </View>
           </View>
           
          
           <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 20}]}>
-          {i18n.t('additionsOnOneSide')}: {results.Sfx}
+          {i18n.t('additionsOnOneSide')}: {results.SfxV}
           </Text>
         
           {results.usedIncreaseType.includes('1x2, 1x4') && (
-              <View style={[styles.section, {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
+              <View style={[ {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_f}</Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
+              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_fV}</Text>
+              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
   {/* вывод рядов с прибавками*/}
-  
   <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-<Text style={styles.resultText}>{resultString24}</Text>
+<Text style={styles.resultText}>{resultString24V}</Text>
 
-         {/* конец вывода рядов с прибавками*/}
+  {/* конец вывода рядов с прибавками*/}
   </View>
           )}
-          
           {results.usedIncreaseType.includes('1x3, 1x4') && (
-              <View style={[styles.section, {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
+              <View style={[{marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
@@ -600,7 +935,7 @@ export default observer(() => {
   {/* вывод рядов с прибавками*/}
   
   <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-<Text style={styles.resultText}>{resultString43}</Text>
+<Text style={styles.resultText}>{resultString43V}</Text>
 
   
        {/* конец вывода рядов с прибавками*/}
@@ -609,35 +944,35 @@ export default observer(() => {
           )}
           
               {results.usedIncreaseType.includes('1x2, 1x1') && (
-            <View style={[styles.section, {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
+            <View style={[{marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
             {i18n.t('option')}
             </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_f}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_fV}</Text>
+              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
               <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-              <Text style={styles.resultText}>{resultString21}</Text>
+              <Text style={styles.resultText}>{resultString21V}</Text>
             
             </View>
           )}
           {results.usedIncreaseType.includes('1x4, 1x1') && (
-              <View style={[styles.section, {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
+              <View style={[ {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
+              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x2, 1x3') && (
-            <View style={[styles.section, {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
+            <View style={[ {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.prib_1x2_f}</Text>
-              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
+              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.prib_1x2_fV}</Text>
+              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
               <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-              <Text style={styles.resultText}>{resultString23}</Text>
+              <Text style={styles.resultText}>{resultString23V}</Text>
             </View>
           )}
 
@@ -647,18 +982,18 @@ export default observer(() => {
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
+              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x4') && (
-            <View style={[styles.section, { marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center' }]}>
+            <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center' }}>
          <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
            {i18n.t('option')}
          </Text>
-         <Text>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
+         <Text>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-         <Text style={styles.resultText}>{results.RowPrib1x4String}</Text>
+         <Text style={styles.resultText}>{RowPrib1x4StringV}</Text>
 
          </View>
           )}
@@ -668,9 +1003,9 @@ export default observer(() => {
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                 {i18n.t('option')}
               </Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
               <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-         <Text style={styles.resultText}>{results.RowPrib1x1String}</Text>  
+         <Text style={styles.resultText}>{RowPrib1x1StringV}</Text>  
              
             </View>
             )}
@@ -680,9 +1015,9 @@ export default observer(() => {
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x2(одна петля на 2 ряда): {results.prib_1x2_f}</Text>
+                <Text>1x2(одна петля на 2 ряда): {results.prib_1x2_fV}</Text>
                 <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-           <Text style={styles.resultText}>{results.RowPrib1x2String}</Text>  
+           <Text style={styles.resultText}>{RowPrib1x2StringV}</Text>  
                
               </View>
             )}
@@ -691,14 +1026,346 @@ export default observer(() => {
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
+                <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
                 <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
-           <Text style={styles.resultText}>{results.RowPrib1x3String}</Text>  
+           <Text style={styles.resultText}>{RowPrib1x3StringV}</Text>  
            
                
               </View>
             )}
           
+        </View>
+
+{/*  FRONT V */}
+        <View style={styles.resultCard}>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          
+          <Text style={styles.subtitle}>{i18n.t('front')}</Text>
+         
+        
+          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+          <TouchableOpacity onPress={navigateToFrontV}>
+          <Image
+            source={require('@/assets/images/view.svg')}
+            style={styles.viewImage}  
+            contentFit="contain"
+          />
+          </TouchableOpacity>
+        
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        
+          <Image
+            source={require('@/assets/images/znts.svg')}
+            style={styles.styleZntsImage}
+            contentFit="contain"
+          /> 
+          <Text style={styles.resultText}>
+          {i18n.t('rows')}:{results.NHV},
+          </Text>
+          
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        
+        <Image
+          source={require('@/assets/images/knitcircle.svg')}
+          style={styles.styleKnitCircleImage}
+          contentFit="contain"
+        /> 
+        <Text style={styles.resultText}>
+        {i18n.t('rows')}:{results.NHFrontV-results.NHV},
+        </Text>
+        
+        </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <Text style={styles.resultText}>
+            {i18n.t('start')}
+            </Text>
+            <Image
+              source={require('@/assets/images/znstartfront.svg')}
+              style={styles.styleznsfImage}
+              contentFit="contain"
+            /> 
+            
+            <Text style={styles.resultText}> : </Text>
+            
+            
+          </View>
+          <Text style={styles.resultText}>{i18n.t('drawingForUnderstanding')}</Text>  
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+         
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
+          
+    <Image
+      source={require('../../../assets/images/frontVa.png')}
+      style={styles.frontImage}
+     
+    />
+  </View>
+  
+  </ScrollView>
+
+//1
+
+<Text style={styles.resultText}>{i18n.t('calculationForYou')} 1, 2 {i18n.t('rows')}</Text>  
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> 1: </Text>
+          
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
+         
+          <Text style={styles.resultText}>
+          {i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
+            (() => {
+              // Получаем выбранный тип прибавок
+              const selectedType = results.usedIncreaseType?.[0] || '';
+              let increaseRows: number[] = [];
+              
+              // Определяем массив рядов с прибавками в зависимости от типа
+              switch (selectedType) {
+                case '1x2, 1x4':
+                  increaseRows = resultString24V ? resultString24V.split(', ').map(Number) : [];
+                  break;
+                case '1x2, 1x3':
+                  increaseRows = resultString23V ? resultString23V.split(', ').map(Number) : [];
+                  break;
+                case '1x2, 1x1':
+                  increaseRows = resultString21V ? resultString21V.split(', ').map(Number) : [];
+                  break;
+                case '1x3, 1x4':
+                  increaseRows = resultString43V ? resultString43V.split(', ').map(Number) : [];
+                  break;
+                case '1x3':
+                  increaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
+                  break;
+                case '1x4':
+                  increaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
+                  break;
+                case '1x2':
+                  increaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
+                  break;
+                case '1x1':
+                  increaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
+                  break;
+                default:
+                  increaseRows = [];
+              }
+              
+              // Проверяем, есть ли прибавка в первом ряду (ряд номер 1)
+              const firstRowIncreaseCount = increaseRows.filter(rowNum => rowNum === 1).length;
+              
+              return firstRowIncreaseCount > 0 ? '1' : '0'; // Возвращаем '1' если есть прибавка, иначе '0'
+            })()
+          ) : '0'}
+          </Text>
+          </View>
+          {/* round*/}
+         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+         <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+          </View>
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+          
+          <Text style={styles.resultText}>
+          {i18n.t('stitches')}: {isRaglanOutput(results) ? (
+            (() => {
+              // Получаем массив прибавок ИМЕННО для V-выреза
+              const vNeckIncreaseRows = results.resultStringV ? results.resultStringV.split(', ').map(Number) : [];
+              
+              // Вычисляем количество доп. ячеек для ПЕРВОЙ пары (pairNum = 1, index = 0)
+              // Эта логика должна точно соответствовать расчету additionalCellsPerPair[0] в frontV.tsx
+              const firstPairAdditionalCells = (1 <= results.NHV / 2 && vNeckIncreaseRows.length > 0) 
+                ? (vNeckIncreaseRows[0] || 0) 
+                : 0;
+
+              return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
+            })()
+          ) : '0'}
+          </Text>
+          </View>
+          
+          
+          </View>
+          </ScrollView>
+//2
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> 2: </Text>
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+          
+          <Text style={styles.resultText}>
+  {i18n.t('stitches')}: {isRaglanOutput(results) ? (
+    (() => {
+      // --- Расчет 1: Прибавка реглана в 1 ряду (1 или 0) ---
+      const selectedType = results.usedIncreaseType?.[0] || '';
+      let raglanIncreaseRows: number[] = [];
+      switch (selectedType) {
+        case '1x2, 1x4': raglanIncreaseRows = resultString24V ? resultString24V.split(', ').map(Number) : []; break;
+        case '1x2, 1x3': raglanIncreaseRows = resultString23V ? resultString23V.split(', ').map(Number) : []; break;
+        case '1x2, 1x1': raglanIncreaseRows = resultString21V ? resultString21V.split(', ').map(Number) : []; break;
+        case '1x3, 1x4': raglanIncreaseRows = resultString43V ? resultString43V.split(', ').map(Number) : []; break;
+        case '1x3': raglanIncreaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : []; break;
+        case '1x4': raglanIncreaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : []; break;
+        case '1x2': raglanIncreaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : []; break;
+        case '1x1': raglanIncreaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : []; break;
+        default: raglanIncreaseRows = [];
+      }
+      const raglanFirstRowIncrease = raglanIncreaseRows.filter(rowNum => rowNum === 1).length > 0 ? 1 : 0;
+
+      // --- Расчет 2: Желтые ячейки V-выреза в 1 ряду ---
+      const vNeckIncreaseRows = results.resultStringV ? results.resultStringV.split(', ').map(Number) : [];
+      const vNeckFirstRowYellow = (1 <= results.NHV / 2 && vNeckIncreaseRows.length > 0)
+        ? (vNeckIncreaseRows[0] || 0)
+        : 0;
+
+      // --- Сумма ---
+      return raglanFirstRowIncrease + vNeckFirstRowYellow;
+    })()
+  ) : '0'}
+</Text>
+          </View>
+         
+          
+          </View> 
+          </ScrollView>
+//3
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+<Text style={styles.resultText}> 3: </Text>
+
+<View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+<View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
+
+<Text style={styles.resultText}>
+{i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
+  (() => {
+    // Получаем выбранный тип прибавок
+    const selectedType = results.usedIncreaseType?.[0] || '';
+    let increaseRows: number[] = [];
+    
+    // Определяем массив рядов с прибавками в зависимости от типа
+    switch (selectedType) {
+      case '1x2, 1x4':
+        increaseRows = resultString24V ? resultString24V.split(', ').map(Number) : [];
+        break;
+      case '1x2, 1x3':
+        increaseRows = resultString23V ? resultString23V.split(', ').map(Number) : [];
+        break;
+      case '1x2, 1x1':
+        increaseRows = resultString21V ? resultString21V.split(', ').map(Number) : [];
+        break;
+      case '1x3, 1x4':
+        increaseRows = resultString43V ? resultString43V.split(', ').map(Number) : [];
+        break;
+      case '1x3':
+        increaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
+        break;
+      case '1x4':
+        increaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
+        break;
+      case '1x2':
+        increaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
+        break;
+      case '1x1':
+        increaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
+        break;
+      default:
+        increaseRows = [];
+    }
+    
+    // Проверяем, есть ли прибавка в первом ряду (ряд номер 1)
+    const firstRowIncreaseCount = increaseRows.filter(rowNum => rowNum === 1).length;
+    
+    return firstRowIncreaseCount > 0 ? '1' : '0'; // Возвращаем '1' если есть прибавка, иначе '0'
+  })()
+) : '0'}
+</Text>
+</View>
+{/* round*/}
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+<View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+</View>
+<View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+<View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+
+<Text style={styles.resultText}>
+{i18n.t('stitches')}: {isRaglanOutput(results) ? (
+  (() => {
+    // Получаем массив прибавок ИМЕННО для V-выреза
+    const vNeckIncreaseRows = results.resultStringV ? results.resultStringV.split(', ').map(Number) : [];
+    
+    // Вычисляем количество доп. ячеек для ПЕРВОЙ пары (pairNum = 1, index = 0)
+    // Эта логика должна точно соответствовать расчету additionalCellsPerPair[0] в frontV.tsx
+    const firstPairAdditionalCells = (1 <= results.NHV / 2 && vNeckIncreaseRows.length > 0) 
+      ? (vNeckIncreaseRows[0] || 0) 
+      : 0;
+
+    return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
+  })()
+) : '0'}
+</Text>
+</View>
+
+
+</View>
+</ScrollView>
+//4
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> 4: </Text>
+          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+          
+          <Text style={styles.resultText}>
+  {i18n.t('stitches')}: {isRaglanOutput(results) ? (
+    (() => {
+      // --- Расчет 1: Прибавка реглана в 1 ряду (1 или 0) ---
+      const selectedType = results.usedIncreaseType?.[0] || '';
+      let raglanIncreaseRows: number[] = [];
+      switch (selectedType) {
+        case '1x2, 1x4': raglanIncreaseRows = resultString24V ? resultString24V.split(', ').map(Number) : []; break;
+        case '1x2, 1x3': raglanIncreaseRows = resultString23V ? resultString23V.split(', ').map(Number) : []; break;
+        case '1x2, 1x1': raglanIncreaseRows = resultString21V ? resultString21V.split(', ').map(Number) : []; break;
+        case '1x3, 1x4': raglanIncreaseRows = resultString43V ? resultString43V.split(', ').map(Number) : []; break;
+        case '1x3': raglanIncreaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : []; break;
+        case '1x4': raglanIncreaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : []; break;
+        case '1x2': raglanIncreaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : []; break;
+        case '1x1': raglanIncreaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : []; break;
+        default: raglanIncreaseRows = [];
+      }
+      const raglanFirstRowIncrease = raglanIncreaseRows.filter(rowNum => rowNum === 1).length > 0 ? 1 : 0;
+
+      // --- Расчет 2: Желтые ячейки V-выреза в 1 ряду ---
+      const vNeckIncreaseRows = results.resultStringV ? results.resultStringV.split(', ').map(Number) : [];
+      const vNeckFirstRowYellow = (1 <= results.NHV / 2 && vNeckIncreaseRows.length > 0)
+        ? (vNeckIncreaseRows[0] || 0)
+        : 0;
+
+      // --- Сумма ---
+      return raglanFirstRowIncrease + vNeckFirstRowYellow;
+    })()
+  ) : '0'}
+</Text>
+          </View>
+         
+          
+          </View> 
+          </ScrollView>
+
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          
+          <Text style={styles.resultText}>{i18n.t('decreaseTheStitches')}</Text>
+         
+        
+          <View style={{width: 17, height: 17, backgroundColor: 'black', marginLeft: 10, borderWidth: 1}}></View>
+        </View>
+
+
+
         </View>
         
         {/* УДЛИНЕНИЕ СПИНКИ */}
@@ -745,7 +1412,7 @@ export default observer(() => {
           <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}}>
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SKfront}
+          {i18n.t('stitches')}: {results.SKfrontV}
           </Text>
          </View>
          {/* round*/}
@@ -755,7 +1422,7 @@ export default observer(() => {
          <View style={{ marginBottom: 10, marginLeft:0,padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SFrontO+2*results.Sfx}
+          {i18n.t('stitches')}: {results.SFrontV+2*results.SfxV}
           </Text>
           </View>
          {/* round*/}
@@ -765,7 +1432,7 @@ export default observer(() => {
           <View style={{ marginBottom: 10, marginLeft:0,padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SKfront}
+          {i18n.t('stitches')}: {results.SKfrontV}
           </Text>
           </View>
           </View>
@@ -777,6 +1444,16 @@ export default observer(() => {
         <View style={styles.resultCard}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
+            <TouchableOpacity onPress={handleScrollToTop} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+              <Image
+                source={require('../../../assets/images/planVaz3.png')}
+                style={{ width: 30, height: 30 }} // Smaller size for inline link
+                contentFit="contain"
+              />
+              <Text style={[styles.resultText, { marginLeft: 5, color: 'blue', textDecorationLine: 'underline' }]}>
+                {i18n.t('plan')} 
+              </Text>
+            </TouchableOpacity>
            
           </View>
           
@@ -798,7 +1475,7 @@ export default observer(() => {
           <View style={{width: 34, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1,borderLeftWidth: 7, borderRightWidth: 7, borderTopWidth: 1, borderLeftColor: '#E76F51', borderRightColor: '#E76F51'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('stitches')}:
-          {results.SFrontO + 2* results.Sfx + 2* results.SKfront}
+          {results.SFrontV + 2* results.SfxV + 2* results.SKfrontV}
           </Text>
           </View>
 
@@ -809,14 +1486,14 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-          {results.SKfront}
+          {results.SKfrontV}
           </Text>
           </View>
           
           <View style={[styles.textBox, {backgroundColor: '#FDCFE1',justifyContent: 'center'}]}>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 5}]}>
           {i18n.t('stitches')}: {'\n'}
-          {results.SFrontO + 2* results.Sfx}
+          {results.SFrontV + 2* results.SfxV}
           </Text>
           </View>
 
@@ -824,7 +1501,7 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-          {results.SKfront}
+          {results.SKfrontV}
           </Text>
           </View>
           </View>
@@ -836,7 +1513,7 @@ export default observer(() => {
           <View style={{width: 34, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1, borderLeftWidth: 7, borderRightWidth: 7, borderTopWidth: 1, borderLeftColor: '#E76F51', borderRightColor: '#E76F51'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('stitches')}:
-          {results.Sa + 2* results.Sfx + 2* results.SKa}
+          {results.SaV + 2* results.SfxV + 2* results.SKaV}
           </Text>
           </View>
           {/*...*/}
@@ -847,14 +1524,14 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-          {results.SKa}
+          {results.SKaV}
           </Text>
           </View>
           
           <View style={[styles.textBox, {backgroundColor: '#DAEDBD',justifyContent: 'center'}]}>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 5}]}>
           {i18n.t('stitches')}: {'\n'}
-          {results.Sa + 2* results.Sfx}
+          {results.SaV + 2* results.SfxV}
           </Text>
           </View>
 
@@ -862,7 +1539,7 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-          {results.SKa}
+          {results.SKaV}
           </Text>
           </View>
           </View>
@@ -927,7 +1604,7 @@ export default observer(() => {
           </View>
 
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sa+2*results.Sfx +2*results.SKa}
+          {i18n.t('stitches')}: {results.SaV+2*results.SfxV +2*results.SKaV}
           </Text>
 
           </View>
@@ -968,7 +1645,7 @@ export default observer(() => {
           {i18n.t('separateTheSleeve')}</Text>
           </View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sa+2*results.Sfx +2*results.SKa}
+          {i18n.t('stitches')}: {results.SaV+2*results.SfxV +2*results.SKaV}
           </Text>
           </View>
           {/* round*/}
@@ -1086,7 +1763,7 @@ export default observer(() => {
           <View style={{width: 34, height: 17, backgroundColor: '#95C11F', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('stitches')}:
-          {results.Sa + 2* results.Sfx + 2* results.SKa + results.SPodr + results.NRostok *0.5}
+          {results.SaV + 2* results.SfxV + 2* results.SKaV + results.SPodr + results.NRostok *0.5}
           </Text>
           </View>
 {/*скролл рукав*/}
@@ -1101,7 +1778,7 @@ export default observer(() => {
           </View>
 
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sa+2*results.Sfx +2*results.SKa}
+          {i18n.t('stitches')}: {results.SaV+2*results.SfxV +2*results.SKaV}
           </Text>
 
           </View>
@@ -1205,6 +1882,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
@@ -1223,9 +1902,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 14,
+    color: '#000',
     marginBottom: 5,
-    textAlign: 'center' as const,
   },
   error: {
     fontSize: 18,
@@ -1348,9 +2027,10 @@ const styles = StyleSheet.create({
    textAlign: 'center',
   },
   resultContainer: {
-    width: '100%', // Ширина контейнера равна ширине экрана
+    width: '100%',
     justifyContent: 'center',
-    alignItems: 'top',
+    alignItems: 'flex-start',
+    marginVertical: 5,
   },
   resultImage: {
     width: '100%', // Масштабируется по ширине контейнера
@@ -1359,12 +2039,54 @@ const styles = StyleSheet.create({
     resizeMode: 'contain', // Сохраняет пропорции изображения
     padding: 150,
   },
+  frontImage: {
+    width: '100%', // Масштабируется по ширине контейнера
+   aspectRatio: 2, // Устанавливает соотношение сторон изображения
+   height: undefined,
+    resizeMode: 'contain', // Сохраняет пропорции изображения
+    padding: 300,
+    
+  },
   scrollView1: {
     flexGrow: 0,
     width: '100%',
     backgroundColor: '#f0f0f0',
     padding: 2,
   },
-  
-  
+  slideImage: {
+    width: Dimensions.get('window').width - 40, // Adjust as needed
+    height: 300, // Adjust as needed
+    resizeMode: 'contain',
+    
+
+  },
+  textContainer: {
+    marginBottom: 10,
+  },
+  sequenceText: {
+    marginTop: 5,
+    fontWeight: '500',
+    letterSpacing: 0.5,
+  },
+  sequenceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  numbersText: {
+    marginLeft: 5,
+    fontWeight: '500',
+    letterSpacing: 0.5,
+  },
+  styleZntsImage: {
+    width: 40,
+    height: 40,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  styleznsfImage: {
+    width: 40,
+    height: 40,
+    marginLeft: 10,
+    marginRight: 10,
+  },
 }); 
