@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import introState from '@/state/introState';
@@ -19,7 +19,7 @@ export const calculateIncreaseRows1x2_1x4 = (NHFront: number, Sfx: number, PR_1x
   const PozB = B.map(b => Math.floor(KB * b));
   
   const A = Array.from({ length: PR_1x2_f }, (_, a) => a + 1);
-   // Создаем массив RowB для рядов с прибавками из PozB
+   {/* Создаем массив RowB для рядов с прибавками из PozB*/}
    const RowB = PozB.map((b, bIndex) => {
     const adjustedIndex = bIndex + 1; // Индексы начинаются с 1
     const row = (b - 1) * 2 + 1 + (adjustedIndex - 1) * 2;
@@ -28,7 +28,7 @@ export const calculateIncreaseRows1x2_1x4 = (NHFront: number, Sfx: number, PR_1x
   });
   const RowN = Array.from({ length: NHFront }, (_, i) => i + 1);
 
-  // Удаляем элементы RowB и три следующих за каждым из них из RowN
+  {/* Удаляем элементы RowB и три следующих за каждым из них из RowN*/}
   RowB.forEach(b => {
     for (let i = 0; i < 4; i++) { // Удаляем b и три следующих за ним
       const index = RowN.indexOf(b + i);
@@ -38,13 +38,13 @@ export const calculateIncreaseRows1x2_1x4 = (NHFront: number, Sfx: number, PR_1x
     }
   });
 
-  // Создаем массив RowA из нечетных чисел RowN
+  {/* Создаем массив RowA из нечетных чисел RowN*/}
   const RowA = RowN.filter(n => n % 2 !== 0);
 
-  // Объединяем RowA и RowB в RowPrib1x2_1x4
+  {/* Объединяем RowA и RowB в RowPrib1x2_1x4*/}
   const RowPrib1x2_1x4 = [...RowA, ...RowB].sort((a, b) => a - b);
 
-  // Преобразуем RowPrib1x2_1x4 в строку
+  {/* Преобразуем RowPrib1x2_1x4 в строку*/}
   const resultString24 = RowPrib1x2_1x4.join(', ');
 
   return { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 };
@@ -59,7 +59,7 @@ export const calculateIncreaseRows1x2_1x3 = (NHFront: number, Sfx: number, prib_
   const PozD = D.map(d => Math.floor(KD * d));
   
   const A2 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
-   // Создаем массив RowD для рядов с прибавками из PozD
+   {/* Создаем массив RowD для рядов с прибавками из PozD*/}
    const RowD = PozD.map((d, dIndex) => {
     const adjustedIndex = dIndex + 1; // Индексы начинаются с 1
     const row = (d - 1) * 2 + 1 + (adjustedIndex - 1);
@@ -68,7 +68,7 @@ export const calculateIncreaseRows1x2_1x3 = (NHFront: number, Sfx: number, prib_
   });
   const RowN23 = Array.from({ length: NHFront }, (_, i) => i + 1);
 
-  // Удаляем элементы RowD и два следующих за каждым из них из RowN23
+  {/* Удаляем элементы RowD и два следующих за каждым из них из RowN23*/}
   RowD.forEach(d => {
     for (let i = 0; i < 3; i++) { // Удаляем d и две следующих за ним
       const index = RowN23.indexOf(d + i);
@@ -77,7 +77,7 @@ export const calculateIncreaseRows1x2_1x3 = (NHFront: number, Sfx: number, prib_
       }
     }
   });
-  // Разбиваем RowN23 на пары и берем первые элементы каждой пары
+  {/* Разбиваем RowN23 на пары и берем первые элементы каждой пары*/}
   const RowA23 = RowN23.filter((_, index) => (index + 1) % 2 !== 0);
 
   const RowPrib1x2_1x3 = [...RowA23, ...RowD].sort((a, b) => a - b);
@@ -96,7 +96,7 @@ export const calculateIncreaseRows1x2_1x1 = (NHFront: number, Sfx: number, prib_
   const PozC = C.map(c => Math.floor(KC * c));
   
   const A21 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
-   // Создаем массив RowC для рядов с прибавками из PozC
+   {/* Создаем массив RowC для рядов с прибавками из PozC*/}
    const RowC = PozC.map((c, cIndex) => {
     const adjustedIndex = cIndex + 1; // Индексы начинаются с 1
     const row = (c - 1) * 2 + 1 - (adjustedIndex - 1);
@@ -105,18 +105,18 @@ export const calculateIncreaseRows1x2_1x1 = (NHFront: number, Sfx: number, prib_
   });
   const RowN21 = Array.from({ length: NHFront }, (_, i) => i + 1);
 
-  // Удаляем элементы RowC  из RowN
+  {/* Удаляем элементы RowC  из RowN*/}
   RowC.forEach(c => {
     const index = RowN21.indexOf(c);
     if (index !== -1) {
       RowN21.splice(index, 1);
     }
   });
-  // Разбиваем RowN на пары и берем первые элементы каждой пары
+  {/* Разбиваем RowN на пары и берем первые элементы каждой пары*/}
   const RowA21 = RowN21.filter((_, index) => (index + 1) % 2 !== 0);
 {/* Объединяем RowA21 и RowC в RowPrib1x2_1x1 и сортируем */}
   const RowPrib1x2_1x1 = [...RowA21, ...RowC].sort((a, b) => a - b);
-// Отладочный вывод для проверки содержимого RowPrib1x2_1x1
+{/* Отладочный вывод для проверки содержимого RowPrib1x2_1x1*/}
 
 
 
@@ -134,10 +134,10 @@ export const calculateIncreaseRows1x2_1x1 = (NHFront: number, Sfx: number, prib_
 {/*расчет рядов с прибавками для 1x4, 1x3*/}
 
 export const calculateIncreaseRows1x4_1x3 = (NHFront: number, Sfx: number, PRib_1x4_f: number, PRib_1x3_f: number) => {
-  // Вычисляем количество прибавок для 1x4 и 1x3
+  {/* Вычисляем количество прибавок для 1x4 и 1x3*/}
   
  
- // Создаем массивы для прибавок
+ {/* Создаем массивы для прибавок*/}
   
   
 const KM = Sfx / PRib_1x3_f;
@@ -145,7 +145,7 @@ const KM = Sfx / PRib_1x3_f;
   const PozM = M.map(m => Math.floor(KM * m));
   
   const A34 = Array.from({ length: PRib_1x4_f }, (_, a) => a + 1);
-  // Создаем массив RowM для рядов с прибавками из PozM
+  {/* Создаем массив RowM для рядов с прибавками из PozM*/}
   const RowM = PozM.map((m, mIndex) => {
     const adjustedIndex = mIndex + 1; // Индексы начинаются с 1
     const row = (m - 1) * 4 + 1 - (adjustedIndex - 1);
@@ -156,7 +156,7 @@ const KM = Sfx / PRib_1x3_f;
 
   const RowN43 = Array.from({ length: NHFront }, (_, i) => i + 1);
 
-  // Удаляем элементы RowM и два следующих за каждым из них из RowN43
+  {/* Удаляем элементы RowM и два следующих за каждым из них из RowN43*/}
   RowM.forEach(m => {
     for (let i = 0; i < 3; i++) { // Удаляем m и два следующих за ним
       const index = RowN43.indexOf(m + i);
@@ -166,7 +166,7 @@ const KM = Sfx / PRib_1x3_f;
     }
   });
 
-  // Разбиваем RowN43 на четверки и берем первые элементы каждой четверки
+  {/* Разбиваем RowN43 на четверки и берем первые элементы каждой четверки*/}
   const RowA43 = [];
 for (let i = 0; i < RowN43.length; i += 4) {
   RowA43.push(RowN43[i]);
@@ -186,6 +186,8 @@ for (let i = 0; i < RowN43.length; i += 4) {
 export default observer(() => {
   const router = useRouter();
   const results = introState.calculateRaglan();
+  const scrollViewRef = useRef<ScrollView>(null);
+  const carouselRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const insets = useSafeAreaInsets();
   const currentLanguage = onboardingState.language;
@@ -193,7 +195,7 @@ export default observer(() => {
   const ribbingWidth = introState.ribbingWidth;
 
   const handleStartKnitting = () => {
-    router.navigate('/(tabs)/raglan/ribbing copy');
+    router.navigate('/(tabs)/raglan/ribbingO');
   };
 
   const handleNewStyle = () => {
@@ -210,23 +212,33 @@ export default observer(() => {
   
   
   
-  {/* ссылка на sleeve copy*/}
-  const navigateToSleeveCopy = () => {
-    router.navigate('/(tabs)/raglan/sleeve copy');
+  {/* ссылка на sleeveO*/}
+  const navigateToSleeveO = () => {
+    router.navigate('/(tabs)/raglan/sleeveO');
   };
-  {/* ссылка на front copy*/}
-  const navigateToFrontCopy = () => {
-    router.navigate('/(tabs)/raglan/front copy');
+  {/* ссылка на frontO*/}
+  const navigateToFrontO = () => {
+    router.navigate('/(tabs)/raglan/frontO');
   };
-  {/* ссылка на back copy*/}
-  const navigateToBackCopy = () => {
-    router.navigate('/(tabs)/raglan/back copy');
+  {/* ссылка на backO*/}
+  const navigateToBackO = () => {
+    router.navigate('/(tabs)/raglan/backO');
   };  
-  {/* ссылка на ribbing copy*/}
-  const navigateToRibbingCopy = () => {
-    router.navigate('/(tabs)/raglan/ribbing copy');
+  {/* ссылка на ribbingO*/}
+  const navigateToRibbingO = () => {
+    router.navigate('/(tabs)/raglan/ribbingO');
   };  
-
+  const handleScrollToTop = () => {
+    {/* Scroll to top*/}
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    
+    {/* Scroll carousel to planVaz3.png (index 1)*/}
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 40;
+      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
+      setCurrentIndex(1); {/* Update current index to match*/}
+    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
+  };
 
   if (typeof results === 'string') {
     return (
@@ -244,8 +256,12 @@ export default observer(() => {
 
   return (
     <View style={[styles.mainContainer, { paddingTop: insets.top }]}>
-      <ScrollView contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}>
+         <ScrollView 
+        ref={scrollViewRef}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+      >
         <ScrollView 
+          ref={carouselRef} 
           horizontal 
           pagingEnabled 
           showsHorizontalScrollIndicator={false}
@@ -264,6 +280,15 @@ export default observer(() => {
               contentFit="contain"
             />
           </View>
+         
+          <View style={styles.slideContainer}>
+            <Image
+              source={require('../../../assets/images/planOaz2.png')}
+              style={styles.slideImage}
+              contentFit="contain"
+            />
+          </View>
+         
           <View style={styles.slideContainer}>
             <Image
               source={require('../../../assets/images/regular-collar.png')}
@@ -276,7 +301,7 @@ export default observer(() => {
         </ScrollView>
 
         <View style={styles.pagination}>
-          {[0, 1].map((index) => (
+          {[0, 1, 2].map((index) => (
             <View
               key={index}
               style={[
@@ -299,7 +324,11 @@ export default observer(() => {
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
             <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
-            <TouchableOpacity onPress={navigateToRibbingCopy}>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('knittingChart')}:</Text>
+           
+            <TouchableOpacity onPress={navigateToRibbingO}>
           <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}  
@@ -307,6 +336,7 @@ export default observer(() => {
           />
           </TouchableOpacity>
           </View>
+          
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>
           {i18n.t('stitches')}: {results.Sgor}
@@ -451,7 +481,7 @@ export default observer(() => {
         */}
         <View style={styles.resultCard}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-            <Text style={styles.subtitle}>{i18n.t('adding')}</Text>
+            <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
            
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -471,7 +501,7 @@ export default observer(() => {
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 1 }}>
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('back')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToBackCopy}>
+          <TouchableOpacity onPress={navigateToBackO}>
           <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}  
@@ -511,7 +541,7 @@ export default observer(() => {
           
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('front')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToFrontCopy}>
+          <TouchableOpacity onPress={navigateToFrontO}>
            <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}
@@ -550,7 +580,7 @@ export default observer(() => {
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 1 }}>
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('sleeve')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToSleeveCopy}>
+          <TouchableOpacity onPress={navigateToSleeveO}>
           <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}  
@@ -595,11 +625,11 @@ export default observer(() => {
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_f}</Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}</Text>
   {/* вывод рядов с прибавками*/}
   
-  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
 <Text style={styles.resultText}>{resultString24}</Text>
 
          {/* конец вывода рядов с прибавками*/}
@@ -611,11 +641,11 @@ export default observer(() => {
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.PRib_1x3_f}</Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PRib_1x4_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.PRib_1x3_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PRib_1x4_f}</Text>
   {/* вывод рядов с прибавками*/}
   
-  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
 <Text style={styles.resultText}>{resultString43}</Text>
 
   
@@ -629,9 +659,9 @@ export default observer(() => {
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
             {i18n.t('option')}
             </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_f}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
               <Text style={styles.resultText}>{resultString21}</Text>
             
             </View>
@@ -641,8 +671,8 @@ export default observer(() => {
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x2, 1x3') && (
@@ -650,9 +680,9 @@ export default observer(() => {
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.prib_1x2_f}</Text>
-              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
               <Text style={styles.resultText}>{resultString23}</Text>
             </View>
           )}
@@ -663,8 +693,8 @@ export default observer(() => {
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x4') && (
@@ -672,8 +702,8 @@ export default observer(() => {
          <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
            {i18n.t('option')}
          </Text>
-         <Text>1x4(одна петля на 4 ряда): {results.PR_1x4_f}</Text>
-         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+         <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}</Text>
+         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
          <Text style={styles.resultText}>{results.RowPrib1x4String}</Text>
 
          </View>
@@ -684,8 +714,8 @@ export default observer(() => {
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                 {i18n.t('option')}
               </Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_f}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
          <Text style={styles.resultText}>{results.RowPrib1x1String}</Text>  
              
             </View>
@@ -696,8 +726,8 @@ export default observer(() => {
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x2(одна петля на 2 ряда): {results.prib_1x2_f}</Text>
-                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+                <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}</Text>
+                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
            <Text style={styles.resultText}>{results.RowPrib1x2String}</Text>  
                
               </View>
@@ -707,8 +737,8 @@ export default observer(() => {
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_f}</Text>
-                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+                <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}</Text>
+                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
            <Text style={styles.resultText}>{results.RowPrib1x3String}</Text>  
            
                
@@ -793,6 +823,16 @@ export default observer(() => {
         <View style={styles.resultCard}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
+            <TouchableOpacity onPress={handleScrollToTop} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+              <Image
+                source={require('../../../assets/images/planOaz2.png')}
+                style={{ width: 30, height: 30 }} 
+                contentFit="contain"
+              />
+              <Text style={[styles.resultText, { marginLeft: 5, color: 'blue', textDecorationLine: 'underline' }]}>
+                {i18n.t('plan')} 
+              </Text>
+            </TouchableOpacity>
            
           </View>
           
@@ -1015,7 +1055,7 @@ export default observer(() => {
          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
          <View style={styles.resultContainer}>
     <Image
-      source={require('../../../assets/images/sleevbody.png')}
+      source={require('../../../assets/images/sleevebodyO.png')}
       style={styles.resultImage}
      
     />
@@ -1113,7 +1153,7 @@ export default observer(() => {
          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
          <View style={styles.textBox}>
          <Text style={styles.textInsideBox}>
-          {i18n.t('separateTheSleeve')}</Text>
+          {i18n.t('sleeve')}</Text>
           </View>
 
           <Text style={styles.resultText}>
@@ -1121,20 +1161,7 @@ export default observer(() => {
           </Text>
 
           </View>
-          
-         {/*  round*/}
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
-          </View>
-
-          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#95C11F', marginLeft: 10, borderWidth: 1}}></View>
-          <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
-          </Text>
-          </View>
-          {/*  round*/}
+           {/*  round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
@@ -1148,6 +1175,20 @@ export default observer(() => {
           {i18n.t('stitches')}: {results.NRostok *0.5} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
           </Text>
          </View>
+          
+         {/*  round*/}
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+          </View>
+
+          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#95C11F', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
+          <Text style={styles.resultText}>
+          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
+          </Text>
+          </View>
+         
          
          
 
@@ -1199,11 +1240,11 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    // paddingBottom: 100,
+    
   },
   stickyButtonContainer: {
     position: 'absolute',
-    // bottom: tabBarHeight, // Закомментируйте или удалите эту строку
+    
     left: 0,
     right: 0,
     flexDirection: 'row',
@@ -1340,37 +1381,37 @@ const styles = StyleSheet.create({
   },
   textBox: {
     borderWidth: 1,
-    borderColor: '#000', // Цвет рамки
-    padding: 3, // Внутренний отступ
-    borderRadius: 5, // Скругление углов
-    marginBottom: 3, // Отступ снизу
+    borderColor: '#000', 
+    padding: 3, 
+    borderRadius: 5, 
+    marginBottom: 3,   
    
   },
   textBoxParts: {
     borderWidth: 0,
-    borderColor: '#000', // Цвет рамки
-    padding: 5, // Внутренний отступ
-    borderRadius: 5, // Скругление углов
-    marginBottom: 3, // наружный отступ снизу
+    borderColor: '#000',
+    padding: 5, 
+    borderRadius: 5, 
+    marginBottom: 3, 
     backgroundColor: '#E6E6E6', 
   },
   textInsideBox: {
     fontSize: 12,
-    color: '#000', // Цвет текста
+    color: '#000', 
   },
   createText: {
     fontSize: 12,
-    color: '#000', // Цвет текста
+    color: '#000', 
    textAlign: 'center',
   },
   resultContainer: {
-    width: '100%', // Ширина контейнера равна ширине экрана
+    width: '100%', 
     justifyContent: 'center',
-    alignItems: 'top',
+    alignItems: 'flex-start',
   },
   resultImage: {
-    width: '100%', // Масштабируется по ширине контейнера
-   aspectRatio: 2, // Устанавливает соотношение сторон изображения
+    width: '100%',
+    aspectRatio: 2, // Устанавливает соотношение сторон изображения
    height: undefined,
     resizeMode: 'contain', // Сохраняет пропорции изображения
     padding: 150,

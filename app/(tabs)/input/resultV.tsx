@@ -5,12 +5,12 @@ import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
-import ImageViewer from 'react-native-image-zoom-viewer';  // Import ImageViewer
+
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import onboardingState from '@/state/onboardingState';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { screenWidth } from '@/utils/Layout';
-import PinchZoomView from 'react-native-pinch-zoom-view';
+
 import { RaglanOutput } from '@/utils/calculateRaglan'; // Добавляем импорт RaglanOutput
 
 import { number } from 'mobx-state-tree/dist/internal';
@@ -26,9 +26,9 @@ const PozS1=MR1.map(ra => Math.floor(KVz * ra));
 const PozZ= MRN.filter(rn => !PozS1.includes(rn));
 
 const increases01=Array.from({ length: NRrezV }, (_, index) => {
-  //if (index === 0) {
-   // return 0; // No increase on the first row
- // } else
+{ /*if (index === 0) {
+   return 0; // No increase on the first row
+ } else */}
    if (PozZ.includes(index + 1)) {
     return 0;
   } else if (PozS1.includes(index + 1)) {
@@ -67,9 +67,9 @@ export const calculateVNeckIncreases12 = (
   
   const increases12 = Array.from({ length: NRrezV }, (_, index) => {
     const position = index + 1;
-    //if (index === 0) {
-     // return 0; // No increase on the first row
-    //} else 
+    {/*if (index === 0) {
+     return 0; // No increase on the first row
+    } else */}
     if (pozS2Set.has(position)) {
       return 2;
     } else if (pozS1Set.has(position)) {
@@ -103,7 +103,7 @@ export const calculateVNeckIncreases11 = (NRrezV: number, PribRV1: number, Sprib
     console.warn('SpribVcorn should equal NRrezV');
   }
   
-  // Создаем массив длиной NRrezV, где в каждом ряду по одной прибавке
+  {/* Создаем массив длиной NRrezV, где в каждом ряду по одной прибавке*/}
   const increases11 = new Array(NRrezV).fill(1);
   console.log('increases11 array:', increases11);
   
@@ -130,9 +130,7 @@ export const calculateVNeckIncreases22 = (NRrezV: number, PribRV2: number,SpribV
   
   const increases22 = Array.from({ length: NRrezV-1 }, (_, index) => {
     const position = index + 1;
-   // if (index === 0) {
-    //  return 0; // No increase on the first row
-    //} else 
+   
     if (pozS2Set.has(position)) {
       return 2;
     } else if (pozS1Set.has(position)) {
@@ -163,7 +161,7 @@ export const calculateIncreaseRows1x2_1x4V = (NHFrontV: number, SfxV: number, PR
   const PozBv = Bv.map(b => Math.floor(KBv * b));
   
   const Av = Array.from({ length: PR_1x2_fV }, (_, a) => a + 1);
-   // Создаем массив RowB для рядов с прибавками из PozB
+   {/* Создаем массив RowB для рядов с прибавками из PozB*/}
    const RowBv = PozBv.map((b, bIndex) => {
     const adjustedIndex = bIndex + 1; // Индексы начинаются с 1
     const row = (b - 1) * 2 + 1 + (adjustedIndex - 1) * 2;
@@ -172,7 +170,7 @@ export const calculateIncreaseRows1x2_1x4V = (NHFrontV: number, SfxV: number, PR
   });
   const RowNv = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
-  // Удаляем элементы RowB и три следующих за каждым из них из RowN
+  {/* Удаляем элементы RowB и три следующих за каждым из них из RowN*/}
   RowBv.forEach(b => {
     for (let i = 0; i < 4; i++) { // Удаляем b и три следующих за ним
       const index = RowNv.indexOf(b + i);
@@ -182,19 +180,19 @@ export const calculateIncreaseRows1x2_1x4V = (NHFrontV: number, SfxV: number, PR
     }
   });
 
-  // Создаем массив RowA из нечетных чисел RowN
+  {/* Создаем массив RowA из нечетных чисел RowN*/}
   const RowAv = RowNv.filter(n => n % 2 !== 0);
 
-  // Объединяем RowA и RowB в RowPrib1x2_1x4
+  {/* Объединяем RowA и RowB в RowPrib1x2_1x4*/}
   const RowPrib1x2_1x4V = [...RowAv, ...RowBv].sort((a, b) => a - b);
 
-  // Преобразуем RowPrib1x2_1x4 в строку
+  {/* Преобразуем RowPrib1x2_1x4 в строку*/}
   const resultString24V = RowPrib1x2_1x4V.join(', ');
 
   return { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V };
 };
 
-{/* конец расчета рядов с прибавками для 1x2, 1x4*/}
+
 
 {/*расчет рядов с прибавками для 1x2, 1x3*/}
 export const calculateIncreaseRows1x2_1x3V = (NHFrontV: number, SfxV: number, prib_1x3_fV: number, prib_1x2_fV: number) => {
@@ -203,7 +201,7 @@ export const calculateIncreaseRows1x2_1x3V = (NHFrontV: number, SfxV: number, pr
   const PozDv = Dv.map(d => Math.floor(KDv * d));
   
   const A2 = Array.from({ length: prib_1x2_fV }, (_, a) => a + 1);
-   // Создаем массив RowD для рядов с прибавками из PozD
+   {/* Создаем массив RowD для рядов с прибавками из PozD*/}
    const RowDv = PozDv.map((d, dIndex) => {
     const adjustedIndex = dIndex + 1; // Индексы начинаются с 1
     const row = (d - 1) * 2 + 1 + (adjustedIndex - 1);
@@ -212,7 +210,7 @@ export const calculateIncreaseRows1x2_1x3V = (NHFrontV: number, SfxV: number, pr
   });
   const RowN23v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
-  // Удаляем элементы RowD и два следующих за каждым из них из RowN23
+  {/* Удаляем элементы RowD и два следующих за каждым из них из RowN23*/}
   RowDv.forEach(d => {
     for (let i = 0; i < 3; i++) { // Удаляем d и две следующих за ним
       const index = RowN23v.indexOf(d + i);
@@ -221,7 +219,7 @@ export const calculateIncreaseRows1x2_1x3V = (NHFrontV: number, SfxV: number, pr
       }
     }
   });
-  // Разбиваем RowN23 на пары и берем первые элементы каждой пары
+  {/* Разбиваем RowN23 на пары и берем первые элементы каждой пары*/}
   const RowA23v = RowN23v.filter((_, index) => (index + 1) % 2 !== 0);
 
   const RowPrib1x2_1x3V = [...RowA23v, ...RowDv].sort((a, b) => a - b);
@@ -240,7 +238,7 @@ export const calculateIncreaseRows1x2_1x1V = (NHFrontV: number, SfxV: number, pr
   const PozCv = Cv.map(c => Math.floor(KCv * c));
   
   const A21 = Array.from({ length: prib_1x2_fV }, (_, a) => a + 1);
-   // Создаем массив RowC для рядов с прибавками из PozC
+   {/* Создаем массив RowC для рядов с прибавками из PozC*/}
    const RowCv = PozCv.map((c, cIndex) => {
     const adjustedIndex = cIndex + 1; // Индексы начинаются с 1
     const row = (c - 1) * 2 + 1 - (adjustedIndex - 1);
@@ -249,14 +247,14 @@ export const calculateIncreaseRows1x2_1x1V = (NHFrontV: number, SfxV: number, pr
   });
   const RowN21v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
-  // Удаляем элементы RowC  из RowN
+  {/* Удаляем элементы RowC  из RowN*/}
   RowCv.forEach(c => {
     const index = RowN21v.indexOf(c);
     if (index !== -1) {
       RowN21v.splice(index, 1);
     }
   });
-  // Разбиваем RowN на пары и берем первые элементы каждой пары
+  {/* Разбиваем RowN на пары и берем первые элементы каждой пары*/}
   const RowA21v = RowN21v.filter((_, index) => (index + 1) % 2 !== 0);
 {/* Объединяем RowA21 и RowC в RowPrib1x2_1x1V и сортируем */}
   const RowPrib1x2_1x1V = [...RowA21v, ...RowCv].sort((a, b) => a - b);
@@ -278,10 +276,10 @@ export const calculateIncreaseRows1x2_1x1V = (NHFrontV: number, SfxV: number, pr
 {/*расчет рядов с прибавками для 1x4, 1x3*/}
 
 export const calculateIncreaseRows1x4_1x3V = (NHFrontV: number, SfxV: number, PRib_1x4_fV: number, PRib_1x3_fV: number) => {
-  // Вычисляем количество прибавок для 1x4 и 1x3
+  {/* Вычисляем количество прибавок для 1x4 и 1x3*/}
   
  
- // Создаем массивы для прибавок
+ {/* Создаем массивы для прибавок*/}
   
   
 const KMv = SfxV / PRib_1x3_fV;
@@ -289,7 +287,7 @@ const KMv = SfxV / PRib_1x3_fV;
   const PozMv = Mv.map(m => Math.floor(KMv * m));
   
   const A34 = Array.from({ length: PRib_1x4_fV }, (_, a) => a + 1);
-  // Создаем массив RowM для рядов с прибавками из PozM
+  {/* Создаем массив RowM для рядов с прибавками из PozM*/}
   const RowMv = PozMv.map((m, mIndex) => {
     const adjustedIndex = mIndex + 1; // Индексы начинаются с 1
     const row = (m - 1) * 4 + 1 - (adjustedIndex - 1);
@@ -300,7 +298,7 @@ const KMv = SfxV / PRib_1x3_fV;
 
   const RowN43v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
 
-  // Удаляем элементы RowM и два следующих за каждым из них из RowN43
+  {/* Удаляем элементы RowM и два следующих за каждым из них из RowN43*/}
   RowMv.forEach(m => {
     for (let i = 0; i < 3; i++) { // Удаляем m и два следующих за ним
       const index = RowN43v.indexOf(m + i);
@@ -310,7 +308,7 @@ const KMv = SfxV / PRib_1x3_fV;
     }
   });
 
-  // Разбиваем RowN43 на четверки и берем первые элементы каждой четверки
+  {/* Разбиваем RowN43 на четверки и берем первые элементы каждой четверки*/}
   const RowA43v = [];
 for (let i = 0; i < RowN43v.length; i += 4) {
   RowA43v.push(RowN43v[i]);
@@ -331,11 +329,11 @@ for (let i = 0; i < RowN43v.length; i += 4) {
 export default observer(() => {
   const router = useRouter();
   const results = introState.calculateRaglan();
-  const scrollViewRef = useRef<ScrollView>(null); // For main vertical scroll
-  const carouselRef = useRef<ScrollView>(null); // Add ref for carousel
+  const scrollViewRef = useRef<ScrollView>(null); {/* For main vertical scroll*/}
+  const carouselRef = useRef<ScrollView>(null); {/* Add ref for carousel*/}
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  // Определяем isRaglanOutput здесь
+  {/* Определяем isRaglanOutput здесь*/}
   const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value; // Проверяем наличие одного из свойств RaglanOutput
   };
@@ -344,26 +342,26 @@ export default observer(() => {
   const currentLanguage = onboardingState.language;
   const tabBarHeight = useBottomTabBarHeight();
   
-  // Получаем значение ribbingWidthV из introState
+  {/* Получаем значение ribbingWidthV из introState*/}
   const ribbingWidthV = introState.ribbingWidthV;
-  // Получаем плотность рядов
+  {/* Получаем плотность рядов*/}
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
-  // Рассчитываем NRrezV
+  {/* Рассчитываем NRrezV*/}
  const NRrezV = introState.NRrezV;
 
-  // Используем SpribVcorn из introState
+  {/* Используем SpribVcorn из introState*/}
   const SpribVcorn = introState.SpribVcorn;
   const RowPribRV1 = introState.RowPribRV1;
   const RowPribRVz = introState.RowPribRVz;
   const RowPribRV2 = introState.RowPribRV2;
   
-  // Вызываем функцию и получаем результат
+  {/* Вызываем функцию и получаем результат*/}
   
   console.log('ribbingWidthV:', ribbingWidthV);
   console.log('rows:', rows);
   
   const handleStartKnitting = () => {
-    router.navigate('/(tabs)/raglan/ribbing copyV');
+    router.navigate('/(tabs)/raglan/ribbingV');
   };
 
   const handleNewStyle = () => {
@@ -389,7 +387,7 @@ console.log('resultStringV11',resultStringV11)
       results.NHFrontV, results.SfxV, results.PRib_1x4_fV, results.PRib_1x3_fV
     );
   
-    // Добавляем вычисление простых строк рядов прибавок
+    {/* Добавляем вычисление простых строк рядов прибавок*/}
     const RowPrib1x4V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 4);
     const RowPrib1x4StringV = RowPrib1x4V.join(', ');
     const RowPrib1x3V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 3);
@@ -399,40 +397,37 @@ console.log('resultStringV11',resultStringV11)
     const RowPrib1x1V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 1);
     const RowPrib1x1StringV = RowPrib1x1V.join(', ');
  
-  {/* ссылка на sleeve copy */}
-  const navigateToSleeveCopy = () => {
-    router.navigate('/(tabs)/raglan/sleeve copy');
+  {/* ссылка на sleeveV*/}
+  const navigateToSleeveV = () => {
+    router.navigate('/(tabs)/raglan/sleeveV');
   };
-  {/* ссылка на front copy*/}
-  const navigateToFrontCopy = () => {
-    router.navigate('/(tabs)/raglan/front copy');
-  };
+ 
   
   {/* ссылка на ribbing copyV*/}
   const navigateToRibbingCopyV = () => {
-    router.navigate('/(tabs)/raglan/ribbing copyV');
+    router.navigate('/(tabs)/raglan/ribbingV');
   };  
 
-  {/* ссылка на back copy*/}
+  {/* ссылка на backV*/}
   const navigateToBackV = () => {
     router.navigate('/(tabs)/raglan/backV');
   };
   
-  // Добавляем функцию навигации для frontV
+ {/* Добавляем функцию навигации для frontV*/}
   const navigateToFrontV = () => {
     router.navigate('/(tabs)/raglan/frontV');
   };
   
   const handleScrollToTop = () => {
-    // Scroll to top
+    {/*// Scroll to top*/ }
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
     
-    // Scroll carousel to planVaz3.png (index 1)
+   {/* Scroll carousel to planVaz4.png (index 1)*/}
     setTimeout(() => {
       const slideSize = Dimensions.get('window').width - 40;
       carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
-      setCurrentIndex(1); // Update current index to match
-    }, 100); // Small delay to ensure vertical scroll completes first
+      setCurrentIndex(1);   {/* Update current index to match*/}
+    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
 
   if (typeof results === 'string') {
@@ -481,7 +476,7 @@ console.log('resultStringV11',resultStringV11)
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../assets/images/planVaz3.png')}
+              source={require('../../../assets/images/planVaz4.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
@@ -516,6 +511,10 @@ console.log('resultStringV11',resultStringV11)
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
             <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+            </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('knittingChart')}:</Text>
+           
             <TouchableOpacity onPress={navigateToRibbingCopyV}>
           <Image
             source={require('@/assets/images/view.svg')}
@@ -588,7 +587,7 @@ console.log('resultStringV11',resultStringV11)
           {i18n.t('stitches')}: {results.KV}
           </Text>
           </View>
-          {/* round*/}
+            {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
@@ -622,7 +621,7 @@ console.log('resultStringV11',resultStringV11)
           {i18n.t('stitches')}: {results.SaV}
           </Text>
           </View>
-          {/* round*/}
+            {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
@@ -649,7 +648,7 @@ console.log('resultStringV11',resultStringV11)
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
          <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-         <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'yellow', borderRightColor: 'transparent', borderBottomColor: 'yellow'}}></View>
+         <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'yellow', borderRightColor: 'transparent', borderBottomColor: 'yellow'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
           +{results.SpribVcorn}
@@ -659,9 +658,9 @@ console.log('resultStringV11',resultStringV11)
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
-{/* adding ribbing*/} 
+{/* adding ribbing*/}
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: 'yellow', borderBottomColor: 'yellow'}}></View>
+          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: 'yellow', borderBottomColor: 'yellow'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
           +{results.SpribVcorn}
@@ -708,13 +707,10 @@ console.log('resultStringV11',resultStringV11)
           {i18n.t('additionsOnOneSide')}: {results.SpribVcorn}
           </Text>
           
-        {/* Insert the result of calculateVNeckIncreases here */}
-        <View style={styles.resultCard}>
+        {/* Insert the result of calculateVNeckIncreases here */}   
+             <View style={styles.resultCard}>
           
-          {/*<Text style={styles.resultText}>
-            {i18n.t('vNeckIncreasesResult12')}: {resultStringV12}
-          </Text>
-          */}
+          
           {
   Math.floor(SpribVcorn / NRrezV) ===1 && SpribVcorn > NRrezV && (
     <Text style={styles.resultText}>
@@ -734,8 +730,9 @@ console.log('resultStringV11',resultStringV11)
       <Text style={styles.resultText}>
         {i18n.t('sequenceOfAdditions')}:
       </Text>
+
       <View style={styles.sequenceContainer}>
-        
+      
         <Text style={[styles.resultText, styles.numbersText]}>
           {resultStringV11}
         </Text>
@@ -753,11 +750,11 @@ console.log('resultStringV11',resultStringV11)
         </View>
           
         </View>
-{/* ПРИБАВЛЕНИЯ
-        */}
+        
+{/* ПРИБАВЛЕНИЯ */}
         <View style={styles.resultCard}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-            <Text style={styles.subtitle}>{i18n.t('adding')}</Text>
+            <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
            
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -789,7 +786,7 @@ console.log('resultStringV11',resultStringV11)
         </Text>
           </View> 
           
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 1 }}>
+          <View style={{flexDirection: 'row', alignItems: 'center' ,justifyContent: 'center', marginBottom: 3 }} >
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('back')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#A29FCF', marginLeft: 10, borderWidth: 1}}></View>
           <TouchableOpacity onPress={navigateToBackV}>
@@ -801,10 +798,10 @@ console.log('resultStringV11',resultStringV11)
           </TouchableOpacity>
           </View>
 
-          <View style={{flexDirection: 'row', alignItems: 'top' ,justifyContent: 'center', marginBottom: 3 }} >
+          <View style={{flexDirection: 'row', alignItems: 'flex-start' ,justifyContent: 'center', marginBottom: 3 }} >
           
           <View style={{ marginBottom: 1, marginLeft: 0, padding: 1, borderRadius: 8, alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#A29FCF', borderBottomColor: '#A29FCF'}}></View>
+          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#A29FCF', borderBottomColor: '#A29FCF'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -820,7 +817,7 @@ console.log('resultStringV11',resultStringV11)
 
 
           <View style={{ marginBottom: 1, marginLeft: 0,padding: 1, borderRadius: 8,alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#A29FCF', borderRightColor: 'transparent', borderBottomColor: '#A29FCF'}}></View>
+          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: '#A29FCF', borderRightColor: 'transparent', borderBottomColor: '#A29FCF'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -832,7 +829,7 @@ console.log('resultStringV11',resultStringV11)
           
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('front')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToFrontCopy}>
+          <TouchableOpacity onPress={navigateToFrontV}>
            <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}
@@ -841,10 +838,10 @@ console.log('resultStringV11',resultStringV11)
           </TouchableOpacity>
           </View>
 
-          <View style={{flexDirection: 'row', alignItems: 'top' ,justifyContent: 'center', marginBottom: 3 }} >
+          <View style={{flexDirection: 'row', alignItems: 'flex-start' ,justifyContent: 'center', marginBottom: 3 }} >
           
           <View style={{ marginBottom: 1, marginLeft: 0, padding: 1, borderRadius: 8, alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#FDCFE1', borderBottomColor: '#FDCFE1'}}></View>
+          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#FDCFE1', borderBottomColor: '#FDCFE1'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -860,7 +857,7 @@ console.log('resultStringV11',resultStringV11)
 
 
           <View style={{ marginBottom: 1, marginLeft: 0,padding: 1, borderRadius: 8,alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#FDCFE1', borderRightColor: 'transparent', borderBottomColor: '#FDCFE1'}}></View>
+          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: '#FDCFE1', borderRightColor: 'transparent', borderBottomColor: '#FDCFE1'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -868,10 +865,10 @@ console.log('resultStringV11',resultStringV11)
           </View>
           </View>
 
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 1 }}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 20, justifyContent: 'center', marginBottom: 1 }}>
           <Text style={[styles.resultText, {marginLeft: 10}]}>{i18n.t('sleeve')}</Text>
           <View style={{width: 34, height: 17, backgroundColor: '#DAEDBD', marginLeft: 10, borderWidth: 1}}></View>
-          <TouchableOpacity onPress={navigateToSleeveCopy}>
+          <TouchableOpacity onPress={navigateToSleeveV}>
           <Image
             source={require('@/assets/images/view.svg')}
             style={styles.viewImage}  
@@ -879,10 +876,10 @@ console.log('resultStringV11',resultStringV11)
           />
         </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'top' ,justifyContent: 'center', marginBottom: 3 }} >
+          <View style={{flexDirection: 'row', alignItems: 'flex-start' ,justifyContent: 'center', marginBottom: 3 }} >
           
           <View style={{ marginBottom: 1, marginLeft: 0, padding: 1, borderRadius: 8, alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#DAEDBD', borderBottomColor: '#DAEDBD'}}></View>
+          <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: '#DAEDBD', borderBottomColor: '#DAEDBD'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center'}]}>
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -898,7 +895,7 @@ console.log('resultStringV11',resultStringV11)
 
 
           <View style={{ marginBottom: 1, marginLeft: 10, padding: 1, borderRadius: 8, alignItems: 'center'}}>
-          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, padding: -17, borderTopColor: 'transparent', borderLeftColor: '#DAEDBD', borderRightColor: 'transparent', borderBottomColor: '#DAEDBD'}}></View>
+          <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: '#DAEDBD', borderRightColor: 'transparent', borderBottomColor: '#DAEDBD'}}></View>
           <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
           {i18n.t('adding')}: {'\n'}
           +{results.SfxV}
@@ -906,20 +903,21 @@ console.log('resultStringV11',resultStringV11)
           </View>
           </View>
           
-         
+         <View >
           <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 20}]}>
           {i18n.t('additionsOnOneSide')}: {results.SfxV}
           </Text>
+         </View>
         
           {results.usedIncreaseType.includes('1x2, 1x4') && (
               <View style={[ {marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}]}>
-              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
+              <Text style={[styles.resultText, {fontWeight: 'bold', marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_fV}</Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_fV}</Text>
   {/* вывод рядов с прибавками*/}
-  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
 <Text style={styles.resultText}>{resultString24V}</Text>
 
   {/* конец вывода рядов с прибавками*/}
@@ -930,11 +928,11 @@ console.log('resultStringV11',resultStringV11)
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.PRib_1x3_f}</Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PRib_1x4_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.PRib_1x3_f}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PRib_1x4_f}</Text>
   {/* вывод рядов с прибавками*/}
   
-  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+  <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
 <Text style={styles.resultText}>{resultString43V}</Text>
 
   
@@ -948,9 +946,9 @@ console.log('resultStringV11',resultStringV11)
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
             {i18n.t('option')}
             </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.PR_1x2_fV}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_fV}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
               <Text style={styles.resultText}>{resultString21V}</Text>
             
             </View>
@@ -960,8 +958,8 @@ console.log('resultStringV11',resultStringV11)
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
-              <Text style={styles.resultText}>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_fV}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x2, 1x3') && (
@@ -969,9 +967,9 @@ console.log('resultStringV11',resultStringV11)
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text style={styles.resultText}>1x2(одна петля на 2 ряда): {results.prib_1x2_fV}</Text>
-              <Text style={styles.resultText}>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_fV}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
               <Text style={styles.resultText}>{resultString23V}</Text>
             </View>
           )}
@@ -982,8 +980,8 @@ console.log('resultStringV11',resultStringV11)
              <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
           {i18n.t('option')}
           </Text>
-              <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_fV}</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_fV}</Text>
             </View>
           )}
           {results.usedIncreaseType.includes('1x4') && (
@@ -991,8 +989,8 @@ console.log('resultStringV11',resultStringV11)
          <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
            {i18n.t('option')}
          </Text>
-         <Text>1x4(одна петля на 4 ряда): {results.PR_1x4_fV}</Text>
-         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+         <Text style={styles.resultText}>1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_fV}</Text>
+         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
          <Text style={styles.resultText}>{RowPrib1x4StringV}</Text>
 
          </View>
@@ -1003,8 +1001,8 @@ console.log('resultStringV11',resultStringV11)
               <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                 {i18n.t('option')}
               </Text>
-              <Text>1x1(одна петля на 1 ряд): {results.prib_1x1_fV}</Text>
-              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+              <Text style={styles.resultText}>1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_fV}</Text>
+              <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
          <Text style={styles.resultText}>{RowPrib1x1StringV}</Text>  
              
             </View>
@@ -1015,8 +1013,8 @@ console.log('resultStringV11',resultStringV11)
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x2(одна петля на 2 ряда): {results.prib_1x2_fV}</Text>
-                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+                <Text style={styles.resultText}>1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_fV}</Text>
+                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
            <Text style={styles.resultText}>{RowPrib1x2StringV}</Text>  
                
               </View>
@@ -1026,8 +1024,8 @@ console.log('resultStringV11',resultStringV11)
                 <Text style={[styles.resultText, {fontWeight: 'bold',marginTop: 14}]}>
                   {i18n.t('option')}
                 </Text>
-                <Text>1x3(одна петля на 3 ряда): {results.prib_1x3_fV}</Text>
-                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>Ряды с прибавками:</Text>
+                <Text style={styles.resultText}>1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_fV}</Text>
+                <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('RowsWithAdding')}:</Text>
            <Text style={styles.resultText}>{RowPrib1x3StringV}</Text>  
            
                
@@ -1044,6 +1042,9 @@ console.log('resultStringV11',resultStringV11)
          
         
           <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('knittingChart')}:</Text>
           <TouchableOpacity onPress={navigateToFrontV}>
           <Image
             source={require('@/assets/images/view.svg')}
@@ -1054,7 +1055,7 @@ console.log('resultStringV11',resultStringV11)
         
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-        
+        <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')}1:</Text>
           <Image
             source={require('@/assets/images/znts.svg')}
             style={styles.styleZntsImage}
@@ -1065,18 +1066,7 @@ console.log('resultStringV11',resultStringV11)
           </Text>
           
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-        
-        <Image
-          source={require('@/assets/images/knitcircle.svg')}
-          style={styles.styleKnitCircleImage}
-          contentFit="contain"
-        /> 
-        <Text style={styles.resultText}>
-        {i18n.t('rows')}:{results.NHFrontV-results.NHV},
-        </Text>
-        
-        </View>
+       
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
             <Text style={styles.resultText}>
             {i18n.t('start')}
@@ -1091,7 +1081,10 @@ console.log('resultStringV11',resultStringV11)
             
             
           </View>
+          <View style={{marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}>{i18n.t('drawingForUnderstanding')}</Text>  
+          </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
          
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
@@ -1104,10 +1097,11 @@ console.log('resultStringV11',resultStringV11)
   </View>
   
   </ScrollView>
-
-//1
-
-<Text style={styles.resultText}>{i18n.t('calculationForYou')} 1, 2 {i18n.t('rows')}</Text>  
+  </View>
+  {/*1*/} 
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+<Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('calculationForYou')}: {i18n.t('rows')} 1, 2</Text>  
+</View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
 
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -1189,7 +1183,7 @@ console.log('resultStringV11',resultStringV11)
           
           </View>
           </ScrollView>
-//2
+  {/*2*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}> 2: </Text>
@@ -1231,7 +1225,7 @@ console.log('resultStringV11',resultStringV11)
           
           </View> 
           </ScrollView>
-//3
+{/*3*/} 
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
 
 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -1313,7 +1307,7 @@ console.log('resultStringV11',resultStringV11)
 
 </View>
 </ScrollView>
-//4
+{/*4*/}
 <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <Text style={styles.resultText}> 4: </Text>
@@ -1357,14 +1351,27 @@ console.log('resultStringV11',resultStringV11)
           </ScrollView>
 
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 2:</Text>
+          <View style={{width: 17, height: 17, backgroundColor: 'black', marginRight: 10,marginLeft: 10, borderWidth: 1}}></View>
           
-          <Text style={styles.resultText}>{i18n.t('decreaseTheStitches')}</Text>
+          <Text style={[styles.resultText, {flexShrink: 1}]}>{i18n.t('decreasesOnOneSide')}: {i18n.t('stitches')} {results.SVfront - results.SFrontV / 2}</Text>
          
         
-          <View style={{width: 17, height: 17, backgroundColor: 'black', marginLeft: 10, borderWidth: 1}}></View>
+         
         </View>
 
-
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 3:</Text>
+        <Image
+          source={require('@/assets/images/knitcircle.svg')}
+          style={styles.styleKnitCircleImage}
+          contentFit="contain"
+        /> 
+        <Text style={styles.resultText}>
+        {i18n.t('rows')}:{results.NHFrontV-results.NHV},
+        </Text>
+        
+        </View>
 
         </View>
         
@@ -1446,7 +1453,7 @@ console.log('resultStringV11',resultStringV11)
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
             <TouchableOpacity onPress={handleScrollToTop} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
               <Image
-                source={require('../../../assets/images/planVaz3.png')}
+                source={require('../../../assets/images/planVaz4.png')}
                 style={{ width: 30, height: 30 }} // Smaller size for inline link
                 contentFit="contain"
               />
@@ -1479,7 +1486,7 @@ console.log('resultStringV11',resultStringV11)
           </Text>
           </View>
 
-          <View style={{flexDirection: 'row', alignItems: 'top' ,justifyContent: 'center', marginBottom: 3 }} >
+          <View style={{flexDirection: 'row', alignItems: 'flex-start' ,justifyContent: 'center', marginBottom: 3 }} >
           
           <View style={[styles.textBoxParts, {flexDirection: 'row'}]}>
           <View style={{ marginBottom: 1, marginRight: 1, padding: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'center'}}>
@@ -1516,8 +1523,8 @@ console.log('resultStringV11',resultStringV11)
           {results.SaV + 2* results.SfxV + 2* results.SKaV}
           </Text>
           </View>
-          {/*...*/}
-          <View style={{flexDirection: 'row', alignItems: 'top' ,justifyContent: 'center', marginBottom: 3 }} >
+        
+          <View style={{flexDirection: 'row', alignItems: 'flex-start' ,justifyContent: 'center', marginBottom: 3 }} >
           
           <View style={[styles.textBoxParts, {flexDirection: 'row'}]}>
           <View style={{ marginBottom: 1, marginLeft: 0, padding: 1, borderRadius: 8, alignItems: 'center'}}>
@@ -1581,7 +1588,7 @@ console.log('resultStringV11',resultStringV11)
           />
           </View> 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'top', marginBottom: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}}>
           <Text style={styles.resultText}>
           {i18n.t('back')}
@@ -1676,7 +1683,7 @@ console.log('resultStringV11',resultStringV11)
          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
          <View style={styles.resultContainer}>
     <Image
-      source={require('../../../assets/images/sleevbody.png')}
+      source={require('../../../assets/images/sleevebodyV.png')}
       style={styles.resultImage}
      
     />
@@ -1694,7 +1701,7 @@ console.log('resultStringV11',resultStringV11)
           </View>
 {/*скролл корпус*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'top', marginBottom: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         
 
           <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center',borderColor: '#009FE3',borderWidth: 1}}>
@@ -1768,13 +1775,13 @@ console.log('resultStringV11',resultStringV11)
           </View>
 {/*скролл рукав*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'top', marginBottom: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         
 
          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
          <View style={styles.textBox}>
          <Text style={styles.textInsideBox}>
-          {i18n.t('separateTheSleeve')}</Text>
+          {i18n.t('sleeve')}</Text>
           </View>
 
           <Text style={styles.resultText}>
@@ -1782,20 +1789,7 @@ console.log('resultStringV11',resultStringV11)
           </Text>
 
           </View>
-          
-         {/*  round*/}
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
-          </View>
-
-          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
-          <View style={{width: 17, height: 17, backgroundColor: '#95C11F', marginLeft: 10, borderWidth: 1}}></View>
-          <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
-          <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
-          </Text>
-          </View>
-          {/*  round*/}
+           {/*  round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
           </View>
@@ -1809,6 +1803,20 @@ console.log('resultStringV11',resultStringV11)
           {i18n.t('stitches')}: {results.NRostok *0.5} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
           </Text>
          </View>
+          
+         {/*  round*/}
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+          </View>
+
+          <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center',borderColor: '#95C11F',borderWidth: 1}} >
+          <View style={{width: 17, height: 17, backgroundColor: '#95C11F', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
+          <Text style={styles.resultText}>
+          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
+          </Text>
+          </View>
+         
          
          
 
@@ -1905,6 +1913,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000',
     marginBottom: 5,
+   
+    
   },
   error: {
     fontSize: 18,

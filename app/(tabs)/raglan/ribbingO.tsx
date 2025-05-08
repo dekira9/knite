@@ -266,15 +266,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: 'green',
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 110,
-    borderWidth: 1,
-    borderColor: 'green',
+    borderWidth: 0,
+    borderColor: 'red',
   },
   verticalContainer: {
     flexDirection: 'column',
@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
+    backgroundColor: 'yellow',
   },
   firstCell: {
     width: 10,

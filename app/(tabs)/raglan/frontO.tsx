@@ -113,11 +113,11 @@ const App = observer(() => {
     return cells;
   };
 
-  const renderSleeve = () => {
+  const renderFront = () => {
     const cells = [];
     for (let i = -1; i < NHFront; i++) {
       const row = [];
-      for (let j = 0; j < Sa; j++) {
+      for (let j = 0; j < SFrontO; j++) {
         row.push(
           <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
         );
@@ -165,7 +165,7 @@ const App = observer(() => {
     return additionalCells;
   };
   const leftCellCount = getLeftArrayCellCount();
-  const rightCellCount = getRightArrayCellCount();
+    const rightCellCount = getRightArrayCellCount();
 
 
   
@@ -258,7 +258,10 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
-
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
+       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
+       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
+      </View>
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -270,8 +273,8 @@ const App = observer(() => {
       <View style={styles.increaseArrayLeft}>
           {renderLeftIncreaseArray()}
         </View>
-        <View style={styles.Sleeve}>
-          {renderSleeve()}
+        <View style={styles.Front}>
+          {renderFront()}
         </View>
         <View style={styles.increaseArrayRight}>
           {renderRightIncreaseArray()}
@@ -282,7 +285,7 @@ const App = observer(() => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
-        <Text style={styles.infoText}>Stitches: {Sa + leftCellCount + rightCellCount}</Text>
+        <Text style={styles.infoText}>Stitches: {SFrontO + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>
@@ -345,7 +348,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#DAEDBD',
+    backgroundColor: '#FDCFE1',
   },
   firstCell: {
     width: 10,
@@ -354,7 +357,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#DAEDBD',
   },
-  Sleeve: {
+  Front: {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 0,
@@ -431,7 +434,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'green',
+    backgroundColor: '#F4A39B',
   },
   leftRow: {
     justifyContent: 'flex-end',

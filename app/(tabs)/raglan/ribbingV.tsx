@@ -5,6 +5,7 @@ import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import i18n from '@/utils/translations';
 
 import { 
   
@@ -12,13 +13,13 @@ import {
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
   calculateVNeckIncreases22
-} from '@/app/(tabs)/input/resultV'; // Import functions
-import { red } from 'react-native-reanimated/lib/typescript/Colors';
+} from '@/app/(tabs)/input/resultV'; {/*  Import functions
+import { red } from 'react-native-reanimated/lib/typescript/Colors';*/}
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   //см ширина петли
-const hsV = 1 / rows; //  см высота петли или ряда 
+const LsV = 1 / stitches;   {/*см ширина петли*/}
+const hsV = 1 / rows; {/* см высота петли или ряда */}
 const Hc=hsV*25;
 const Lc=LsV*25
 
@@ -37,7 +38,7 @@ const App = observer(() => {
   console.log('SVfront',SVfront)
   console.log('LVfront',LVfront)
   console.log('SV',SV)
-    const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
+    const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); {/* Преобразование радиан в градусы*/}
 
   console.log('angleInDegrees',angleInDegrees)
 
@@ -50,7 +51,7 @@ const App = observer(() => {
   
     let increases: Array<number> = [];
   
-    // Выбор функции на основе условий (аналогично renderRows)
+    {/* Выбор функции на основе условий (аналогично renderRows)*/}
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
@@ -65,26 +66,21 @@ const App = observer(() => {
       increases = increases22;
     }
   
-    // Проверка длины массива increases
-   {/*   if (increases.length !== NRrezV) {
-      console.error("Длина массива increases не соответствует NRrezV");
-      return [];
-    }
-  */}
-    // Расчет количества ячеек для каждого ряда
+   
+    {/* Расчет количества ячеек для каждого ряда*/}
     const cellCounts: number[] = [];
     let currentSquares = SV;
   
-    // Первый ряд (i=-1)
+    {/* Первый ряд (i=-1)*/}
     cellCounts.push(currentSquares);
     
-    // Последующие ряды
+    {/* Последующие ряды*/}
     for (let i = 0; i < increases.length; i++) {
       currentSquares += increases[i];
       cellCounts.push(currentSquares);
     }
   
-    // Возвращаем общее количество ячеек для выделенного ряда
+    {/* Возвращаем общее количество ячеек для выделенного ряда*/}
     return cellCounts[highlightedRow + 1];
   };
   const currentRowStitches = calculateRowCellCounts(highlightedRow);
@@ -123,7 +119,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow); // Get cell counts for all rows
+    const cellCounts = calculateRowCellCounts(highlightedRow);  {/*Get cell counts for all rows*/}
     
     for (let i = -1; i < numRows; i++) {
       const row = [];
@@ -318,7 +314,7 @@ const App = observer(() => {
     let increases: Array<number> = [];
     let resultString = '';
   
-    // Выбор функции на основе условий
+    {/* Выбор функции на основе условий*/}
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
@@ -392,7 +388,7 @@ const App = observer(() => {
     let increases: Array<number> = [];
     let resultString = '';
   
-    // Выбор функции на основе условий
+    {/* Выбор функции на основе условий*/}
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
@@ -424,19 +420,19 @@ const App = observer(() => {
               i === -1 && styles.zeroRowSquare,
               i===0 && styles.firstRowSquare,
               i === totalRows - 2 && styles.lastRowSquare,
-              i === highlightedRow && styles.highlightedCell // Условие, чтобы нулевой ряд не выделялся
+              i === highlightedRow && styles.highlightedCell , {/*Условие, чтобы нулевой ряд не выделялся*/}
             ]} 
           />
         );
       }
       rows.push(
         <View key={`right-${i}`} style={styles.row}>
-        {/*<Text style={styles.rowNumber}>{i + 1}</Text>// цифры рядов
-       */}          
+        {/*<Text style={styles.rowNumber}>{i + 1}</Text> цифры рядов*/}
+                 
          <View style={styles.squaresContainer}>
             {row}
           </View>
-          <Text style={styles.squareCount}>{currentSquares}</Text> // количество квадратов в ряду
+          <Text style={styles.squareCount}>{currentSquares}</Text>  {/*количество квадратов в ряду*/}
         </View>
       );
   
@@ -455,15 +451,15 @@ const App = observer(() => {
   };
   const highlightNextRow = () => {
     setHighlightedRow((prev) => {
-      const newRow = (prev + 1) % (NRrezV + 1); // Увеличиваем модуль на 1, чтобы включить -1
-      return newRow === NRrezV ? -1 : newRow; // Если достигли конца, возвращаемся к -1
+      const newRow = (prev + 1) % (NRrezV + 1); {/*Увеличиваем модуль на 1, чтобы включить -1*/}
+      return newRow === NRrezV ? -1 : newRow;  {/*Если достигли конца, возвращаемся к -1*/}
     });
   };
   
   const highlightPreviousRow = () => {
     setHighlightedRow((prev) => {
-      const newRow = (prev - 1 + (NRrezV + 1)) % (NRrezV + 1); // Увеличиваем модуль на 1, чтобы включить -1
-      return newRow === NRrezV ? -1 : newRow; // Если достигли начала, возвращаемся к -1
+      const newRow = (prev - 1 + (NRrezV + 1)) % (NRrezV + 1);  {/*Увеличиваем модуль на 1, чтобы включить -1*/}
+      return newRow === NRrezV ? -1 : newRow;  {/*Если достигли начала, возвращаемся к -1*/}
     });
   };
 
@@ -493,6 +489,17 @@ if (!SpribVcorn) {
           style={{flex: 1, width: '100%'}}
           contentContainerStyle={{paddingBottom: 500}}
         >
+
+       <View>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
+       <View style={{width: 17, height: 17, backgroundColor: '#C6C6C6', marginLeft: 10, borderWidth: 1}}></View>
+       <Text style={styles.resultText}> {i18n.t('castOnRow')} </Text>
+      </View>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
+       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+       <Text style={styles.resultText}> {i18n.t('ribbing')} </Text>
+      </View>
+      </View>
           <View style={{minHeight: 1000, paddingTop: 20}}>
             <ScrollView 
               horizontal 
@@ -529,7 +536,7 @@ if (!SpribVcorn) {
                  </View>
 
                  <View style={[styles.horContainerRight, { 
-                  // transform: [{ translateY: -(Lc*(SaV)-2*KV * Lc * Math.sin(angleInRadians))}],
+                  
                    marginLeft: (SaV + KV + SFrontV / 2) * Lc ,
                    marginTop: -(NRrezV+1)*Hc-2,
                    width: (SFrontV/2)*Lc
@@ -539,7 +546,7 @@ if (!SpribVcorn) {
                      
                        height: (NRrezV+1)*Hc,
                        transform: [{ rotate: `${360 - angleInDegrees}deg` }],
-                        translateY: -10  // Поднимаем элемент на 10 единиц вверх
+                        translateY: -10 
                      }]}>
                        {renderRowsRight()}
                       
@@ -634,36 +641,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'green',
-    //marginLeft: 10 * SaV,
+    borderColor: 'red',
+    
     },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    //marginBottom: 110,
-    borderWidth: 1,
-    borderColor: 'green',
+    
+    
        
   },
   horContainerRight: {
     flexDirection: 'row',
    
     alignItems: 'flex-start',
-    borderWidth: 1,
-    borderColor: 'green',
+    
        
   },
   verticalContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'grey',
+    
+    
   },
   HorizontalContainer: {
     flexDirection: 'row',
     width: '100%',
     borderWidth: 1,
-    borderColor: 'orange',
+    borderColor: 'red',
+   
   },
   LeftSleeve: {
     flexDirection: 'column',
@@ -694,7 +700,7 @@ const styles = StyleSheet.create({
     transformOrigin: 'top left',
   },
   rotatedLine2: {
-    //transform: [{ rotate: '-45deg' }],
+   
     transformOrigin: 'top left',
   },
   rotatedLine3: {
@@ -715,6 +721,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
+    backgroundColor: 'yellow',
   },
   firstCell: {
     width: Lc,
@@ -752,10 +759,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   infoContainer: {
-    //flexDirection: 'row',
-    //justifyContent: 'space-between',
-    //width: '80%',
-    //marginBottom: 5,
+   
     position: 'absolute',
     bottom: 60,
     flexDirection: 'row',
@@ -773,16 +777,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     
     transformOrigin: 'left bottom',
-    borderWidth:1,
-    borderColor: 'red'
+    
     
   },
   arrayContainerRight: {
     alignItems: 'flex-end',
     
     transformOrigin: 'right bottom',
-   borderWidth:1,
-    borderColor: 'orange'
+  
 
     
   },
@@ -801,7 +803,7 @@ const styles = StyleSheet.create({
   square: {
     width: Lc,
     height: Hc,
-    backgroundColor: 'lightblue',
+    backgroundColor: 'yellow',
     borderWidth: 1,
     borderColor: 'black',
     marginRight: 0,
@@ -828,9 +830,11 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   resultText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
+    fontSize: 12,
+    marginBottom: 1,
+
+    textAlign: 'center' as const,
+    color: 'black',
   },
   horVcontainer: {
     flexDirection: 'row',
@@ -841,9 +845,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#C6C6C6',
   },
   highlightedZeroRow: {
-    // Объедините стили для выделения и ряда -1
-    backgroundColor: 'red', // или любой другой цвет
-    // Другие свойства...
+    
+    backgroundColor: 'red',
+   
   },
   backButton: {
     padding: 5,

@@ -21,78 +21,102 @@ export default function RaglanLayout() {
               
             },
             tabBarLabelStyle: {
-              fontSize: 10,
+              fontSize: 7,
               
             },
             
           }}>
+         {/* Закомментированные вкладки не будут отображаться */}
+          
+          {/* Явно скрываем маршруты, которые существуют как файлы, но не должны отображаться в навигации */}
           <Tabs.Screen
             name="ribbing"
             options={{
-              title: 'Резинка',
+              href: null,
             }}
           />
           <Tabs.Screen
             name="front"
             options={{
-              title: 'Перед',
+              href: null,
             }}
           />
           <Tabs.Screen
             name="sleeve"
             options={{
-              title: 'Рукав',
+              href: null,
             }}
           />
           <Tabs.Screen
             name="back"
             options={{
-              title: 'Спина',
+              href: null,
+            }}
+          />
+          <Tabs.Screen
+            name="frontV copy"
+            options={{
+              href: null,
+            }}
+          />
+         
+          <Tabs.Screen
+            name="raglan-line"
+            options={{
+              href: null,
             }}
           />
           
+          {/* Активные вкладки, которые должны отображаться */}
           <Tabs.Screen
-            name="ribbing copyV"
+            name="ribbingV"
             options={{
-              title: 'RVРезинкаV',
+              title: 'RV',
             }}
           />
           <Tabs.Screen
             name="backV"
             options={{
-              title: 'BVСпинаV',
+              title: 'BV',
             }}
           />
           <Tabs.Screen
             name="frontV"
             options={{
-              title: 'FVПередV',
+              title: 'FV',
+            }}
+          />
+           <Tabs.Screen
+            name="sleeveV"
+            options={{
+              title: 'SV',
             }}
           />
           <Tabs.Screen
-            name="back copy"
+            name="ribbingO"
             options={{
-              title: 'Bcпина2',
+              title: 'RO',
             }}
           />
           <Tabs.Screen
-            name="front copy"
+            name="backO"
             options={{
-              title: 'Fперед2',
+              title: 'BO',
             }}
           />
           <Tabs.Screen
-            name="sleeve copy"
+            name="frontO"
             options={{
-              title: 'Sрукав2',
+              title: 'FO',
             }}
           />
           <Tabs.Screen
-            name="ribbing copy"
+            name="sleeveO"
             options={{
-              title: 'RРезинка2',
+              title: 'SO',
             }}
           />
+          
         </Tabs>
       
     </View>

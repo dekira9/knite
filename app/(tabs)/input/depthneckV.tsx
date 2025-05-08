@@ -136,9 +136,7 @@ const DepthNeckV = () => {
       <View style={styles.sliderLabels}>
         <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
         <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
-        console.log(LHVmin);
-        console.log(LHVmax);
-        console.log(HrezV);
+       
       </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>

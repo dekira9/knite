@@ -84,7 +84,7 @@ const App = observer(() => {
         const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
         const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-        {/* Добавляем ячейки в конец для левого массива*/}
+         {/* Добавляем ячейки в конец для левого массива*/} 
         row.push(<View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />);
       }
@@ -127,11 +127,11 @@ const App = observer(() => {
     return cells;
   };
 
-  const renderFrontV = () => {
+  const renderSleeveV = () => {
     const cells = [];
     for (let i = -1; i < NHFrontV; i++) {
       const row = [];
-      for (let j = 0; j < SFrontV; j++) {
+      for (let j = 0; j < SaV; j++) {
         row.push(
           <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
         );
@@ -296,6 +296,7 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
+
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
        <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
@@ -313,7 +314,7 @@ const App = observer(() => {
           {renderLeftIncreaseArrayV()}
         </View>
         <View style={styles.Front}>
-          {renderFrontV()}
+          {renderSleeveV()}
         </View>
         <View style={styles.increaseArrayRight}>
           {renderRightIncreaseArrayV()}
@@ -324,7 +325,7 @@ const App = observer(() => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
-        <Text style={styles.infoText}>Stitches: {SFrontV + leftCellCount + rightCellCount}</Text>
+        <Text style={styles.infoText}>Stitches: {SaV + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    
+   
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
@@ -370,7 +371,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     marginBottom: 110,
-   
+    borderWidth: 1,
+    borderColor: 'red',
     paddingHorizontal: 20,
   },
   verticalContainer: {
@@ -391,7 +393,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#A29FCF',
+    backgroundColor: '#DAEDBD',
   },
   firstCell: {
     width: Lc,
@@ -462,7 +464,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selectedOptionButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#007AFF', 
   },
   optionText: {
     fontSize: 14,
@@ -476,7 +478,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#8C78A6',
+    backgroundColor: 'green',
   },
   leftRow: {
     justifyContent: 'flex-end',

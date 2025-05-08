@@ -15,8 +15,8 @@ import { RaglanOutput } from '@/utils/calculateRaglan';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   //см ширина петли
-const hsV = 1 / rows; //  см высота петли или ряда 
+const LsV = 1 / stitches;   {/*см ширина петли*/}
+const hsV = 1 / rows; {/*  см высота петли или ряда */}
 const Hc=hsV*25;
 const Lc=LsV*25
 
@@ -84,7 +84,7 @@ const App = observer(() => {
         const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
         const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-        // Добавляем ячейки в конец для левого массива
+        {/* Добавляем ячейки в конец для левого массива*/}
         row.push(<View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />);
       }
@@ -104,42 +104,42 @@ const renderVNeckLeftArray = () => {
     ? results.resultStringV.split(', ').map(Number)
     : [];
 
-  // Создаем массив с количеством доп. ячеек для каждой пары рядов (индекс = Math.floor(row / 2))
+  {/* Создаем массив с количеством доп. ячеек для каждой пары рядов (индекс = Math.floor(row / 2))*/}
   const additionalCellsPerPair = Array.from({ length: Math.ceil(NHFrontV / 2) }, (_, pairIndex) => {
-      const pairNum = pairIndex + 1; // Номер пары, начиная с 1
+      const pairNum = pairIndex + 1; {/* Номер пары, начиная с 1*/}
       return (pairNum <= NHV / 2) ? (increaseRows[pairNum - 1] || 0) : 0;
   });
   console.log('Массив additionalCellsPerPair:', additionalCellsPerPair);
 
 
-  const blackCells: [number, number, string][] = []; // Уточняем тип
+  const blackCells: [number, number, string][] = []; {/* Уточняем тип*/}
   const blackColumnsA = new Set<number>();
   const blackColumnsB = new Set<number>();
 
-  // --- Первый проход — собираем blackCells ---
-  let currentBlackCheckRowLength = 0; // Используем отдельную переменную для длины при поиске черных
-  const totalPairs = Math.ceil(NHFrontV / 2); // Используем ceil для полного охвата рядов
+  {/* --- Первый проход — собираем blackCells ---*/}
+  let currentBlackCheckRowLength = 0; {/* Используем отдельную переменную для длины при поиске черных*/}
+  const totalPairs = Math.ceil(NHFrontV / 2); {/* Используем ceil для полного охвата рядов*/}
 
   for (let i = 1; i <= totalPairs; i++) {
-    // Получаем доп. ячейки для *текущей* пары
+    {/* Получаем доп. ячейки для *текущей* пары*/}
     const currentPairAdditionalCells = additionalCellsPerPair[i - 1] || 0;
     currentBlackCheckRowLength += currentPairAdditionalCells;
 
     for (let pairRow = 0; pairRow < 2; pairRow++) {
       const currentRow = (i - 1) * 2 + pairRow + 1;
-      if (currentRow > NHFrontV) continue; // Не выходить за пределы общего числа рядов
+      if (currentRow > NHFrontV) continue; {/* Не выходить за пределы общего числа рядов*/}
 
-      // --- Расчеты для убавок (A и B) ---
+      {/* --- Расчеты для убавок (A и B) ---*/}
       const SdecV = SVfront - SFrontV / 2;
       const NHVwork = NHV - 2;
-      if (NHVwork <= 0 || SdecV <= 0) continue; // Предотвращение деления на ноль или некорректных расчетов
+      if (NHVwork <= 0 || SdecV <= 0) continue; {/* Предотвращение деления на ноль или некорректных расчетов*/}
 
       const D = Math.floor(SdecV / (NHVwork / 2));
       const decCelA = (D + 1) * (SdecV - D * (NHVwork / 2));
       const decCelB = SdecV - decCelA;
       const pairRowA = decCelA > 0 && (D + 1) > 0 ? decCelA / (D + 1) : 0;
       const pairRowB = (NHVwork / 2) - pairRowA;
-      const Kd = pairRowA > 0 ? (NHVwork / 2) / pairRowA : Infinity; // Коэффициент для A
+      const Kd = pairRowA > 0 ? (NHVwork / 2) / pairRowA : Infinity; {/* Коэффициент для A*/}
 
       const pozPairDecA = Array.from({ length: Math.max(0, Math.floor(pairRowA)) }, (_, idx) => Math.floor(idx * Kd) + 2);
       const pozPairAll = Array.from({ length: Math.max(0, Math.floor(NHVwork / 2)) }, (_, idx) => idx + 2);
@@ -147,19 +147,19 @@ const renderVNeckLeftArray = () => {
 
       const decRowsA = pozPairDecA.map(pos => pos * 2);
       const decRowsB = pozPairDecB.map(pos => pos * 2);
-      // --- Конец расчетов для убавок ---
+      {/* --- Конец расчетов для убавок ---*/}
 
 
-      // dec A
+      {/* dec A*/}
       if (decRowsA.includes(currentRow)) {
-        for (let k = 1; k <= 1 + D && k <= currentBlackCheckRowLength; k++) { // <= вместо <
+        for (let k = 1; k <= 1 + D && k <= currentBlackCheckRowLength; k++) { 
           blackCells.push([currentRow, k, 'A']);
           blackColumnsA.add(k);
         }
       }
-      // dec B
+      {/* dec B*/}
       if (D > 0 && decRowsB.includes(currentRow)) {
-        for (let k = 1; k <= D && k <= currentBlackCheckRowLength; k++) { // <= вместо <
+        for (let k = 1; k <= D && k <= currentBlackCheckRowLength; k++) {
           blackCells.push([currentRow, k, 'B']);
           blackColumnsB.add(k);
         }
@@ -170,45 +170,45 @@ const renderVNeckLeftArray = () => {
   console.log('blackColumnsA', blackColumnsA);
   console.log('blackColumnsB', blackColumnsB);
 
-  // --- Вычисляем позиции серых ячеек ДЛЯ ЛЕВОЙ СТОРОНЫ ---
-  const getGreyCellsLeft = ( // Переименуем, чтобы не путать
+  {/* --- Вычисляем позиции серых ячеек ДЛЯ ЛЕВОЙ СТОРОНЫ ---*/}
+  const getGreyCellsLeft = ( 
     blackCells: [number, number, string][],
     additionalCellsPerPair: number[],
     totalRows: number
   ): Set<string> => {
-    const greyCellsSet = new Set<string>(); // Используем Set для быстрого поиска "row,col"
+    const greyCellsSet = new Set<string>(); {/* Используем Set для быстрого поиска "row,col"*/}
 
     for (const [blackRow, blackCol, type] of blackCells) {
-      let greyCol = blackCol; // Начинаем со столбца черной ячейки
+      let greyCol = blackCol; {/* Начинаем со столбца черной ячейки*/}
       for (let currentRow = blackRow + 1; currentRow <= totalRows; currentRow++) {
-        if (currentRow % 2 !== 0) { // Если номер ряда нечетный
-          const additionalCellsIndex = Math.floor(currentRow / 2); // Индекс для массива доп. ячеек
-          // Проверяем границы массива
+        if (currentRow % 2 !== 0) {  {/*Если номер ряда нечетный*/}
+          const additionalCellsIndex = Math.floor(currentRow / 2);  {/*Индекс для массива доп. ячеек*/}
+          {/* Проверяем границы массива*/}
           if (additionalCellsIndex >= 0 && additionalCellsIndex < additionalCellsPerPair.length) {
-             greyCol += additionalCellsPerPair[additionalCellsIndex] || 0; // Добавляем доп. ячейки из массива (смещение вправо)
+             greyCol += additionalCellsPerPair[additionalCellsIndex] || 0; {/* Добавляем доп. ячейки из массива (смещение вправо)*/}
           }
         }
-        // Добавляем координаты серой ячейки в Set
+        {/* Добавляем координаты серой ячейки в Set*/}
         greyCellsSet.add(`${currentRow},${greyCol}`);
       }
     }
     return greyCellsSet;
   };
 
-  const calculatedGreyCells = getGreyCellsLeft(blackCells, additionalCellsPerPair, NHFrontV); // Используем getGreyCellsLeft
+  const calculatedGreyCells = getGreyCellsLeft(blackCells, additionalCellsPerPair, NHFrontV); 
   console.log('Рассчитанные серые ячейки (Left Set):', calculatedGreyCells);
 
 
-  // --- Второй проход — отрисовка всех рядов (Левая сторона) ---
-  let currentRowLength = 0; // Сбрасываем длину для отрисовки
-  const totalPairsRender = Math.ceil(NHFrontV / 2); // Используем то же количество пар
+  {/* --- Второй проход — отрисовка всех рядов (Левая сторона) ---*/}
+  let currentRowLength = 0; {/* Сбрасываем длину для отрисовки*/}
+  const totalPairsRender = Math.ceil(NHFrontV / 2); {/* Используем то же количество пар*/}
   
-  // Сохраняем длину предыдущего ряда для определения новых ячеек
+  {/* Сохраняем длину предыдущего ряда для определения новых ячеек*/}
   let previousRowLength = 0;
-  const addedYellowCellsLeft: [number, number][] = []; // Массив для хранения координат желтых ячеек
+  const addedYellowCellsLeft: [number, number][] = []; {/* Массив для хранения координат желтых ячеек*/}
   
-  for (let i = 1; i <= totalPairsRender; i++) { // Используем totalPairsRender
-    // Получаем доп. ячейки для *текущей* пары для расчета длины ряда
+  for (let i = 1; i <= totalPairsRender; i++) {
+    {/* Получаем доп. ячейки для *текущей* пары для расчета длины ряда*/}
     const currentPairAdditionalCells = additionalCellsPerPair[i - 1] || 0;
     previousRowLength = currentRowLength;
     currentRowLength += currentPairAdditionalCells;
@@ -216,37 +216,37 @@ const renderVNeckLeftArray = () => {
     for (let pairRow = 0; pairRow < 2; pairRow++) {
       const row = [];
       const currentRow = (i - 1) * 2 + pairRow + 1;
-      if (currentRow > NHFrontV) continue; // Пропускаем ряды сверх лимита
+      if (currentRow > NHFrontV) continue; {/* Пропускаем ряды сверх лимита*/}
       
-      // Определяем, является ли этот ряд нечетным
+      {/* Определяем, является ли этот ряд нечетным*/}
       const isOddRow = currentRow % 2 !== 0;
 
-      for (let j = 0; j < currentRowLength; j++) { // Используем currentRowLength для отрисовки
-        // Проверяем, является ли ячейка новой добавленной в нечетном ряду
-        let cellStyle = styles.vNeckIncreaseCell; // По умолчанию стандартный стиль
+      for (let j = 0; j < currentRowLength; j++) {
+        {/* Проверяем, является ли ячейка новой добавленной в нечетном ряду*/}
+        let cellStyle = styles.vNeckIncreaseCell; {/* По умолчанию стандартный стиль*/}
         
-        // Если это нечетный ряд И текущий индекс ячейки находится в диапазоне новых ячеек
-        // Для левого массива новые ячейки добавляются в начале (слева)
+        {/* Если это нечетный ряд И текущий индекс ячейки находится в диапазоне новых ячеек*/}
+        {/* Для левого массива новые ячейки добавляются в начале (слева)*/}
         if (isOddRow && j < currentRowLength - previousRowLength) {
-          cellStyle = styles.ribbingCell; // Желтый цвет для новых ячеек
-          addedYellowCellsLeft.push([currentRow, j]); // Добавляем координаты желтой ячейки
+          cellStyle = styles.ribbingCell; {/* Желтый цвет для новых ячеек*/}
+          addedYellowCellsLeft.push([currentRow, j]); {/* Добавляем координаты желтой ячейки*/}
         }
         
         let isBlackCell = false;
-        const cellKey = `${currentRow},${j}`; // Ключ для поиска в Set
+        const cellKey = `${currentRow},${j}`; {/* Ключ для поиска в Set*/}
 
-        // Проверяем, является ли ячейка черной
+        {/* Проверяем, является ли ячейка черной*/}
         for (const [blackRow, blackCol, blackType] of blackCells) {
             if (currentRow === blackRow && j === blackCol) {
-                cellStyle = styles.decreaseCell; // Стиль черной ячейки
+                cellStyle = styles.decreaseCell; {/* Стиль черной ячейки*/}
                 isBlackCell = true;
                 break;
             }
         }
 
-        // Если ячейка не черная, проверяем, является ли она серой
+        {/* Если ячейка не черная, проверяем, является ли она серой*/}
         if (!isBlackCell && calculatedGreyCells.has(cellKey)) {
-             cellStyle = styles.cellsBelow; // Стиль серой ячейки
+             cellStyle = styles.cellsBelow; {/* Стиль серой ячейки*/}
         }
 
         row.push(
@@ -254,7 +254,7 @@ const renderVNeckLeftArray = () => {
                 key={`vneck-left-${currentRow}-${j}`}
                 style={[
                     cellStyle,
-                    // Подсветка текущего ряда
+                    
                     currentRow === highlightedRow + 1 && styles.highlightedCell
                 ]}
             />
@@ -281,7 +281,7 @@ const renderVNeckLeftArray = () => {
       ? results.resultStringV.split(', ').map(Number)
       : [];
 
-    // Массив доп. ячеек нужен для расчета длины ряда и позиций черных ячеек
+    {/* Массив доп. ячеек нужен для расчета длины ряда и позиций черных ячеек*/}
     const additionalCellsPerPair = Array.from({ length: Math.ceil(NHFrontV / 2) }, (_, pairIndex) => {
         const pairNum = pairIndex + 1;
         return (pairNum <= NHV / 2) ? (increaseRows[pairNum - 1] || 0) : 0;
@@ -320,7 +320,7 @@ const renderVNeckLeftArray = () => {
 
         if (decRowsA.includes(currentRow)) {
           for (let k = 1; k <= 1 + D && k <= currentBlackCheckRowLength; k++) {
-            const colIndex = currentBlackCheckRowLength - k-1; // Исправлено обратно на -k для правильного отсчета справа налево
+            const colIndex = currentBlackCheckRowLength - k-1; {/*  -k для правильного отсчета справа налево*/}
             if (colIndex >= 0) {
               blackCellsRight.push([currentRow, colIndex, 'A']);
             }
@@ -328,7 +328,7 @@ const renderVNeckLeftArray = () => {
         }
         if (D > 0 && decRowsB.includes(currentRow)) {
           for (let k = 1; k <= D && k <= currentBlackCheckRowLength; k++) {
-            const colIndex = currentBlackCheckRowLength - k-1; // Исправлено обратно на -k
+            const colIndex = currentBlackCheckRowLength - k-1; {/*  -k для правильного отсчета справа налево*/}
              if (colIndex >= 0) {
                blackCellsRight.push([currentRow, colIndex, 'B']);
              }
@@ -338,11 +338,11 @@ const renderVNeckLeftArray = () => {
     }
      console.log('blackCellsRight', blackCellsRight);
 
-    // --- Вычисляем позиции серых ячеек для ПРАВОЙ СТОРОНЫ (новая простая логика) ---
+    {/* --- Вычисляем позиции серых ячеек для ПРАВОЙ СТОРОНЫ (новая простая логика) ---*/}
     const calculatedGreyCellsRight = new Set<string>();
     for (const [blackRow, blackCol, type] of blackCellsRight) {
         for (let currentRow = blackRow + 1; currentRow <= NHFrontV; currentRow++) {
-            // Серый столбец такой же, как у черной ячейки
+            {/* Серый столбец такой же, как у черной ячейки*/}
             const greyCol = blackCol;
             calculatedGreyCellsRight.add(`${currentRow},${greyCol}`);
         }
@@ -350,14 +350,14 @@ const renderVNeckLeftArray = () => {
     console.log('Рассчитанные серые ячейки (Right Set - Simple):', calculatedGreyCellsRight);
 
 
-    // --- Второй проход — отрисовка всех рядов (Правая сторона) ---
-    let currentRowLength = 0; // Сбрасываем длину для отрисовки
-    const totalPairsRenderRight = Math.ceil(NHFrontV / 2); // Используем то же количество пар
+    {/* --- Второй проход — отрисовка всех рядов (Правая сторона) ---*/}
+    let currentRowLength = 0; {/* Сбрасываем длину для отрисовки*/}
+    const totalPairsRenderRight = Math.ceil(NHFrontV / 2); {/* Используем то же количество пар*/}
     
-    // Сохраняем длину предыдущего ряда для определения новых ячеек
+    {/* Сохраняем длину предыдущего ряда для определения новых ячеек*/}
     let previousRowLength = 0;
     
-    for (let i = 1; i <= totalPairsRenderRight; i++) { // Используем totalPairsRenderRight
+    for (let i = 1; i <= totalPairsRenderRight; i++) {
       const currentPairAdditionalCells = additionalCellsPerPair[i - 1] || 0;
       previousRowLength = currentRowLength;
       currentRowLength += currentPairAdditionalCells;
@@ -367,22 +367,22 @@ const renderVNeckLeftArray = () => {
         const currentRow = (i - 1) * 2 + pairRow + 1;
         if (currentRow > NHFrontV) continue;
         
-        // Определяем, является ли этот ряд нечетным
+        {/* Определяем, является ли этот ряд нечетным*/}
         const isOddRow = currentRow % 2 !== 0;
 
         for (let j = 0; j < currentRowLength; j++) {
-          // Проверяем, является ли ячейка новой добавленной в нечетном ряду
-          let cellStyle = styles.vNeckIncreaseCell; // По умолчанию стандартный стиль
+          {/* Проверяем, является ли ячейка новой добавленной в нечетном ряду*/}
+          let cellStyle = styles.vNeckIncreaseCell; {/* По умолчанию стандартный стиль*/}
           
-          // Если это нечетный ряд И текущий индекс ячейки находится в диапазоне новых ячеек
+          {/* Если это нечетный ряд И текущий индекс ячейки находится в диапазоне новых ячеек*/}
           if (isOddRow && j >= previousRowLength && j < currentRowLength) {
-            cellStyle = styles.ribbingCell; // Желтый цвет для новых ячеек
+            cellStyle = styles.ribbingCell; {/* Желтый цвет для новых ячеек*/}
           }
           
           let isBlackCell = false;
           const cellKey = `${currentRow},${j}`;
 
-          // Проверяем, является ли ячейка черной (справа)
+          {/* Проверяем, является ли ячейка черной (справа)*/}
           for (const [blackRow, blackCol, blackType] of blackCellsRight) {
               if (currentRow === blackRow && j === blackCol) {
                   cellStyle = styles.decreaseCell;
@@ -391,14 +391,14 @@ const renderVNeckLeftArray = () => {
               }
           }
 
-          // Если не черная, проверяем, является ли серой (справа, по новой логике)
+          {/* Если не черная, проверяем, является ли серой (справа, по новой логике)*/}
           if (!isBlackCell && calculatedGreyCellsRight.has(cellKey)) {
-               cellStyle = styles.cellsBelow; // Стиль серой ячейки
+               cellStyle = styles.cellsBelow; {/* Стиль серой ячейки*/}
           }
 
           row.push(
               <View
-                  key={`vneck-right-${currentRow}-${j}`} // Уникальный ключ для правой стороны
+                  key={`vneck-right-${currentRow}-${j}`} // Уникальный ключ для правой стороны 
                   style={[
                       cellStyle,
                       currentRow === highlightedRow + 1 && styles.highlightedCell
@@ -407,7 +407,7 @@ const renderVNeckLeftArray = () => {
           );
         }
 
-        // Используем обычный стиль ряда (выравнивание слева)
+        {/* Используем обычный стиль ряда (выравнивание слева)*/}
         cells.push(
           <View key={`vneck-right-${currentRow}`} style={styles.row}>
             {row}
@@ -418,33 +418,33 @@ const renderVNeckLeftArray = () => {
 
     return cells;
   };
-  // --- Вспомогательная функция для получения длины ряда ---
+  {/* --- Вспомогательная функция для получения длины ряда ---*/}
   const getRowLength = (rowNum: number, additionalCellsData: number[]): number => {
     let length = 0;
-    // Индекс последней *завершенной* пары перед началом этого ряда
+    {/* Индекс последней *завершенной* пары перед началом этого ряда*/}
     const targetPairIndex = Math.floor((rowNum - 1) / 2);
     for (let i = 0; i <= targetPairIndex; i++) {
-        // Суммируем доп. ячейки для всех пар до текущей (включительно)
+        {/* Суммируем доп. ячейки для всех пар до текущей (включительно)*/}
         length += additionalCellsData[i] || 0;
     }
     return length;
 };
 
-// --- Мемоизированные вычисления для V-образного выреза ---
-// Создаем один общий useMemo на уровне компонента
+{/* --- Мемоизированные вычисления для V-образного выреза ---*/}
+{/* Создаем один общий useMemo на уровне компонента*/}
 const vNeckData = useMemo(() => {
   const results = introState.calculateRaglan();
   const increaseRows = isRaglanOutput(results) && results.resultStringV
     ? results.resultStringV.split(', ').map(Number)
     : [];
 
-  // Создаем массив с количеством доп. ячеек для каждой пары рядов
+  {/* Создаем массив с количеством доп. ячеек для каждой пары рядов*/}
   const additionalCellsPerPair = Array.from({ length: Math.ceil(NHFrontV / 2) }, (_, pairIndex) => {
-    const pairNum = pairIndex + 1; // Номер пары, начиная с 1
+    const pairNum = pairIndex + 1; {/* Номер пары, начиная с 1*/}
     return (pairNum <= NHV / 2) ? (increaseRows[pairNum - 1] || 0) : 0;
   });
 
-  // --- Вычисления для левой стороны ---
+  {/* --- Вычисления для левой стороны ---*/}
   const blackCells: [number, number, string][] = [];
   let currentBlackCheckRowLength = 0;
   const totalPairs = Math.ceil(NHFrontV / 2);
@@ -475,13 +475,13 @@ const vNeckData = useMemo(() => {
       const decRowsA = pozPairDecA.map(pos => pos * 2);
       const decRowsB = pozPairDecB.map(pos => pos * 2);
 
-      // dec A
+      {/* dec A*/}
       if (decRowsA.includes(currentRow)) {
         for (let k = 1; k <= 1 + D && k <= currentBlackCheckRowLength; k++) {
           blackCells.push([currentRow, k, 'A']);
         }
       }
-      // dec B
+      {/* dec B*/}
       if (D > 0 && decRowsB.includes(currentRow)) {
         for (let k = 1; k <= D && k <= currentBlackCheckRowLength; k++) {
           blackCells.push([currentRow, k, 'B']);
@@ -490,7 +490,7 @@ const vNeckData = useMemo(() => {
     }
   }
 
-  // Серые ячейки для левой стороны
+  {/* Серые ячейки для левой стороны*/}
   const calculatedGreyCells = new Set<string>();
   for (const [blackRow, blackCol, type] of blackCells) {
     let greyCol = blackCol;
@@ -505,7 +505,7 @@ const vNeckData = useMemo(() => {
     }
   }
 
-  // --- Вычисления для правой стороны ---
+  {/* --- Вычисления для правой стороны ---*/}
   const blackCellsRight: [number, number, string][] = [];
   let currentBlackCheckRowLengthRight = 0;
 
@@ -554,7 +554,7 @@ const vNeckData = useMemo(() => {
     }
   }
 
-  // Серые ячейки для правой стороны
+  {/* Серые ячейки для правой стороны*/}
   const calculatedGreyCellsRight = new Set<string>();
   for (const [blackRow, blackCol, type] of blackCellsRight) {
     for (let currentRow = blackRow + 1; currentRow <= NHFrontV; currentRow++) {
@@ -566,14 +566,14 @@ const vNeckData = useMemo(() => {
   return {
     additionalCellsPerPair,
     blackCells,
-    calculatedGreyCells,
+    calculatedGreyCells,  
     blackCellsRight,
     calculatedGreyCellsRight
   };
 }, [NHFrontV, NHV, SVfront, SFrontV]);
 
-// --- НОВЫЕ ФУНКЦИИ ПОДСЧЕТА ЯЧЕЕК ---
-// Теперь принимаем данные как параметр
+{/* --- НОВЫЕ ФУНКЦИИ ПОДСЧЕТА ЯЧЕЕК ---*/}
+{/* Теперь принимаем данные как параметр*/}
 const getVNeckLeftStitchCount = (data: any): number => {
   const rowNum = highlightedRow + 1;
   if (rowNum < 1 || rowNum > NHFrontV) return 0;
@@ -592,7 +592,7 @@ const getVNeckLeftStitchCount = (data: any): number => {
   return Math.max(0, count);
 };
 
-// Теперь принимаем данные как параметр
+{/* Теперь принимаем данные как параметр*/}
 const getVNeckRightStitchCount = (data: any): number => {
   const rowNum = highlightedRow + 1;
   if (rowNum < 1 || rowNum > NHFrontV) return 0;
@@ -611,15 +611,15 @@ const getVNeckRightStitchCount = (data: any): number => {
   return Math.max(0, count);
 };
 
-// Получаем текущие значения счетчиков для отображения
-// Теперь передаем vNeckData в функции
+{/* Получаем текущие значения счетчиков для отображения*/}
+{/* Теперь передаем vNeckData в функции*/}  
 const leftVNeckCount = getVNeckLeftStitchCount(vNeckData);
 const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
 
   
 
  
-    // рисует правый массив прибавок реглана
+     {/* рисует правый массив прибавок реглана*/}
   const renderRightIncreaseArrayV = () => {
     const increaseRowsV = getIncreaseRowsV();
     const cells = [];
@@ -635,7 +635,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
 
         const cell = <View key={`right-${i}-${j}`} style={cellStyle} />;
-        // Добавляем ячейки в конец для правого массива
+        {/* Добавляем ячейки в конец для правого массива*/}
         row.push(
           <View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />
@@ -894,8 +894,7 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    //borderWidth: 1,
-    //borderColor: 'green',
+    
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
@@ -990,8 +989,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     
-   // borderWidth: 1,
-    //borderColor: 'grey',
+   
   },
   optionButton: {
     marginBottom: 5,
@@ -1001,7 +999,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selectedOptionButton: {
-    backgroundColor: '#007AFF', // Измените цвет по своему вкусу
+    backgroundColor: '#007AFF',
   },
   optionText: {
     fontSize: 14,
@@ -1024,7 +1022,7 @@ const styles = StyleSheet.create({
     width: Lc,
     height: Hc,
     borderWidth: 1,
-    borderColor: 'black', // Без фона для обычных ячеек
+    borderColor: 'black',
   },
   ribbingCell: {
     width: Lc,

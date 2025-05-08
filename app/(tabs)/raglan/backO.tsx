@@ -70,7 +70,7 @@ const App = observer(() => {
         const isCurrentRowIncrease = increaseRows.includes(i + 1);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
         const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-        // Добавляем ячейки в конец для левого массива
+        {/* Добавляем ячейки в конец для левого массива*/}
         row.push(<View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />);
       }
@@ -98,7 +98,7 @@ const App = observer(() => {
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
 
         const cell = <View key={`right-${i}-${j}`} style={cellStyle} />;
-        // Добавляем ячейки в конец для правого массива
+        {/* Добавляем ячейки в конец для правого массива*/}
         row.push(
           <View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />
@@ -258,7 +258,10 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
-
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
+       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
+       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
+      </View>
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -313,8 +316,7 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    //borderWidth: 1,
-    //borderColor: 'green',
+   
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
@@ -406,8 +408,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     
-   // borderWidth: 1,
-    //borderColor: 'grey',
+   
   },
   optionButton: {
     marginBottom: 5,
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selectedOptionButton: {
-    backgroundColor: '#007AFF', // Измените цвет по своему вкусу
+    backgroundColor: '#007AFF',
   },
   optionText: {
     fontSize: 14,
@@ -440,7 +441,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderWidth: 1,
-    borderColor: 'black', // Без фона для обычных ячеек
+    borderColor: 'black',
   },
   ribbingCell: {
     width: 10,
