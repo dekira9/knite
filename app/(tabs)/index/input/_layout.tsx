@@ -1,22 +1,33 @@
 import IntroProgress from '@/app/components/IntroProgress';
 import onboardingState from '@/state/onboardingState';
-import { Stack, usePathname } from 'expo-router';
+import { router, Stack, usePathname } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, useColorScheme, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 export default function IntroLayout() {
   const pathname = usePathname();
   const shouldShowProgress = !['/input', '/input/result'].includes(pathname);
+  const colorScheme = useColorScheme();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <View style={{ flex: 1 }}>
       {shouldShowProgress && <IntroProgress />}
       <Stack
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           headerStyle: {
             backgroundColor: '#f5f5f5',
           },
+          headerTitleStyle: {
+            fontWeight: '600',
+          },
+          headerTintColor: '#007AFF', // iOS blue color for back button
         }}>
         <Stack.Screen
           name="index"
@@ -28,6 +39,15 @@ export default function IntroLayout() {
           name="head"
           options={{
             title: 'Head Circumference',
+            headerLeft: () => (
+              <TouchableOpacity onPress={handleBack} style={{ marginLeft: 10 }}>
+                <Ionicons 
+                  name="arrow-back" 
+                  size={24} 
+                  color={Colors[colorScheme ?? 'light'].text} 
+                />
+              </TouchableOpacity>
+            ),
           }}
         />
         <Stack.Screen

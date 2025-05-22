@@ -468,7 +468,7 @@ console.log('resultStringV11',resultStringV11)
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../assets/images/planVaz2.png')}
+              source={require('../../../../assets/images/planVaz2.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
@@ -476,14 +476,14 @@ console.log('resultStringV11',resultStringV11)
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../assets/images/planVaz4.png')}
+              source={require('../../../../assets/images/planVaz4.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
           </View>
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../assets/images/v-neck.png')}
+              source={require('../../../../assets/images/v-neck.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -1090,7 +1090,7 @@ console.log('resultStringV11',resultStringV11)
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
           
     <Image
-      source={require('../../../assets/images/frontVa.png')}
+      source={require('../../../../assets/images/frontVa.png')}
       style={styles.frontImage}
      
     />
@@ -1453,7 +1453,7 @@ console.log('resultStringV11',resultStringV11)
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
             <TouchableOpacity onPress={handleScrollToTop} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
               <Image
-                source={require('../../../assets/images/planVaz4.png')}
+                source={require('../../../../assets/images/planVaz4.png')}
                 style={{ width: 30, height: 30 }} // Smaller size for inline link
                 contentFit="contain"
               />
@@ -1683,7 +1683,7 @@ console.log('resultStringV11',resultStringV11)
          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
          <View style={styles.resultContainer}>
     <Image
-      source={require('../../../assets/images/sleevebodyV.png')}
+      source={require('../../../../assets/images/sleevebodyV.png')}
       style={styles.resultImage}
      
     />

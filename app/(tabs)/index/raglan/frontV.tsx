@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
-import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/input/resultV';
+import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/resultV';
 import { RaglanOutput } from '@/utils/calculateRaglan';
 
 
@@ -863,7 +863,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       <View style={styles.navigationButtons}>
       <TouchableOpacity 
         style={styles.backButton}
-        onPress={() => router.push('/(tabs)/input/resultV')}
+        onPress={() => router.push('/(tabs)/index/input/resultV')}
       >
         <Text style={styles.backButtonText}>← Back to Result</Text>
       </TouchableOpacity>

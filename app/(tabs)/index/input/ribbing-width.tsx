@@ -6,39 +6,42 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import {screenWidth} from '@/utils/Layout';
+import { screenWidth } from '@/utils/Layout';
 
 export default observer(() => {
   const router = useRouter();
-  {/* Calculate min and max values*/}
+  {
+    /* Calculate min and max values*/
+  }
   const stitches = parseFloat(introState.stitchDensity.replace(',', '.')) / 10;
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
   const K = 2; // Петли в регланной линии
   const LK = K / stitches;
   const LRezMin = 2 / rows;
 
-  const LRezMax = introState.neckCircumference / Math.PI; 
-  
+  const LRezMax = introState.neckCircumference / Math.PI;
 
   const [localRibbingWidth, setLocalRibbingWidth] = useState(2);
-console.log("localRibbingWidth", localRibbingWidth);
- 
-{/* //ширина резинки*/}
- const handleValueChange = (value) => {
-  if (value === '') {
-    setLocalRibbingWidth(''); // Позволяем очистить поле ввода
-    introState.setRibbingWidth(LRezMin); // Устанавливаем минимальное значение по умолчанию
-  } else {
-    const numericValue = parseFloat(value.replace(',', '.')); // Заменяем запятую на точку
-    if (!isNaN(numericValue) && numericValue >= LRezMin && numericValue <= LRezMax) {
-      const fixedValue = parseFloat(numericValue.toFixed(1)); // Ограничиваем до 1 знака после запятой
-      setLocalRibbingWidth(fixedValue);
-      introState.setRibbingWidth(fixedValue);
-    } else {
-      setLocalRibbingWidth(''); // Очищаем поле ввода, если значение некорректно
-    }
+  console.log('localRibbingWidth', localRibbingWidth);
+
+  {
+    /* //ширина резинки*/
   }
-};
+  const handleValueChange = (value) => {
+    if (value === '') {
+      setLocalRibbingWidth(''); // Позволяем очистить поле ввода
+      introState.setRibbingWidth(LRezMin); // Устанавливаем минимальное значение по умолчанию
+    } else {
+      const numericValue = parseFloat(value.replace(',', '.')); // Заменяем запятую на точку
+      if (!isNaN(numericValue) && numericValue >= LRezMin && numericValue <= LRezMax) {
+        const fixedValue = parseFloat(numericValue.toFixed(1)); // Ограничиваем до 1 знака после запятой
+        setLocalRibbingWidth(fixedValue);
+        introState.setRibbingWidth(fixedValue);
+      } else {
+        setLocalRibbingWidth(''); // Очищаем поле ввода, если значение некорректно
+      }
+    }
+  };
 
   const handleNext = () => {
     introState.setRibbingWidth(localRibbingWidth);
@@ -47,16 +50,19 @@ console.log("localRibbingWidth", localRibbingWidth);
 
   return (
     <View style={styles.container}>
-      
-      <Image 
+      <Image
         source={require('@/assets/images/ribbing.svg')}
         style={styles.image}
         contentFit="contain"
       />
-<Text style={styles.title}>{i18n.t('ribbingWidth')}</Text>
+      <Text style={styles.title}>{i18n.t('ribbingWidth')}</Text>
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={() => setLocalRibbingWidth(prev => Math.max(LRezMin, parseFloat((prev - 0.1).toFixed(1))))}>
+        <TouchableOpacity
+          onPress={() =>
+            setLocalRibbingWidth((prev) => Math.max(LRezMin, parseFloat((prev - 0.1).toFixed(1))))
+          }
+        >
           <Text style={styles.arrow}>-</Text>
         </TouchableOpacity>
         <TextInput
@@ -66,7 +72,11 @@ console.log("localRibbingWidth", localRibbingWidth);
           keyboardType="numeric"
           placeholder="Введите значение"
         />
-        <TouchableOpacity onPress={() => setLocalRibbingWidth(prev => Math.min(LRezMax, parseFloat((prev + 0.1).toFixed(1))))}>
+        <TouchableOpacity
+          onPress={() =>
+            setLocalRibbingWidth((prev) => Math.min(LRezMax, parseFloat((prev + 0.1).toFixed(1))))
+          }
+        >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-    inputContainer: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
@@ -154,7 +164,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     marginLeft: 1,
     fontWeight: 'bold',
-    fontSize: 24
+    fontSize: 24,
   },
   nextButton: {
     backgroundColor: '#007AFF',
@@ -168,4 +178,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
-}); 
+});

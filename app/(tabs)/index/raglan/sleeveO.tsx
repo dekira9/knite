@@ -10,7 +10,7 @@ import { useRouter } from 'expo-router';
 
 
 
-import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/input/result';
+import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/index/input/result';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
@@ -113,11 +113,11 @@ const App = observer(() => {
     return cells;
   };
 
-  const renderFront = () => {
+  const renderSleeve = () => {
     const cells = [];
     for (let i = -1; i < NHFront; i++) {
       const row = [];
-      for (let j = 0; j < SFrontO; j++) {
+      for (let j = 0; j < Sa; j++) {
         row.push(
           <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
         );
@@ -165,7 +165,7 @@ const App = observer(() => {
     return additionalCells;
   };
   const leftCellCount = getLeftArrayCellCount();
-    const rightCellCount = getRightArrayCellCount();
+  const rightCellCount = getRightArrayCellCount();
 
 
   
@@ -273,8 +273,8 @@ const App = observer(() => {
       <View style={styles.increaseArrayLeft}>
           {renderLeftIncreaseArray()}
         </View>
-        <View style={styles.Front}>
-          {renderFront()}
+        <View style={styles.Sleeve}>
+          {renderSleeve()}
         </View>
         <View style={styles.increaseArrayRight}>
           {renderRightIncreaseArray()}
@@ -285,7 +285,7 @@ const App = observer(() => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
-        <Text style={styles.infoText}>Stitches: {SFrontO + leftCellCount + rightCellCount}</Text>
+        <Text style={styles.infoText}>Stitches: {Sa + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#FDCFE1',
+    backgroundColor: '#DAEDBD',
   },
   firstCell: {
     width: 10,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#DAEDBD',
   },
-  Front: {
+  Sleeve: {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 0,
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#F4A39B',
+    backgroundColor: 'green',
   },
   leftRow: {
     justifyContent: 'flex-end',

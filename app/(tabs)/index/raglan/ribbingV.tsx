@@ -13,7 +13,7 @@ import {
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
   calculateVNeckIncreases22
-} from '@/app/(tabs)/input/resultV'; {/*  Import functions
+} from '@/app/(tabs)/index/input/resultV'; {/*  Import functions
 import { red } from 'react-native-reanimated/lib/typescript/Colors';*/}
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
@@ -577,7 +577,7 @@ if (!SpribVcorn) {
         <View style={styles.navigationButtons}>
         <TouchableOpacity 
         style={styles.backButton}
-        onPress={() => router.push('/(tabs)/input/resultV')}
+        onPress={() => router.push('/(tabs)/index/input/resultV')}
       >
         <Text style={styles.backButtonText}>← Back to Result</Text>
       </TouchableOpacity>

@@ -22,7 +22,7 @@ export default observer(() => {
 
   const selectStyle = (styleId: string) => {
     introState.setStyle(styleId);
-    router.push('/(tabs)/input/head');
+    router.push('/input/head');
   };
 
   return (

@@ -1,90 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
+import introState from '@/state/introState';
+import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
+import { calculateRaglan } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
 import { useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import introState from '@/state/introState';
-import onboardingState from '@/state/onboardingState';
-import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/input/resultV';
-import { RaglanOutput } from '@/utils/calculateRaglan';
 
 
-const { stitchDensity, rowDensity } = introState;
-const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
-const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   {/*см ширина петли*/}
-const hsV = 1 / rows; {/* см высота петли или ряда */}
-const Hc=hsV*25;
-const Lc=LsV*25
 
+import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/index/input/result';
 
 const App = observer(() => {
-  const { SFrontV, SaV, KV, NRrezV, NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseType} = introState;
+  const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
+  const [selectedIncreaseType, setSelectedIncreaseType] = useState('');
   
   const results = introState.calculateRaglan();
-  const isRaglanOutput = (value: any): value is RaglanOutput => {
-    return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value;
-  };
+  const { resultString24 } = calculateIncreaseRows1x2_1x4(NHFront, Sfx, PR_1x4_f, PR_1x2_f);
+  const {  resultString23 } = calculateIncreaseRows1x2_1x3(NHFront, Sfx, prib_1x3_f, prib_1x2_f);
+  const {  resultString21 } = calculateIncreaseRows1x2_1x1(NHFront, Sfx, prib_1x1_f,prib_1x2_f);
+  const {  resultString43 } = calculateIncreaseRows1x4_1x3(NHFront, Sfx, PRib_1x4_f, PRib_1x3_f);  
+  const RowPrib1x4 = Array.from({ length: Sfx }, (_, index) => 1 + index * 4);
+  const RowPrib1x4String = RowPrib1x4.join(', ');
+  const RowPrib1x3 = Array.from({ length: Sfx }, (_, index) => 1 + index * 3);
+  const RowPrib1x3String = RowPrib1x3.join(', ');
+  const RowPrib1x2 = Array.from({ length: Sfx }, (_, index) => 1 + index * 2);
+  const RowPrib1x2String = RowPrib1x2.join(', ');
+  const RowPrib1x1 = Array.from({ length: Sfx }, (_, index) => 1 + index * 1);
+  const RowPrib1x1String = RowPrib1x1.join(', ');
 
-  const { resultString24V } = calculateIncreaseRows1x2_1x4V(NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV) ;
-  const { resultString23V } = calculateIncreaseRows1x2_1x3V(NHFrontV, SfxV, prib_1x3_fV, prib_1x2_fV) ;
-  const { resultString21V } = calculateIncreaseRows1x2_1x1V(NHFrontV, SfxV, prib_1x1_fV, prib_1x2_fV) ;
-  const { resultString43V } = calculateIncreaseRows1x4_1x3V(NHFrontV, SfxV, PRib_1x4_fV, PRib_1x3_fV) ;
-  const RowPrib1x4V = Array.from({ length: SfxV }, (_, index) => 1 + index * 4);
-  const RowPrib1x4StringV = RowPrib1x4V.join(', ');
-  const RowPrib1x3V = Array.from({ length: SfxV }, (_, index) => 1 + index * 3);
-  const RowPrib1x3StringV = RowPrib1x3V.join(', ');
-  const RowPrib1x2V = Array.from({ length: SfxV }, (_, index) => 1 + index * 2);
-  const RowPrib1x2StringV = RowPrib1x2V.join(', ');
-  const RowPrib1x1V = Array.from({ length: SfxV }, (_, index) => 1 + index * 1);
-  const RowPrib1x1StringV = RowPrib1x1V.join(', ');
-
-   const getIncreaseRowsV = () => {
-    if (!selectedIncreaseType) return [];
-    
+   const getIncreaseRows = () => {
     switch (selectedIncreaseType) {
       case '1x2, 1x4':
-        return resultString24V ? resultString24V.split(', ').map(Number) : [];
+        return resultString24.split(', ').map(Number);
       case '1x2, 1x3':
-        return resultString23V ? resultString23V.split(', ').map(Number) : [];
+        return resultString23.split(', ').map(Number);
       case '1x2, 1x1':
-        return resultString21V ? resultString21V.split(', ').map(Number) : [];
+        return resultString21.split(', ').map(Number);
       case '1x3, 1x4':
-        return resultString43V ? resultString43V.split(', ').map(Number) : [];
-      case '1x3':
-        return RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
+        return resultString43.split(', ').map(Number);
+        case '1x3':
+        return RowPrib1x3String.split(', ').map(Number);
       case '1x4':
-        return RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
+        return RowPrib1x4String.split(', ').map(Number);
       case '1x2':
-        return RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
+        return RowPrib1x2String.split(', ').map(Number);
       case '1x1':
-        return RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
+        return RowPrib1x1String.split(', ').map(Number);
+     
       default:
         return [];
     }
   };
 
-  const renderLeftIncreaseArrayV = () => {
-    const increaseRowsV = getIncreaseRowsV();
+  const renderLeftIncreaseArray = () => {
+    const increaseRows = getIncreaseRows();
     const cells = [];
     let additionalCells = 0;
   
-    for (let i = 0; i < NHFrontV; i++) {
-      if (increaseRowsV.includes(i + 1)) {
+    for (let i = 0; i < NHFront; i++) {
+      if (increaseRows.includes(i + 1)) {
         additionalCells++;
       }
       const row = [];
       for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
+        const isCurrentRowIncrease = increaseRows.includes(i + 1);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
         const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-         {/* Добавляем ячейки в конец для левого массива*/} 
+        {/* Добавляем ячейки в конец для левого массива*/}
         row.push(<View key={`${i}-${j}`} style={[cellStyle,
             i === highlightedRow && styles.highlightedCell]} />);
       }
@@ -97,18 +83,18 @@ const App = observer(() => {
     return cells;
   };
   
-  const renderRightIncreaseArrayV = () => {
-    const increaseRowsV = getIncreaseRowsV();
+  const renderRightIncreaseArray = () => {
+    const increaseRows = getIncreaseRows();
     const cells = [];
     let additionalCells = 0;
   
-    for (let i = 0; i < NHFrontV; i++) {
-      if (increaseRowsV.includes(i + 1)) {
+    for (let i = 0; i < NHFront; i++) {
+      if (increaseRows.includes(i + 1)) {
         additionalCells++;
       }
       const row = [];
       for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
+        const isCurrentRowIncrease = increaseRows.includes(i + 1);
       const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
 
         const cell = <View key={`right-${i}-${j}`} style={cellStyle} />;
@@ -127,11 +113,11 @@ const App = observer(() => {
     return cells;
   };
 
-  const renderSleeveV = () => {
+  const renderFront = () => {
     const cells = [];
-    for (let i = -1; i < NHFrontV; i++) {
+    for (let i = -1; i < NHFront; i++) {
       const row = [];
-      for (let j = 0; j < SaV; j++) {
+      for (let j = 0; j < SFrontO; j++) {
         row.push(
           <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
         );
@@ -146,19 +132,19 @@ const App = observer(() => {
   };
 
   const highlightNextRow = () => {
-    setHighlightedRow((prev) => (prev + 1) % NHFrontV);
+    setHighlightedRow((prev) => (prev + 1) % NHFront);
   };
 
   const highlightPreviousRow = () => {
-    setHighlightedRow((prev) => (prev - 1 + NHFrontV) % NHFrontV);
+    setHighlightedRow((prev) => (prev - 1 + NHFront) % NHFront);
   };
-{/* счетчик ячеек левого и правого массива */}
+
   const getLeftArrayCellCount = () => {
-    const increaseRowsV = getIncreaseRowsV();
+    const increaseRows = getIncreaseRows();
     let additionalCells = 0;
-    if (highlightedRow < NHFrontV) {
+    if (highlightedRow < NHFront) {
       for (let i = 0; i <= highlightedRow; i++) {
-        if (increaseRowsV.includes(i + 1)) {
+        if (increaseRows.includes(i + 1)) {
           additionalCells++;
         }
       }
@@ -167,11 +153,11 @@ const App = observer(() => {
   };
 
   const getRightArrayCellCount = () => {
-    const increaseRowsV = getIncreaseRowsV();
+    const increaseRows = getIncreaseRows();
     let additionalCells = 0;
-        if (highlightedRow < NHFrontV) {
+        if (highlightedRow < NHFront) {
             for (let i = 0; i <= highlightedRow; i++) {
-                if (increaseRowsV.includes(i + 1)) {
+                if (increaseRows.includes(i + 1)) {
                     additionalCells++;
                 }
             }
@@ -181,31 +167,9 @@ const App = observer(() => {
   const leftCellCount = getLeftArrayCellCount();
     const rightCellCount = getRightArrayCellCount();
 
-  useEffect(() => {
-    console.log('Debug values:', {
-      NHFrontV,
-      SfxV,
-      PR_1x4_fV,
-      PR_1x2_fV,
-      prib_1x3_fV,
-      prib_1x2_fV,
-      prib_1x1_fV,
-      PRib_1x3_fV,
-      PRib_1x4_fV
-    });
 
-    const result24 = calculateIncreaseRows1x2_1x4V(NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x4V result:', result24);
+  
 
-    const result23 = calculateIncreaseRows1x2_1x3V(NHFrontV, SfxV, prib_1x3_fV, prib_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x3V result:', result23);
-
-    const result21 = calculateIncreaseRows1x2_1x1V(NHFrontV, SfxV, prib_1x1_fV, prib_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x1V result:', result21);
-
-    const result43 = calculateIncreaseRows1x4_1x3V(NHFrontV, SfxV, PRib_1x4_fV, PRib_1x3_fV);
-    console.log('calculateIncreaseRows1x4_1x3V result:', result43);
-  }, [NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x3_fV, prib_1x2_fV, prib_1x1_fV, PRib_1x3_fV, PRib_1x4_fV]);
 
   return (
 
@@ -227,66 +191,64 @@ const App = observer(() => {
               {i18n.t?.('option') || 'Option'}
             </Text> 
             */} 
-            {type === '1x2, 1x4' && isRaglanOutput(results) && (
+            {type === '1x2, 1x4' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_fV}</Text>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString24V}</Text>
-               
+                <Text style={styles.resultText}>{resultString24}</Text>
               </>
             )}
-            
-            {type === '1x2, 1x3' && isRaglanOutput(results) && (
+            {type === '1x2, 1x3' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString23V}</Text>
+                <Text style={styles.resultText}>{resultString23}</Text>
               </>
             )}
-            {type === '1x2, 1x1' && isRaglanOutput(results) && (
+            {type === '1x2, 1x1' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString21V}</Text>
+                <Text style={styles.resultText}>{resultString21}</Text>
               </>
             )}
-            {type === '1x3, 1x4' && isRaglanOutput(results) && (
+            {type === '1x3, 1x4' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_fV}</Text>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_f}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString43V}</Text>
+                <Text style={styles.resultText}>{resultString43}</Text>
               </>
             )}
-            {type === '1x4' && isRaglanOutput(results) && (
+            {type === '1x4' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{results.RowPrib1x4StringV}</Text>
+                <Text style={styles.resultText}>{RowPrib1x4String}</Text>
               </>
             )}
-             {type === '1x3' && isRaglanOutput(results) && (
+             {type === '1x3' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{results.RowPrib1x3StringV}</Text>
+                <Text style={styles.resultText}>{RowPrib1x3String}</Text>
               </>
             )}
-            {type === '1x2' && isRaglanOutput(results) && (
+            {type === '1x2' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{results.RowPrib1x2StringV}</Text>
+                <Text style={styles.resultText}>{RowPrib1x2String}</Text>
               </>
             )}
-            {type === '1x1' && isRaglanOutput(results) && (
+            {type === '1x1' && (
               <>
-                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_fV}</Text>
+                <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{results.RowPrib1x1StringV}</Text>
+                <Text style={styles.resultText}>{RowPrib1x1String}</Text>
               </>
             )}  
           </View>
@@ -296,12 +258,10 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
-
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
        <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
       </View>
-
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -311,13 +271,13 @@ const App = observer(() => {
       
       <View style={[styles.horContainer]}>
       <View style={styles.increaseArrayLeft}>
-          {renderLeftIncreaseArrayV()}
+          {renderLeftIncreaseArray()}
         </View>
         <View style={styles.Front}>
-          {renderSleeveV()}
+          {renderFront()}
         </View>
         <View style={styles.increaseArrayRight}>
-          {renderRightIncreaseArrayV()}
+          {renderRightIncreaseArray()}
         </View>
       </View>
       </ScrollView>
@@ -325,16 +285,10 @@ const App = observer(() => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
-        <Text style={styles.infoText}>Stitches: {SaV + leftCellCount + rightCellCount}</Text>
+        <Text style={styles.infoText}>Stitches: {SFrontO + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>
-      <TouchableOpacity 
-        style={styles.backButton}
-        onPress={() => router.push('/(tabs)/input/resultV')}
-      >
-        <Text style={styles.backButtonText}>← Back to Result</Text>
-      </TouchableOpacity>
         <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
           <Ionicons name="chevron-up" size={24} color="#007AFF" />
         </TouchableOpacity>
@@ -389,15 +343,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   cell: {
-    width: Lc,
-    height: Hc,
+    width: 10,
+    height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#DAEDBD',
+    backgroundColor: '#A29FCF',
   },
   firstCell: {
-    width: Lc,
-    height: Hc,
+    width: 10,
+    height: 10,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: '#DAEDBD',
@@ -439,11 +393,10 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 10,
-    marginLeft: 10,
+    marginLeft: 0,
     padding: 5,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,  
-    
   },
   resultText: {
     fontSize: 12,
@@ -454,7 +407,8 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  
+    
+   
   },
   optionButton: {
     marginBottom: 5,
@@ -464,7 +418,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selectedOptionButton: {
-    backgroundColor: '#007AFF', 
+    backgroundColor: '#007AFF',
   },
   optionText: {
     fontSize: 14,
@@ -474,24 +428,24 @@ const styles = StyleSheet.create({
     color: 'white',
   },  
   increaseCell: {
-    width: Lc,
-    height: Hc,
+    width: 10,
+    height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'green',
+    backgroundColor: '#8C78A6',
   },
   leftRow: {
     justifyContent: 'flex-end',
   },
   defaultCell: {
-    width: Lc,
-    height: Hc,
+    width: 10,
+    height: 10,
     borderWidth: 1,
-    borderColor: 'black', 
+    borderColor: 'black',
   },
   ribbingCell: {
-    width: Lc,
-    height: Hc,
+    width: 10,
+    height: 10,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: 'yellow',
@@ -506,17 +460,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  backButton: {
-    padding: 5,
-    backgroundColor: '#007AFF',
-    borderRadius: 5,
-    margin: 5,
-  },
-  backButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-  },
+  
   
 });
 
