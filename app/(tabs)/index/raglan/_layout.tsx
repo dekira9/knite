@@ -11,23 +11,46 @@ export default function RaglanLayout() {
   const router = useRouter();
 
   const handleBack = () => {
-    router.navigate('/input/result');
+    router.back();
   };
 
   return (
-    <View style={{ flex: 1, paddingTop: insets.top }}>
+    <View style={{ flex: 1, paddingTop: 0 }}>
       <Stack
         screenOptions={{
           headerStyle: {
             backgroundColor: Colors[colorScheme ?? 'light'].background,
+            height: 40,
           },
+          headerTitleStyle: {
+            fontSize: 16,
+            textAlign: 'center',
+          },
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {
+            paddingBottom: 0,
+          },
+          headerTitleContainerStyle: {
+            paddingBottom: 0,
+            flex: 1,
+            justifyContent: 'center',
+          },
+          headerStatusBarHeight: 0,
           headerTintColor: Colors[colorScheme ?? 'light'].text,
           presentation: 'card',
           headerLeft: () => (
-            <TouchableOpacity onPress={handleBack} style={{ marginLeft: 10 }}>
+            <TouchableOpacity 
+              onPress={handleBack} 
+              style={{ 
+                marginLeft: 10,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+              }}
+            >
               <Ionicons 
                 name="arrow-back" 
-                size={24} 
+                size={20}
                 color={Colors[colorScheme ?? 'light'].text} 
               />
             </TouchableOpacity>

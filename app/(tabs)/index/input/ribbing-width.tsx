@@ -17,9 +17,9 @@ export default observer(() => {
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
   const K = 2; // Петли в регланной линии
   const LK = K / stitches;
-  const LRezMin = 2 / rows;
+  const LRezMin = Math.round((2 / rows) * 10) / 10;
 
-  const LRezMax = introState.neckCircumference / Math.PI;
+  const LRezMax = Math.round((introState.neckCircumference / Math.PI) * 10) / 10;
 
   const [localRibbingWidth, setLocalRibbingWidth] = useState(2);
   console.log('localRibbingWidth', localRibbingWidth);
@@ -60,7 +60,8 @@ export default observer(() => {
       <View style={styles.inputContainer}>
         <TouchableOpacity
           onPress={() =>
-            setLocalRibbingWidth((prev) => Math.max(LRezMin, parseFloat((prev - 0.1).toFixed(1))))
+            setLocalRibbingWidth((prev) =>
+             Math.max(LRezMin, parseFloat((prev - 0.1).toFixed(1))))
           }
         >
           <Text style={styles.arrow}>-</Text>

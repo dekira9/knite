@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
+import { View, StyleSheet , ScrollView,TouchableOpacity,Text,Dimensions   } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
@@ -218,7 +218,7 @@ const App = observer(() => {
       <View style={[styles.horContainerTop]}>
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
-          <View key={type} style={[styles.section, { marginRight: 10 }]}>
+          <View key={type} style={[styles.section]}>
             <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
             </TouchableOpacity>
@@ -359,18 +359,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   horContainerTop: {
+    width: Dimensions.get('window').width ,
     flexDirection: 'row',
-    alignItems: 'center',
-    
-    marginRight: 5,
-    marginTop: 5,
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginTop: 15,
+    marginBottom: 10,
     backgroundColor: '#FFFFFF',
+    paddingHorizontal: 1,
+    gap: 5,
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     marginBottom: 110,
-   
     paddingHorizontal: 20,
   },
   verticalContainer: {
@@ -437,11 +440,12 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 10,
-    marginLeft: 10,
+    marginHorizontal: 5,
     padding: 5,
     backgroundColor: '#E6E6E6',
-    borderRadius: 8,  
-    
+    borderRadius: 8,
+    minWidth: '45%',
+    alignSelf: 'flex-start',
   },
   resultText: {
     fontSize: 12,
@@ -456,14 +460,19 @@ const styles = StyleSheet.create({
   },
   optionButton: {
     marginBottom: 5,
-    padding: 5,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
     backgroundColor: '#C6C6C6',
     borderRadius: 5,
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   selectedOptionButton: {
     backgroundColor: '#007AFF',
-  },
+    width: '100%',
+   },
   optionText: {
     fontSize: 14,
     color: 'red',

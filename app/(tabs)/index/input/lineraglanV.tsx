@@ -12,7 +12,7 @@ const LineraglanV = () => {
   const router = useRouter();
   const Kmin = 1;
   const results = introState.calculateRaglan();
-  const KmaxV = typeof results === 'string' ? 5 : results.KmaxV || 5; // Handle both string and RaglanOutput types
+  const KmaxV = typeof results === 'string' ? 5 : results.KmaxV || 5;
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
 
   useEffect(() => {
@@ -26,17 +26,17 @@ const LineraglanV = () => {
   };
 
   // Функция для обработки изменений в TextInput
-  const handleTextInputChange = (value) => {
+  const handleTextInputChange = (value: string) => {
     if (value === '') {
-      setSliderValue(''); // Позволяем очистить поле ввода
-      introState.setRaglanLineWidthV(Kmin); // Устанавливаем минимальное значение по умолчанию
+      setSliderValue('');
+      introState.setRaglanLineWidthV(Kmin);
     } else {
-      const numericValue = parseInt(value, 5);
+      const numericValue = parseInt(value, 10);
       if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= KmaxV) {
         setSliderValue(value);
         introState.setRaglanLineWidthV(numericValue);
       } else {
-        setSliderValue(''); // Очищаем поле ввода, если значение некорректно
+        setSliderValue('');
       }
     }
   };

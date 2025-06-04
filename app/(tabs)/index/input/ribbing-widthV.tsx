@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import introState from '@/state/introState';
@@ -8,7 +8,7 @@ import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
 import { observer } from 'mobx-react-lite';
 
-export default observer(() => {
+const RibbingWidthV: React.FC = observer(() => {
   const router = useRouter();
 
   // Calculate min and max values
@@ -16,29 +16,23 @@ export default observer(() => {
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
   const K = 2; // Петли в регланной линии
   const LK = K / stitches;
-  const LRezMinV = 2 / rows;
+  const LRezMinV = Math.round((2 / rows) * 10) / 10;  // Минимальная ширина резинки (2 ряда)
   const neck = Number(introState.neckCircumference); // OS
   const head = Number(introState.headCircumference); // OG
 
-  const LRezMaxV = (neck + head) / 6 / Math.PI;
+  const LRezMaxV =  Math.round(((neck + head) / 6 / Math.PI) * 10) / 10;
 
   console.log('шея', introState.neckCircumference);
   console.log('голова', introState.headCircumference); 
   console.log('LRezMaxV', LRezMaxV);
   console.log('LRezMinV:', LRezMinV);
 
-  // Инициализируем значение raglanLineWidthV, если оно не определено
-  useEffect(() => {
-    if (introState.raglanLineWidthV === undefined) {
-      introState.setRaglanLineWidthV(1); // Устанавливаем значение по умолчанию
-    }
-  }, []);
-
   const [localRibbingWidthV, setLocalRibbingWidthV] = useState(2);
-console.log("localRibbingWidthV", localRibbingWidthV);
-  
-  
-  {/*// Ширина резинки*/}
+  console.log('localRibbingWidthV', localRibbingWidthV);
+
+  {
+    /* //ширина резинки*/
+  }
   const handleValueChange = (value: string) => {
     if (value === '') {
       setLocalRibbingWidthV('');
@@ -50,23 +44,16 @@ console.log("localRibbingWidthV", localRibbingWidthV);
         setLocalRibbingWidthV(fixedValue);
         introState.setRibbingWidthV(fixedValue.toString());
       } else {
-        setLocalRibbingWidthV('');
+        setLocalRibbingWidthV(localRibbingWidthV);
       }
     }
   };
-{/*// переход кнопка*/}
+
   const handleNext = () => {
     introState.setRibbingWidthV(localRibbingWidthV.toString());
-    
-    // Убедимся, что raglanLineWidthV инициализирован перед переходом
-    if (introState.raglanLineWidthV === undefined) {
-      introState.setRaglanLineWidthV(1);
-    }
-    
     router.push('/(tabs)/input/lineraglanV');
   };
-
-    return (
+  return (
     <View style={styles.container}>
       <Image 
         source={require('@/assets/images/ribwidthV.svg')}
@@ -75,17 +62,29 @@ console.log("localRibbingWidthV", localRibbingWidthV);
       />
       <Text style={styles.title}>{i18n.t('ribbingWidth')}</Text>
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={() => setLocalRibbingWidthV(prev => Math.max(LRezMinV, parseFloat((prev - 0.1).toFixed(1))))}>
+        <TouchableOpacity 
+          onPress={() => {
+            const newValue = Math.max(LRezMinV, parseFloat((localRibbingWidthV - 0.1).toFixed(1)));
+            setLocalRibbingWidthV(newValue);
+            introState.setRibbingWidthV(newValue.toString());
+          }}
+        >
           <Text style={styles.arrow}>-</Text>
         </TouchableOpacity>
         <TextInput
           style={styles.valueInput}
-          value={localRibbingWidthV.toString()}
+          value={localRibbingWidthV.toFixed(1)}
           onChangeText={handleValueChange}
           keyboardType="numeric"
-          placeholder="Введите значение"
+          placeholder=" "
         />
-        <TouchableOpacity onPress={() => setLocalRibbingWidthV(prev => Math.min(LRezMaxV, parseFloat((prev + 0.1).toFixed(1))))}>
+        <TouchableOpacity 
+          onPress={() => {
+            const newValue = Math.min(LRezMaxV, parseFloat((localRibbingWidthV + 0.1).toFixed(1)));
+            setLocalRibbingWidthV(newValue);
+            introState.setRibbingWidthV(newValue.toString());
+          }}
+        >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
@@ -94,7 +93,7 @@ console.log("localRibbingWidthV", localRibbingWidthV);
         style={styles.slider}
         minimumValue={LRezMinV}
         maximumValue={LRezMaxV}
-        value={localRibbingWidthV}
+        value={Math.min(Math.max(localRibbingWidthV, LRezMinV), LRezMaxV)}
         onValueChange={(value) => setLocalRibbingWidthV(parseFloat(value.toFixed(1)))}
         step={0.1}
         minimumTrackTintColor="#000000"
@@ -111,6 +110,8 @@ console.log("localRibbingWidthV", localRibbingWidthV);
     </View>
   );
 });
+
+export default RibbingWidthV;
 
 const styles = StyleSheet.create({
   container: {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     fontWeight: 'bold',
   },
-   nextButton: {
+  nextButton: {
     backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,

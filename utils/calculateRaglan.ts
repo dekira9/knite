@@ -24,6 +24,8 @@ export interface RaglanOutput {
   SaV: number;
   K: number;
   KV: number;
+  LFrontO: number;
+  LFrontV: number;
   SKfront: number;  
   SKfrontV: number;
   SKa: number;
@@ -87,10 +89,14 @@ export interface RaglanOutput {
   resultString43V: string;
   usedIncreaseType: string[];
   usedIncreaseTypeString: string;
+  usedIncreaseTypeV: string[];
+  usedIncreaseTypeStringV: string;
   fit: number;
   SFit: number;
   SOgr: number;
   SRostok: number;
+  SRostokV: number;
+  stitches: number;
   NHVmax: number;
   LHVmax: number;
   LKmaxV: number;
@@ -122,6 +128,9 @@ export interface RaglanOutput {
   positionsWithIsV: number[];
   positionsWithIsPlusOneV: number[];
   resultStringV: string;
+  NRfxV: number;
+  NRfx: number;
+  hsV: number;
 }
 
 
@@ -230,7 +239,7 @@ console.log('HrezV', HrezV);
   const HFront_smV = Projma - HrezV;
   const NHFront = Math.round((HFront_sm * rows) / 2) * 2;
   const NHFrontV = Math.round((HFront_smV * rows) / 2) * 2;
-  const prib_1x1 = (NHFront - 2 * Sfx) < 0 ? (2 * Sfx - NHFront) : 0;
+  const prib_1x1 = (NHFront - 2 * Sfx) < 0 ? (2 * Sfx - NHFront) : 0;   //рядов с прибавкой по 1 петле в каждом ряду
   const prib_1x1V = (NHFrontV - 2 * SfxV) < 0 ? (2 * SfxV - NHFrontV) : 0;
   const prib_1x3 = Math.floor(NHFront / Sfx) === 2 ? 3 * (NHFront - 2 * Sfx) : 0;
   const prib_1x3V = Math.floor(NHFrontV / SfxV) === 2 ? 3 * (NHFrontV - 2 * SfxV) : 0;
@@ -248,7 +257,7 @@ console.log('HrezV', HrezV);
 
   const prib_1x1_f = (NHFront - 2 * Sfx) < 0 ? (2 * Sfx - NHFront) : 0;
   const prib_1x1_fV = (NHFrontV - 2 * SfxV) < 0 ? (2 * SfxV - NHFrontV) : 0;
-  const prib_1x3_f = NHFront > 2 * Sfx ? (NHFront - 2 * Sfx) : 0;
+  const prib_1x3_f = NHFront > 2 * Sfx ? (NHFront - 2 * Sfx) : 0; //  петель прибавленных по 1 петле на 3 ряда
   const prib_1x3_fV = NHFrontV > 2 * SfxV ? (NHFrontV - 2 * SfxV) : 0;
   const prib_1x2_f = prib_1x2 !== 0 ? (NHFront - prib_1x1 - prib_1x3)/2 : 0;
   const prib_1x2_fV = prib_1x2V !== 0 ? (NHFrontV - prib_1x1V - prib_1x3V)/2 : 0;
@@ -260,13 +269,14 @@ console.log('HrezV', HrezV);
   const PRib_1x4_fV = Math.floor(NHFrontV / SfxV) === 3 ? ( NHFrontV - 3 * SfxV ) : 0 ;
   const PRib_1x3_f = Math.floor(NHFront / Sfx) === 3 ? ( PRib_1x3/3) : 0 ;
   const PRib_1x3_fV = Math.floor(NHFrontV / SfxV) === 3 ? ( PRib_1x3V/3) : 0 ;
-  const RowPrib1x4 = Array.from({ length: Sfx }, (_, index) => 1 + index * 4);
-  const RowPrib1x4String = RowPrib1x4.join(', ');
+
+  const RowPrib1x4 = Array.from({ length: Sfx }, (_, index) => 1 + index * 4);   // номера рядов когда прибавка по реглану только 1 петля на 4 ряда
+  const RowPrib1x4String = RowPrib1x4.join(', ');   // вывод строки с номерами рядов
 
   const RowPrib1x4V = Array.from({ length: SfxV }, (_, index) => 1 + index * 4);
   const RowPrib1x4StringV = RowPrib1x4V.join(', ');
 
-  const RowPrib1x3 = Array.from({ length: Sfx }, (_, index) => 1 + index * 3);
+  const RowPrib1x3 = Array.from({ length: Sfx }, (_, index) => 1 + index * 3);  // номера рядов когда прибавка по реглану только 1 петля на 3 ряда
   const RowPrib1x3String = RowPrib1x3.join(', ');
   const RowPrib1x3V = Array.from({ length: SfxV }, (_, index) => 1 + index * 3);
   const RowPrib1x3StringV = RowPrib1x3V.join(', ');
@@ -314,7 +324,6 @@ console.log('HrezV', HrezV);
   }
   if (PR_1x4_f > 0 && PR_1x4_f === Sfx) {
     usedIncreaseType.push('1x4');
-    
     
   }
   if (prib_1x3_f > 0 && prib_1x3_f === Sfx) {
@@ -366,6 +375,8 @@ console.log('HrezV', HrezV);
 
   const usedIncreaseTypeString = usedIncreaseType.length > 0 ? usedIncreaseType.join(' | ') : 'Нет подходящего типа прибавок';
   const usedIncreaseTypeStringV = usedIncreaseTypeV.length > 0 ? usedIncreaseTypeV.join(' | ') : 'Нет подходящего типа прибавок';
+
+  console.log('V-neck increase types:', { usedIncreaseTypeV, usedIncreaseTypeStringV });
 
   const SRostok = SFrontO + 2 * Sfx + 2 * SKfront;
   const SRostokV = SFrontV + 2 * SfxV + 2 * SKfrontV;
@@ -515,6 +526,8 @@ console.log('HrezV', HrezV);
     PRib_1x3_fV,
     usedIncreaseType,
     usedIncreaseTypeString,
+    usedIncreaseTypeV,
+    usedIncreaseTypeStringV,
     fit,
     SFit,
     SOgr,
@@ -599,6 +612,7 @@ console.log('HrezV', HrezV);
     SFrontOGr,
     SFrontOGrV,
     SPodr,
+    SPodrV: SPodr,
     Sfx,
     SfxV,
     prib_1x1,
@@ -629,15 +643,6 @@ console.log('HrezV', HrezV);
     PRib_1x4_fV,
     PRib_1x3_f,
     PRib_1x3_fV,
-    usedIncreaseType,
-    usedIncreaseTypeString,
-    fit,
-    SFit,
-    SOgr,
-    SPodr,
-    stitches,
-    SRostok,
-    SRostokV,
     RowPrib1x4,
     RowPrib1x4V,
     RowPrib1x4String,
@@ -654,6 +659,20 @@ console.log('HrezV', HrezV);
     RowPrib1x1V,
     RowPrib1x1String,
     RowPrib1x1StringV,
+    resultString21V: '',
+    resultString23V: '',
+    resultString24V: '',
+    resultString43V: '',
+    usedIncreaseType,
+    usedIncreaseTypeString,
+    usedIncreaseTypeV,
+    usedIncreaseTypeStringV,
+    fit,
+    SFit,
+    SOgr,
+    SRostok,
+    SRostokV,
+    stitches,
     NHVmax,
     LHVmax,
     LKmaxV,
@@ -662,7 +681,6 @@ console.log('HrezV', HrezV);
     NHVmin,
     LHV,
     NHV,
-    
     LpribVcorn,
     SpribVcorn,
     LVfront,

@@ -1053,13 +1053,13 @@ const AdditionRows = {
   es: "línea con aumentos",
   ja: "増加行",
   cs: "řád s přidáváním",
-  bg: "Рядове с прибавки",
+  bg: "Рядове с добавяне",
   sk: "rady s pridávaním",
   ko: "증가 행",
   tr: "artış satırları",
-  ar: "صفوف مع الزيادات",
-  pt: "linhas com aumentos",
-  lt: "padidinimų eilutės", 
+  ar: "الصفوف التي تحتوي على إضافات",
+  pt: "linhas com adições", 
+  lt: "Rūšių su pridėtimi",
 };
 
 const NeckDepth = {
@@ -1461,25 +1461,62 @@ const lastRowOfRibbing = {
 
 const castOnRow = {
   en: "Cast-on row",
-  ru: "Набрать ряд",
-  sv: "Cast-on row",
-  no: "Cast-on row",
-  fi: "Cast-on row",  
-  de: "Cast-on row",
-  fr: "Cast-on row",
-  es: "Cast-on row",
-  ja: "Cast-on row",
-  cs: "Cast-on row",
-  bg: "Cast-on row",
-  sk: "Cast-on row",
-  ko: "Cast-on row",
-  tr: "Cast-on row",
-  ar: "Cast-on row",
-  pt: "Cast-on row",
-  lt: "Cast-on row",
+  ru: "Наборный ряд",
+  sv: "Uppläggningsvarv",
+  no: "Oppleggingsrad",
+  fi: "Silmukoiden luomisrivi",
+  de: "Anschlagreihe",
+  fr: "Rang de montage",
+  es: "Fila de montaje",
+  ja: "作り目の段",
+  cs: "Základní řada",
+  bg: "Наборен ред",
+  sk: "Základný rad",
+  ko: "시작 단",
+  tr: "Başlangıç sırası",
+  ar: "صف البداية",
+  pt: "Carreira de montagem",
+  lt: "Pradinis eilutė"
 };
 
-
+const knitWithYourPatternAfterRibbing = {
+  en: "Knit with your pattern after the ribbing",
+  ru: "Вяжите по вашей схеме после резинки",
+  sv: "Sticka enligt ditt mönster efter resåren",
+  no: "Strikk med ditt mønster etter vrangborden",
+  fi: "Neulo kaavasi mukaan joustinneuloksen jälkeen",
+  de: "Stricken Sie nach dem Bündchen nach Ihrem Muster",
+  fr: "Tricotez selon votre motif après la bordure côtelée",
+  es: "Teje según su patrón después del elástico",
+  ja: "リブ編みの後はパターンに従って編んでください",
+  cs: "Pletení podle vzoru po lemu",
+  bg: "Плетете по схемата след ластика",
+  sk: "Pletenie podľa vzoru po leme",
+  ko: "립 이후 패턴대로 뜨세요",
+  tr: "Lastikten sonra deseninize göre örün",
+  ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
+  pt: "Tricote de acordo com seu padrão após o punho",
+  lt: "Megzkite pagal raštą po elastinės dalies"
+};
+const knittingAfterRibbing = {
+  en: "Knitting after the ribbing",
+  ru: "Вязание после резинки",
+  sv: "Sticka efter resåren",
+  no: "Strikk etter vrangborden",
+  fi: "Neulo joustinneuloksen jälkeen",
+  de: "Nach dem Bündchen stricken",
+  fr: "Tricoter après le bord côtelé",
+  es: "Tejer después del elástico",
+  ja: "リブ編みの後はパターンに従って編んでください",
+  cs: "Pletení podle vzoru po lemu",
+  bg: "Плетене по схемата след ластика",
+  sk: "Pletenie podľa vzoru po leme",
+  ko: "립 이후 패턴대로 뜨세요",
+  tr: "Lastikten sonra deseninize göre örün",
+  ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
+  pt: "Tricote de acordo com seu padrão após o punho",
+  lt: "Megzkite pagal raštą po elastinės dalies"
+};
 
 
 
@@ -1562,8 +1599,8 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       RowsWithAdding: RowsWithAdding[key as keyof typeof RowsWithAdding],
       lastRowOfRibbing: lastRowOfRibbing[key as keyof typeof lastRowOfRibbing],
       castOnRow: castOnRow[key as keyof typeof castOnRow],
-      
-
+      knitWithYourPatternAfterRibbing: knitWithYourPatternAfterRibbing[key as keyof typeof knitWithYourPatternAfterRibbing],
+      knittingAfterRibbing: knittingAfterRibbing[key as keyof typeof knittingAfterRibbing],
       // Add other translations here as needed
     }
   };

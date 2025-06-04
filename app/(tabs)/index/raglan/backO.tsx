@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
 import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
@@ -19,6 +19,22 @@ const App = observer(() => {
   const [selectedIncreaseType, setSelectedIncreaseType] = useState('');
   
   const results = introState.calculateRaglan();
+  const screenWidth = Dimensions.get('window').width;
+  
+  // Type guard to check if results is RaglanOutput
+  const isRaglanOutput = (value: any): value is import('@/utils/calculateRaglan').RaglanOutput => {
+    return value !== null && typeof value === 'object' && 'PR_1x2_f' in value;
+  };
+  
+  // Early return if results is error string
+  if (typeof results === 'string') {
+    return (
+      <View style={styles.container}>
+        <Text>Error: {results}</Text>
+      </View>
+    );
+  }
+  
   const { resultString24 } = calculateIncreaseRows1x2_1x4(NHFront, Sfx, PR_1x4_f, PR_1x2_f);
   const {  resultString23 } = calculateIncreaseRows1x2_1x3(NHFront, Sfx, prib_1x3_f, prib_1x2_f);
   const {  resultString21 } = calculateIncreaseRows1x2_1x1(NHFront, Sfx, prib_1x1_f,prib_1x2_f);
@@ -182,8 +198,9 @@ const App = observer(() => {
       <View style={[styles.horContainerTop]}>
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
-          <View key={type} style={[styles.section, { marginRight: 10 }]}>
-            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
+          <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.96 }]}>
+            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)}
+             style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
             </TouchableOpacity>
             {/* 
@@ -196,7 +213,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString24}</Text>
+                <Text style={styles.rowNumbersText}>{resultString24}</Text>
               </>
             )}
             {type === '1x2, 1x3' && (
@@ -204,7 +221,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString23}</Text>
+                <Text style={styles.rowNumbersText}>{resultString23}</Text>
               </>
             )}
             {type === '1x2, 1x1' && (
@@ -212,7 +229,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString21}</Text>
+                <Text style={styles.rowNumbersText}>{resultString21}</Text>
               </>
             )}
             {type === '1x3, 1x4' && (
@@ -220,35 +237,35 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString43}</Text>
+                <Text style={styles.rowNumbersText}>{resultString43}</Text>
               </>
             )}
             {type === '1x4' && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{RowPrib1x4String}</Text>
+                <Text style={styles.rowNumbersText}>{RowPrib1x4String}</Text>
               </>
             )}
              {type === '1x3' && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{RowPrib1x3String}</Text>
+                <Text style={styles.rowNumbersText}>{RowPrib1x3String}</Text>
               </>
             )}
             {type === '1x2' && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{RowPrib1x2String}</Text>
+                <Text style={styles.rowNumbersText}>{RowPrib1x2String}</Text>
               </>
             )}
             {type === '1x1' && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{RowPrib1x1String}</Text>
+                <Text style={styles.rowNumbersText}>{RowPrib1x1String}</Text>
               </>
             )}  
           </View>
@@ -316,10 +333,10 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-   
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
+    width: 'auto',
   },
   horContainer: {
     flexDirection: 'row',
@@ -396,19 +413,34 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     padding: 5,
     backgroundColor: '#E6E6E6',
-    borderRadius: 8,  
+    borderRadius: 8,
+    width: '96%',
+    maxWidth: '96%',
   },
   resultText: {
     fontSize: 12,
     marginBottom: 1,
-
     textAlign: 'center' as const,
-  },  
+    flexWrap: 'wrap',
+    lineHeight: 16,
+  },
+  rowNumbersText: {
+    fontSize: 12,
+    marginBottom: 1,
+    textAlign: 'center' as const,
+    flexWrap: 'wrap',
+    lineHeight: 16,
+   
+
+  },
   scrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    
-   
+  },
+  scrollContainerVertical: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    width: '100%',
   },
   optionButton: {
     marginBottom: 5,

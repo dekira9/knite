@@ -249,6 +249,20 @@ export const calculateIncreaseRows1x4_1x3 = (
   /* конец расчета рядов с прибавками для 1x4, 1x3*/
 }
 
+export const determineIncreaseType = (NHFront: number, Sfx: number): string => {
+  if (Sfx === NHFront) {
+    return '1x1'; // Прибавка 1 петля в каждом ряду
+  } else if (Sfx === Math.floor(NHFront/2)) {
+    return '1x2'; // Прибавка 1 петля каждые 2 ряда
+  } else if (Sfx === Math.floor(NHFront/3)) {
+    return '1x3'; // Прибавка 1 петля каждые 3 ряда
+  } else if (Sfx === Math.floor(NHFront/4)) {
+    return '1x4'; // Прибавка 1 петля каждые 4 ряда
+  } else {
+    return 'custom'; // Другой тип прибавок
+  }
+};
+
 export default observer(() => {
   const router = useRouter();
   const results = introState.calculateRaglan();
@@ -374,7 +388,7 @@ export default observer(() => {
         >
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/planOaz.svg')}
+              source={require('../../../../assets/images/planOaz1.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -382,7 +396,7 @@ export default observer(() => {
 
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/planOaz2.png')}
+              source={require('../../../../assets/images/planOaz3.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -414,6 +428,9 @@ export default observer(() => {
         </View> */}
 
         <View style={styles.resultCard}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Text style={[styles.textStep, { textAlign: 'center' }]}>{i18n.t('step')}1</Text>
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
             <View
@@ -757,51 +774,6 @@ export default observer(() => {
                   style={{
                     width: 17,
                     height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.K}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
-              </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
                     backgroundColor: '#DAEDBD',
                     marginLeft: 10,
                     borderWidth: 1,
@@ -885,6 +857,13 @@ export default observer(() => {
         {/* ПРИБАВЛЕНИЯ
          */}
         <View style={styles.resultCard}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+              {i18n.t('step')}2
+              {'\n'}
+              {i18n.t('knittingAfterRibbing')}
+            </Text>
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
           </View>
@@ -1495,6 +1474,11 @@ export default observer(() => {
         {/* УДЛИНЕНИЕ СПИНКИ */}
 
         <View style={styles.resultCard}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+              {i18n.t('step')}3
+            </Text>
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.subtitle}>{i18n.t('backLengthening')}</Text>
 
@@ -1641,7 +1625,7 @@ export default observer(() => {
               style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}
             >
               <Image
-                source={require('../../../../assets/images/planOaz2.png')}
+                source={require('../../../../assets/images/planOaz3.png')}
                 style={{ width: 30, height: 30 }}
                 contentFit="contain"
               />
@@ -1863,6 +1847,11 @@ export default observer(() => {
 
         {/* отделение рукавов*/}
         <View style={styles.resultCard}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
+            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+              {i18n.t('step')}4
+            </Text>
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
           </View>
@@ -2477,18 +2466,6 @@ export default observer(() => {
           </ScrollView>
         </View>
       </ScrollView>
-
-      {/*ПАНЕЛЬ*/}
-
-      <View style={[styles.stickyButtonContainer, { bottom: tabBarHeight - 30 }]}>
-        <TouchableOpacity style={styles.newStyleButton} onPress={handleNewStyle}>
-          <Text style={styles.newStyleButtonText}>{i18n.t('newStyle')}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.startButton} onPress={handleStartKnitting}>
-          <Text style={styles.startButtonText}>{i18n.t('startKnitting')}</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 });
@@ -2496,26 +2473,10 @@ export default observer(() => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F9FA',
   },
   scrollContent: {
-    padding: 20,
-  },
-  stickyButtonContainer: {
-    position: 'absolute',
-
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-    gap: 10,
+    padding: 16,
   },
   container: {
     flex: 1,
@@ -2529,7 +2490,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   resultCard: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f1f1f1',
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
@@ -2679,5 +2640,12 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#f0f0f0',
     padding: 2,
+  },
+  textStep: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 16,
+    textAlign: 'center',
+    color: '#1A1A1A',
   },
 });
