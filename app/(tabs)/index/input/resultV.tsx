@@ -17,7 +17,7 @@ import { number } from 'mobx-state-tree/dist/internal';
 
 
 {/*прибавки в углу резинки V*/}
-export const calculateVNeckIncreases01 = (NRrezV: number, SVfront: number, SpribVcorn: number,RowPribRV1: number,RowPribRVz: number) => {
+export const calculateVNeckIncreases01 = (NRrezV: number,  SpribVcorn: number,RowPribRV1: number,RowPribRVz: number) => {
  const MRz= Array.from({ length: RowPribRVz }, (_, rz) => rz + 1);
  const MR1= Array.from({ length: RowPribRV1 }, (_, ra) => ra + 1);
  const MRN= Array.from({ length: NRrezV }, (_, rn) => rn + 1);
@@ -497,7 +497,7 @@ export default observer(() => {
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../../assets/images/planVaz11.png')}
+              source={require('../../../../assets/images/planVaz111.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
@@ -569,6 +569,11 @@ export default observer(() => {
       {i18n.t('end')}: {results.SOcutV + results.SpribVcorn * 2}
     </Text>
   </View>
+  </View>  
+  <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+  <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
           <Image
             source={require('@/assets/images/knitcircle.svg')}
             style={styles.styleKnitCircleImage}
@@ -802,7 +807,10 @@ export default observer(() => {
           </Text>
           </View>
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-        
+       
+         <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
           <Image
             source={require('@/assets/images/znts.svg')}
             style={styles.styleZntsImage}
@@ -814,7 +822,9 @@ export default observer(() => {
           
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-        
+          <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
         <Image
           source={require('@/assets/images/knitcircle.svg')}
           style={styles.styleKnitCircleImage}
@@ -1104,8 +1114,11 @@ export default observer(() => {
           </TouchableOpacity>
         
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')}1:</Text>
+        <Text style={[styles.resultText, {padding: 5}]}>
+          {i18n.t('knitting')}
+          </Text>
           <Image
             source={require('@/assets/images/znts.svg')}
             style={styles.styleZntsImage}

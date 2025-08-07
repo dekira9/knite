@@ -10,7 +10,7 @@ import { screenWidth } from '@/utils/Layout';
 
 const LineraglanV = () => {
   const router = useRouter();
-  const Kmin = 1;
+  const Kmin = 0;
   const results = introState.calculateRaglan();
   const KmaxV = typeof results === 'string' ? 5 : results.KmaxV || 5;
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
@@ -21,7 +21,7 @@ const LineraglanV = () => {
   }, [introState.raglanLineWidthV]);
 
   // Функция для обработки изменений в Slider
-  const handleSliderChange = (value) => {
+  const handleSliderChange = (value: number) => {
     introState.setRaglanLineWidthV(value); // Обновляем ширину регланной линии в introState
   };
 

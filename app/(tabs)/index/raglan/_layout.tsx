@@ -4,6 +4,7 @@ import { useColorScheme, View, TouchableOpacity } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import i18n from '@/utils/translations';
 
 export default function RaglanLayout() {
   const colorScheme = useColorScheme();
@@ -51,7 +52,7 @@ export default function RaglanLayout() {
               <Ionicons 
                 name="arrow-back" 
                 size={20}
-                color={Colors[colorScheme ?? 'light'].text} 
+                color={Colors[colorScheme ?? 'light'].tint} 
               />
             </TouchableOpacity>
           ),
@@ -66,56 +67,56 @@ export default function RaglanLayout() {
         <Stack.Screen
           name="ribbingO"
           options={{
-            title: 'Ribbing Options',
+            title: i18n.t('knittingChartRibbing'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="backO"
           options={{
-            title: 'Back Options',
+            title: i18n.t('knittingChartBack'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="frontO"
           options={{
-            title: 'Front Options',
+            title:  i18n.t('knittingChartFront'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="sleeveO"
           options={{
-            title: 'Sleeve Options',
+            title: i18n.t('knittingChartSleeve'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="ribbingV"
           options={{
-            title: 'Ribbing View',
+            title:  i18n.t('knittingChartRibbing'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="backV"
           options={{
-            title: 'Back View',
+            title:  i18n.t('knittingChartBack'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="frontV"
           options={{
-            title: 'Front View',
+            title: i18n.t('knittingChartFront'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="sleeveV"
           options={{
-            title: 'Sleeve View',
+            title: i18n.t('knittingChartSleeve'),
             presentation: 'card',
           }}
         />

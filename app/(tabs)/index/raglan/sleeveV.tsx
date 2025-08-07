@@ -219,7 +219,8 @@ const App = observer(() => {
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
           <View key={type} style={[styles.section, { marginRight: 10 }]}>
-            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
+            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)}
+             style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
             </TouchableOpacity>
             {/* 
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   },
   horContainerTop: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
    
     marginRight: 5,
     marginTop: 5,

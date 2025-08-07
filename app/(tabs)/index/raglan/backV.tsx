@@ -28,6 +28,8 @@ const App = observer(() => {
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
   
   const results = introState.calculateRaglan();
+  const screenWidth = Dimensions.get('window').width;
+
   const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value;
   };
@@ -180,7 +182,7 @@ const App = observer(() => {
   };
   const leftCellCount = getLeftArrayCellCount();
     const rightCellCount = getRightArrayCellCount();
-
+{/* это для отладки только в консоль */ }
   useEffect(() => {
     console.log('Debug values:', {
       NHFrontV,
@@ -210,6 +212,7 @@ const App = observer(() => {
   return (
 
     <View style={styles.container}>
+      <View style={styles.optionsContainer}>
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -218,8 +221,9 @@ const App = observer(() => {
       <View style={[styles.horContainerTop]}>
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
-          <View key={type} style={[styles.section]}>
-            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
+          <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.96 }]}>
+            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} 
+            style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
             </TouchableOpacity>
             {/* 
@@ -296,6 +300,7 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
+      </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
        <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
@@ -356,16 +361,16 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   horContainerTop: {
-    width: Dimensions.get('window').width ,
+   // width: Dimensions.get('window').width ,
+    width: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     marginTop: 15,
-    marginBottom: 10,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 1,
     gap: 5,
@@ -485,7 +490,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#8C78A6',
+    backgroundColor: '#00ADF2',
   },
   leftRow: {
     justifyContent: 'flex-end',
@@ -495,6 +500,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black', 
+    backgroundColor: '#BDBBDD',
   },
   ribbingCell: {
     width: Lc,

@@ -42,7 +42,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <IconSymbol size={24} name="gearshape.fill" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome6 name="gear" size={24} color={color} />,
         }}
       />
 

@@ -1518,7 +1518,103 @@ const knittingAfterRibbing = {
   lt: "Megzkite pagal raštą po elastinės dalies"
 };
 
+const knittingChartRibbing = {
+  en: "Knitting chart ribbing",
+  ru: "Схема вязания резинки",
+  sv: "Garnstruktur",
+  no: "Garnstruktur",
+  fi: "Langan rakenne",
+  de: "Garndichte",
+  fr: "Structure de tricot",
+  es: "Estructura de tejido",
+  ja: "糸の編み方",
+  cs: "Vzor pletení",
+  bg: "Вязачна диаграма",
+  sk: "Vzor pletení",
+  ko: "라벨 차트",
+  tr: "Düğüm şeması",
+  ar: "مخطط التريك",
+  pt: "Diagrama de tricô",
+  lt: "Dėlių diagrama",
+};
 
+const knittingChartBack = {
+  en: "Knitting chart back",
+  ru: "Схема вязания спинки",
+  sv: "Garnstruktur",
+  no: "Garnstruktur",
+  fi: "Langan rakenne",
+  de: "Garndichte",
+  fr: "Structure de tricot",
+  es: "Estructura de tejido",
+  ja: "糸の編み方",
+  cs: "Vzor pletení",
+  bg: "Вязачна диаграма",
+  sk: "Vzor pletení",
+  ko: "라벨 차트",
+  tr: "Düğüm şeması",
+  ar: "مخطط التريك",
+  pt: "Diagrama de tricô",
+  lt: "Dėlių diagrama",
+};
+const knittingChartFront = {
+  en: "Knitting chart front",
+  ru: "Схема вязания переда",
+  sv: "Garnstruktur",
+  no: "Garnstruktur",
+  fi: "Langan rakenne",
+  de: "Garndichte",
+  fr: "Structure de tricot",
+  es: "Estructura de tejido",
+  ja: "糸の編み方",
+  cs: "Vzor pletení",
+  bg: "Вязачна диаграма",
+  sk: "Vzor pletení",
+  ko: "라벨 차트",
+  tr: "Düğüm şeması",
+  ar: "مخطط التريك",
+  pt: "Diagrama de tricô",
+  lt: "Dėlių diagrama",
+};
+const knittingChartSleeve = {
+  en: "Knitting chart sleeve",
+  ru: "Схема вязания рукава",
+  sv: "Garnstruktur",
+  no: "Garnstruktur",
+  fi: "Langan rakenne",
+  de: "Garndichte",
+  fr: "Structure de tricot",
+  es: "Estructura de tejido",
+  ja: "糸の編み方",
+  cs: "Vzor pletení",
+  bg: "Вязачна диаграма",
+  sk: "Vzor pletení",
+  ko: "라벨 차트",
+  tr: "Düğüm şeması",
+  ar: "مخطط التريك",
+  pt: "Diagrama de tricô",
+  lt: "Dėlių diagrama",
+};
+
+const knitting = {
+  en: "Knitting",
+  ru: "Вязание",
+  sv: "Stickning",
+  no: "Strikk",
+  fi: "Neulominen",
+  de: "Stricken",
+  fr: "Tricoter",
+  es: "Tejer",
+  ja: "編み",
+  cs: "Pletení",
+  bg: "Плетене",
+  sk: "Pletenie",
+  ko: "뜨기",
+  tr: "Düğüm",
+  ar: "الحياكة",
+  pt: "Tricotar",
+  lt: "Megzgauti",
+};
 
 // Create translations object with all supported languages
 const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => {
@@ -1601,6 +1697,12 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       castOnRow: castOnRow[key as keyof typeof castOnRow],
       knitWithYourPatternAfterRibbing: knitWithYourPatternAfterRibbing[key as keyof typeof knitWithYourPatternAfterRibbing],
       knittingAfterRibbing: knittingAfterRibbing[key as keyof typeof knittingAfterRibbing],
+      knittingChartRibbing: knittingChartRibbing[key as keyof typeof knittingChartRibbing],
+      knittingChartBack: knittingChartBack[key as keyof typeof knittingChartBack],
+      knittingChartFront: knittingChartFront[key as keyof typeof knittingChartFront],
+      knittingChartSleeve: knittingChartSleeve[key as keyof typeof knittingChartSleeve],
+      knittingChart: knittingChart[key as keyof typeof knittingChart],
+      knitting: knitting[key as keyof typeof knitting], 
       // Add other translations here as needed
     }
   };

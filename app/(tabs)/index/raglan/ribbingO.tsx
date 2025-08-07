@@ -206,6 +206,7 @@ const App = observer(() => {
     
     <View style={styles.container}>
       <ScrollView horizontal={true} contentContainerStyle={styles.container}>
+        
       <View style={styles.horContainerTop}>
         <View style={[styles.rotatedLine3, { transform: line3Transform }]}>
           {renderLine3()}
@@ -238,17 +239,22 @@ const App = observer(() => {
       </View>
       </ScrollView>
 
+      <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
+      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        </View>
         <Text style={styles.infoText}>Stitches: {K*4+2*SFrontO + 2*Sa}</Text>
       </View>
       <View style={styles.navigationButtons}>
         <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-          <Ionicons name="chevron-up" size={24} color="#007AFF" />
+          <Ionicons name="chevron-up" size={24} color="red" />
         </TouchableOpacity>
         <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-          <Ionicons name="chevron-down" size={24} color="#007AFF" />
+          <Ionicons name="chevron-down" size={24} color="red" />
         </TouchableOpacity>
+      </View>
       </View>
     </View>
   
@@ -260,7 +266,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    top: 40,
+    top: 0,
+    minHeight: '100%',
   },
   horContainerTop: {
     flexDirection: 'row',
@@ -287,6 +294,15 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: 'orange',
+  },
+  controlsInfoContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    paddingBottom: 20,
   },
   LeftSleeve: {
     flexDirection: 'column',
@@ -357,7 +373,10 @@ const styles = StyleSheet.create({
   navigationButtons: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
+    width: '100%',
+    padding: 5,
+    gap: 15,
+    backgroundColor: '#fff',
   },
   navButton: {
     padding: 10,
@@ -367,8 +386,10 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    width: '80%',
+    width: '100%',
+    paddingHorizontal: 30,
     marginBottom: 20,
   },
   

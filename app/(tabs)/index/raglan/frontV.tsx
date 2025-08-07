@@ -804,7 +804,9 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
           </View>
         ))
       ) : (
-        <Text>No increase types selected</Text>
+        <View style={styles.section}>
+          <Text style={styles.resultText}>No increase types selected</Text>
+        </View>
       )}
       </View>
       </ScrollView>
@@ -1013,7 +1015,7 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#F4A39B',
+    backgroundColor: '#00ADF2',
   },
   leftRow: {
     justifyContent: 'flex-end',
@@ -1023,13 +1025,14 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
+    backgroundColor: '#f7dae5',
   },
   ribbingCell: {
     width: Lc,
     height: Hc,
     borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'yellow',
+    borderColor: '#715604',
+    backgroundColor: '#fb93bc',
     margin: 0,
   },
   increaseArrayLeft: {

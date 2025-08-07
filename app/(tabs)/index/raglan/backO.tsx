@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Dimensions, useColorScheme } from 'react-native';
 import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
@@ -7,22 +7,26 @@ import { Ionicons } from '@expo/vector-icons';
 import { calculateRaglan } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
 import { useRouter } from 'expo-router';
-
+import { RaglanOutput } from '@/utils/calculateRaglan';
+import { Colors } from '@/constants/Colors';
 
 
 import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/index/input/result';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
+  const colorScheme = useColorScheme();
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState('');
+  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
   
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
   
+  const currentIndex = usedIncreaseType ? usedIncreaseType.indexOf(selectedIncreaseType) : -1;
+
   // Type guard to check if results is RaglanOutput
-  const isRaglanOutput = (value: any): value is import('@/utils/calculateRaglan').RaglanOutput => {
+  const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_f' in value;
   };
   
@@ -190,6 +194,7 @@ const App = observer(() => {
   return (
 
     <View style={styles.container}>
+      <View style={styles.optionsContainer}>
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -198,9 +203,9 @@ const App = observer(() => {
       <View style={[styles.horContainerTop]}>
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
-          <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.96 }]}>
+          <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
             <TouchableOpacity onPress={() => setSelectedIncreaseType(type)}
-             style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
+             style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}>
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
             </TouchableOpacity>
             {/* 
@@ -275,9 +280,23 @@ const App = observer(() => {
       )}
       </View>
       </ScrollView>
+      </View>
+      
+      <View style={styles.paginationContainer}>
+        {usedIncreaseType && Array.isArray(usedIncreaseType) && usedIncreaseType.map((_, index) => (
+            <View
+                key={`dot-${index}`}
+                style={[
+                    styles.paginationDot,
+                    currentIndex === index && { backgroundColor: Colors[colorScheme ?? 'light'].tint }
+                ]}
+            />
+        ))}
+      </View>
+      
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
-       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')} </Text>
+       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')}: {results.SFrontO} {i18n.t('stitches')} </Text>
       </View>
       <ScrollView 
           horizontal 
@@ -300,18 +319,24 @@ const App = observer(() => {
       </ScrollView>
       </ScrollView>
 
+      <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+        <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        </View>
         <Text style={styles.infoText}>Stitches: {SFrontO + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>
+        
         <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-          <Ionicons name="chevron-up" size={24} color="#007AFF" />
+          <Ionicons name="chevron-up" size={24} color='red' />
         </TouchableOpacity>
         <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-          <Ionicons name="chevron-down" size={24} color="#007AFF" />
+          <Ionicons name="chevron-down" size={24} color='red' />
         </TouchableOpacity>
+      </View>
       </View>
     </View>
   
@@ -328,22 +353,29 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
+
   },
+ 
   horContainerTop: {
     flexDirection: 'row',
-    alignItems: 'center',
+   
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
     width: 'auto',
+    paddingHorizontal: 1,
+    gap: 2,
+     
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     marginBottom: 110,
     borderWidth: 1,
-    borderColor: 'red',
+    borderColor: '#C6C6C6',
     paddingHorizontal: 20,
   },
   verticalContainer: {
@@ -380,81 +412,77 @@ const styles = StyleSheet.create({
   },
  
   navigationButtons: {
-    position: 'absolute',
-    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    padding: 10,
+    padding: 5,
+    gap: 15,
     backgroundColor: '#fff',
   },
   navButton: {
-    padding: 10,
+    padding: 5,
   },
   highlightedCell: {
     backgroundColor: 'red',
   },
   infoContainer: {
-    position: 'absolute',
-    bottom: 60,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     backgroundColor: '#fff',
   },
-  
+  controlsInfoContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'column',
+    width: '100%',
+    backgroundColor: '#fff',
+  },
   infoText: {
     fontSize: 16,
     fontWeight: 'bold',
   },
+  infoTextRed: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'red',
+  },
   section: {
     marginBottom: 10,
-    marginLeft: 0,
+    marginHorizontal: 5,
     padding: 5,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
-    width: '96%',
-    maxWidth: '96%',
+    minWidth: '45%',
+    alignSelf: 'flex-start',
   },
   resultText: {
     fontSize: 12,
     marginBottom: 1,
     textAlign: 'center' as const,
-    flexWrap: 'wrap',
-    lineHeight: 16,
+    
   },
   rowNumbersText: {
     fontSize: 12,
     marginBottom: 1,
     textAlign: 'center' as const,
-    flexWrap: 'wrap',
     lineHeight: 16,
-   
+   // flexWrap: 'wrap',
 
   },
   scrollContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  scrollContainerVertical: {
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    width: '100%',
-  },
+ 
   optionButton: {
     marginBottom: 5,
     padding: 5,
     backgroundColor: '#C6C6C6',
     borderRadius: 5,
     width: '100%',
-  },
-  selectedOptionButton: {
-    backgroundColor: '#007AFF',
-  },
-  optionText: {
-    fontSize: 14,
-    color: 'red',
   },
   selectedOptionText: {
     color: 'white',
@@ -491,6 +519,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  paginationContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 5,
+    backgroundColor: '#FFFFFF',
+    marginTop: 0,
+   
+    },
+  paginationDot: {
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    backgroundColor: '#C6C6C6',
+    marginHorizontal: 4,
   },
   
   

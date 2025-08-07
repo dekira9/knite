@@ -13,13 +13,12 @@ import {
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
   calculateVNeckIncreases22
-} from '@/app/(tabs)/index/input/resultV'; {/*  Import functions
-import { red } from 'react-native-reanimated/lib/typescript/Colors';*/}
+} from '@/app/(tabs)/index/input/resultV';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   {/*см ширина петли*/}
-const hsV = 1 / rows; {/* см высота петли или ряда */}
+const LsV = 1 / stitches;   //см ширина петли
+const hsV = 1 / rows; //см высота петли или ряда
 const Hc=hsV*25;
 const Lc=LsV*25
 
@@ -32,13 +31,13 @@ const App = observer(() => {
 
   const [highlightedRow, setHighlightedRow] = useState(-1);
   const router = useRouter();
-  {/*rotate v*/}
+  //rotate v
   const angleInRadians = Math.acos(((SFrontV)*LsV/2)/((SVfront+1)*LsV)); 
   console.log('NHV',NHV)
   console.log('SVfront',SVfront)
   console.log('LVfront',LVfront)
   console.log('SV',SV)
-    const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); {/* Преобразование радиан в градусы*/}
+    const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
 
   console.log('angleInDegrees',angleInDegrees)
 
@@ -51,7 +50,7 @@ const App = observer(() => {
   
     let increases: Array<number> = [];
   
-    {/* Выбор функции на основе условий (аналогично renderRows)*/}
+    // Выбор функции на основе условий (аналогично renderRows)
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
@@ -67,20 +66,20 @@ const App = observer(() => {
     }
   
    
-    {/* Расчет количества ячеек для каждого ряда*/}
+    // Расчет количества ячеек для каждого ряда
     const cellCounts: number[] = [];
     let currentSquares = SV;
   
-    {/* Первый ряд (i=-1)*/}
+    // Первый ряд (i=-1)
     cellCounts.push(currentSquares);
     
-    {/* Последующие ряды*/}
+    // Последующие ряды
     for (let i = 0; i < increases.length; i++) {
       currentSquares += increases[i];
       cellCounts.push(currentSquares);
     }
   
-    {/* Возвращаем общее количество ячеек для выделенного ряда*/}
+    // Возвращаем общее количество ячеек для выделенного ряда
     return cellCounts[highlightedRow + 1];
   };
   const currentRowStitches = calculateRowCellCounts(highlightedRow);
@@ -119,7 +118,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);  {/*Get cell counts for all rows*/}
+    const cellCounts = calculateRowCellCounts(highlightedRow);  //Get cell counts for all rows
     
     for (let i = -1; i < numRows; i++) {
       const row = [];
@@ -314,22 +313,26 @@ const App = observer(() => {
     let increases: Array<number> = [];
     let resultString = '';
   
-    {/* Выбор функции на основе условий*/}
+    // Выбор функции на основе условий
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
+      resultString = resultStringV12 || '';
       
     } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
       const { increases01, resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
       increases = increases01?.map(val => val === null ? 0 : val) || [];
+      resultString = resultStringV01 || '';
      
     } else if (SpribVcorn === NRrezV) {
       const { increases11, resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
       increases = increases11;
+      resultString = resultStringV11 || '';
       
     } else if (SpribVcorn === (2 * NRrezV)) {
       const { increases22, resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
       increases = increases22;
+      resultString = resultStringV22 || '';
      
     }
   
@@ -369,9 +372,11 @@ const App = observer(() => {
     return (
       <>
         {rows}
-        <Text style={styles.resultText}>
-          {resultString}
-        </Text>
+        {resultString ? (
+          <Text style={styles.resultText}>
+            {resultString}
+          </Text>
+        ) : null}
       </>
     );
   };
@@ -388,22 +393,26 @@ const App = observer(() => {
     let increases: Array<number> = [];
     let resultString = '';
   
-    {/* Выбор функции на основе условий*/}
+    // Выбор функции на основе условий
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
       const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
       increases = increases12;
+      resultString = resultStringV12 || '';
       
     } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
       const { increases01, resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
       increases = increases01?.map(val => val === null ? 0 : val) || [];
+      resultString = resultStringV01 || '';
      
     } else if (SpribVcorn === NRrezV) {
       const { increases11, resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
       increases = increases11;
+      resultString = resultStringV11 || '';
       
     } else if (SpribVcorn === (2 * NRrezV)) {
       const { increases22, resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
       increases = increases22;
+      resultString = resultStringV22 || '';
      
     }
   
@@ -420,14 +429,14 @@ const App = observer(() => {
               i === -1 && styles.zeroRowSquare,
               i===0 && styles.firstRowSquare,
               i === totalRows - 2 && styles.lastRowSquare,
-              i === highlightedRow && styles.highlightedCell , {/*Условие, чтобы нулевой ряд не выделялся*/}
+              i === highlightedRow && styles.highlightedCell //Условие, чтобы нулевой ряд не выделялся
             ]} 
           />
         );
       }
       rows.push(
         <View key={`right-${i}`} style={styles.row}>
-        {/*<Text style={styles.rowNumber}>{i + 1}</Text> цифры рядов*/}
+       {/*<Text style={styles.rowNumber}>{i + 1}</Text> //цифры рядов*/}
                  
          <View style={styles.squaresContainer}>
             {row}
@@ -443,36 +452,30 @@ const App = observer(() => {
     return (
       <>
         {rows}
-        <Text style={styles.resultText}>
-          {resultString}
-        </Text>
+        {resultString ? (
+          <Text style={styles.resultText}>
+            {resultString}
+          </Text>
+        ) : null}
       </>
     );
   };
   const highlightNextRow = () => {
     setHighlightedRow((prev) => {
-      const newRow = (prev + 1) % (NRrezV + 1); {/*Увеличиваем модуль на 1, чтобы включить -1*/}
-      return newRow === NRrezV ? -1 : newRow;  {/*Если достигли конца, возвращаемся к -1*/}
+      const newRow = (prev + 1) % (NRrezV + 1); //Увеличиваем модуль на 1, чтобы включить -1
+      return newRow === NRrezV ? -1 : newRow;  //Если достигли конца, возвращаемся к -1
     });
   };
   
   const highlightPreviousRow = () => {
     setHighlightedRow((prev) => {
-      const newRow = (prev - 1 + (NRrezV + 1)) % (NRrezV + 1);  {/*Увеличиваем модуль на 1, чтобы включить -1*/}
-      return newRow === NRrezV ? -1 : newRow;  {/*Если достигли начала, возвращаемся к -1*/}
+      const newRow = (prev - 1 + (NRrezV + 1)) % (NRrezV + 1);  //Увеличиваем модуль на 1, чтобы включить -1
+      return newRow === NRrezV ? -1 : newRow;  //Если достигли начала, возвращаемся к -1
     });
   };
 
-{/*
- const highlightNextRow = () => {
-    setHighlightedRow((prev) => (prev + 1) % (NRrezV ));
-  };
 
-  const highlightPreviousRow = () => {
-    setHighlightedRow((prev) => (prev - 1 + (NRrezV )) % (NRrezV));
-  }
-*/}
-{/*вычисление количества ячеек в рядах V резинки */}
+
 
 
 {/*КОНЕЦ вычисление количества ячеек в рядах V резинки */}
@@ -493,11 +496,11 @@ if (!SpribVcorn) {
        <View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: '#C6C6C6', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('castOnRow')} </Text>
+       <Text style={styles.resultText}> {i18n.t('castOnRow') || 'Cast On Row'} </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('ribbing')} </Text>
+       <Text style={styles.resultText}> {i18n.t('ribbing') || 'Ribbing'} </Text>
       </View>
       </View>
           <View style={{minHeight: 1000, paddingTop: 20}}>
@@ -568,28 +571,26 @@ if (!SpribVcorn) {
         </ScrollView>
       </View>
       
-      {/*<View style={styles.footerContainer}>*/}
+      <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
+      <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+      </View>
           <Text style={styles.infoText}>Stitches: {KV*4 + SFrontV + 2 * SaV + 2*(currentRowStitches as number)}</Text>
         </View>
         
         <View style={styles.navigationButtons}>
-        <TouchableOpacity 
-        style={styles.backButton}
-        onPress={() => router.push('/(tabs)/index/input/resultV')}
-      >
-        <Text style={styles.backButtonText}>← Back to Result</Text>
-      </TouchableOpacity>
+        
           <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-            <Ionicons name="chevron-up" size={24} color="#007AFF" />
+            <Ionicons name="chevron-up" size={24} color='red' />
           </TouchableOpacity>
           <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-            <Ionicons name="chevron-down" size={24} color="#007AFF" />
+            <Ionicons name="chevron-down" size={24} color='red' />
           </TouchableOpacity>
         </View>
-        
-     {/* </View>*/}
+        </View>
+     
      
     </View>
   );
@@ -742,30 +743,35 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '180deg' }],
   },
   navigationButtons: {
-    position: 'absolute',
-    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    padding: 10,
+    padding: 5,
+    gap: 15,
     backgroundColor: '#fff',
   },
   navButton: {
-    padding: 10,
-    marginHorizontal: 15,
+    padding: 5,
+   
     
   },
   highlightedCell: {
     backgroundColor: 'red',
   },
+  controlsInfoContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'column',
+    width: '100%',
+    backgroundColor: '#fff',
+  },
   infoContainer: {
    
-    position: 'absolute',
-    bottom: 60,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     backgroundColor: '#fff',
   },
   
