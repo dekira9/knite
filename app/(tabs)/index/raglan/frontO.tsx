@@ -17,6 +17,7 @@ const App = observer(() => {
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
+  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   const screenWidth = Dimensions.get('window').width;
 
   const results = introState.calculateRaglan();
@@ -199,15 +200,33 @@ const App = observer(() => {
                 {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
                 usedIncreaseType.map(type  => (
                 <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
-                    <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}>
-                    <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
+                    <TouchableOpacity 
+                      onPress={() => {
+                        setSelectedIncreaseType(type);
+                        if (selectedIncreaseType === type) {
+                          setIsDetailsExpanded(!isDetailsExpanded);
+                        } else {
+                          setIsDetailsExpanded(false);
+                        }
+                      }}
+                      style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}
+                    >
+                      <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}>
+                        {i18n.t?.('option') + ' ' + type}
+                      </Text>
+                      <Ionicons 
+                        name={selectedIncreaseType === type && isDetailsExpanded ? "chevron-up" : "chevron-down"} 
+                        size={16} 
+                        color={selectedIncreaseType === type ? (Colors[colorScheme ?? 'light'].tint === '#FFFFFF' ? '#333' : '#FFFFFF') : Colors[colorScheme ?? 'light'].tint}
+                        style={styles.chevronIcon}
+                      />
                     </TouchableOpacity>
                     {/* 
                     <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
                     {i18n.t?.('option') || 'Option'}
                     </Text> 
                     */} 
-                    {type === '1x2, 1x4' && isRaglanOutput(results) && (
+                    {type === '1x2, 1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
@@ -215,7 +234,7 @@ const App = observer(() => {
                         <Text style={styles.rowNumbersText}>{resultString24}</Text>
                     </>
                     )}
-                    {type === '1x2, 1x3' && isRaglanOutput(results) && (
+                    {type === '1x2, 1x3' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
@@ -223,7 +242,7 @@ const App = observer(() => {
                         <Text style={styles.rowNumbersText}>{resultString23}</Text>
                     </>
                     )}
-                    {type === '1x2, 1x1' && isRaglanOutput(results) && (
+                    {type === '1x2, 1x1' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
@@ -231,7 +250,7 @@ const App = observer(() => {
                         <Text style={styles.rowNumbersText}>{resultString21}</Text>
                     </>
                     )}
-                    {type === '1x3, 1x4' && isRaglanOutput(results) && (
+                    {type === '1x3, 1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_f}</Text>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_f}</Text>
@@ -239,28 +258,28 @@ const App = observer(() => {
                         <Text style={styles.rowNumbersText}>{resultString43}</Text>
                     </>
                     )}
-                    {type === '1x4' && isRaglanOutput(results) && (
+                    {type === '1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                         <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                         <Text style={styles.rowNumbersText}>{RowPrib1x4String}</Text>
                     </>
                     )}
-                    {type === '1x3' && isRaglanOutput(results) && (
+                    {type === '1x3' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                         <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                         <Text style={styles.rowNumbersText}>{RowPrib1x3String}</Text>
                     </>
                     )}
-                    {type === '1x2' && isRaglanOutput(results) && (
+                    {type === '1x2' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                         <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                         <Text style={styles.rowNumbersText}>{RowPrib1x2String}</Text>
                     </>
                     )}
-                    {type === '1x1' && isRaglanOutput(results) && (
+                    {type === '1x1' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
                     <>
                         <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                         <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
@@ -462,6 +481,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#C6C6C6',
     borderRadius: 5,
     width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  chevronIcon: {
+    marginLeft: 8,
   },
   selectedOptionText: {
     color: 'white',
@@ -471,7 +496,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#F4A39B',
+    backgroundColor: '#00ADF2',
   },
   leftRow: {
     justifyContent: 'flex-end',
@@ -481,6 +506,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderWidth: 1,
     borderColor: 'black', // Без фона для обычных ячеек
+    backgroundColor: '#ffe9f1', 
   },
   ribbingCell: {
     width: 10,

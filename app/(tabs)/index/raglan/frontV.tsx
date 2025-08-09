@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
+import { View, StyleSheet , ScrollView,TouchableOpacity,Text, Dimensions, useColorScheme  } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
@@ -10,7 +10,7 @@ import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
 import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/resultV';
 import { RaglanOutput } from '@/utils/calculateRaglan';
-
+import { Colors } from '@/constants/Colors';
 
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
@@ -26,7 +26,12 @@ const App = observer(() => {
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
+  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+  const colorScheme = useColorScheme();
+  const screenWidth = Dimensions.get('window').width;
   
+  const currentIndex = usedIncreaseType ? usedIncreaseType.indexOf(selectedIncreaseType) : -1;
+
   const results = introState.calculateRaglan();
   const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value;
@@ -722,6 +727,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
   return (
 
     <View style={styles.container}>
+       <View style={styles.optionsContainer}>
       <ScrollView 
           horizontal 
           contentContainerStyle={styles.scrollContainer}
@@ -730,16 +736,34 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       <View style={[styles.horContainerTop]}>
         {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
         usedIncreaseType.map(type  => (
-          <View key={type} style={[styles.section, { marginRight: 10 }]}>
-            <TouchableOpacity onPress={() => setSelectedIncreaseType(type)} style={[styles.optionButton, selectedIncreaseType === type ? styles.selectedOptionButton : null]}>
-              <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}> {i18n.t?.('option') + ' ' + type}</Text>
+          <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
+            <TouchableOpacity 
+              onPress={() => {
+                setSelectedIncreaseType(type);
+                if (selectedIncreaseType === type) {
+                  setIsDetailsExpanded(!isDetailsExpanded);
+                } else {
+                  setIsDetailsExpanded(false);
+                }
+              }}
+              style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}
+            >
+              <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}>
+                {i18n.t?.('option') + ' ' + type}
+              </Text>
+              <Ionicons 
+                name={selectedIncreaseType === type && isDetailsExpanded ? "chevron-up" : "chevron-down"} 
+                size={16} 
+                color={selectedIncreaseType === type ? (Colors[colorScheme ?? 'light'].tint === '#FFFFFF' ? '#333' : '#FFFFFF') : Colors[colorScheme ?? 'light'].tint}
+                style={styles.chevronIcon}
+              />
             </TouchableOpacity>
             {/* 
             <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
               {i18n.t?.('option') || 'Option'}
             </Text> 
             */} 
-            {type === '1x2, 1x4' && isRaglanOutput(results) && (
+            {type === '1x2, 1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_fV}</Text>
@@ -749,7 +773,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
               </>
             )}
             
-            {type === '1x2, 1x3' && isRaglanOutput(results) && (
+            {type === '1x2, 1x3' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_fV}</Text>
@@ -757,7 +781,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
                 <Text style={styles.resultText}>{resultString23V}</Text>
               </>
             )}
-            {type === '1x2, 1x1' && isRaglanOutput(results) && (
+            {type === '1x2, 1x1' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_fV}</Text>
@@ -765,7 +789,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
                 <Text style={styles.resultText}>{resultString21V}</Text>
               </>
             )}
-            {type === '1x3, 1x4' && isRaglanOutput(results) && (
+            {type === '1x3, 1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_fV}</Text>
@@ -773,28 +797,28 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
                 <Text style={styles.resultText}>{resultString43V}</Text>
               </>
             )}
-            {type === '1x4' && isRaglanOutput(results) && (
+            {type === '1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                 <Text style={styles.resultText}>{results.RowPrib1x4StringV}</Text>
               </>
             )}
-             {type === '1x3' && isRaglanOutput(results) && (
+             {type === '1x3' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                 <Text style={styles.resultText}>{results.RowPrib1x3StringV}</Text>
               </>
             )}
-            {type === '1x2' && isRaglanOutput(results) && (
+            {type === '1x2' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
                 <Text style={styles.resultText}>{results.RowPrib1x2StringV}</Text>
               </>
             )}
-            {type === '1x1' && isRaglanOutput(results) && (
+            {type === '1x1' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
@@ -810,9 +834,23 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       )}
       </View>
       </ScrollView>
+      </View>
+      
+      
+      <View style={styles.paginationContainer}  >
+        {usedIncreaseType && Array.isArray(usedIncreaseType) && usedIncreaseType.map((_, index) => (
+            <View
+                key={`dot-${index}`}
+                style={[
+                    styles.paginationDot,
+                    currentIndex === index && { backgroundColor: Colors[colorScheme ?? 'light'].tint }
+                ]}
+            />
+        ))}
+      </View>
       <View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+       <View style={{width: 17, height: 17, backgroundColor: '#fb93bc', marginLeft: 10, borderTopWidth: 3, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderTopColor: 'yellow', borderBottomColor: '#715604', borderLeftColor: '#715604', borderRightColor: '#715604'}}></View>
        <Text style={styles.resultText}> {i18n.t('knitTheStitchesFromTheRibbing')} </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
@@ -824,7 +862,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
        <Text style={styles.resultText}> {i18n.t('thereAreNoStitches')} </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: '#F4A39B', marginLeft: 10, borderWidth: 1}}></View>
+       <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
        <Text style={styles.resultText}> {i18n.t('addingStitchesAlongTheRaglanLine')} </Text>
       </View>
       </View>
@@ -858,26 +896,27 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       </ScrollView>
       </ScrollView>
 
+<View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
+      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        </View>
         <Text style={styles.infoText}>Stitches: {leftCellCount + rightCellCount + leftVNeckCount + rightVNeckCount}</Text>
       </View>
       <View style={styles.navigationButtons}>
-      <TouchableOpacity 
-        style={styles.backButton}
-        onPress={() => router.push('/(tabs)/index/input/resultV')}
-      >
-        <Text style={styles.backButtonText}>← Back to Result</Text>
-      </TouchableOpacity>
+
+      
         <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-          <Ionicons name="chevron-up" size={24} color="#007AFF" />
+          <Ionicons name="chevron-up" size={24} color='red' />
         </TouchableOpacity>
         <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-          <Ionicons name="chevron-down" size={24} color="#007AFF" />
+          <Ionicons name="chevron-down" size={24} color='red' />
         </TouchableOpacity>
       </View>
+      </View>
+      
     </View>
-  
   );
 });
 
@@ -891,30 +930,35 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
+    backgroundColor: '#FFFFFF',
   },
   horContainerTop: {
     flexDirection: 'row',
-    alignItems: 'center',
-    
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
+    width: 'auto',
+    paddingHorizontal: 1,
+    gap: 2,
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     marginBottom: 110,
-    borderWidth: 0,
-    borderColor: 'red',
+    borderWidth: 1,
+    borderColor: '#C6C6C6',
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
+    paddingTop: 10,
+    
   },
   verticalContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    borderWidth: 0,
+    borderWidth: 1,
     borderColor: 'grey',
   },
  
@@ -945,27 +989,33 @@ const styles = StyleSheet.create({
   },
  
   navigationButtons: {
-    position: 'absolute',
-    bottom: 0,
+    
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    padding: 10,
+    padding: 5,
+    gap: 15,
     backgroundColor: '#fff',
   },
   navButton: {
-    padding: 10,
+    padding: 5,
   },
   highlightedCell: {
     backgroundColor: 'red',
   },
   infoContainer: {
-    position: 'absolute',
-    bottom: 60,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
+    backgroundColor: '#fff',
+  },
+  controlsInfoContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'column',
+    width: '100%',
     backgroundColor: '#fff',
   },
   
@@ -999,6 +1049,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#C6C6C6',
     borderRadius: 5,
     width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  chevronIcon: {
+    marginLeft: 8,
   },
   selectedOptionButton: {
     backgroundColor: '#007AFF',
@@ -1025,13 +1081,20 @@ const styles = StyleSheet.create({
     height: Hc,
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#f7dae5',
+    backgroundColor: '#ffe9f1', 
   },
   ribbingCell: {
     width: Lc,
     height: Hc,
     borderWidth: 1,
-    borderColor: '#715604',
+    borderTopWidth: 3,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderTopColor: 'yellow',
+    borderBottomColor: '#715604',
+    borderLeftColor: '#715604',
+    borderRightColor: '#715604',
     backgroundColor: '#fb93bc',
     margin: 0,
   },
@@ -1121,6 +1184,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#808080',
     margin: 0,
   },
+  paginationContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 5,
+    backgroundColor: '#FFFFFF',
+    marginTop: 0,
+   
+    },
+    paginationDot: {
+      height: 8,
+      width: 8,
+      borderRadius: 4,
+      backgroundColor: '#C6C6C6',
+      marginHorizontal: 4,
+    },
 });
 
 export default App;

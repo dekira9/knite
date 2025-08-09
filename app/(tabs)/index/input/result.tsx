@@ -366,6 +366,16 @@ export default observer(() => {
       </View>
     );
   }
+  const handleScrollToTop1 = () => {
+    {/*// Scroll to top*/ }
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    {/* Scroll carousel to planOaz1.png (index 0)*/}
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 40;
+      carouselRef.current?.scrollTo({ x: slideSize * 0, animated: true });
+      setCurrentIndex(0);   {/* Update current index to match*/}
+    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
+  };
 
   return (
     <View style={[styles.mainContainer, { paddingTop: insets.top }]}>
@@ -420,12 +430,7 @@ export default observer(() => {
           ))}
         </View>
 
-        {/* <View style={styles.resultCard}>
-          <Text style={styles.subtitle}>Основная информация</Text>
-          <Text style={styles.resultText}>
-            Вязать по кругу начиная с резинки
-          </Text> 
-        </View> */}
+        
 
         <View style={styles.resultCard}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
@@ -460,6 +465,11 @@ export default observer(() => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.Sgor}
+            </Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={styles.resultText}>
+              {i18n.t('knitting')}
             </Text>
             <Image
               source={require('@/assets/images/knitcircle.svg')}
@@ -871,6 +881,11 @@ export default observer(() => {
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: +{results.Sfx}
             </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
             <Image
               source={require('@/assets/images/knitcircle.svg')}
               style={styles.styleKnitCircleImage}
@@ -1497,6 +1512,11 @@ export default observer(() => {
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.SRostok}
             </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
             <Image
               source={require('@/assets/images/knitflat.svg')}
               style={styles.styleKnitCircleImage}
@@ -1509,11 +1529,13 @@ export default observer(() => {
 
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.resultText}>{i18n.t('start')}</Text>
+            <TouchableOpacity onPress={handleScrollToTop1}>
             <Image
               source={require('@/assets/images/startv.svg')}
               style={styles.startvImage}
               contentFit="contain"
             />
+            </TouchableOpacity>
             <Text style={styles.resultText}> : </Text>
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -1858,11 +1880,13 @@ export default observer(() => {
 
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <Text style={styles.resultText}>{i18n.t('start')}</Text>
+            <TouchableOpacity onPress={handleScrollToTop1}>
             <Image
               source={require('@/assets/images/startend.svg')}
               style={styles.startvImage}
               contentFit="contain"
             />
+            </TouchableOpacity>
             <Text style={styles.resultText}> : </Text>
           </View>
 
@@ -1967,9 +1991,10 @@ export default observer(() => {
                   }}
                 ></View>
                 <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SPodr} {'\n'}
+                  {i18n.t('stitches')}: {results.SPodr} </Text>
                   <Text style={styles.createText}>{i18n.t('create')}</Text>
-                </Text>
+                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                
               </View>
               {/* round*/}
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
@@ -2073,9 +2098,10 @@ export default observer(() => {
                   }}
                 ></View>
                 <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SPodr} {'\n'}
+                  {i18n.t('stitches')}: {results.SPodr}</Text>
                   <Text style={styles.createText}>{i18n.t('create')}</Text>
-                </Text>
+                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                
               </View>
             </View>
           </ScrollView>
@@ -2203,7 +2229,7 @@ export default observer(() => {
                 ></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                  <Text style={styles.createText}>{i18n.t('created')}</Text>
+                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
               </View>
               {/*  round*/}
@@ -2302,7 +2328,7 @@ export default observer(() => {
                 ></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                  <Text style={styles.createText}>{i18n.t('created')}</Text>
+                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
               </View>
             </View>
@@ -2408,9 +2434,10 @@ export default observer(() => {
                   ></View>
                 </View>
                 <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.NRostok * 0.5} {'\n'}
+                  {i18n.t('stitches')}: {results.NRostok * 0.5} </Text>
                   <Text style={styles.createText}>{i18n.t('create')}</Text>
-                </Text>
+                  <Text style={styles.createText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
+                
               </View>
 
               {/*  round*/}

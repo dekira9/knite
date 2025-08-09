@@ -406,8 +406,8 @@ export default observer(() => {
   const { resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
   const { resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
   const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
-  // Исправляем вызов функции - добавляем недостающий параметр SVfront
-  const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, results.SVfront, SpribVcorn, RowPribRV1, RowPribRVz);
+  // Исправляем вызов функции - убираем лишний параметр SVfront
+  const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
   console.log('resultStringV11', resultStringV11);
   console.log('DEBUG: results object keys:', Object.keys(results));
   console.log('DEBUG: results.usedIncreaseTypeV:', results.usedIncreaseTypeV);
@@ -474,6 +474,17 @@ export default observer(() => {
       setCurrentIndex(1);   {/* Update current index to match*/}
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
+  const handleScrollToTop1 = () => {
+    {/*// Scroll to top*/ }
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    {/* Scroll carousel to planVaz111.png (index 0)*/}
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 40;
+      carouselRef.current?.scrollTo({ x: slideSize * 0, animated: true });
+      setCurrentIndex(0);   {/* Update current index to match*/}
+    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
+  };
+    
 
   return (
     <View style={styles.mainContainer}>
@@ -812,7 +823,7 @@ export default observer(() => {
           {i18n.t('knitting')}
           </Text>
           <Image
-            source={require('@/assets/images/znts.svg')}
+            source={require('@/assets/images/znts2.svg')}
             style={styles.styleZntsImage}
             contentFit="contain"
           /> 
@@ -1120,7 +1131,7 @@ export default observer(() => {
           {i18n.t('knitting')}
           </Text>
           <Image
-            source={require('@/assets/images/znts.svg')}
+            source={require('@/assets/images/znts2.svg')}
             style={styles.styleZntsImage}
             contentFit="contain"
           /> 
@@ -1153,7 +1164,7 @@ export default observer(() => {
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
           
     <Image
-      source={require('../../../../assets/images/frontVa.png')}
+      source={require('../../../../assets/images/frontVan.png')}
       style={styles.frontImage}
      
     />
@@ -1165,11 +1176,14 @@ export default observer(() => {
 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
 <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('calculationForYou')}: {i18n.t('rows')} 1, 2</Text>  
 </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={styles.resultText}> 1: </Text>
           
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> 1: {i18n.t('row1ForPart')} R </Text>
+          </View>
+          
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
          
@@ -1239,17 +1253,24 @@ export default observer(() => {
 
               return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
             })()
-          ) : '0'}
+          ) : '0'}{'\n'}
+          {i18n.t('fromTheRibbing')}
           </Text>
           </View>
           
           
           </View>
           </ScrollView>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> {i18n.t('turn')} </Text>
+          </View>
   {/*2*/}
+          
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> 2: {i18n.t('row2ForPart')} R </Text>
+          </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={styles.resultText}> 2: </Text>
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
           
@@ -1289,11 +1310,13 @@ export default observer(() => {
           </View> 
           </ScrollView>
 {/*3*/} 
-<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
 
 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-<Text style={styles.resultText}> 3: </Text>
-
+<Text style={styles.resultText}> 3: {i18n.t('row1ForPart')} L </Text>
+</View>
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
 <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
 <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
 
@@ -1363,17 +1386,24 @@ export default observer(() => {
 
     return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
   })()
-) : '0'}
+) : '0'}{'\n'}
+ {i18n.t('fromTheRibbing')}
 </Text>
 </View>
 
 
 </View>
 </ScrollView>
+<View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}> {i18n.t('turn')} </Text>
+          </View>
 {/*4*/}
-<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={styles.resultText}> 4: </Text>
+          <Text style={styles.resultText}> 4: {i18n.t('row2ForPart')} L </Text>
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
           <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
           
@@ -1422,17 +1452,37 @@ export default observer(() => {
         
          
         </View>
-
+<ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 3:</Text>
+        <Text style={[styles.resultText, {padding: 5}]}>
+          {i18n.t('knitting')}
+          </Text>
         <Image
           source={require('@/assets/images/knitcircle.svg')}
           style={styles.styleKnitCircleImage}
           contentFit="contain"
         /> 
         <Text style={styles.resultText}>
-        {i18n.t('rows')}:{results.NHFrontV-results.NHV},
+        {i18n.t('rows')}:{results.NHFrontV-results.NHV}
         </Text>
+        
+        </View>
+        </ScrollView>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <Text style={styles.resultText}>
+        {i18n.t('start')}:
+        </Text>
+        <TouchableOpacity onPress={handleScrollToTop1}>
+        <Image
+          source={require('@/assets/images/znkr2.svg')}
+          style={styles.styleZnkr}
+          contentFit="contain"
+        /> 
+        </TouchableOpacity>
+         <Text style={styles.resultText}>
+          {i18n.t('row')}: {results.NHV +1}
+          </Text>
         
         </View>
 
@@ -1458,6 +1508,12 @@ export default observer(() => {
           <Text style={styles.resultText}>
           {i18n.t('stitches')}: {results.SRostok}
           </Text>
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <Text style={styles.resultText}>
+          {i18n.t('knitting')}
+          </Text>
           <Image
             source={require('@/assets/images/knitflat.svg')}
             style={styles.styleKnitCircleImage}
@@ -1466,8 +1522,9 @@ export default observer(() => {
           <Text style={styles.resultText}>
             {i18n.t('rows')}: {results.NRostok}
           </Text>
-          </View>
 
+          </View>
+          </ScrollView>
           
 
 
@@ -1475,11 +1532,13 @@ export default observer(() => {
           <Text style={styles.resultText}>
           {i18n.t('start')}
           </Text>
+          <TouchableOpacity onPress={handleScrollToTop1}>
           <Image
             source={require('@/assets/images/startv.svg')}
             style={styles.startvImage}
             contentFit="contain"
           />
+          </TouchableOpacity>
           <Text style={styles.resultText}> : </Text>
           </View> 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -1640,11 +1699,13 @@ export default observer(() => {
           <Text style={styles.resultText}>
           {i18n.t('start')}
           </Text>
+          <TouchableOpacity onPress={handleScrollToTop1}>
           <Image
             source={require('@/assets/images/startend.svg')}
             style={styles.startvImage}
             contentFit="contain"
           />
+          </TouchableOpacity>
           <Text style={styles.resultText}> : </Text>
           </View> 
 
@@ -1695,8 +1756,10 @@ export default observer(() => {
           <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
+          {(i18n.t('stitches') || 'stitches')}: {results.SPodr || ''}
           </Text>
+          <Text style={styles.createText}>{i18n.t('create') || 'create'}</Text>
+          <Text style={styles.createText}>{i18n.t('underarmStitches') || 'underarmStitches'}</Text>
           </View>
           {/* round*/}
          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -1733,8 +1796,10 @@ export default observer(() => {
           <View style={{ marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
           <View style={{width: 17, height: 17, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text> 
+          {(i18n.t('stitches') || 'stitches')}: {results.SPodr || ''}
           </Text>
+          <Text style={styles.createText}>{i18n.t('create') || 'create'}</Text>
+          <Text style={styles.createText}>{i18n.t('underarmStitches') || 'underarmStitches'}</Text>
           </View>
         
 
@@ -1796,7 +1861,7 @@ export default observer(() => {
           <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: '#009FE3', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('created')}</Text>
+          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
           </Text>
           </View>
           {/*  round*/}
@@ -1825,7 +1890,7 @@ export default observer(() => {
           <View style={{width: 17, height: 8, backgroundColor: '#FF00FF', marginLeft: 10, borderWidth: 1}}></View>
           <View style={{width: 17, height: 17, backgroundColor: '#009FE3', marginLeft: 10, borderWidth: 1}}></View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('created')}</Text>
+          {i18n.t('stitches')}: {results.SPodr} {'\n'}<Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
           </Text>
           </View>
          
@@ -1871,8 +1936,9 @@ export default observer(() => {
           <View style={{width: 17, height: 17, backgroundColor: '#95C11F', marginLeft: 0, borderWidth: 1}}></View>
           </View>
           <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.NRostok *0.5} {'\n'}<Text style={styles.createText}>{i18n.t('create')}</Text>
-          </Text>
+          {i18n.t('stitches')}: {results.NRostok *0.5} </Text>
+          <Text style={styles.createText}>{i18n.t('create') || 'create'}</Text>
+          <Text style={styles.createText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
          </View>
           
          {/*  round*/}
@@ -2144,6 +2210,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: '500',
     letterSpacing: 0.5,
+  },
+  styleZnkr: {
+    width: 40,
+    height: 40,
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 
