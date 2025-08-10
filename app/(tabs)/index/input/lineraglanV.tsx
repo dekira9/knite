@@ -22,7 +22,10 @@ const LineraglanV = () => {
 
   // Функция для обработки изменений в Slider
   const handleSliderChange = (value: number) => {
-    introState.setRaglanLineWidthV(value); // Обновляем ширину регланной линии в introState
+    const newValue = Math.round(value);
+    if (introState.raglanLineWidthV !== newValue) {
+      introState.setRaglanLineWidthV(newValue); // Обновляем ширину регланной линии в introState
+    }
   };
 
   // Функция для обработки изменений в TextInput
@@ -33,10 +36,21 @@ const LineraglanV = () => {
     } else {
       const numericValue = parseInt(value, 10);
       if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= KmaxV) {
-        setSliderValue(value);
-        introState.setRaglanLineWidthV(numericValue);
-      } else {
-        setSliderValue('');
+        // Обновляем состояние только если значение действительно изменилось
+        if (sliderValue !== value) {
+          setSliderValue(value);
+        }
+        if (introState.raglanLineWidthV !== numericValue) {
+          introState.setRaglanLineWidthV(numericValue);
+        }
+      } else if (numericValue > KmaxV) {
+        // Если значение больше максимума, устанавливаем максимум
+        setSliderValue(KmaxV.toString());
+        introState.setRaglanLineWidthV(KmaxV);
+      } else if (numericValue < Kmin) {
+        // Если значение меньше минимума, устанавливаем минимум
+        setSliderValue(Kmin.toString());
+        introState.setRaglanLineWidthV(Kmin);
       }
     }
   };
@@ -55,7 +69,11 @@ const LineraglanV = () => {
       />
       <Text style={styles.title}>{i18n.t('RaglanLineWidth')}</Text>
       <View style={styles.inputContainer}>
-      <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) - 1).toString())}>
+      <TouchableOpacity onPress={() => {
+        const currentValue = parseInt(sliderValue) || 0;
+        const newValue = Math.max(Kmin, currentValue - 1);
+        handleTextInputChange(newValue.toString());
+      }}>
         <Text style={styles.arrow}>-</Text>
       </TouchableOpacity>
         <TextInput
@@ -65,7 +83,11 @@ const LineraglanV = () => {
           placeholder="Введите значение"
           onChangeText={handleTextInputChange}  
         />
-        <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) + 1).toString())}>
+        <TouchableOpacity onPress={() => {
+          const currentValue = parseInt(sliderValue) || 0;
+          const newValue = Math.min(KmaxV, currentValue + 1);
+          handleTextInputChange(newValue.toString());
+        }}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('stitches')}</Text>

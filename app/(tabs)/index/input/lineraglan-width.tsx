@@ -10,7 +10,7 @@ import { screenWidth } from '@/utils/Layout';
 
 const LineraglanWidth = () => {
   const router = useRouter();
-  const Kmin = 1;
+  const Kmin = 0;
   const Kmax = Math.floor((introState.Sgor - 16) / 4);
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidth.toString());
 
