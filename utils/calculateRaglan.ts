@@ -7,10 +7,12 @@ interface RaglanInput {
   stitchDensity: string;
   rowDensity: string;
   fitType: string;
-  ribbingWidth: string;
-  ribbingWidthV: string;
-  resultString24: string;
+  ribbingWidth: number | string;
+  ribbingWidthV: number | string;
+  resultString24?: string;
   raglanLineWidthV?: number;
+  depthNeckV?: number;
+  [key: string]: any;
 }
 
 export interface RaglanOutput {
@@ -150,8 +152,8 @@ export function calculateRaglan({
   const chest = parseFloat(chestCircumference.replace(',', '.'));
   const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
   const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-  const ribbing = parseFloat(ribbingWidth);
-  const ribbingV = parseFloat(ribbingWidthV);
+  const ribbing = typeof ribbingWidth === 'string' ? parseFloat(ribbingWidth) : ribbingWidth;
+  const ribbingV = typeof ribbingWidthV === 'string' ? parseFloat(ribbingWidthV) : ribbingWidthV;
   
 
   if (isNaN(head) || isNaN(neck) || isNaN(chest) || isNaN(stitches) || isNaN(rows)) {
@@ -470,123 +472,7 @@ console.log('HrezV', HrezV);
   console.log('resultStringV:', resultStringV);
   // конец расчета для V-выреза переда
 
-  console.log('Results object:', {
-    Sgor,
-    SgorV,
-    NRrez,
-    NRrezV,
-    SFrontO,
-    SFrontV,
-    Sa,
-    SaV,
-    K,
-    KV,
-    LFrontO,
-    LFrontV,
-    SKfront,
-    SKfrontV,
-    SKa,
-    SKaV,
-    NHFront,
-    NHFrontV,
-    NRostok,
-   
-    SFrontOGr,
-    SFrontOGrV,
-    SPodr,
-    Sfx,
-    SfxV,
-    prib_1x1,
-    prib_1x1V,
-    prib_1x2,
-    prib_1x2V,
-    prib_1x3,
-    prib_1x3V,
-    PR_1x4,
-    PR_1x4V,
-    PR_1x2,
-    PR_1x2V,
-    PRib_1x4,
-    PRib_1x4V,
-    PRib_1x3,
-    PRib_1x3V,
-    prib_1x1_f,
-    prib_1x1_fV,
-    prib_1x2_f,
-    prib_1x2_fV,
-    prib_1x3_f,
-    prib_1x3_fV,
-    PR_1x4_f,
-    PR_1x4_fV,
-    PR_1x2_f,
-    PR_1x2_fV,
-    PRib_1x4_f,
-    PRib_1x4_fV,
-    PRib_1x3_f,
-    PRib_1x3_fV,
-    usedIncreaseType,
-    usedIncreaseTypeString,
-    usedIncreaseTypeV,
-    usedIncreaseTypeStringV,
-    fit,
-    SFit,
-    SOgr,
-    SPodr,
-    stitches,
-    SRostok,
-    SRostokV,
-    RowPrib1x4,
-    RowPrib1x4V,
-    RowPrib1x4String,
-    RowPrib1x4StringV,
-    RowPrib1x3,
-    RowPrib1x3V,
-    RowPrib1x3String,
-    RowPrib1x3StringV,
-    RowPrib1x2,
-    RowPrib1x2V,
-    RowPrib1x2String,
-    RowPrib1x2StringV,
-    RowPrib1x1,
-    RowPrib1x1V,
-    RowPrib1x1String,
-    RowPrib1x1StringV,
-    NHVmax,
-    LHVmax,
-    LKmaxV,
-    KmaxV,
-    LHVmin,
-    NHVmin,
-    LHV,
-    NHV,
-    
-    LpribVcorn,
-    SpribVcorn,
-    LVfront,
-    SVfront,
-    SV,
-    SVO,
-    SOcutV,
-    NRfxV,
-    NRfx,
-    PribRVz,
-    PribRV1s,
-    PribRV2s,
-    RowPribRV1,
-    RowPribRV2,
-    RowPribRVz,
-    hsV,
-    isV,
-    isPlusOneV,
-    pairsWithIsV,
-    pairsWithIsPlusOneV,
-    rowsWithIsV,
-    rowsWithIsPlusOneV,
-    krV,
-    positionsWithIsV,
-    positionsWithIsPlusOneV,
-    resultStringV,
-  });
+  console.log('Results calculated for V-neck raglan');
 
   return {
     Sgor,

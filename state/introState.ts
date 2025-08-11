@@ -75,7 +75,7 @@ const IntroState = types
     ribbingWidth: types.optional(types.number, 2),
     raglanLineWidth: types.optional(types.number, 0),
     raglanLineWidthV: types.optional(types.number, 1),
-    depthNeckV: types.optional(types.number, 1),  
+    depthNeckV: types.maybe(types.number),  
     ribbingWidthV: types.optional(types.number, 2),
     RowPrib1x4: types.optional(types.array(types.number), []),
     RowPrib1x4V: types.optional(types.array(types.number), []),
@@ -139,7 +139,7 @@ const IntroState = types
       self.fitType = value;
       this.persistState();
     },
-    setRaglanData(data) {
+    setRaglanData(data: any) {
       Object.assign(self, data);
       this.persistState();
     },
@@ -285,7 +285,7 @@ const IntroState = types
         console.error('Failed to save intro state:', error);
       }
     },
-    setPersistedState(state) {
+    setPersistedState(state: any) {
       self.styleChosen = state.styleChosen;
       self.style = state.style;
       self.headCircumference = state.headCircumference;
@@ -419,7 +419,6 @@ const IntroState = types
         fitType: self.fitType,
         ribbingWidth: self.ribbingWidth,
         ribbingWidthV: self.ribbingWidthV,
-        depthNeckV: self.depthNeckV,
         raglanLineWidthV: self.raglanLineWidthV,
         RowPrib1x4: self.RowPrib1x4,  
         RowPrib1x4V: self.RowPrib1x4V,
