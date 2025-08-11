@@ -52,8 +52,9 @@ export const calculateVNeckIncreases12 = (
   RowPribRV2: number
   
 ) => {
+  console.log('calculateVNeckIncreases12 params:', { NRrezV, RowPribRV1, RowPribRV2 });
   if (RowPribRV1 <= 0) {
-    throw new Error("RowPribRV1 должен быть больше нуля");
+    throw new Error("RowPribRV1 должен быть больше нуля6, а он равен " + RowPribRV1);
   }
   const MR2 = Array.from({ length: RowPribRV2 }, (_, rb) => rb + 1);
   const MR1 = Array.from({ length: RowPribRV1 }, (_, ra) => ra + 1);

@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import i18n from '@/utils/translations';
+import { resetAllState } from '@/state/reset';
 
 const languages = [
   { code: 'en', name: 'English', nativeName: 'English' },
@@ -62,6 +63,27 @@ const Settings = observer(() => {
     );
   };
 
+  const handleResetStore = () => {
+    Alert.alert(
+      'Reset store',
+      'This will clear all local state and simulate a fresh user. Continue?',
+      [
+        { text: i18n.t('cancel'), style: 'cancel' },
+        {
+          text: 'OK',
+          onPress: async () => {
+            try {
+              await resetAllState();
+              router.replace('/onboarding/welcome');
+            } catch (e) {
+              Alert.alert('Error', 'Failed to reset the app state.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Text style={styles.title}>{i18n.t('settings')}</Text>
@@ -86,17 +108,33 @@ const Settings = observer(() => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={[styles.settingButton, styles.developerButton]} 
-        onPress={handleDeveloperPress}
-      >
-        <Text style={styles.settingTitle}>
-          Developer Mode
-        </Text>
-        <Text style={styles.settingValue}>
-          Open Onboarding
-        </Text>
-      </TouchableOpacity>
+      {__DEV__ && (
+        <>
+          <TouchableOpacity 
+            style={[styles.settingButton, styles.developerButton]} 
+            onPress={handleDeveloperPress}
+          >
+            <Text style={styles.settingTitle}>
+              Developer Mode
+            </Text>
+            <Text style={styles.settingValue}>
+              Open Onboarding
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.settingButton, styles.developerButton]} 
+            onPress={handleResetStore}
+          >
+            <Text style={styles.settingTitle}>
+              Reset store (dev)
+            </Text>
+            <Text style={styles.settingValue}>
+              Clear local state and restart onboarding
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 });
