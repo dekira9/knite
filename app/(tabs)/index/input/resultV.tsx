@@ -1255,7 +1255,7 @@ export default observer(() => {
               return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
             })()
           ) : '0'}{'\n'}
-          {i18n.t('fromTheRibbing')}
+          {i18n.t('fromTheCollar')}
           </Text>
           </View>
           
@@ -1388,7 +1388,7 @@ export default observer(() => {
     return firstPairAdditionalCells; // Это количество желтых ячеек в 1-м ряду renderVNeckLeftArray
   })()
 ) : '0'}{'\n'}
- {i18n.t('fromTheRibbing')}
+ {i18n.t('fromTheCollar')}
 </Text>
 </View>
 

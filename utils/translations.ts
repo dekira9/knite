@@ -1202,6 +1202,25 @@ const knitTheStitchesFromTheCollar = {
   pt: "Tricotar os pontos da gola",
   lt: "Mezgti akis nuo apykaklės",
 };
+const fromTheCollar = {
+  en: "from the collar",
+  ru: "из воротника",
+  sv: "från kragen",
+  no: "fra kragen",
+  fi: "kauluksesta",
+  de: "aus dem Kragen",
+  fr: "du col",
+  es: "del el cuello",
+  ja: "襟から",
+  cs: "z límce",
+  bg: "от яката",
+  sk: "z goliera",
+  ko: "칼라에서",
+  tr: "yakadan",
+  ar: "من الياقة",
+  pt: "da gola",
+  lt: "iš apykaklės",
+};  
 const fromTheRibbing = {
   en: "from the ribbing",
   ru: "из резинки",
@@ -2056,6 +2075,7 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       knittingAfterCollar: knittingAfterCollar[key as keyof typeof knittingAfterCollar],
       collarKnittingChart: collarKnittingChart[key as keyof typeof collarKnittingChart],
       collar: collar[key as keyof typeof collar],
+      fromTheCollar: fromTheCollar[key as keyof typeof fromTheCollar],
       // Add other translations here as needed
     }
   };
