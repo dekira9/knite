@@ -851,7 +851,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       <View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: '#fb93bc', marginLeft: 10, borderTopWidth: 3, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderTopColor: 'yellow', borderBottomColor: '#715604', borderLeftColor: '#715604', borderRightColor: '#715604'}}></View>
-       <Text style={styles.resultText}> {i18n.t('knitTheStitchesFromTheRibbing')} </Text>
+       <Text style={styles.resultText}> {i18n.t('knitTheStitchesFromTheCollar')} </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'black', marginLeft: 10, borderWidth: 1}}></View>

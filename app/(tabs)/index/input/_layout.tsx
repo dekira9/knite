@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackHeaderProps } from '@react-navigation/native-stack';
+import i18n from '@/utils/translations';
 
 export default function IntroLayout() {
   const pathname = usePathname();
@@ -85,7 +86,7 @@ export default function IntroLayout() {
         <Stack.Screen
           name="head"
           options={{
-            title: 'Head Circumference',
+            title: i18n.t('headCircumference'),
             headerLeft: () => (
               <TouchableOpacity 
                 onPress={handleBack} 
@@ -118,73 +119,73 @@ export default function IntroLayout() {
         <Stack.Screen
           name="neck"
           options={{
-            title: 'Neck Circumference',
+            title: i18n.t('neckCircumference'),
           }}
         />
         <Stack.Screen
           name="chest"
           options={{
-            title: 'Chest Circumference',
+            title: i18n.t('chestCircumference'),
           }}
         />
         <Stack.Screen
           name="stitch-density"
           options={{
-            title: 'Stitch Density',
+            title: i18n.t('stitchDensity'),
           }}
         />
         <Stack.Screen
           name="row-density"
           options={{
-            title: 'Row Density',
+            title: i18n.t('rowDensity'),
           }}
         />
         <Stack.Screen
           name="ribbing-width"
           options={{
-            title: 'Ribbing Width',
+            title: i18n.t('collarWidth'),
           }}
         />
         <Stack.Screen
           name="ribbing-widthV"
           options={{
-            title: 'Ribbing Width',
+            title: i18n.t('collarWidth'),
           }}
         />  
         <Stack.Screen
           name="fit"
           options={{
-            title: 'Fit Type',
+            title: i18n.t('fitType'),
           }}
         />
         <Stack.Screen
           name="result"
           options={{
-            title: 'Result',
+            title: i18n.t('Result'),
           }}
         />
         <Stack.Screen
           name="resultV"
           options={{
-            title: 'Result',
+            title: i18n.t('Result'),
           }}
         />
         <Stack.Screen
           name="depthneckV"
           options={{
-            title: 'Depth Neck',
+            title: i18n.t('depthNeck'),
           }}
         />
         <Stack.Screen
           name="lineraglan-width"
           options={{
-            title: 'Lineraglan Width',
+            title: i18n.t('RaglanLineWidth'),
           }}
         />
         <Stack.Screen
           name="lineraglanV"
           options={{
-            title: 'Lineraglan Width',
+            title: i18n.t('RaglanLineWidth'),
           }}
         />
       </Stack>

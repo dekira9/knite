@@ -553,7 +553,7 @@ export default observer(() => {
           </View>
 
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-            <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
+            <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text>
             <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -806,7 +806,7 @@ export default observer(() => {
             <Text style={[styles.textStep, { textAlign: 'center' }]}>
               {i18n.t('step')}2
               {'\n'}
-              {i18n.t('knittingAfterRibbing')}
+              {i18n.t('knittingAfterCollar')}
             </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>

@@ -55,7 +55,7 @@ export default observer(() => {
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('ribbingWidth')}</Text>
+      <Text style={styles.title}>{i18n.t('collarWidth')}</Text>
 
       <View style={styles.inputContainer}>
         <TouchableOpacity

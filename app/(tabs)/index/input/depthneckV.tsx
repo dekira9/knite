@@ -95,7 +95,7 @@ const DepthNeckV = () => {
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('NeckDepth')}</Text>
+      <Text style={styles.title}>{i18n.t('depthNeck')}</Text>
       <View style={styles.inputContainer}>
         <TouchableOpacity onPress={() => {
           const currentValue = parseFloat(sliderValue) || (LHVmin + HrezV);

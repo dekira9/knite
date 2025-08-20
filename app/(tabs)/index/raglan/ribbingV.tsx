@@ -500,7 +500,7 @@ if (!SpribVcorn) {
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('ribbing') || 'Ribbing'} </Text>
+       <Text style={styles.resultText}> {i18n.t('collar') || 'collar'} </Text>
       </View>
       </View>
           <View style={{minHeight: 1000, paddingTop: 20}}>
@@ -641,8 +641,8 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'red',
+    
+    
     
     },
   horContainer: {

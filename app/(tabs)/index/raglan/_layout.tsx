@@ -67,56 +67,56 @@ export default function RaglanLayout() {
         <Stack.Screen
           name="ribbingO"
           options={{
-            title: i18n.t('knittingChartRibbing'),
+            title: i18n.t('collarKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="backO"
           options={{
-            title: i18n.t('knittingChartBack'),
+            title: i18n.t('backKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="frontO"
           options={{
-            title:  i18n.t('knittingChartFront'),
+            title:  i18n.t('frontKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="sleeveO"
           options={{
-            title: i18n.t('knittingChartSleeve'),
+            title: i18n.t('sleeveKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="ribbingV"
           options={{
-            title:  i18n.t('knittingChartRibbing'),
+            title:  i18n.t('collarKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="backV"
           options={{
-            title:  i18n.t('knittingChartBack'),
+            title:  i18n.t('backKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="frontV"
           options={{
-            title: i18n.t('knittingChartFront'),
+            title: i18n.t('frontKnittingChart'),
             presentation: 'card',
           }}
         />
         <Stack.Screen
           name="sleeveV"
           options={{
-            title: i18n.t('knittingChartSleeve'),
+            title: i18n.t('sleeveKnittingChart'),
             presentation: 'card',
           }}
         />

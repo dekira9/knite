@@ -339,7 +339,7 @@ const App = observer(() => {
       
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
        <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
-       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')}: {isRaglanOutput(results) ? results.SFrontV : ''} {i18n.t('stitches')}</Text>
+       <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SFrontV : ''} {i18n.t('stitches')}</Text>
       </View>
 
       <ScrollView 
