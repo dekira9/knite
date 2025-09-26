@@ -42,7 +42,8 @@ const LineraglanWidth = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.raglanLineWidth);
-    router.push('/input/result');
+    introState.setIntroFinished(true);
+    // router.push('/input/result');
   };
 
   return (

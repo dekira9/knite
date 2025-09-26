@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree";
 
+// not used
 const RaglanState = types
   .model({
     Sgor: types.optional(types.number, 0),

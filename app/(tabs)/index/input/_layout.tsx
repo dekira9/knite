@@ -158,17 +158,20 @@ export default function IntroLayout() {
           }}
         />
         <Stack.Screen
-          name="result"
+          name="result/index"
           options={{
-            title: 'Result',
+            headerShown: false,
+            // title: 'Result',
           }}
         />
         <Stack.Screen
-          name="resultV"
+          name="resultV/index"
           options={{
-            title: 'Result',
+            headerShown: false,
+            // title: 'Result',
           }}
         />
+
         <Stack.Screen
           name="depthneckV"
           options={{

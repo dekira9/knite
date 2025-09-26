@@ -8,7 +8,6 @@ import { useRouter } from 'expo-router';
 import i18n from '@/utils/translations';
 
 import { 
-  
   calculateVNeckIncreases01,
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
@@ -25,7 +24,7 @@ const Lc=LsV*25
 const App = observer(() => {
   const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
   const ribbingWidthV = introState.ribbingWidthV;
-   
+
     const NHV = Math.round(LHV * rows/2)*2;
 
 
@@ -37,7 +36,7 @@ const App = observer(() => {
   console.log('SVfront',SVfront)
   console.log('LVfront',LVfront)
   console.log('SV',SV)
-    const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
+  const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
 
   console.log('angleInDegrees',angleInDegrees)
 
@@ -83,12 +82,6 @@ const App = observer(() => {
     return cellCounts[highlightedRow + 1];
   };
   const currentRowStitches = calculateRowCellCounts(highlightedRow);
-  
-  
-
-
-
-
 
   const LeftSleeveTransform = [
   { translateY:-(KV * Lc) * Math.sin(angleInRadians) },
@@ -489,25 +482,25 @@ if (!SpribVcorn) {
       
       <View style={styles.scrollContainer}>
         <ScrollView 
-          style={{flex: 1, width: '100%'}}
-          contentContainerStyle={{paddingBottom: 500}}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
         >
 
        <View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: '#C6C6C6', marginLeft: 10, borderWidth: 1}}></View>
+      <View style={styles.indicatorRow}>
+       <View style={styles.grayIndicator}></View>
        <Text style={styles.resultText}> {i18n.t('castOnRow') || 'Cast On Row'} </Text>
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1}}></View>
+      <View style={styles.indicatorRow}>
+       <View style={styles.yellowIndicator}></View>
        <Text style={styles.resultText}> {i18n.t('ribbing') || 'Ribbing'} </Text>
       </View>
       </View>
-          <View style={{minHeight: 1000, paddingTop: 20}}>
+          <View style={[styles.contentContainer, { paddingTop: 20 }]}>
             <ScrollView 
               horizontal 
               showsHorizontalScrollIndicator={true}
-              contentContainerStyle={{paddingRight: 250}}
+              contentContainerStyle={styles.horizontalScrollContent}
             >
               <View style={styles.grid}>
                 <View style={[styles.horContainerTop,{ marginLeft: SaV*Lc}]}>
@@ -538,13 +531,12 @@ if (!SpribVcorn) {
                     </View>
                  </View>
 
-                 <View style={[styles.horContainerRight, { 
-                  
+                 <View style={[styles.horContainerRight, {
                    marginLeft: (SaV + KV + SFrontV / 2) * Lc ,
                    marginTop: -(NRrezV+1)*Hc-2,
                    width: (SFrontV/2)*Lc
                  }]}>    
-                   <View style={{ position: 'relative', width: '100%', height: '100%' }}>
+                   <View style={styles.relativeContainer}>
                      <View style={[styles.arrayContainerRight, { 
                      
                        height: (NRrezV+1)*Hc,
@@ -573,8 +565,8 @@ if (!SpribVcorn) {
       
       <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
-      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
+      <View style={styles.bottomRow}>
+      <View style={styles.redIndicator}></View>
       <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
       </View>
           <Text style={styles.infoText}>Stitches: {KV*4 + SFrontV + 2 * SaV + 2*(currentRowStitches as number)}</Text>
@@ -865,6 +857,52 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
+  },
+  // Additional styles for inline replacements
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollContent: {
+    paddingBottom: 500,
+  },
+  indicatorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
+  grayIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#C6C6C6',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  yellowIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'yellow',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  redIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'red',
+    borderWidth: 1,
+  },
+  horizontalScrollContent: {
+    paddingRight: 250,
+  },
+  relativeContainer: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });
 

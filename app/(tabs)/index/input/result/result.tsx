@@ -6,262 +6,8 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import onboardingState from '@/state/onboardingState';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { screenWidth } from '@/utils/Layout';
-import { calculateRaglan } from '@/utils/calculateRaglan';
-
-{
-  /*расчет рядов с прибавками для 1x2, 1x4*/
-}
-export const calculateIncreaseRows1x2_1x4 = (
-  NHFront: number,
-  Sfx: number,
-  PR_1x4_f: number,
-  PR_1x2_f: number
-) => {
-  const KB = Sfx / PR_1x4_f;
-  const B = Array.from({ length: PR_1x4_f }, (_, b) => b + 1);
-  const PozB = B.map((b) => Math.floor(KB * b));
-
-  const A = Array.from({ length: PR_1x2_f }, (_, a) => a + 1);
-  {
-    /* Создаем массив RowB для рядов с прибавками из PozB*/
-  }
-  const RowB = PozB.map((b, bIndex) => {
-    const adjustedIndex = bIndex + 1; // Индексы начинаются с 1
-    const row = (b - 1) * 2 + 1 + (adjustedIndex - 1) * 2;
-
-    return row;
-  });
-  const RowN = Array.from({ length: NHFront }, (_, i) => i + 1);
-
-  {
-    /* Удаляем элементы RowB и три следующих за каждым из них из RowN*/
-  }
-  RowB.forEach((b) => {
-    for (let i = 0; i < 4; i++) {
-      // Удаляем b и три следующих за ним
-      const index = RowN.indexOf(b + i);
-      if (index !== -1) {
-        RowN.splice(index, 1);
-      }
-    }
-  });
-
-  {
-    /* Создаем массив RowA из нечетных чисел RowN*/
-  }
-  const RowA = RowN.filter((n) => n % 2 !== 0);
-
-  {
-    /* Объединяем RowA и RowB в RowPrib1x2_1x4*/
-  }
-  const RowPrib1x2_1x4 = [...RowA, ...RowB].sort((a, b) => a - b);
-
-  {
-    /* Преобразуем RowPrib1x2_1x4 в строку*/
-  }
-  const resultString24 = RowPrib1x2_1x4.join(', ');
-
-  return { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 };
-};
-
-{
-  /* конец расчета рядов с прибавками для 1x2, 1x4*/
-}
-
-{
-  /*расчет рядов с прибавками для 1x2, 1x3*/
-}
-export const calculateIncreaseRows1x2_1x3 = (
-  NHFront: number,
-  Sfx: number,
-  prib_1x3_f: number,
-  prib_1x2_f: number
-) => {
-  const KD = Sfx / prib_1x3_f;
-  const D = Array.from({ length: prib_1x3_f }, (_, d) => d + 1);
-  const PozD = D.map((d) => Math.floor(KD * d));
-
-  const A2 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
-  {
-    /* Создаем массив RowD для рядов с прибавками из PozD*/
-  }
-  const RowD = PozD.map((d, dIndex) => {
-    const adjustedIndex = dIndex + 1; // Индексы начинаются с 1
-    const row = (d - 1) * 2 + 1 + (adjustedIndex - 1);
-
-    return row;
-  });
-  const RowN23 = Array.from({ length: NHFront }, (_, i) => i + 1);
-
-  {
-    /* Удаляем элементы RowD и два следующих за каждым из них из RowN23*/
-  }
-  RowD.forEach((d) => {
-    for (let i = 0; i < 3; i++) {
-      // Удаляем d и две следующих за ним
-      const index = RowN23.indexOf(d + i);
-      if (index !== -1) {
-        RowN23.splice(index, 1);
-      }
-    }
-  });
-  {
-    /* Разбиваем RowN23 на пары и берем первые элементы каждой пары*/
-  }
-  const RowA23 = RowN23.filter((_, index) => (index + 1) % 2 !== 0);
-
-  const RowPrib1x2_1x3 = [...RowA23, ...RowD].sort((a, b) => a - b);
-
-  const resultString23 = RowPrib1x2_1x3.join(', ');
-
-  return { PozD, RowD, RowN23, RowA23, RowPrib1x2_1x3, resultString23 };
-};
-
-{
-  /* конец расчета рядов с прибавками для 1x2, 1x3*/
-}
-
-{
-  /*расчет рядов с прибавками для 1x2, 1x1*/
-}
-export const calculateIncreaseRows1x2_1x1 = (
-  NHFront: number,
-  Sfx: number,
-  prib_1x1_f: number,
-  prib_1x2_f: number
-) => {
-  const KC = Sfx / prib_1x1_f;
-  const C = Array.from({ length: prib_1x1_f }, (_, c) => c + 1);
-  const PozC = C.map((c) => Math.floor(KC * c));
-
-  const A21 = Array.from({ length: prib_1x2_f }, (_, a) => a + 1);
-  {
-    /* Создаем массив RowC для рядов с прибавками из PozC*/
-  }
-  const RowC = PozC.map((c, cIndex) => {
-    const adjustedIndex = cIndex + 1; // Индексы начинаются с 1
-    const row = (c - 1) * 2 + 1 - (adjustedIndex - 1);
-
-    return row;
-  });
-  const RowN21 = Array.from({ length: NHFront }, (_, i) => i + 1);
-
-  {
-    /* Удаляем элементы RowC  из RowN*/
-  }
-  RowC.forEach((c) => {
-    const index = RowN21.indexOf(c);
-    if (index !== -1) {
-      RowN21.splice(index, 1);
-    }
-  });
-  {
-    /* Разбиваем RowN на пары и берем первые элементы каждой пары*/
-  }
-  const RowA21 = RowN21.filter((_, index) => (index + 1) % 2 !== 0);
-  {
-    /* Объединяем RowA21 и RowC в RowPrib1x2_1x1 и сортируем */
-  }
-  const RowPrib1x2_1x1 = [...RowA21, ...RowC].sort((a, b) => a - b);
-  {
-    /* Отладочный вывод для проверки содержимого RowPrib1x2_1x1*/
-  }
-
-  {
-    /* Преобразуем RowPrib1x2_1x1 в строку */
-  }
-  const resultString21 = RowPrib1x2_1x1.join(', ');
-
-  return { PozC, RowC, RowN21, RowA21, RowPrib1x2_1x1, resultString21 };
-};
-
-{
-  /* конец расчета рядов с прибавками для 1x2, 1x1*/
-}
-
-{
-  /*расчет рядов с прибавками для 1x4, 1x3*/
-}
-
-export const calculateIncreaseRows1x4_1x3 = (
-  NHFront: number,
-  Sfx: number,
-  PRib_1x4_f: number,
-  PRib_1x3_f: number
-) => {
-  {
-    /* Вычисляем количество прибавок для 1x4 и 1x3*/
-  }
-
-  {
-    /* Создаем массивы для прибавок*/
-  }
-
-  const KM = Sfx / PRib_1x3_f;
-  const M = Array.from({ length: PRib_1x3_f }, (_, m) => m + 1);
-  const PozM = M.map((m) => Math.floor(KM * m));
-
-  const A34 = Array.from({ length: PRib_1x4_f }, (_, a) => a + 1);
-  {
-    /* Создаем массив RowM для рядов с прибавками из PozM*/
-  }
-  const RowM = PozM.map((m, mIndex) => {
-    const adjustedIndex = mIndex + 1; // Индексы начинаются с 1
-    const row = (m - 1) * 4 + 1 - (adjustedIndex - 1);
-
-    return row;
-  });
-
-  const RowN43 = Array.from({ length: NHFront }, (_, i) => i + 1);
-
-  {
-    /* Удаляем элементы RowM и два следующих за каждым из них из RowN43*/
-  }
-  RowM.forEach((m) => {
-    for (let i = 0; i < 3; i++) {
-      // Удаляем m и два следующих за ним
-      const index = RowN43.indexOf(m + i);
-      if (index !== -1) {
-        RowN43.splice(index, 1);
-      }
-    }
-  });
-
-  {
-    /* Разбиваем RowN43 на четверки и берем первые элементы каждой четверки*/
-  }
-  const RowA43 = [];
-  for (let i = 0; i < RowN43.length; i += 4) {
-    RowA43.push(RowN43[i]);
-  }
-
-  const RowPRib1x4_1x3 = [...RowA43, ...RowM].sort((a, b) => a - b);
-
-  const resultString43 = RowPRib1x4_1x3.join(', ');
-
-  return { PozM, RowM, RowN43, RowA43, RowPRib1x4_1x3, resultString43 };
-};
-
-{
-  /* конец расчета рядов с прибавками для 1x4, 1x3*/
-}
-
-export const determineIncreaseType = (NHFront: number, Sfx: number): string => {
-  if (Sfx === NHFront) {
-    return '1x1'; // Прибавка 1 петля в каждом ряду
-  } else if (Sfx === Math.floor(NHFront/2)) {
-    return '1x2'; // Прибавка 1 петля каждые 2 ряда
-  } else if (Sfx === Math.floor(NHFront/3)) {
-    return '1x3'; // Прибавка 1 петля каждые 3 ряда
-  } else if (Sfx === Math.floor(NHFront/4)) {
-    return '1x4'; // Прибавка 1 петля каждые 4 ряда
-  } else {
-    return 'custom'; // Другой тип прибавок
-  }
-};
+import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from './helpers';
 
 export default observer(() => {
   const router = useRouter();
@@ -270,18 +16,7 @@ export default observer(() => {
   const carouselRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const insets = useSafeAreaInsets();
-  const currentLanguage = onboardingState.language;
   const tabBarHeight = useBottomTabBarHeight();
-  const ribbingWidth = introState.ribbingWidth;
-
-  const handleStartKnitting = () => {
-    router.push('/(tabs)/raglan/ribbingO');
-  };
-
-  const handleNewStyle = () => {
-    introState.setStyleChosen(false);
-    router.push('/');
-  };
 
   const { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 } = calculateIncreaseRows1x2_1x4(
     results.NHFront,
@@ -398,7 +133,7 @@ export default observer(() => {
         >
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/planOaz1.png')}
+              source={require('../../../../../assets/images/planOaz1.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -406,7 +141,7 @@ export default observer(() => {
 
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/planOaz3.png')}
+              source={require('../../../../../assets/images/planOaz3.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -414,7 +149,7 @@ export default observer(() => {
 
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/regular-collar.png')}
+              source={require('../../../../../assets/images/regular-collar.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -430,26 +165,16 @@ export default observer(() => {
           ))}
         </View>
 
-        
-
         <View style={styles.resultCard}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
-            <Text style={[styles.textStep, { textAlign: 'center' }]}>{i18n.t('step')}1</Text>
+          <View style={styles.stepHeader}>
+            <Text style={[styles.textStep, styles.textCenter]}>{i18n.t('step')}1</Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.ribbingHeader}>
             <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
-            <View
-              style={{
-                width: 17,
-                height: 17,
-                backgroundColor: 'yellow',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+            <View style={styles.yellowIndicator}></View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-            <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
+          <View style={styles.chartRow}>
+            <Text style={[styles.resultText, styles.boldText]}>
               {i18n.t('knittingChart')}:
             </Text>
 
@@ -462,12 +187,12 @@ export default observer(() => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.infoRow}>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.Sgor}
             </Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+            <View style={styles.knittingRow}>
             <Text style={styles.resultText}>
               {i18n.t('knitting')}
             </Text>
@@ -481,369 +206,97 @@ export default observer(() => {
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.startRow}>
             <Text style={styles.resultText}>{i18n.t('start')}</Text>
-            <View
-              style={{
-                width: 17,
-                height: 17,
-                borderRadius: 8.5,
-                backgroundColor: 'red',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+            <View style={styles.redIndicator}></View>
             <Text style={styles.resultText}> : </Text>
           </View>
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+            <View style={styles.horizontalRow}>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SKfront}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#A29FCF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.purpleIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SFrontO}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.K}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#DAEDBD',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.greenIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.Sa}
                 </Text>
               </View>
 
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.K}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#FDCFE1',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.pinkIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SFrontO}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#DAEDBD',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.greenIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.Sa}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: 'yellow',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
+                <View style={styles.yellowIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SKa}
                 </Text>
@@ -867,22 +320,22 @@ export default observer(() => {
         {/* ПРИБАВЛЕНИЯ
          */}
         <View style={styles.resultCard}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
-            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+          <View style={styles.stepHeader}>
+            <Text style={[styles.textStep, styles.textCenter]}>
               {i18n.t('step')}2
               {'\n'}
               {i18n.t('knittingAfterRibbing')}
             </Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+          <View style={styles.subtitleRow}>
             <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.infoRow}>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: +{results.Sfx}
             </Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <View style={styles.knittingRow}>
             <Text style={styles.resultText}>
           {i18n.t('knitting')}
           </Text>
@@ -896,24 +349,9 @@ export default observer(() => {
             </Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10 }]}>{i18n.t('back')}</Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#A29FCF',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+          <View style={styles.backHeader}>
+            <Text style={[styles.resultText, styles.marginLeft10]}>{i18n.t('back')}</Text>
+            <View style={styles.purpleIndicatorLarge}></View>
             <TouchableOpacity onPress={navigateToBackO}>
               <Image
                 source={require('@/assets/images/view.svg')}
@@ -923,23 +361,8 @@ export default observer(() => {
             </TouchableOpacity>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'top',
-              justifyContent: 'center',
-              marginBottom: 3,
-            }}
-          >
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 0,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
+          <View style={styles.arrowRow}>
+            <View style={styles.arrowContainerSmall}>
               <View
                 style={{
                   width: 34,
@@ -969,15 +392,7 @@ export default observer(() => {
               </Text>
             </View>
 
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 0,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
+            <View style={styles.arrowContainerSmall}>
               <View
                 style={{
                   width: 34,
@@ -1028,23 +443,8 @@ export default observer(() => {
             </TouchableOpacity>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'top',
-              justifyContent: 'center',
-              marginBottom: 3,
-            }}
-          >
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 0,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
+          <View style={styles.arrowRow}>
+            <View style={styles.arrowContainerSmall}>
               <View
                 style={{
                   width: 34,
@@ -1074,15 +474,7 @@ export default observer(() => {
               </Text>
             </View>
 
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 0,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
+            <View style={styles.arrowContainerSmall}>
               <View
                 style={{
                   width: 34,
@@ -1132,23 +524,8 @@ export default observer(() => {
               />
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'top',
-              justifyContent: 'center',
-              marginBottom: 3,
-            }}
-          >
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 0,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
+          <View style={styles.arrowRow}>
+            <View style={styles.arrowContainerSmall}>
               <View
                 style={{
                   width: 34,
@@ -1489,31 +866,22 @@ export default observer(() => {
         {/* УДЛИНЕНИЕ СПИНКИ */}
 
         <View style={styles.resultCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
-            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+        <View style={styles.step3Header}>
+            <Text style={[styles.textStep, styles.textCenter]}>
               {i18n.t('step')}3
             </Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.backLengtheningHeader}>
             <Text style={styles.subtitle}>{i18n.t('backLengthening')}</Text>
-
-            <View
-              style={{
-                width: 17,
-                height: 17,
-                backgroundColor: '#009FE3',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+            <View style={styles.blueIndicator}></View>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.backLengtheningInfo}>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.SRostok}
             </Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <View style={styles.backLengtheningKnitting}>
             <Text style={styles.resultText}>
           {i18n.t('knitting')}
           </Text>
@@ -1527,7 +895,7 @@ export default observer(() => {
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.backLengtheningStart}>
             <Text style={styles.resultText}>{i18n.t('start')}</Text>
             <TouchableOpacity onPress={handleScrollToTop1}>
             <Image
@@ -1540,97 +908,28 @@ export default observer(() => {
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SKfront}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#A29FCF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.purpleIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SFrontO + 2 * results.Sfx}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#E76F51',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.stitchBox}>
+                <View style={styles.orangeIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SKfront}
                 </Text>
@@ -1640,137 +939,65 @@ export default observer(() => {
         </View>
         {/*разделение на части*/}
         <View style={styles.resultCard}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+          <View style={styles.partsHeader}>
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
             <TouchableOpacity
               onPress={handleScrollToTop}
-              style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}
+              style={styles.planButton}
             >
               <Image
-                source={require('../../../../assets/images/planOaz3.png')}
-                style={{ width: 30, height: 30 }}
+                source={require('../../../../../assets/images/planOaz3.png')}
+                style={styles.planImage}
                 contentFit="contain"
               />
-              <Text
-                style={[
-                  styles.resultText,
-                  { marginLeft: 5, color: 'blue', textDecorationLine: 'underline' },
-                ]}
-              >
+              <Text style={[styles.resultText, styles.planText]}>
                 {i18n.t('plan')}
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10, fontWeight: 'bold' }]}>
+          <View style={styles.backSection}>
+            <Text style={[styles.resultText, styles.backSectionBold]}>
               {i18n.t('back')}
             </Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#009FE3',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
-            <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
+            <View style={styles.blueIndicatorLarge}></View>
+            <Text style={[styles.resultText, styles.backSectionText]}>
               {i18n.t('stitches')}:{results.SRostok}
             </Text>
           </View>
 
           {/*перед*/}
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 20,
-              justifyContent: 'center',
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10, fontWeight: 'bold' }]}>
+          <View style={styles.frontSection}>
+            <Text style={[styles.resultText, styles.frontSectionBold]}>
               {i18n.t('front')}
             </Text>
-
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#FDCFE1',
-                marginLeft: 10,
-                borderWidth: 1,
-                borderLeftWidth: 7,
-                borderRightWidth: 7,
-                borderTopWidth: 1,
-                borderLeftColor: '#E76F51',
-                borderRightColor: '#E76F51',
-              }}
-            ></View>
-            <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
+            <View style={styles.pinkIndicatorLarge}></View>
+            <Text style={[styles.resultText, styles.frontSectionText]}>
               {i18n.t('stitches')}:{results.SFrontO + 2 * results.Sfx + 2 * results.SKfront}
             </Text>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'top',
-              justifyContent: 'center',
-              marginBottom: 3,
-            }}
-          >
-            <View style={[styles.textBoxParts, { flexDirection: 'row' }]}>
-              <View
-                style={{
-                  marginBottom: 1,
-                  marginRight: 1,
-                  padding: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View
-                  style={{ width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1 }}
-                ></View>
-                <Text style={[styles.resultText, { textAlign: 'center' }]}>
+          <View style={styles.frontPartsLayout}>
+            <View style={styles.frontPartsContainer}>
+              <View style={styles.frontPartsItem}>
+                <View style={styles.orangeIndicator}></View>
+                <Text style={[styles.resultText, styles.frontPartsText]}>
                   {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
                   {results.SKfront}
                 </Text>
               </View>
 
-              <View
-                style={[styles.textBox, { backgroundColor: '#FDCFE1', justifyContent: 'center' }]}
-              >
-                <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 5 }]}>
+              <View style={[styles.textBox, { backgroundColor: '#FDCFE1', justifyContent: 'center' }]}>
+                <Text style={[styles.resultText, styles.frontPartsTextWithMargin]}>
                   {i18n.t('stitches')}: {'\n'}
                   {results.SFrontO + 2 * results.Sfx}
                 </Text>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 1,
-                  marginLeft: 1,
-                  padding: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{ width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1 }}
-                ></View>
-                <Text style={[styles.resultText, { textAlign: 'center' }]}>
+              <View style={styles.frontPartsItemWithMargin}>
+                <View style={styles.orangeIndicator}></View>
+                <Text style={[styles.resultText, styles.frontPartsText]}>
                   {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
                   {results.SKfront}
                 </Text>
@@ -1779,86 +1006,36 @@ export default observer(() => {
           </View>
 
           {/*рукав*/}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 20,
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10, fontWeight: 'bold' }]}>
+          <View style={styles.sleeveSection}>
+            <Text style={[styles.resultText, styles.sleeveSectionBold]}>
               {i18n.t('sleeve')}
             </Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#DAEDBD',
-                marginLeft: 10,
-                borderWidth: 1,
-                borderLeftWidth: 7,
-                borderRightWidth: 7,
-                borderTopWidth: 1,
-                borderLeftColor: '#E76F51',
-                borderRightColor: '#E76F51',
-              }}
-            ></View>
-            <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
+            <View style={styles.greenIndicatorLarge}></View>
+            <Text style={[styles.resultText, styles.sleeveSectionText]}>
               {i18n.t('stitches')}:{results.Sa + 2 * results.Sfx + 2 * results.SKa}
             </Text>
           </View>
           {/*...*/}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'top',
-              justifyContent: 'center',
-              marginBottom: 3,
-            }}
-          >
-            <View style={[styles.textBoxParts, { flexDirection: 'row' }]}>
-              <View
-                style={{
-                  marginBottom: 1,
-                  marginLeft: 0,
-                  padding: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{ width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1 }}
-                ></View>
-                <Text style={[styles.resultText, { textAlign: 'center' }]}>
+          <View style={styles.sleevePartsLayout}>
+            <View style={styles.sleevePartsContainer}>
+              <View style={styles.sleevePartsItem}>
+                <View style={styles.orangeIndicator}></View>
+                <Text style={[styles.resultText, styles.sleevePartsText]}>
                   {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
                   {results.SKa}
                 </Text>
               </View>
 
-              <View
-                style={[styles.textBox, { backgroundColor: '#DAEDBD', justifyContent: 'center' }]}
-              >
-                <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 5 }]}>
+              <View style={[styles.textBox, { backgroundColor: '#DAEDBD', justifyContent: 'center' }]}>
+                <Text style={[styles.resultText, styles.sleevePartsTextWithMargin]}>
                   {i18n.t('stitches')}: {'\n'}
                   {results.Sa + 2 * results.Sfx}
                 </Text>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 1,
-                  marginLeft: 0,
-                  padding: 1,
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{ width: 17, height: 17, backgroundColor: '#E76F51', borderWidth: 1 }}
-                ></View>
-                <Text style={[styles.resultText, { textAlign: 'center' }]}>
+              <View style={styles.sleevePartsItemWithMargin}>
+                <View style={styles.orangeIndicator}></View>
+                <Text style={[styles.resultText, styles.sleevePartsText]}>
                   {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
                   {results.SKa}
                 </Text>
@@ -1869,16 +1046,16 @@ export default observer(() => {
 
         {/* отделение рукавов*/}
         <View style={styles.resultCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'center', width: '100%' }}>
-            <Text style={[styles.textStep, { textAlign: 'center' }]}>
+        <View style={styles.step4Header}>
+            <Text style={[styles.textStep, styles.textCenter]}>
               {i18n.t('step')}4
             </Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.separatingHeader}>
             <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.separatingStart}>
             <Text style={styles.resultText}>{i18n.t('start')}</Text>
             <TouchableOpacity onPress={handleScrollToTop1}>
             <Image
@@ -1890,7 +1067,7 @@ export default observer(() => {
             <Text style={styles.resultText}> : </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.separatingRows}>
             <Text style={styles.resultText}>{i18n.t('rows')}: 1</Text>
             <Image
               source={require('@/assets/images/knitcircle.svg')}
@@ -1899,55 +1076,20 @@ export default observer(() => {
             />
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{ flexDirection: 'row', alignItems: 'top', marginBottom: 10 }}>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+            <View style={styles.separatingLayout}>
+              <View style={styles.stitchBox}>
                 <Text style={styles.resultText}>{i18n.t('back')}</Text>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#CCCCCC',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.grayIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+              <View style={styles.stitchBox}>
                 <View style={styles.textBox}>
                   <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
                 </View>
@@ -1958,29 +1100,11 @@ export default observer(() => {
               </View>
 
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+              <View style={styles.stitchBox}>
                 <View
                   style={{
                     width: 17,
@@ -1997,67 +1121,23 @@ export default observer(() => {
                 
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+              <View style={styles.stitchBox}>
                 <Text style={styles.resultText}>{i18n.t('front')}</Text>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#CCCCCC',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.grayIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+              <View style={styles.stitchBox}>
                 <View style={styles.textBox}>
                   <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
                 </View>
@@ -2066,28 +1146,10 @@ export default observer(() => {
                 </Text>
               </View>
               {/* round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                }}
-              >
+              <View style={styles.stitchBox}>
                 <View
                   style={{
                     width: 17,
@@ -2114,7 +1176,7 @@ export default observer(() => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.resultContainer}>
               <Image
-                source={require('../../../../assets/images/sleevebodyO.png')}
+                source={require('../../../../../assets/images/sleevebodyO.png')}
                 style={styles.resultImage}
               />
             </View>
@@ -2146,19 +1208,8 @@ export default observer(() => {
           </View>
           {/*скролл корпус*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{ flexDirection: 'row', alignItems: 'top', marginBottom: 10 }}>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#009FE3',
-                  borderWidth: 1,
-                }}
-              >
+            <View style={styles.separatingLayout}>
+              <View style={styles.resultScrollBox}>
                 <Text style={styles.resultText}>{i18n.t('back')}</Text>
                 <View
                   style={{
@@ -2169,46 +1220,18 @@ export default observer(() => {
                     borderWidth: 1,
                   }}
                 ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#009FE3',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
 
               {/*  round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#009FE3',
-                  borderWidth: 1,
-                }}
-              >
+              <View style={styles.resultScrollBox}>
                 <View
                   style={{
                     width: 17,
@@ -2218,46 +1241,18 @@ export default observer(() => {
                     borderWidth: 1,
                   }}
                 ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#009FE3',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
                   <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
               </View>
               {/*  round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#009FE3',
-                  borderWidth: 1,
-                }}
-              >
+              <View style={styles.resultScrollBox}>
                 <Text style={styles.resultText}>{i18n.t('front')}</Text>
                 <View
                   style={{
@@ -2268,46 +1263,18 @@ export default observer(() => {
                     borderWidth: 1,
                   }}
                 ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#009FE3',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
 
               {/*  round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#009FE3',
-                  borderWidth: 1,
-                }}
-              >
+              <View style={styles.resultScrollBox}>
                 <View
                   style={{
                     width: 17,
@@ -2317,15 +1284,7 @@ export default observer(() => {
                     borderWidth: 1,
                   }}
                 ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#009FE3',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
                   <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
@@ -2366,7 +1325,7 @@ export default observer(() => {
           </View>
           {/*скролл рукав*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{ flexDirection: 'row', alignItems: 'top', marginBottom: 10 }}>
+            <View style={styles.separatingLayout}>
               <View
                 style={{
                   marginBottom: 10,
@@ -2388,17 +1347,8 @@ export default observer(() => {
                 </Text>
               </View>
               {/*  round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
               <View
@@ -2441,17 +1391,8 @@ export default observer(() => {
               </View>
 
               {/*  round*/}
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    borderRadius: 8,
-                    marginLeft: 0,
-                    borderWidth: 2,
-                    borderColor: '#CCCCCC',
-                  }}
-                ></View>
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
               </View>
 
               <View
@@ -2510,12 +1451,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
   resultCard: {
     backgroundColor: '#f1f1f1',
     padding: 10,
@@ -2547,36 +1482,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '500',
-  },
-  startButton: {
-    flex: 1,
-    backgroundColor: '#34C759',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  startButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  newStyleButton: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  newStyleButtonText: {
-    color: 'grey',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   carousel: {
     marginBottom: 20,
@@ -2662,17 +1567,725 @@ const styles = StyleSheet.create({
     resizeMode: 'contain', // Сохраняет пропорции изображения
     padding: 150,
   },
-  scrollView1: {
-    flexGrow: 0,
-    width: '100%',
-    backgroundColor: '#f0f0f0',
-    padding: 2,
-  },
   textStep: {
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,
     textAlign: 'center',
     color: '#1A1A1A',
+  },
+  // Common layout styles
+  stepHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  ribbingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  subtitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  knittingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  startRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  horizontalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
+  marginLeft10: {
+    marginLeft: 10,
+  },
+  backHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 1,
+  },
+  purpleIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#A29FCF',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Indicator styles
+  yellowIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'yellow',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  redIndicator: {
+    width: 17,
+    height: 17,
+    borderRadius: 8.5,
+    backgroundColor: 'red',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  orangeIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#E76F51',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  purpleIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#A29FCF',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  greenIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#DAEDBD',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  pinkIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#FDCFE1',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Box styles
+  stitchBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  roundIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  roundDot: {
+    width: 17,
+    height: 17,
+    borderRadius: 8,
+    marginLeft: 0,
+    borderWidth: 2,
+    borderColor: '#CCCCCC',
+  },
+  // Section styles
+  section: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  // Arrow styles
+  arrowContainer: {
+    marginBottom: 1,
+    marginLeft: 0,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  arrowRight: {
+    width: 34,
+    height: 14,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderRightColor: '#A29FCF',
+    borderBottomColor: '#A29FCF',
+  },
+  arrowLeft: {
+    width: 34,
+    height: 14,
+    marginLeft: 0,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: '#A29FCF',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#A29FCF',
+  },
+  arrowRightPink: {
+    width: 34,
+    height: 14,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderRightColor: '#FDCFE1',
+    borderBottomColor: '#FDCFE1',
+  },
+  arrowLeftPink: {
+    width: 34,
+    height: 14,
+    marginLeft: 0,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: '#FDCFE1',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#FDCFE1',
+  },
+  arrowRightGreen: {
+    width: 34,
+    height: 14,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderRightColor: '#DAEDBD',
+    borderBottomColor: '#DAEDBD',
+  },
+  arrowLeftGreen: {
+    width: 34,
+    height: 14,
+    marginLeft: 10,
+    borderTopWidth: 8.5,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 8.5,
+    padding: -17,
+    borderTopColor: 'transparent',
+    borderLeftColor: '#DAEDBD',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#DAEDBD',
+  },
+  // Color indicators
+  blueIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#009FE3',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  blueIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#009FE3',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  pinkIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#FDCFE1',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderTopWidth: 1,
+    borderLeftColor: '#E76F51',
+    borderRightColor: '#E76F51',
+  },
+  greenIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#DAEDBD',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderTopWidth: 1,
+    borderLeftColor: '#E76F51',
+    borderRightColor: '#E76F51',
+  },
+  greenIndicatorFinal: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Separator styles
+  separatorBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  separatorBoxWithBorder: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#009FE3',
+    borderWidth: 1,
+  },
+  separatorBoxGreen: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#95C11F',
+    borderWidth: 1,
+  },
+  // Small indicators
+  smallGrayIndicator: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#CCCCCC',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  smallPinkIndicator: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#FF00FF',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  smallBlueIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#009FE3',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  smallGreenIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  smallGreenIndicatorFinal: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#FF00FF',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Mixed indicators
+  mixedIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  smallGrayIndicatorVertical: {
+    width: 8,
+    height: 17,
+    backgroundColor: '#CCCCCC',
+    marginLeft: 0,
+    borderWidth: 1,
+  },
+  smallGreenIndicatorVertical: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 0,
+    borderWidth: 1,
+  },
+  // Additional layout styles
+  arrowRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginBottom: 3,
+  },
+  arrowContainerSmall: {
+    marginBottom: 1,
+    marginLeft: 0,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  arrowContainerWithMargin: {
+    marginBottom: 1,
+    marginLeft: 10,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  // Step 3 styles
+  step3Header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  backLengtheningHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  backLengtheningInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  backLengtheningKnitting: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  backLengtheningStart: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  // Parts section styles
+  partsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  planButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  planImage: {
+    width: 30,
+    height: 30,
+  },
+  planText: {
+    marginLeft: 5,
+    color: 'blue',
+    textDecorationLine: 'underline',
+  },
+  // Back section
+  backSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 1,
+  },
+  backSectionBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  backSectionText: {
+    textAlign: 'center',
+    marginLeft: 10,
+  },
+  // Front section
+  frontSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    justifyContent: 'center',
+    marginBottom: 1,
+  },
+  frontSectionBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  frontSectionText: {
+    textAlign: 'center',
+    marginLeft: 10,
+  },
+  // Front parts layout
+  frontPartsLayout: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginBottom: 3,
+  },
+  frontPartsContainer: {
+    flexDirection: 'row',
+  },
+  frontPartsItem: {
+    marginBottom: 1,
+    marginRight: 1,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  frontPartsItemWithMargin: {
+    marginBottom: 1,
+    marginLeft: 1,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  frontPartsText: {
+    textAlign: 'center',
+  },
+  frontPartsTextWithMargin: {
+    textAlign: 'center',
+    marginLeft: 5,
+  },
+  // Sleeve section
+  sleeveSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 1,
+  },
+  sleeveSectionBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  sleeveSectionText: {
+    textAlign: 'center',
+    marginLeft: 10,
+  },
+  // Sleeve parts layout
+  sleevePartsLayout: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginBottom: 3,
+  },
+  sleevePartsContainer: {
+    flexDirection: 'row',
+  },
+  sleevePartsItem: {
+    marginBottom: 1,
+    marginLeft: 0,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  sleevePartsItemWithMargin: {
+    marginBottom: 1,
+    marginLeft: 0,
+    padding: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  sleevePartsText: {
+    textAlign: 'center',
+  },
+  sleevePartsTextWithMargin: {
+    textAlign: 'center',
+    marginLeft: 5,
+  },
+  // Step 4 styles
+  step4Header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  separatingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  separatingStart: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  separatingRows: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  separatingLayout: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+  },
+  separatingBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  separatingBoxWithText: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  separatingText: {
+    fontSize: 12,
+    color: '#000',
+  },
+  separatingTextWithMargin: {
+    fontSize: 12,
+    color: '#000',
+  },
+  // Result section styles
+  resultHeader: {
+    marginBottom: 0,
+  },
+  resultCorpus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  resultCorpusBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  resultCorpusText: {
+    textAlign: 'center',
+    marginLeft: 10,
+  },
+  // Result scroll styles
+  resultScrollLayout: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+  },
+  resultScrollBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#009FE3',
+    borderWidth: 1,
+  },
+  resultScrollBoxGreen: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#95C11F',
+    borderWidth: 1,
+  },
+  resultScrollText: {
+    fontSize: 12,
+    color: '#000',
+  },
+  // Sleeve result section
+  sleeveResultSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  sleeveResultBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  sleeveResultText: {
+    textAlign: 'center',
+    marginLeft: 10,
+  },
+  // Sleeve result scroll
+  sleeveResultScrollLayout: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+  },
+  sleeveResultScrollBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#95C11F',
+    borderWidth: 1,
+  },
+  sleeveResultScrollText: {
+    fontSize: 12,
+    color: '#000',
+  },
+  // Mixed indicator styles
+  mixedIndicatorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  mixedIndicatorVertical: {
+    width: 8,
+    height: 17,
+    backgroundColor: '#CCCCCC',
+    marginLeft: 0,
+    borderWidth: 1,
+  },
+  mixedIndicatorGreen: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 0,
+    borderWidth: 1,
+  },
+  mixedIndicatorFinal: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  mixedIndicatorFinalSmall: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#FF00FF',
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Gray indicator
+  grayIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#CCCCCC',
+    marginLeft: 10,
+    borderWidth: 1,
   },
 });

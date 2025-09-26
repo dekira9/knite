@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import i18n from '@/utils/translations';
@@ -15,6 +15,17 @@ export default observer(() => {
   const insets = useSafeAreaInsets();
   console.log(introState.styleChosen)
 
+  // Проверяем состояние и перенаправляем если нужно
+  useEffect(() => {
+    if (introState.introFinished) {
+      if (introState.style === 'regular') {
+        router.push('/input/result');
+      } else if (introState.style === 'v-neck') {
+        router.push('/input/resultV');
+      }
+    }
+  }, [introState.introFinished, introState.style]);
+
   const raglanStyles = [
     { id: 'regular', label: i18n.t('regularCollar'), image: require('@/assets/images/regular-collar.png') },
     { id: 'v-neck', label: i18n.t('vNeck'), image: require('@/assets/images/v-neck.png') },
@@ -22,6 +33,7 @@ export default observer(() => {
 
   const selectStyle = (styleId: string) => {
     introState.setStyle(styleId);
+    introState.setIntroFinished(false);
     router.push('/input/head');
   };
 

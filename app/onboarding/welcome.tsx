@@ -3,10 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import onboardingState from '@/state/onboardingState';
+import { useEffect } from 'react';
 
 export default function WelcomeScreen() {
   const router = useRouter();
-  console.log(onboardingState.hasCompletedOnboarding)
+
+  useEffect(() => {
+    if (onboardingState.hasCompletedOnboarding) {
+      router.replace('/(tabs)');
+    }
+  }, [onboardingState.hasCompletedOnboarding]);
 
   return (
     <View style={styles.container}>

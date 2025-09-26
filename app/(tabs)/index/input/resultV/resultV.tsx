@@ -509,7 +509,7 @@ export default observer(() => {
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../../assets/images/planVaz111.png')}
+              source={require('../../../../../assets/images/planVaz111.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
@@ -517,14 +517,14 @@ export default observer(() => {
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../../assets/images/planVaz44.png')}
+              source={require('../../../../../assets/images/planVaz44.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
           </View>
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../assets/images/v-neck.png')}
+              source={require('../../../../../assets/images/v-neck.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -1165,7 +1165,7 @@ export default observer(() => {
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
           
     <Image
-      source={require('../../../../assets/images/frontVan.png')}
+      source={require('../../../../../assets/images/frontVan.png')}
       style={styles.frontImage}
      
     />
@@ -1581,7 +1581,7 @@ export default observer(() => {
             <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
             <TouchableOpacity onPress={handleScrollToTop} style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
               <Image
-                source={require('../../../../assets/images/planVaz44.png')}
+                source={require('../../../../../assets/images/planVaz44.png')}
                 style={{ width: 30, height: 30 }} // Smaller size for inline link
                 contentFit="contain"
               />
@@ -1820,7 +1820,7 @@ export default observer(() => {
          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
          <View style={styles.resultContainer}>
     <Image
-      source={require('../../../../assets/images/sleevebodyV.png')}
+      source={require('../../../../../assets/images/sleevebodyV.png')}
       style={styles.resultImage}
      
     />

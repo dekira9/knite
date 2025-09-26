@@ -102,6 +102,7 @@ const IntroState = types
     LVfront:types.optional(types.number, 0),
     
 
+    introFinished: types.optional(types.boolean, false),
     necklineStyle: types.optional(types.enumeration(['round', 'v-neck']), 'round'),
     SOcutV: types.optional(types.number, 0),
     SpribVcorn: types.optional(types.number, 0),
@@ -176,7 +177,10 @@ const IntroState = types
       self.necklineStyle = style;
       this.persistState();
     },
-
+    setIntroFinished(value: boolean) {
+      self.introFinished = value;
+      this.persistState();
+    },
     async persistState() {
       try {
         const state = {
@@ -279,6 +283,7 @@ const IntroState = types
           RowPribRV1: self.RowPribRV1,
           RowPribRVz: self.RowPribRVz,
           RowPribRV2: self.RowPribRV2,
+          introFinished: self.introFinished,
         };
         await AsyncStorage.setItem('introState', JSON.stringify(state));
       } catch (error) {
@@ -388,6 +393,7 @@ const IntroState = types
       self.LHV=state.LHV;
       self.LVfront=state.LVfront;
       self.NHV=state.NHV;
+      self.introFinished=state.introFinished;
     },
     async loadPersistedState() {
       try {

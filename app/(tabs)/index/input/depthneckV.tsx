@@ -85,7 +85,8 @@ const DepthNeckV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.depthNeckV);
-    router.push('/input/resultV');
+    introState.setIntroFinished(true);
+    // router.push('/input/resultV');
   };
 
   return (

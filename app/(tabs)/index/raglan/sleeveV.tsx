@@ -335,8 +335,8 @@ const App = observer(() => {
         ))}
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
+      <View style={styles.indicatorRow}>
+       <View style={styles.yellowIndicator}></View>
        <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}</Text>
       </View>
 
@@ -363,8 +363,8 @@ const App = observer(() => {
 
       <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
-       <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
+       <View style={styles.bottomRow}>
+       <View style={styles.redIndicator}></View>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
          </View>
         <Text style={styles.infoText}>Stitches: {SaV + leftCellCount + rightCellCount}</Text>
@@ -589,7 +589,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#C6C6C6',
     marginHorizontal: 4,
   },
-  
+  // Additional styles for inline replacements
+  indicatorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
+  yellowIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'yellow',
+    marginLeft: 10,
+    borderWidth: 1,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  redIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'red',
+    borderWidth: 1,
+  },
 });
 
 export default App;
