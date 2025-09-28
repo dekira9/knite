@@ -20,6 +20,7 @@ import FitScreen from '../app/(tabs)/index/input/fit';
 import DepthNeckVScreen from '../app/(tabs)/index/input/depthneckV';
 import LineraglanWidthScreen from '../app/(tabs)/index/input/lineraglan-width';
 import LineraglanVScreen from '../app/(tabs)/index/input/lineraglanV';
+import i18n from '@/utils/translations';
 // Result screens moved to ResultNavigator
 
 const Stack = createStackNavigator();
@@ -88,7 +89,7 @@ export default function InputNavigator() {
           name="Index"
           component={InputIndexScreen}
           options={{
-            title: 'Choose Style',
+            title: i18n.t('chooseStyle'),
             headerLeft: () => null,
           }}
         />
@@ -96,77 +97,77 @@ export default function InputNavigator() {
           name="Head"
           component={HeadScreen}
           options={{
-            title: 'Head Circumference',
+            title: i18n.t('headCircumference'),
           }}
         />
         <Stack.Screen
           name="Neck"
           component={NeckScreen}
           options={{
-            title: 'Neck Circumference',
+            title: i18n.t('neckCircumference'),
           }}
         />
         <Stack.Screen
           name="Chest"
           component={ChestScreen}
           options={{
-            title: 'Chest Circumference',
+            title: i18n.t('chestCircumference'),
           }}
         />
         <Stack.Screen
           name="StitchDensity"
           component={StitchDensityScreen}
           options={{
-            title: 'Stitch Density',
+            title: i18n.t('stitchDensity'),
           }}
         />
         <Stack.Screen
           name="RowDensity"
           component={RowDensityScreen}
           options={{
-            title: 'Row Density',
+            title: i18n.t('rowDensity'),
           }}
         />
         <Stack.Screen
           name="RibbingWidth"
           component={RibbingWidthScreen}
           options={{
-            title: 'Ribbing Width',
+            title: i18n.t('ribbingWidth'),
           }}
         />
         <Stack.Screen
           name="RibbingWidthV"
           component={RibbingWidthVScreen}
           options={{
-            title: 'Ribbing Width',
+            title: i18n.t('ribbingWidth'),
           }}
         />
         <Stack.Screen
           name="Fit"
           component={FitScreen}
           options={{
-            title: 'Fit Type',
+            title: i18n.t('fitType'),
           }}
         />
         <Stack.Screen
           name="DepthNeckV"
           component={DepthNeckVScreen}
           options={{
-            title: 'Depth Neck',
+            title: i18n.t('depthNeck'),
           }}
         />
         <Stack.Screen
           name="LineraglanWidth"
           component={LineraglanWidthScreen}
           options={{
-            title: 'Lineraglan Width',
+            title: i18n.t('RaglanLineWidth'),
           }}
         />
         <Stack.Screen
           name="LineraglanV"
           component={LineraglanVScreen}
           options={{
-            title: 'Lineraglan Width',
+            title: i18n.t('RaglanLineWidth'),
           }}
         />
         {/* Result screens moved to ResultNavigator */}

@@ -40,7 +40,7 @@ const Step2AddingStitches = observer(({
         <Text style={[styles.textStep, styles.textCenter]}>
           {i18n.t('step')}2
           {'\n'}
-          {i18n.t('knittingAfterRibbing')}
+          {i18n.t('knittingAfterCollar')}
         </Text>
       </View>
       <View style={styles.subtitleRow}>

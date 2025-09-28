@@ -23,7 +23,7 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
         <Text style={[styles.textStep, styles.textCenter]}>{i18n.t('step')}1</Text>
       </View>
       <View style={styles.ribbingHeader}>
-        <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
+        <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text>
         <View style={styles.yellowIndicator}></View>
       </View>
       <View style={styles.chartRow}>

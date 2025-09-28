@@ -83,7 +83,7 @@ export default function RaglanNavigator() {
           name="RibbingO"
           component={RibbingOScreen}
           options={{
-            title: i18n.t('knittingChartRibbing'),
+            title: i18n.t('collarKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -91,7 +91,7 @@ export default function RaglanNavigator() {
           name="BackO"
           component={BackOScreen}
           options={{
-            title: i18n.t('knittingChartBack'),
+            title: i18n.t('backKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -99,7 +99,7 @@ export default function RaglanNavigator() {
           name="FrontO"
           component={FrontOScreen}
           options={{
-            title: i18n.t('knittingChartFront'),
+            title: i18n.t('frontKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -107,7 +107,7 @@ export default function RaglanNavigator() {
           name="SleeveO"
           component={SleeveOScreen}
           options={{
-            title: i18n.t('knittingChartSleeve'),
+            title: i18n.t('sleeveKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -115,7 +115,7 @@ export default function RaglanNavigator() {
           name="RibbingV"
           component={RibbingVScreen}
           options={{
-            title: i18n.t('knittingChartRibbing'),
+            title: i18n.t('collarKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -123,7 +123,7 @@ export default function RaglanNavigator() {
           name="BackV"
           component={BackVScreen}
           options={{
-            title: i18n.t('knittingChartBack'),
+            title: i18n.t('backKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -131,7 +131,7 @@ export default function RaglanNavigator() {
           name="FrontV"
           component={FrontVScreen}
           options={{
-            title: i18n.t('knittingChartFront'),
+            title: i18n.t('frontKnittingChart'),
             presentation: 'card',
           }}
         />
@@ -139,7 +139,7 @@ export default function RaglanNavigator() {
           name="SleeveV"
           component={SleeveVScreen}
           options={{
-            title: i18n.t('knittingChartSleeve'),
+            title: i18n.t('sleeveKnittingChart'),
             presentation: 'card',
           }}
         />
