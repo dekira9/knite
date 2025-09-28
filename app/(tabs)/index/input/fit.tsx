@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
@@ -8,7 +8,7 @@ import { Image } from 'expo-image';
 import IntroProgress from '@/app/components/IntroProgress';
 
 export default observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   const fitTypes = [
     { 
@@ -40,9 +40,9 @@ export default observer(() => {
     // Determine the next screen based on the selected style
     const selectedStyle = introState.style; // Assuming style is stored in introState
     if (selectedStyle === 'regular') {
-      router.push('/(tabs)/input/ribbing-width');
+      navigation.navigate('RibbingWidth');
     } else if (selectedStyle === 'v-neck') {
-      router.push('/(tabs)/input/ribbing-widthV');
+      navigation.navigate('RibbingWidthV');
     }
   };
 

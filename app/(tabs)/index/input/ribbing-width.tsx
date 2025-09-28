@@ -4,12 +4,12 @@ import Slider from '@react-native-community/slider';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
 
 export default observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   {
     /* Calculate min and max values*/
   }
@@ -45,7 +45,7 @@ export default observer(() => {
 
   const handleNext = () => {
     introState.setRibbingWidth(localRibbingWidth);
-    router.push('(tabs)/input/lineraglan-width');
+    navigation.navigate('LineraglanWidth');
   };
 
   return (

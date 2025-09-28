@@ -1,22 +1,28 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
 
 const SubscriptionScreen = observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const isRussian = onboardingState.language === 'ru';
 
   const handleSubscribe = () => {
     onboardingState.setSubscription(true);
     onboardingState.completeOnboarding();
-    router.replace('/(tabs)');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
   };
 
   const handleSkip = () => {
     onboardingState.completeOnboarding();
-    router.replace('/(tabs)');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
   };
 
   return (

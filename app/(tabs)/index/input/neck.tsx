@@ -11,7 +11,7 @@ export default observer(() => {
         title={i18n.t('neckCircumference')}
         value={introState.neckCircumference}
         onValueChange={introState.setNeckCircumference}
-        nextScreen="/(tabs)/input/chest"
+        nextScreen="Chest"
         imageSource={require('@/assets/images/neck.svg')}
       />
     </>

@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import Slider from '@react-native-community/slider';
 import introState from '@/state/introState';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
 import { observer } from 'mobx-react-lite';
 
 const RibbingWidthV: React.FC = observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   // Calculate min and max values
   const stitches = parseFloat(introState.stitchDensity.replace(',', '.')) / 10;
@@ -51,7 +51,7 @@ const RibbingWidthV: React.FC = observer(() => {
 
   const handleNext = () => {
     introState.setRibbingWidthV(localRibbingWidthV.toString());
-    router.push('/(tabs)/input/lineraglanV');
+    navigation.navigate('LineraglanV');
   };
   return (
     <View style={styles.container}>

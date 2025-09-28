@@ -11,7 +11,7 @@ export default observer(() => {
         title={i18n.t('chestCircumference')}
         value={introState.chestCircumference}
         onValueChange={introState.setChestCircumference}
-        nextScreen="/(tabs)/input/stitch-density"
+        nextScreen="StitchDensity"
         imageSource={require('@/assets/images/chest.svg')}
       />
     </>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, FlatList } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
@@ -348,7 +348,7 @@ export const determineIncreaseType = (NHFrontV: number, SfxV: number): string =>
 };
 
 export default observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const results = introState.calculateRaglan();
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
@@ -380,12 +380,12 @@ export default observer(() => {
   console.log('rows:', rows);
   
   const handleStartKnitting = () => {
-    router.navigate('/(tabs)/raglan/ribbingV' as any);
+    navigation.navigate('Raglan', { screen: 'RibbingV' });
   };
 
   const handleNewStyle = () => {
     introState.setStyleChosen(false);
-    router.navigate('/');
+    navigation.navigate('Styles');
   };
 
   // Проверяем, что results это RaglanOutput, а не строка с ошибкой
@@ -395,7 +395,7 @@ export default observer(() => {
         <Text style={styles.error}>{results}</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.back()}
+          onPress={() => navigation.goBack()}
         >
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
@@ -446,22 +446,22 @@ export default observer(() => {
 
   // ссылка на sleeveV
   const navigateToSleeveV = () => {
-    router.navigate('/(tabs)/raglan/sleeveV' as any);
+    navigation.navigate('Raglan', { screen: 'SleeveV' });
   };
  
   // ссылка на ribbing copyV
   const navigateToRibbingCopyV = () => {
-    router.navigate('/(tabs)/raglan/ribbingV' as any);
+    navigation.navigate('Raglan', { screen: 'RibbingV' });
   };  
 
   // ссылка на backV
   const navigateToBackV = () => {
-    router.navigate('/(tabs)/raglan/backV' as any);
+    navigation.navigate('Raglan', { screen: 'BackV' });
   };
   
   // Добавляем функцию навигации для frontV
   const navigateToFrontV = () => {
-    router.navigate('/(tabs)/raglan/frontV' as any);
+    navigation.navigate('Raglan', { screen: 'FrontV' });
   };
   
   const handleScrollToTop = () => {

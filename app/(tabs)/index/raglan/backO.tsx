@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import { calculateRaglan } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 
@@ -17,7 +17,7 @@ const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
   const colorScheme = useColorScheme();
   const [highlightedRow, setHighlightedRow] = useState(0);
-  const router = useRouter();
+  const navigation = useNavigation();
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   

@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard 
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import i18n from '@/utils/translations';
 import onboardingState from '@/state/onboardingState';
 import { Image } from 'expo-image';
@@ -35,7 +35,7 @@ export default function MeasurementInput({
   doNotShowCM=false,
   onNext,
 }: MeasurementInputProps) {
-  const router = useRouter();
+  const navigation = useNavigation();
   const measurementSystem = onboardingState.measurementSystem;
   const unit = measurementSystem === 'metric' ? 'cm' : 'in';
   const inputRef = useRef<TextInput>(null);
@@ -54,7 +54,9 @@ export default function MeasurementInput({
       const shouldProceed = onNext();
       if (!shouldProceed) return;
     }
-    router.push(nextScreen);
+    
+    // Navigate to the next screen
+    navigation.navigate(nextScreen);
   };
 
   return (

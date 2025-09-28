@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
 
 const MeasurementScreen = observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const isRussian = onboardingState.language === 'ru';
 
   const selectSystem = (system: string) => {
     onboardingState.setMeasurementSystem(system);
-    router.push('/onboarding/subscription');
+    navigation.navigate('Subscription');
   };
 
   return (

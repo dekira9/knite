@@ -18,6 +18,7 @@ export default function IntroProgress() {
   const insets = useSafeAreaInsets();
   const currentStep = INTRO_STEPS.indexOf(pathname);
   const progress = (currentStep + 1) / INTRO_STEPS.length;
+  console.log('pathname', pathname);
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>

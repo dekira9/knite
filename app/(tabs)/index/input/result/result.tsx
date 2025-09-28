@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
@@ -8,9 +8,13 @@ import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from './helpers';
+import Step1Ribbing from './Step1Ribbing';
+import Step2AddingStitches from './Step2AddingStitches';
+import Step3BackLengthening from './Step3BackLengthening';
+import Step4SeparatingSleeves from './Step4SeparatingSleeves';
 
 export default observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const results = introState.calculateRaglan();
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
@@ -45,30 +49,6 @@ export default observer(() => {
       results.PRib_1x3_f
     );
 
-  {
-    /* ссылка на sleeveO*/
-  }
-  const navigateToSleeveO = () => {
-    router.push('/(tabs)/raglan/sleeveO');
-  };
-  {
-    /* ссылка на frontO*/
-  }
-  const navigateToFrontO = () => {
-    router.push('/(tabs)/raglan/frontO');
-  };
-  {
-    /* ссылка на backO*/
-  }
-  const navigateToBackO = () => {
-    router.push('/(tabs)/raglan/backO');
-  };
-  {
-    /* ссылка на ribbingO*/
-  }
-  const navigateToRibbingO = () => {
-    router.push('/(tabs)/raglan/ribbingO');
-  };
   const handleScrollToTop = () => {
     {
       /* Scroll to top*/
@@ -95,7 +75,7 @@ export default observer(() => {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => router.back()}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
       </View>
@@ -112,12 +92,20 @@ export default observer(() => {
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
 
+  const handleSelectNewStyle = () => {
+    introState.setIntroFinished(false);
+    navigation.navigate('Styles');
+  };
+
   return (
-    <View style={[styles.mainContainer, { paddingTop: insets.top }]}>
+    <View style={[styles.mainContainer]}>
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
       >
+        <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
+          <Text style={styles.newStyleButtonText}>Новый проект</Text>
+        </TouchableOpacity>
         <ScrollView
           ref={carouselRef}
           horizontal
@@ -125,7 +113,7 @@ export default observer(() => {
           showsHorizontalScrollIndicator={false}
           style={styles.carousel}
           onScroll={(event) => {
-            const slideSize = Dimensions.get('window').width - 40;
+            const slideSize = Dimensions.get('window').width - 32;
             const x = event.nativeEvent.contentOffset.x;
             setCurrentIndex(Math.round(x / slideSize));
           }}
@@ -165,1009 +153,25 @@ export default observer(() => {
           ))}
         </View>
 
-        <View style={styles.resultCard}>
-          <View style={styles.stepHeader}>
-            <Text style={[styles.textStep, styles.textCenter]}>{i18n.t('step')}1</Text>
-          </View>
-          <View style={styles.ribbingHeader}>
-            <Text style={styles.subtitle}>{i18n.t('ribbing')}</Text>
-            <View style={styles.yellowIndicator}></View>
-          </View>
-          <View style={styles.chartRow}>
-            <Text style={[styles.resultText, styles.boldText]}>
-              {i18n.t('knittingChart')}:
-            </Text>
+        <Step1Ribbing results={results} />
+        <Step2AddingStitches 
+          results={results} 
+          resultString24={resultString24}
+          resultString23={resultString23}
+          resultString21={resultString21}
+          resultString43={resultString43}
+        />
 
-            <TouchableOpacity onPress={navigateToRibbingO}>
-              <Image
-                source={require('@/assets/images/view.svg')}
-                style={styles.viewImage}
-                contentFit="contain"
-              />
-            </TouchableOpacity>
-          </View>
+        <Step3BackLengthening 
+          results={results} 
+          handleScrollToTop1={handleScrollToTop1}
+          handleScrollToTop={handleScrollToTop}
+        />
 
-          <View style={styles.infoRow}>
-            <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.Sgor}
-            </Text>
-            </View>
-            <View style={styles.knittingRow}>
-            <Text style={styles.resultText}>
-              {i18n.t('knitting')}
-            </Text>
-            <Image
-              source={require('@/assets/images/knitcircle.svg')}
-              style={styles.styleKnitCircleImage}
-              contentFit="contain"
-            />
-            <Text style={styles.resultText}>
-              {i18n.t('rows')}: {results.NRrez}
-            </Text>
-          </View>
-
-          <View style={styles.startRow}>
-            <Text style={styles.resultText}>{i18n.t('start')}</Text>
-            <View style={styles.redIndicator}></View>
-            <Text style={styles.resultText}> : </Text>
-          </View>
-
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={styles.horizontalRow}>
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SKfront}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <View style={styles.purpleIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SFrontO}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.K}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.greenIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.Sa}
-                </Text>
-              </View>
-
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.K}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.pinkIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SFrontO}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.greenIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.Sa}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <View style={styles.yellowIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SKa}
-                </Text>
-              </View>
-            </View>
-          </ScrollView>
-
-          <Text style={styles.resultText}>
-            {i18n.t('stitches') + ' ' + i18n.t('back')}: {results.SFrontO}
-          </Text>
-          <Text style={styles.resultText}>
-            {i18n.t('stitches') + ' ' + i18n.t('front')}: {results.SFrontO}
-          </Text>
-          <Text style={styles.resultText}>
-            {i18n.t('stitches') + ' ' + i18n.t('sleeve')}: {results.Sa}
-          </Text>
-          <Text style={styles.resultText}>
-            {i18n.t('stitches') + ' ' + i18n.t('raglan')}: {introState.raglanLineWidth}
-          </Text>
-        </View>
-        {/* ПРИБАВЛЕНИЯ
-         */}
-        <View style={styles.resultCard}>
-          <View style={styles.stepHeader}>
-            <Text style={[styles.textStep, styles.textCenter]}>
-              {i18n.t('step')}2
-              {'\n'}
-              {i18n.t('knittingAfterRibbing')}
-            </Text>
-          </View>
-          <View style={styles.subtitleRow}>
-            <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.resultText}>
-              {i18n.t('stitches')}: +{results.Sfx}
-            </Text>
-            </View>
-            <View style={styles.knittingRow}>
-            <Text style={styles.resultText}>
-          {i18n.t('knitting')}
-          </Text>
-            <Image
-              source={require('@/assets/images/knitcircle.svg')}
-              style={styles.styleKnitCircleImage}
-              contentFit="contain"
-            />
-            <Text style={styles.resultText}>
-              {i18n.t('rows')}: {results.NHFront}
-            </Text>
-          </View>
-
-          <View style={styles.backHeader}>
-            <Text style={[styles.resultText, styles.marginLeft10]}>{i18n.t('back')}</Text>
-            <View style={styles.purpleIndicatorLarge}></View>
-            <TouchableOpacity onPress={navigateToBackO}>
-              <Image
-                source={require('@/assets/images/view.svg')}
-                style={styles.viewImage}
-                contentFit="contain"
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.arrowRow}>
-            <View style={styles.arrowContainerSmall}>
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: 'transparent',
-                  borderRightColor: '#A29FCF',
-                  borderBottomColor: '#A29FCF',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center' }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-
-            <View
-              style={[styles.textBox, { backgroundColor: '#A29FCF', justifyContent: 'center' }]}
-            >
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('stitches')}: {'\n'}
-                {results.SFrontO}
-              </Text>
-            </View>
-
-            <View style={styles.arrowContainerSmall}>
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  marginLeft: 0,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: '#A29FCF',
-                  borderRightColor: 'transparent',
-                  borderBottomColor: '#A29FCF',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 20,
-              justifyContent: 'center',
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10 }]}>{i18n.t('front')}</Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#FDCFE1',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
-            <TouchableOpacity onPress={navigateToFrontO}>
-              <Image
-                source={require('@/assets/images/view.svg')}
-                style={styles.viewImage}
-                contentFit="contain"
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.arrowRow}>
-            <View style={styles.arrowContainerSmall}>
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: 'transparent',
-                  borderRightColor: '#FDCFE1',
-                  borderBottomColor: '#FDCFE1',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center' }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-
-            <View
-              style={[styles.textBox, { backgroundColor: '#FDCFE1', justifyContent: 'center' }]}
-            >
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('stitches')}: {'\n'}
-                {results.SFrontO}
-              </Text>
-            </View>
-
-            <View style={styles.arrowContainerSmall}>
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  marginLeft: 0,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: '#FDCFE1',
-                  borderRightColor: 'transparent',
-                  borderBottomColor: '#FDCFE1',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 20,
-              marginBottom: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10 }]}>{i18n.t('sleeve')}</Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#DAEDBD',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
-            <TouchableOpacity onPress={navigateToSleeveO}>
-              <Image
-                source={require('@/assets/images/view.svg')}
-                style={styles.viewImage}
-                contentFit="contain"
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.arrowRow}>
-            <View style={styles.arrowContainerSmall}>
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: 'transparent',
-                  borderRightColor: '#DAEDBD',
-                  borderBottomColor: '#DAEDBD',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center' }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-
-            <View
-              style={[styles.textBox, { backgroundColor: '#DAEDBD', justifyContent: 'center' }]}
-            >
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('stitches')}: {'\n'}
-                {results.Sa}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                marginBottom: 1,
-                marginLeft: 10,
-                padding: 1,
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
-              <View
-                style={{
-                  width: 34,
-                  height: 14,
-                  marginLeft: 0,
-                  borderTopWidth: 8.5,
-                  borderLeftWidth: 17,
-                  borderRightWidth: 17,
-                  borderBottomWidth: 8.5,
-                  padding: -17,
-                  borderTopColor: 'transparent',
-                  borderLeftColor: '#DAEDBD',
-                  borderRightColor: 'transparent',
-                  borderBottomColor: '#DAEDBD',
-                }}
-              ></View>
-              <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
-                {i18n.t('adding')}: {'\n'}+{results.Sfx}
-              </Text>
-            </View>
-          </View>
-
-          <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 20 }]}>
-            {i18n.t('additionsOnOneSide')}: {results.Sfx}
-          </Text>
-
-          {results.usedIncreaseType.includes('1x2, 1x4') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-              </Text>
-              {/* вывод рядов с прибавками*/}
-
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{resultString24}</Text>
-
-              {/* конец вывода рядов с прибавками*/}
-            </View>
-          )}
-
-          {results.usedIncreaseType.includes('1x3, 1x4') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.PRib_1x3_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PRib_1x4_f}
-              </Text>
-              {/* вывод рядов с прибавками*/}
-
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{resultString43}</Text>
-
-              {/* конец вывода рядов с прибавками*/}
-            </View>
-          )}
-
-          {results.usedIncreaseType.includes('1x2, 1x1') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{resultString21}</Text>
-            </View>
-          )}
-          {results.usedIncreaseType.includes('1x4, 1x1') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-              </Text>
-            </View>
-          )}
-          {results.usedIncreaseType.includes('1x2, 1x3') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{resultString23}</Text>
-            </View>
-          )}
-
-          {results.usedIncreaseType.includes('1x3, 1x1') && (
-            <View
-              style={{
-                marginBottom: 10,
-                marginLeft: 0,
-                padding: 5,
-                backgroundColor: '#E6E6E6',
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-              </Text>
-            </View>
-          )}
-          {results.usedIncreaseType.includes('1x4') && (
-            <View
-              style={[
-                styles.section,
-                {
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{results.RowPrib1x4String}</Text>
-            </View>
-          )}
-
-          {results.usedIncreaseType.includes('1x1') && (
-            <View
-              style={{
-                marginBottom: 10,
-                marginLeft: 0,
-                padding: 5,
-                backgroundColor: '#E6E6E6',
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{results.RowPrib1x1String}</Text>
-            </View>
-          )}
-
-          {results.usedIncreaseType.includes('1x2') && (
-            <View
-              style={{
-                marginBottom: 10,
-                marginLeft: 0,
-                padding: 5,
-                backgroundColor: '#E6E6E6',
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{results.RowPrib1x2String}</Text>
-            </View>
-          )}
-          {results.usedIncreaseType.includes('1x3') && (
-            <View
-              style={{
-                marginBottom: 10,
-                marginLeft: 0,
-                padding: 5,
-                backgroundColor: '#E6E6E6',
-                borderRadius: 8,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={[styles.resultText, { fontWeight: 'bold', marginTop: 14 }]}>
-                {i18n.t('option')}
-              </Text>
-              <Text style={styles.resultText}>
-                1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-              </Text>
-              <Text style={[styles.resultText, { fontWeight: 'bold' }]}>
-                {i18n.t('RowsWithAdding')}:
-              </Text>
-              <Text style={styles.resultText}>{results.RowPrib1x3String}</Text>
-            </View>
-          )}
-        </View>
-
-        {/* УДЛИНЕНИЕ СПИНКИ */}
-
-        <View style={styles.resultCard}>
-        <View style={styles.step3Header}>
-            <Text style={[styles.textStep, styles.textCenter]}>
-              {i18n.t('step')}3
-            </Text>
-          </View>
-          <View style={styles.backLengtheningHeader}>
-            <Text style={styles.subtitle}>{i18n.t('backLengthening')}</Text>
-            <View style={styles.blueIndicator}></View>
-          </View>
-
-          <View style={styles.backLengtheningInfo}>
-            <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SRostok}
-            </Text>
-            </View>
-            <View style={styles.backLengtheningKnitting}>
-            <Text style={styles.resultText}>
-          {i18n.t('knitting')}
-          </Text>
-            <Image
-              source={require('@/assets/images/knitflat.svg')}
-              style={styles.styleKnitCircleImage}
-              contentFit="contain"
-            />
-            <Text style={styles.resultText}>
-              {i18n.t('rows')}: {results.NRostok}
-            </Text>
-          </View>
-
-          <View style={styles.backLengtheningStart}>
-            <Text style={styles.resultText}>{i18n.t('start')}</Text>
-            <TouchableOpacity onPress={handleScrollToTop1}>
-            <Image
-              source={require('@/assets/images/startv.svg')}
-              style={styles.startvImage}
-              contentFit="contain"
-            />
-            </TouchableOpacity>
-            <Text style={styles.resultText}> : </Text>
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SKfront}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.purpleIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SFrontO + 2 * results.Sfx}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SKfront}
-                </Text>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-        {/*разделение на части*/}
-        <View style={styles.resultCard}>
-          <View style={styles.partsHeader}>
-            <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
-            <TouchableOpacity
-              onPress={handleScrollToTop}
-              style={styles.planButton}
-            >
-              <Image
-                source={require('../../../../../assets/images/planOaz3.png')}
-                style={styles.planImage}
-                contentFit="contain"
-              />
-              <Text style={[styles.resultText, styles.planText]}>
-                {i18n.t('plan')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.backSection}>
-            <Text style={[styles.resultText, styles.backSectionBold]}>
-              {i18n.t('back')}
-            </Text>
-            <View style={styles.blueIndicatorLarge}></View>
-            <Text style={[styles.resultText, styles.backSectionText]}>
-              {i18n.t('stitches')}:{results.SRostok}
-            </Text>
-          </View>
-
-          {/*перед*/}
-
-          <View style={styles.frontSection}>
-            <Text style={[styles.resultText, styles.frontSectionBold]}>
-              {i18n.t('front')}
-            </Text>
-            <View style={styles.pinkIndicatorLarge}></View>
-            <Text style={[styles.resultText, styles.frontSectionText]}>
-              {i18n.t('stitches')}:{results.SFrontO + 2 * results.Sfx + 2 * results.SKfront}
-            </Text>
-          </View>
-
-          <View style={styles.frontPartsLayout}>
-            <View style={styles.frontPartsContainer}>
-              <View style={styles.frontPartsItem}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={[styles.resultText, styles.frontPartsText]}>
-                  {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-                  {results.SKfront}
-                </Text>
-              </View>
-
-              <View style={[styles.textBox, { backgroundColor: '#FDCFE1', justifyContent: 'center' }]}>
-                <Text style={[styles.resultText, styles.frontPartsTextWithMargin]}>
-                  {i18n.t('stitches')}: {'\n'}
-                  {results.SFrontO + 2 * results.Sfx}
-                </Text>
-              </View>
-
-              <View style={styles.frontPartsItemWithMargin}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={[styles.resultText, styles.frontPartsText]}>
-                  {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-                  {results.SKfront}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          {/*рукав*/}
-          <View style={styles.sleeveSection}>
-            <Text style={[styles.resultText, styles.sleeveSectionBold]}>
-              {i18n.t('sleeve')}
-            </Text>
-            <View style={styles.greenIndicatorLarge}></View>
-            <Text style={[styles.resultText, styles.sleeveSectionText]}>
-              {i18n.t('stitches')}:{results.Sa + 2 * results.Sfx + 2 * results.SKa}
-            </Text>
-          </View>
-          {/*...*/}
-          <View style={styles.sleevePartsLayout}>
-            <View style={styles.sleevePartsContainer}>
-              <View style={styles.sleevePartsItem}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={[styles.resultText, styles.sleevePartsText]}>
-                  {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-                  {results.SKa}
-                </Text>
-              </View>
-
-              <View style={[styles.textBox, { backgroundColor: '#DAEDBD', justifyContent: 'center' }]}>
-                <Text style={[styles.resultText, styles.sleevePartsTextWithMargin]}>
-                  {i18n.t('stitches')}: {'\n'}
-                  {results.Sa + 2 * results.Sfx}
-                </Text>
-              </View>
-
-              <View style={styles.sleevePartsItemWithMargin}>
-                <View style={styles.orangeIndicator}></View>
-                <Text style={[styles.resultText, styles.sleevePartsText]}>
-                  {i18n.t('raglanline').replace(' ', '\n')}: {'\n'}
-                  {results.SKa}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* отделение рукавов*/}
-        <View style={styles.resultCard}>
-        <View style={styles.step4Header}>
-            <Text style={[styles.textStep, styles.textCenter]}>
-              {i18n.t('step')}4
-            </Text>
-          </View>
-          <View style={styles.separatingHeader}>
-            <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
-          </View>
-
-          <View style={styles.separatingStart}>
-            <Text style={styles.resultText}>{i18n.t('start')}</Text>
-            <TouchableOpacity onPress={handleScrollToTop1}>
-            <Image
-              source={require('@/assets/images/startend.svg')}
-              style={styles.startvImage}
-              contentFit="contain"
-            />
-            </TouchableOpacity>
-            <Text style={styles.resultText}> : </Text>
-          </View>
-
-          <View style={styles.separatingRows}>
-            <Text style={styles.resultText}>{i18n.t('rows')}: 1</Text>
-            <Image
-              source={require('@/assets/images/knitcircle.svg')}
-              style={styles.styleKnitCircleImage}
-              contentFit="contain"
-            />
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={styles.separatingLayout}>
-              <View style={styles.stitchBox}>
-                <Text style={styles.resultText}>{i18n.t('back')}</Text>
-                <View style={styles.grayIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SRostok}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <View style={styles.textBox}>
-                  <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
-                </View>
-
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
-                </Text>
-              </View>
-
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#FF00FF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SPodr} </Text>
-                  <Text style={styles.createText}>{i18n.t('create')}</Text>
-                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
-                
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <Text style={styles.resultText}>{i18n.t('front')}</Text>
-                <View style={styles.grayIndicator}></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SRostok}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-
-              <View style={styles.stitchBox}>
-                <View style={styles.textBox}>
-                  <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
-                </View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
-                </Text>
-              </View>
-              {/* round*/}
-              <View style={styles.roundIndicator}>
-                <View style={styles.roundDot}></View>
-              </View>
-              <View style={styles.stitchBox}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#FF00FF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <Text style={styles.resultText}>
-                  {i18n.t('stitches')}: {results.SPodr}</Text>
-                  <Text style={styles.createText}>{i18n.t('create')}</Text>
-                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
-                
-              </View>
-            </View>
-          </ScrollView>
-        </View>
+        <Step4SeparatingSleeves 
+          results={results} 
+          handleScrollToTop1={handleScrollToTop1}
+        />
 
         {/* ИТОГИ ИТОГИ ИТОГИ*/}
 
@@ -1488,7 +492,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   slideContainer: {
-    width: Dimensions.get('window').width - 40,
+    width: Dimensions.get('window').width - 32,
     height: 300,
     justifyContent: 'center',
     alignItems: 'center',
@@ -2287,5 +1291,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCCCCC',
     marginLeft: 10,
     borderWidth: 1,
+  },
+  // New style button
+  newStyleButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    marginHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  newStyleButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

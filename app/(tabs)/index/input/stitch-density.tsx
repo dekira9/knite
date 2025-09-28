@@ -14,7 +14,7 @@ export default observer(() => {
           title={i18n.t('stitchDensityCM')}
           value={introState.stitchDensity}
           onValueChange={introState.setStitchDensity}
-          nextScreen="/(tabs)/input/row-density"
+          nextScreen="RowDensity"
           imageSource={require('@/assets/images/density.svg')}
           doNotShowCM={true}
         />
@@ -23,7 +23,7 @@ export default observer(() => {
           title={i18n.t('stitchDensityIN')}
           value={introState.stitchDensity}
           onValueChange={introState.setStitchDensity}
-          nextScreen="/(tabs)/input/row-density"
+          nextScreen="RowDensity"
           imageSource={require('@/assets/images/density.svg')}
           doNotShowCM={true}
         />

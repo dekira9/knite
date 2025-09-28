@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -10,7 +10,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 
 export default observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const currentLanguage = onboardingState.language;
   const insets = useSafeAreaInsets();
   console.log(introState.styleChosen)
@@ -19,9 +19,9 @@ export default observer(() => {
   useEffect(() => {
     if (introState.introFinished) {
       if (introState.style === 'regular') {
-        router.push('/input/result');
+        navigation.navigate('Result', { screen: 'Result' });
       } else if (introState.style === 'v-neck') {
-        router.push('/input/resultV');
+        navigation.navigate('Result', { screen: 'ResultV' });
       }
     }
   }, [introState.introFinished, introState.style]);
@@ -34,7 +34,7 @@ export default observer(() => {
   const selectStyle = (styleId: string) => {
     introState.setStyle(styleId);
     introState.setIntroFinished(false);
-    router.push('/input/head');
+    navigation.navigate('Input', { screen: 'Head' });
   };
 
   return (

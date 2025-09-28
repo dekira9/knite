@@ -5,11 +5,11 @@ import { Image } from 'expo-image';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
 
 const DepthNeckV = () => {
-  const router = useRouter();
+  const navigation = useNavigation();
   
   const results = introState.calculateRaglan();
   const HrezV = introState.ribbingWidthV;

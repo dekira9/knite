@@ -14,7 +14,7 @@ export default observer(() => {
           title={i18n.t('rowDensityCM')}
           value={introState.rowDensity}
           onValueChange={introState.setRowDensity}
-          nextScreen="/(tabs)/input/fit"
+          nextScreen="Fit"
           doNotShowCM={true}
           imageSource={require('@/assets/images/density3.svg')}
         />
@@ -23,7 +23,7 @@ export default observer(() => {
           title={i18n.t('rowDensityIN')}
           value={introState.rowDensity}
           onValueChange={introState.setRowDensity}
-          nextScreen="/(tabs)/input/fit"
+          nextScreen="Fit"
           imageSource={require('@/assets/images/density3.svg')}
           doNotShowCM={true}
         />

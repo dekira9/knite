@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import onboardingState from '@/state/onboardingState';
 import { useEffect } from 'react';
 
 export default function WelcomeScreen() {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (onboardingState.hasCompletedOnboarding) {
-      router.replace('/(tabs)');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
     }
   }, [onboardingState.hasCompletedOnboarding]);
 
@@ -26,7 +29,7 @@ export default function WelcomeScreen() {
       
       <TouchableOpacity 
         style={styles.button}
-        onPress={() => router.push('/onboarding/language')}
+        onPress={() => navigation.navigate('Language')}
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,14 +28,14 @@ const languages = [
 ];
 
 const Settings = observer(() => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const currentLanguage = onboardingState.language;
   const insets = useSafeAreaInsets();
 
   const currentLanguageInfo = languages.find(lang => lang.code === currentLanguage);
 
   const handleLanguagePress = () => {
-    router.push('/onboarding/language?from=settings');
+    navigation.navigate('Onboarding', { screen: 'Language' });
   };
 
   const toggleMeasurementSystem = () => {
@@ -56,7 +56,10 @@ const Settings = observer(() => {
           text: 'OK',
           onPress: () => {
             onboardingState.setOnboardingComplete(false);
-            router.replace('/onboarding/welcome');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Onboarding' }],
+            });
           },
         },
       ]
@@ -74,7 +77,10 @@ const Settings = observer(() => {
           onPress: async () => {
             try {
               await resetAllState();
-              router.replace('/onboarding/welcome');
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Onboarding' }],
+              });
             } catch (e) {
               Alert.alert('Error', 'Failed to reset the app state.');
             }

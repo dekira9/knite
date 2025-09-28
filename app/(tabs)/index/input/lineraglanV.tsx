@@ -5,11 +5,11 @@ import { Image } from 'expo-image';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
 
 const LineraglanV = () => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const Kmin = 0;
   const results = introState.calculateRaglan();
   const KmaxV = typeof results === 'string' ? 5 : results.KmaxV || 5;
@@ -57,7 +57,7 @@ const LineraglanV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.raglanLineWidthV);
-    router.push('/(tabs)/input/depthneckV');
+    navigation.navigate('DepthNeckV');
   };
 
   return (

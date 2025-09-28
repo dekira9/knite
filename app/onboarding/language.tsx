@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import * as Localization from 'expo-localization';
 import onboardingState from '@/state/onboardingState';
@@ -30,17 +30,18 @@ const languages = [
 ];
 
 const LanguageScreen = observer(() => {
-  const router = useRouter();
-  const { from } = useLocalSearchParams();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const from = route.params?.from;
 
   const selectLanguage = (langCode: string) => {
     onboardingState.setLanguage(langCode);
     updateLocale(langCode);
     
     if (from === 'settings') {
-      router.back();
+      navigation.goBack();
     } else {
-      router.push('/onboarding/measurement');
+      navigation.navigate('Measurement');
     }
   };
 
