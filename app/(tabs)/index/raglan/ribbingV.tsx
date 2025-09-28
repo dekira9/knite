@@ -633,8 +633,8 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'red',
+    
+    
     
     },
   horContainer: {
