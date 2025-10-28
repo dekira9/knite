@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -14,62 +14,74 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
   const navigation = useNavigation();
 
   const navigateToRibbingO = () => {
-    navigation.navigate('Raglan', { screen: 'RibbingO' });
+    (navigation as any).navigate('Raglan', { screen: 'RibbingO' });
   };
 
   return (
-    <View style={styles.resultCard}>
-      <View style={styles.stepHeader}>
-        <Text style={[styles.textStep, styles.textCenter]}>{i18n.t('step')}1</Text>
-      </View>
-      <View style={styles.ribbingHeader}>
-        <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text>
-        <View style={styles.yellowIndicator}></View>
-      </View>
-      <View style={styles.chartRow}>
-        <Text style={[styles.resultText, styles.boldText]}>
-          {i18n.t('knittingChart')}:
-        </Text>
+    <View style={styles.container}>
+      
+      <Text style={styles.stepTitle}>{i18n.t('step')} 1</Text>
+      
+      <View style={styles.resultCard}>
+        <View style={styles.ribbingHeader}>
+          {/* <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text> */}
+          <Text style={styles.subtitle}>Collar</Text>
+          <View style={[styles.yellowIndicator, {borderTopWidth: 1}]}></View>
+        </View>
+        
+        <View style={styles.chartRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('knittingChart')}:
+          </Text>
+          <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingO}>
+            <Image
+              source={require('@/assets/images/view.svg')}
+              style={styles.viewIcon}
+              contentFit="contain"
+            />
+            <Text style={styles.viewChartText}>View Chart</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity onPress={navigateToRibbingO}>
+        <View style={styles.divider}></View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.Sgor}</Text>
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NRrez}</Text>
+        </View>
+        
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('knitting')}:
+          </Text>
           <Image
-            source={require('@/assets/images/view.svg')}
-            style={styles.viewImage}
+            source={require('@/assets/images/knitcircle.svg')}
+            style={styles.knitIcon}
             contentFit="contain"
           />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.resultText}>
-          {i18n.t('stitches')}: {results.Sgor}
-        </Text>
         </View>
-        <View style={styles.knittingRow}>
-        <Text style={styles.resultText}>
-          {i18n.t('knitting')}
-        </Text>
-        <Image
-          source={require('@/assets/images/knitcircle.svg')}
-          style={styles.styleKnitCircleImage}
-          contentFit="contain"
-        />
-        <Text style={styles.resultText}>
-          {i18n.t('rows')}: {results.NRrez}
-        </Text>
-      </View>
 
-      <View style={styles.startRow}>
-        <Text style={styles.resultText}>{i18n.t('start')}</Text>
-        <View style={styles.redIndicator}></View>
-        <Text style={styles.resultText}> : </Text>
-      </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('start')}:</Text>
+          <View style={styles.redIndicator}></View>
+        </View>
 
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
         <View style={styles.horizontalRow}>
           <View style={styles.stitchBox}>
-            <View style={styles.orangeIndicator}></View>
-            <View style={styles.yellowIndicator}></View>
+            <View style={{alignSelf: 'center', }}>
+              <View style={styles.orangeIndicator}></View>
+              <View style={styles.yellowIndicator}></View>
+            </View>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.SKfront}
             </Text>
@@ -157,144 +169,172 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
         </View>
       </ScrollView>
 
-      <Text style={styles.resultText}>
-        {i18n.t('stitches') + ' ' + i18n.t('back')}: {results.SFrontO}
-      </Text>
-      <Text style={styles.resultText}>
-        {i18n.t('stitches') + ' ' + i18n.t('front')}: {results.SFrontO}
-      </Text>
-      <Text style={styles.resultText}>
-        {i18n.t('stitches') + ' ' + i18n.t('sleeve')}: {results.Sa}
-      </Text>
-      <Text style={styles.resultText}>
-        {i18n.t('stitches') + ' ' + i18n.t('raglan')}: {introState.raglanLineWidth}
-      </Text>
+        <View style={styles.stitchBreakdown}>
+          <Text style={styles.breakdownText}>
+            {i18n.t('stitches')} {i18n.t('back')}: <Text style={styles.boldNumber}>{results.SFrontO}</Text>
+          </Text>
+          <Text style={styles.breakdownText}>
+            {i18n.t('stitches')} {i18n.t('front')}: <Text style={styles.boldNumber}>{results.SFrontO}</Text>
+          </Text>
+          <Text style={styles.breakdownText}>
+            {i18n.t('stitches')} {i18n.t('sleeve')}: <Text style={styles.boldNumber}>{results.Sa}</Text>
+          </Text>
+          <Text style={styles.breakdownText}>
+            {i18n.t('stitches')} {i18n.t('raglan')}: <Text style={styles.boldNumber}>{introState.raglanLineWidth}</Text>
+          </Text>
+        </View>
+      </View>
     </View>
   );
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F8F9FA',
+  },
+  stepTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#1A1A1A',
+  },
   resultCard: {
-    backgroundColor: '#f1f1f1',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 12,
     marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: '#1A1A1A',
   },
-  resultText: {
+  viewChartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    marginLeft: 10,
+  },
+  viewIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 6,
+    tintColor: '#ffffff',
+  },
+  viewChartText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  knitIcon: {
+    width: 20,
+    height: 20,
+  },
+  leftLabel: {
     fontSize: 16,
-    marginBottom: 5,
-    textAlign: 'center' as const,
+    color: '#6b7280',
   },
-  styleKnitCircleImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#1A1A1A',
   },
-  viewImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
+  stitchBreakdown: {
+    marginTop: 20,
   },
-  textStep: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
+  breakdownText: {
+    fontSize: 16,
+    marginBottom: 8,
     color: '#1A1A1A',
   },
   // Common layout styles
-  stepHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
-  },
-  textCenter: {
-    textAlign: 'center',
-  },
   ribbingHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
+    justifyContent: 'space-between',
   },
   chartRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
   knittingRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   startRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-  },
-  horizontalRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  boldText: {
-    fontWeight: 'bold',
+    justifyContent: 'space-between',
   },
   // Indicator styles
   yellowIndicator: {
     width: 17,
     height: 17,
-    backgroundColor: 'yellow',
-    marginLeft: 10,
+    // borderRadius: 12,
+    backgroundColor: '#FFD700',
     borderWidth: 1,
+    borderTopWidth: 0.5,
+    // borderColor: '#CCCCCC',
   },
   redIndicator: {
-    width: 17,
-    height: 17,
-    borderRadius: 8.5,
-    backgroundColor: 'red',
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#FF4444',
     marginLeft: 10,
-    borderWidth: 1,
   },
   orangeIndicator: {
     width: 17,
     height: 17,
     backgroundColor: '#E76F51',
-    marginLeft: 10,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   purpleIndicator: {
     width: 17,
     height: 17,
     backgroundColor: '#A29FCF',
-    marginLeft: 10,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   greenIndicator: {
     width: 17,
     height: 17,
     backgroundColor: '#DAEDBD',
-    marginLeft: 10,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   pinkIndicator: {
     width: 17,
     height: 17,
     backgroundColor: '#FDCFE1',
-    marginLeft: 10,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   // Box styles
   stitchBox: {
@@ -304,6 +344,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
     alignItems: 'center',
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    
   },
   roundIndicator: {
     flexDirection: 'row',
@@ -317,6 +361,23 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     borderWidth: 2,
     borderColor: '#CCCCCC',
+  },
+  horizontalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  resultText: {
+    fontSize: 12,
+    marginBottom: 5,
+    textAlign: 'center' as const,
+    color: '#1A1A1A',
+  },
+  divider: {
+    height: 0.5,
+    backgroundColor: '#CCCCCC',
+    marginTop: 5,
+    marginBottom: 20,
   },
 });
 
