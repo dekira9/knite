@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import { Colors } from '@/constants/Colors';
 
 // Color constants
 const COLORS = {
@@ -11,7 +12,7 @@ const COLORS = {
   PINK: '#FDCFE1',
   GREEN: '#DAEDBD',
   GRAY: '#E6E6E6',
-  PRIMARY: '#007AFF',
+  PRIMARY: Colors['light'].tint,
   WHITE: '#ffffff',
   BLACK: '#000',
   TEXT_PRIMARY: '#1A1A1A',

@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+    marginTop: 10,
     color: COLORS.TEXT_PRIMARY,
   },
   resultCard: {

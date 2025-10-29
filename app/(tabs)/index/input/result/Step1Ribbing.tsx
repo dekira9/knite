@@ -5,6 +5,7 @@ import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import { Colors } from '@/constants/Colors';
 
 interface Step1RibbingProps {
   results: any;
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
   viewChartButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: Colors['light'].tint,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 6,

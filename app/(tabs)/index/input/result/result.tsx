@@ -12,6 +12,7 @@ import Step1Ribbing from './Step1Ribbing';
 import Step2AddingStitches from './Step2AddingStitches';
 import Step3BackLengthening from './Step3BackLengthening';
 import Step4SeparatingSleeves from './Step4SeparatingSleeves';
+import { Colors } from '@/constants/Colors';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -1294,7 +1295,7 @@ const styles = StyleSheet.create({
   },
   // New style button
   newStyleButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: Colors['light'].tint,
     paddingHorizontal: 20,
     paddingVertical: 12,
     marginHorizontal: 16,
