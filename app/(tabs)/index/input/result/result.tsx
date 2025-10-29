@@ -187,27 +187,12 @@ export default observer(() => {
             </View>
           </ScrollView>
           {/* корпус итоги*/}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 1,
-            }}
-          >
-            <Text style={[styles.resultText, { marginLeft: 10, fontWeight: 'bold' }]}>
+          <View style={styles.resultHeaderRow}>
+            <Text style={[styles.resultText, styles.resultTextBold]}>
               {i18n.t('corpus')}
             </Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#009FE3',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
-            <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
+            <View style={styles.blueIndicatorLarge}></View>
+            <Text style={[styles.resultText, styles.resultTextCentered]}>
               {i18n.t('stitches')}:{results.SRostok * 2 + results.SPodr * 2}
             </Text>
           </View>
@@ -216,15 +201,7 @@ export default observer(() => {
             <View style={styles.separatingLayout}>
               <View style={styles.resultScrollBox}>
                 <Text style={styles.resultText}>{i18n.t('back')}</Text>
-                <View
-                  style={{
-                    width: 17,
-                    height: 8,
-                    backgroundColor: '#CCCCCC',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallGrayIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
@@ -237,15 +214,7 @@ export default observer(() => {
               </View>
 
               <View style={styles.resultScrollBox}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 8,
-                    backgroundColor: '#FF00FF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallPinkIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
@@ -259,15 +228,7 @@ export default observer(() => {
 
               <View style={styles.resultScrollBox}>
                 <Text style={styles.resultText}>{i18n.t('front')}</Text>
-                <View
-                  style={{
-                    width: 17,
-                    height: 8,
-                    backgroundColor: '#CCCCCC',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallGrayIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SRostok}
@@ -280,15 +241,7 @@ export default observer(() => {
               </View>
 
               <View style={styles.resultScrollBox}>
-                <View
-                  style={{
-                    width: 17,
-                    height: 8,
-                    backgroundColor: '#FF00FF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+                <View style={styles.smallPinkIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
@@ -298,28 +251,13 @@ export default observer(() => {
             </View>
           </ScrollView>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 1,
-            }}
-          >
+          <View style={styles.resultHeaderRow}>
             {/* рукав итоги*/}
-            <Text style={[styles.resultText, { marginLeft: 10, fontWeight: 'bold' }]}>
+            <Text style={[styles.resultText, styles.resultTextBold]}>
               {i18n.t('sleeve')}
             </Text>
-            <View
-              style={{
-                width: 34,
-                height: 17,
-                backgroundColor: '#95C11F',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
-            <Text style={[styles.resultText, { textAlign: 'center', marginLeft: 10 }]}>
+            <View style={styles.greenIndicatorLarge}></View>
+            <Text style={[styles.resultText, styles.resultTextCentered]}>
               {i18n.t('stitches')}:
               {results.Sa +
                 2 * results.Sfx +
@@ -331,18 +269,7 @@ export default observer(() => {
           {/*скролл рукав*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.separatingLayout}>
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#95C11F',
-                  borderWidth: 1,
-                }}
-              >
+              <View style={styles.sleeveBox}>
                 <View style={styles.textBox}>
                   <Text style={styles.textInsideBox}>{i18n.t('sleeve')}</Text>
                 </View>
@@ -356,37 +283,10 @@ export default observer(() => {
                 <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#95C11F',
-                  borderWidth: 1,
-                }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <View
-                    style={{
-                      width: 8,
-                      height: 17,
-                      backgroundColor: '#CCCCCC',
-                      marginLeft: 0,
-                      borderWidth: 1,
-                    }}
-                  ></View>
-                  <View
-                    style={{
-                      width: 17,
-                      height: 17,
-                      backgroundColor: '#95C11F',
-                      marginLeft: 0,
-                      borderWidth: 1,
-                    }}
-                  ></View>
+              <View style={styles.sleeveBox}>
+                <View style={styles.indicatorRow}>
+                  <View style={styles.smallGrayIndicatorVertical}></View>
+                  <View style={styles.smallGreenIndicator}></View>
                 </View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.NRostok * 0.5} </Text>
@@ -400,36 +300,9 @@ export default observer(() => {
                 <View style={styles.roundDot}></View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 10,
-                  marginLeft: 0,
-                  padding: 5,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 8,
-                  alignItems: 'center',
-                  borderColor: '#95C11F',
-                  borderWidth: 1,
-                }}
-              >
-                <View
-                  style={{
-                    width: 17,
-                    height: 17,
-                    backgroundColor: '#95C11F',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
-                <View
-                  style={{
-                    width: 17,
-                    height: 8,
-                    backgroundColor: '#FF00FF',
-                    marginLeft: 10,
-                    borderWidth: 1,
-                  }}
-                ></View>
+              <View style={styles.sleeveBox}>
+                <View style={styles.smallGreenIndicatorHorizontal}></View>
+                <View style={styles.smallPinkIndicator}></View>
                 <Text style={styles.resultText}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
                   <Text style={styles.createText}>{i18n.t('create')}</Text>
@@ -443,10 +316,30 @@ export default observer(() => {
   );
 });
 
+// Color constants matching Step1 and Step2
+const COLORS = {
+  PURPLE: '#A29FCF',
+  PINK: '#FDCFE1',
+  GREEN: '#DAEDBD',
+  GRAY: '#E6E6E6',
+  PRIMARY: Colors['light'].tint,
+  WHITE: '#ffffff',
+  BLACK: '#000',
+  TEXT_PRIMARY: '#1A1A1A',
+  TEXT_SECONDARY: '#6b7280',
+  BACKGROUND: '#F8F9FA',
+  DIVIDER: '#CCCCCC',
+  BLUE: '#009FE3',
+  YELLOW: '#FFD700',
+  RED: '#FF4444',
+  ORANGE: '#E76F51',
+};
+
 const styles = StyleSheet.create({
+  // Main layout styles
   mainContainer: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: COLORS.BACKGROUND,
   },
   scrollContent: {
     padding: 16,
@@ -454,40 +347,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.WHITE,
   },
+  
+  // Card and content styles - updated to match Step1/Step2
   resultCard: {
-    backgroundColor: '#f1f1f1',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: COLORS.WHITE,
+    padding: 20,
+    borderRadius: 12,
     marginBottom: 10,
+    shadowColor: COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: COLORS.TEXT_PRIMARY,
   },
   resultText: {
     fontSize: 16,
     marginBottom: 5,
     textAlign: 'center' as const,
+    color: COLORS.TEXT_PRIMARY,
   },
+  
+  // Error and button styles - updated to match Step1/Step2
   error: {
     fontSize: 18,
-    color: 'red',
+    color: COLORS.RED,
     textAlign: 'center',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: COLORS.PRIMARY,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 16,
     fontWeight: '500',
   },
+  
+  // Carousel styles
   carousel: {
     marginBottom: 20,
     marginTop: 15,
@@ -512,54 +421,32 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#D1D1D6',
+    backgroundColor: COLORS.DIVIDER,
     marginHorizontal: 4,
   },
   paginationDotActive: {
-    backgroundColor: '#007AFF',
+    backgroundColor: COLORS.PRIMARY,
   },
-  styleKnitCircleImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  viewImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  startvImage: {
-    width: 30,
-    height: 20,
-    marginLeft: 10,
-    marginRight: 10,
-  },
+  
+  // Text box styles
   textBox: {
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: COLORS.BLACK,
     padding: 3,
     borderRadius: 5,
     marginBottom: 3,
   },
-  textBoxParts: {
-    borderWidth: 0,
-    borderColor: '#000',
-    padding: 5,
-    borderRadius: 5,
-    marginBottom: 3,
-    backgroundColor: '#E6E6E6',
-  },
   textInsideBox: {
     fontSize: 12,
-    color: '#000',
+    color: COLORS.TEXT_PRIMARY,
   },
   createText: {
     fontSize: 12,
-    color: '#000',
+    color: COLORS.TEXT_PRIMARY,
     textAlign: 'center',
   },
+  
+  // Result section styles
   resultContainer: {
     width: '100%',
     justifyContent: 'center',
@@ -567,135 +454,35 @@ const styles = StyleSheet.create({
   },
   resultImage: {
     width: '100%',
-    aspectRatio: 2, // Устанавливает соотношение сторон изображения
+    aspectRatio: 2,
     height: undefined,
-    resizeMode: 'contain', // Сохраняет пропорции изображения
+    resizeMode: 'contain',
     padding: 150,
   },
-  textStep: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
-    color: '#1A1A1A',
-  },
-  // Common layout styles
-  stepHeader: {
+  separatingLayout: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
-  },
-  textCenter: {
-    textAlign: 'center',
-  },
-  ribbingHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 10,
   },
-  subtitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  chartRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  knittingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  startRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  horizontalRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  boldText: {
-    fontWeight: 'bold',
-  },
-  marginLeft10: {
-    marginLeft: 10,
-  },
-  backHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 1,
-  },
-  purpleIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#A29FCF',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Indicator styles
-  yellowIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: 'yellow',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  redIndicator: {
-    width: 17,
-    height: 17,
-    borderRadius: 8.5,
-    backgroundColor: 'red',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  orangeIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#E76F51',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  purpleIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#A29FCF',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  greenIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#DAEDBD',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  pinkIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#FDCFE1',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Box styles
-  stitchBox: {
+  resultScrollBox: {
     marginBottom: 10,
     marginLeft: 0,
     padding: 5,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
+    borderColor: COLORS.BLUE,
+    borderWidth: 1,
+  },
+  
+  // Indicator styles - updated to match Step1/Step2 design
+  smallBlueIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: COLORS.BLUE,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   roundIndicator: {
     flexDirection: 'row',
@@ -708,591 +495,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: 0,
     borderWidth: 2,
-    borderColor: '#CCCCCC',
+    borderColor: COLORS.DIVIDER,
   },
-  // Section styles
-  section: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  // Arrow styles
-  arrowContainer: {
-    marginBottom: 1,
-    marginLeft: 0,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  arrowRight: {
-    width: 34,
-    height: 14,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: '#A29FCF',
-    borderBottomColor: '#A29FCF',
-  },
-  arrowLeft: {
-    width: 34,
-    height: 14,
-    marginLeft: 0,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: '#A29FCF',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#A29FCF',
-  },
-  arrowRightPink: {
-    width: 34,
-    height: 14,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: '#FDCFE1',
-    borderBottomColor: '#FDCFE1',
-  },
-  arrowLeftPink: {
-    width: 34,
-    height: 14,
-    marginLeft: 0,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: '#FDCFE1',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#FDCFE1',
-  },
-  arrowRightGreen: {
-    width: 34,
-    height: 14,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: '#DAEDBD',
-    borderBottomColor: '#DAEDBD',
-  },
-  arrowLeftGreen: {
-    width: 34,
-    height: 14,
-    marginLeft: 10,
-    borderTopWidth: 8.5,
-    borderLeftWidth: 17,
-    borderRightWidth: 17,
-    borderBottomWidth: 8.5,
-    padding: -17,
-    borderTopColor: 'transparent',
-    borderLeftColor: '#DAEDBD',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#DAEDBD',
-  },
-  // Color indicators
-  blueIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#009FE3',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  blueIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#009FE3',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  pinkIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#FDCFE1',
-    marginLeft: 10,
-    borderWidth: 1,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 1,
-    borderLeftColor: '#E76F51',
-    borderRightColor: '#E76F51',
-  },
-  greenIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#DAEDBD',
-    marginLeft: 10,
-    borderWidth: 1,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 1,
-    borderLeftColor: '#E76F51',
-    borderRightColor: '#E76F51',
-  },
-  greenIndicatorFinal: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#95C11F',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Separator styles
-  separatorBox: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  separatorBoxWithBorder: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderColor: '#009FE3',
-    borderWidth: 1,
-  },
-  separatorBoxGreen: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderColor: '#95C11F',
-    borderWidth: 1,
-  },
-  // Small indicators
-  smallGrayIndicator: {
-    width: 17,
-    height: 8,
-    backgroundColor: '#CCCCCC',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  smallPinkIndicator: {
-    width: 17,
-    height: 8,
-    backgroundColor: '#FF00FF',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  smallBlueIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#009FE3',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  smallGreenIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#95C11F',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  smallGreenIndicatorFinal: {
-    width: 17,
-    height: 8,
-    backgroundColor: '#FF00FF',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Mixed indicators
-  mixedIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  smallGrayIndicatorVertical: {
-    width: 8,
-    height: 17,
-    backgroundColor: '#CCCCCC',
-    marginLeft: 0,
-    borderWidth: 1,
-  },
-  smallGreenIndicatorVertical: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#95C11F',
-    marginLeft: 0,
-    borderWidth: 1,
-  },
-  // Additional layout styles
-  arrowRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    marginBottom: 3,
-  },
-  arrowContainerSmall: {
-    marginBottom: 1,
-    marginLeft: 0,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  arrowContainerWithMargin: {
-    marginBottom: 1,
-    marginLeft: 10,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  // Step 3 styles
-  step3Header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
-  },
-  backLengtheningHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  backLengtheningInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  backLengtheningKnitting: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  backLengtheningStart: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  // Parts section styles
-  partsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  planButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 10,
-  },
-  planImage: {
-    width: 30,
-    height: 30,
-  },
-  planText: {
-    marginLeft: 5,
-    color: 'blue',
-    textDecorationLine: 'underline',
-  },
-  // Back section
-  backSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 1,
-  },
-  backSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  backSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  // Front section
-  frontSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    justifyContent: 'center',
-    marginBottom: 1,
-  },
-  frontSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  frontSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  // Front parts layout
-  frontPartsLayout: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    marginBottom: 3,
-  },
-  frontPartsContainer: {
-    flexDirection: 'row',
-  },
-  frontPartsItem: {
-    marginBottom: 1,
-    marginRight: 1,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  frontPartsItemWithMargin: {
-    marginBottom: 1,
-    marginLeft: 1,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  frontPartsText: {
-    textAlign: 'center',
-  },
-  frontPartsTextWithMargin: {
-    textAlign: 'center',
-    marginLeft: 5,
-  },
-  // Sleeve section
-  sleeveSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 1,
-  },
-  sleeveSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  sleeveSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  // Sleeve parts layout
-  sleevePartsLayout: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    marginBottom: 3,
-  },
-  sleevePartsContainer: {
-    flexDirection: 'row',
-  },
-  sleevePartsItem: {
-    marginBottom: 1,
-    marginLeft: 0,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  sleevePartsItemWithMargin: {
-    marginBottom: 1,
-    marginLeft: 0,
-    padding: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  sleevePartsText: {
-    textAlign: 'center',
-  },
-  sleevePartsTextWithMargin: {
-    textAlign: 'center',
-    marginLeft: 5,
-  },
-  // Step 4 styles
-  step4Header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
-  },
-  separatingHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  separatingStart: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  separatingRows: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  separatingLayout: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
-  separatingBox: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  separatingBoxWithText: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  separatingText: {
-    fontSize: 12,
-    color: '#000',
-  },
-  separatingTextWithMargin: {
-    fontSize: 12,
-    color: '#000',
-  },
-  // Result section styles
-  resultHeader: {
-    marginBottom: 0,
-  },
-  resultCorpus: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 1,
-  },
-  resultCorpusBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  resultCorpusText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  // Result scroll styles
-  resultScrollLayout: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
-  resultScrollBox: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderColor: '#009FE3',
-    borderWidth: 1,
-  },
-  resultScrollBoxGreen: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderColor: '#95C11F',
-    borderWidth: 1,
-  },
-  resultScrollText: {
-    fontSize: 12,
-    color: '#000',
-  },
-  // Sleeve result section
-  sleeveResultSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 1,
-  },
-  sleeveResultBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  sleeveResultText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  // Sleeve result scroll
-  sleeveResultScrollLayout: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
-  sleeveResultScrollBox: {
-    marginBottom: 10,
-    marginLeft: 0,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
-    borderRadius: 8,
-    alignItems: 'center',
-    borderColor: '#95C11F',
-    borderWidth: 1,
-  },
-  sleeveResultScrollText: {
-    fontSize: 12,
-    color: '#000',
-  },
-  // Mixed indicator styles
-  mixedIndicatorRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  mixedIndicatorVertical: {
-    width: 8,
-    height: 17,
-    backgroundColor: '#CCCCCC',
-    marginLeft: 0,
-    borderWidth: 1,
-  },
-  mixedIndicatorGreen: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#95C11F',
-    marginLeft: 0,
-    borderWidth: 1,
-  },
-  mixedIndicatorFinal: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#95C11F',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  mixedIndicatorFinalSmall: {
-    width: 17,
-    height: 8,
-    backgroundColor: '#FF00FF',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Gray indicator
-  grayIndicator: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#CCCCCC',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
+  
   // New style button
   newStyleButton: {
     backgroundColor: Colors['light'].tint,
@@ -1306,5 +511,101 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  
+  // Inline styles converted to named styles
+  resultHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+  },
+  resultTextBold: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: COLORS.TEXT_PRIMARY,
+  },
+  resultTextCentered: {
+    textAlign: 'center',
+    marginLeft: 10,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  blueIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: COLORS.BLUE,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  greenIndicatorLarge: {
+    width: 34,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  smallGrayIndicator: {
+    width: 17,
+    height: 8,
+    backgroundColor: COLORS.DIVIDER,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  smallPinkIndicator: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#FF00FF',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  sleeveBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 5,
+    backgroundColor: COLORS.GRAY,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderColor: '#95C11F',
+    borderWidth: 1,
+  },
+  indicatorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  smallGrayIndicatorVertical: {
+    width: 8,
+    height: 17,
+    backgroundColor: COLORS.DIVIDER,
+    marginLeft: 0,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  smallGreenIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 0,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  smallGreenIndicatorHorizontal: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#95C11F',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  smallPinkIndicatorHorizontal: {
+    width: 17,
+    height: 8,
+    backgroundColor: '#FF00FF',
+    marginLeft: 10,
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
 });

@@ -4,6 +4,18 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 
+// Color constants (aligned with other steps)
+const COLORS = {
+  BACKGROUND: '#F8F9FA',
+  CARD: '#ffffff',
+  TEXT_PRIMARY: '#1A1A1A',
+  TEXT_SECONDARY: '#6b7280',
+  BLACK: '#000',
+  DIVIDER: '#CCCCCC',
+  GRAY: '#E6E6E6',
+  UNDERARM: '#FF00FF',
+};
+
 interface Step4SeparatingSleevesProps {
   results: any;
   handleScrollToTop1: () => void;
@@ -14,36 +26,40 @@ const Step4SeparatingSleeves = observer(({
   handleScrollToTop1 
 }: Step4SeparatingSleevesProps) => {
   return (
-    <View style={styles.resultCard}>
-      <View style={styles.step4Header}>
-        <Text style={[styles.textStep, styles.textCenter]}>
-          {i18n.t('step')}4
-        </Text>
-      </View>
-      <View style={styles.separatingHeader}>
-        <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
-      </View>
+    <View style={styles.container}>
+      <Text style={styles.stepTitle}>{i18n.t('step')} 4</Text>
+      
+      <View style={styles.resultCard}>
+        <View style={styles.separatingHeader}>
+          <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
+        </View>
 
-      <View style={styles.separatingStart}>
-        <Text style={styles.resultText}>{i18n.t('start')}</Text>
-        <TouchableOpacity onPress={handleScrollToTop1}>
-        <Image
-          source={require('@/assets/images/startend.svg')}
-          style={styles.startvImage}
-          contentFit="contain"
-        />
-        </TouchableOpacity>
-        <Text style={styles.resultText}> : </Text>
-      </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('start')}:</Text>
+          <View style={styles.startRow}>
+            <TouchableOpacity onPress={handleScrollToTop1}>
+              <Image
+                source={require('@/assets/images/startend.svg')}
+                style={styles.startvImage}
+                contentFit="contain"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View style={styles.separatingRows}>
-        <Text style={styles.resultText}>{i18n.t('rows')}: 1</Text>
-        <Image
-          source={require('@/assets/images/knitcircle.svg')}
-          style={styles.styleKnitCircleImage}
-          contentFit="contain"
-        />
-      </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('rows')}:</Text>
+          <View style={styles.knittingRow}>
+            <Text style={styles.boldNumber}>1</Text>
+            <Image
+              source={require('@/assets/images/knitcircle.svg')}
+              style={styles.knitIcon}
+              contentFit="contain"
+            />
+          </View>
+        </View>
+
+        <View style={styles.divider}></View>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
         <View style={styles.separatingLayout}>
           <View style={styles.stitchBox}>
@@ -74,15 +90,7 @@ const Step4SeparatingSleeves = observer(({
           </View>
 
           <View style={styles.stitchBox}>
-            <View
-              style={{
-                width: 17,
-                height: 17,
-                backgroundColor: '#FF00FF',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+            <View style={styles.magentaIndicator}></View>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.SPodr} </Text>
               <Text style={styles.createText}>{i18n.t('create')}</Text>
@@ -119,15 +127,7 @@ const Step4SeparatingSleeves = observer(({
             <View style={styles.roundDot}></View>
           </View>
           <View style={styles.stitchBox}>
-            <View
-              style={{
-                width: 17,
-                height: 17,
-                backgroundColor: '#FF00FF',
-                marginLeft: 10,
-                borderWidth: 1,
-              }}
-            ></View>
+            <View style={styles.magentaIndicator}></View>
             <Text style={styles.resultText}>
               {i18n.t('stitches')}: {results.SPodr}</Text>
               <Text style={styles.createText}>{i18n.t('create')}</Text>
@@ -136,90 +136,116 @@ const Step4SeparatingSleeves = observer(({
           </View>
         </View>
       </ScrollView>
+      </View>
     </View>
   );
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.BACKGROUND,
+  },
+  stepTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    marginTop: 10,
+    color: COLORS.TEXT_PRIMARY,
+  },
   resultCard: {
-    backgroundColor: '#f1f1f1',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: COLORS.CARD,
+    padding: 20,
+    borderRadius: 12,
     marginBottom: 10,
+    shadowColor: COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: COLORS.TEXT_PRIMARY,
+  },
+  leftLabel: {
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.TEXT_PRIMARY,
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 12,
     marginBottom: 5,
     textAlign: 'center' as const,
+    color: COLORS.TEXT_PRIMARY,
   },
-  styleKnitCircleImage: {
-    width: 30,
-    height: 30,
+  knitIcon: {
+    width: 20,
+    height: 20,
     marginLeft: 10,
-    marginRight: 10,
   },
   startvImage: {
     width: 30,
     height: 20,
-    marginLeft: 10,
-    marginRight: 10,
   },
   textBox: {
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: COLORS.BLACK,
     padding: 3,
     borderRadius: 5,
     marginBottom: 3,
+    justifyContent: 'center',
   },
   textInsideBox: {
     fontSize: 12,
-    color: '#000',
+    color: COLORS.BLACK,
   },
   createText: {
     fontSize: 12,
-    color: '#000',
+    color: COLORS.TEXT_PRIMARY,
     textAlign: 'center',
-  },
-  textStep: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
-    color: '#1A1A1A',
   },
   // Common layout styles
-  step4Header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
-  },
-  textCenter: {
-    textAlign: 'center',
-  },
   separatingHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
+    justifyContent: 'space-between',
   },
-  separatingStart: {
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  separatingRows: {
+  startRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginLeft: 10,
+  },
+  knittingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  divider: {
+    height: 0.5,
+    backgroundColor: COLORS.DIVIDER,
+    marginTop: 5,
+    marginBottom: 20,
   },
   separatingLayout: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 10,
   },
   // Box styles
@@ -227,9 +253,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 0,
     padding: 5,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
   },
   roundIndicator: {
     flexDirection: 'row',
@@ -242,13 +271,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: 0,
     borderWidth: 2,
-    borderColor: '#CCCCCC',
+    borderColor: COLORS.DIVIDER,
   },
   // Gray indicator
   grayIndicator: {
     width: 17,
     height: 17,
-    backgroundColor: '#CCCCCC',
+    backgroundColor: COLORS.DIVIDER,
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  // Underarm indicator
+  magentaIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: COLORS.UNDERARM,
     marginLeft: 10,
     borderWidth: 1,
   },
