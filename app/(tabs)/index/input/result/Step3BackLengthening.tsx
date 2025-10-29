@@ -28,9 +28,9 @@ interface Step3BackLengtheningProps {
 }
 
 const Step3BackLengthening = observer(({ 
-  results, 
-  handleScrollToTop1, 
-  handleScrollToTop 
+  results,
+  handleScrollToTop1,
+  handleScrollToTop
 }: Step3BackLengtheningProps) => {
   return (
     <View style={styles.container}>
