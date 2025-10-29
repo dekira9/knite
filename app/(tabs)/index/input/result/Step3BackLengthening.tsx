@@ -4,6 +4,23 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 
+// Color constants
+const COLORS = {
+  PURPLE: '#A29FCF',
+  PINK: '#FDCFE1',
+  GREEN: '#DAEDBD',
+  GRAY: '#E6E6E6',
+  PRIMARY: '#007AFF',
+  WHITE: '#ffffff',
+  BLACK: '#000',
+  TEXT_PRIMARY: '#1A1A1A',
+  TEXT_SECONDARY: '#6b7280',
+  BACKGROUND: '#F8F9FA',
+  DIVIDER: '#CCCCCC',
+  BLUE: '#009FE3',
+  ORANGE: '#E76F51',
+};
+
 interface Step3BackLengtheningProps {
   results: any;
   handleScrollToTop1: () => void;
@@ -16,51 +33,57 @@ const Step3BackLengthening = observer(({
   handleScrollToTop 
 }: Step3BackLengtheningProps) => {
   return (
-    <>
+    <View style={styles.container}>
+      <Text style={styles.stepTitle}>{i18n.t('step')} 3</Text>
+      
       {/* УДЛИНЕНИЕ СПИНКИ */}
       <View style={styles.resultCard}>
-        <View style={styles.step3Header}>
-          <Text style={[styles.textStep, styles.textCenter]}>
-            {i18n.t('step')}3
-          </Text>
-        </View>
-        <View style={styles.backLengtheningHeader}>
+        <View style={styles.stepHeader}>
           <Text style={styles.subtitle}>{i18n.t('backLengthening')}</Text>
-          <View style={styles.blueIndicator}></View>
+          <View style={styles.indicatorsRow}>
+            <View style={[styles.indicator, { backgroundColor: COLORS.BLUE }]} />
+          </View>
+        </View>
+        
+        <View style={styles.divider}></View>
+        
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.SRostok}</Text>
         </View>
 
-        <View style={styles.backLengtheningInfo}>
-          <Text style={styles.resultText}>
-            {i18n.t('stitches')}: {results.SRostok}
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
           </Text>
-          </View>
-          <View style={styles.backLengtheningKnitting}>
-          <Text style={styles.resultText}>
-        {i18n.t('knitting')}
-        </Text>
+          <Text style={styles.boldNumber}>{results.NRostok}</Text>
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('knitting')}:
+          </Text>
           <Image
             source={require('@/assets/images/knitflat.svg')}
-            style={styles.styleKnitCircleImage}
+            style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.resultText}>
-            {i18n.t('rows')}: {results.NRostok}
-          </Text>
         </View>
 
-        <View style={styles.backLengtheningStart}>
-          <Text style={styles.resultText}>{i18n.t('start')}</Text>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('start')}:</Text>
           <TouchableOpacity onPress={handleScrollToTop1}>
-          <Image
-            source={require('@/assets/images/startv.svg')}
-            style={styles.startvImage}
-            contentFit="contain"
-          />
+            <Image
+              source={require('@/assets/images/startv.svg')}
+              style={styles.startIcon}
+              contentFit="contain"
+            />
           </TouchableOpacity>
-          <Text style={styles.resultText}> : </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <View style={styles.horizontalRow}>
             <View style={styles.stitchBox}>
               <View style={styles.orangeIndicator}></View>
               <Text style={styles.resultText}>
@@ -93,7 +116,7 @@ const Step3BackLengthening = observer(({
       
       {/*разделение на части*/}
       <View style={styles.resultCard}>
-        <View style={styles.partsHeader}>
+        <View style={styles.stepHeader}>
           <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
           <TouchableOpacity
             onPress={handleScrollToTop}
@@ -109,27 +132,35 @@ const Step3BackLengthening = observer(({
             </Text>
           </TouchableOpacity>
         </View>
+        
+        <View style={styles.divider}></View>
 
-        <View style={styles.backSection}>
-          <Text style={[styles.resultText, styles.backSectionBold]}>
+        <View style={styles.chartRow}>
+          <Text style={styles.chartTitle}>
             {i18n.t('back')}
           </Text>
-          <View style={styles.blueIndicatorLarge}></View>
-          <Text style={[styles.resultText, styles.backSectionText]}>
-            {i18n.t('stitches')}:{results.SRostok}
+          <View style={[styles.indicator, { backgroundColor: COLORS.BLUE }]} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
           </Text>
+          <Text style={styles.boldNumber}>{results.SRostok}</Text>
         </View>
 
-        {/*перед*/}
+        <View style={styles.divider}></View>
 
-        <View style={styles.frontSection}>
-          <Text style={[styles.resultText, styles.frontSectionBold]}>
+        <View style={styles.chartRow}>
+          <Text style={styles.chartTitle}>
             {i18n.t('front')}
           </Text>
-          <View style={styles.pinkIndicatorLarge}></View>
-          <Text style={[styles.resultText, styles.frontSectionText]}>
-            {i18n.t('stitches')}:{results.SFrontO + 2 * results.Sfx + 2 * results.SKfront}
+          <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
           </Text>
+          <Text style={styles.boldNumber}>{results.SFrontO + 2 * results.Sfx + 2 * results.SKfront}</Text>
         </View>
 
         <View style={styles.frontPartsLayout}>
@@ -159,15 +190,19 @@ const Step3BackLengthening = observer(({
           </View>
         </View>
 
-        {/*рукав*/}
-        <View style={styles.sleeveSection}>
-          <Text style={[styles.resultText, styles.sleeveSectionBold]}>
+        <View style={styles.divider}></View>
+
+        <View style={styles.chartRow}>
+          <Text style={styles.chartTitle}>
             {i18n.t('sleeve')}
           </Text>
-          <View style={styles.greenIndicatorLarge}></View>
-          <Text style={[styles.resultText, styles.sleeveSectionText]}>
-            {i18n.t('stitches')}:{results.Sa + 2 * results.Sfx + 2 * results.SKa}
+          <View style={[styles.indicator, { backgroundColor: COLORS.GREEN }]} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
           </Text>
+          <Text style={styles.boldNumber}>{results.Sa + 2 * results.Sfx + 2 * results.SKa}</Text>
         </View>
         {/*...*/}
         <View style={styles.sleevePartsLayout}>
@@ -197,113 +232,138 @@ const Step3BackLengthening = observer(({
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.BACKGROUND,
+  },
+  stepTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: COLORS.TEXT_PRIMARY,
+  },
   resultCard: {
-    backgroundColor: '#f1f1f1',
-    padding: 10,
-    borderRadius: 10,
+    backgroundColor: COLORS.WHITE,
+    padding: 20,
+    borderRadius: 12,
     marginBottom: 10,
+    shadowColor: COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: COLORS.TEXT_PRIMARY,
+  },
+  leftLabel: {
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  knitIcon: {
+    width: 20,
+    height: 20,
+  },
+  startIcon: {
+    width: 20,
+    height: 20,
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 12,
     marginBottom: 5,
     textAlign: 'center' as const,
-  },
-  styleKnitCircleImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  startvImage: {
-    width: 30,
-    height: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    color: COLORS.TEXT_PRIMARY,
   },
   textBox: {
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: COLORS.BLACK,
     padding: 3,
     borderRadius: 5,
     marginBottom: 3,
-  },
-  textStep: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
-    color: '#1A1A1A',
+    justifyContent: 'center',
   },
   // Common layout styles
-  step3Header: {
+  stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'center',
-    width: '100%',
+    marginBottom: 20,
+    justifyContent: 'space-between',
   },
-  textCenter: {
-    textAlign: 'center',
-  },
-  backLengtheningHeader: {
+  indicatorsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
   },
-  backLengtheningInfo: {
+  chartRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
-  backLengtheningKnitting: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.TEXT_PRIMARY,
   },
-  backLengtheningStart: {
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  divider: {
+    height: 0.5,
+    backgroundColor: COLORS.DIVIDER,
+    marginTop: 5,
+    marginBottom: 20,
   },
   // Indicator styles
-  blueIndicator: {
+  indicator: {
     width: 17,
     height: 17,
-    backgroundColor: '#009FE3',
     marginLeft: 10,
     borderWidth: 1,
   },
   orangeIndicator: {
     width: 17,
     height: 17,
-    backgroundColor: '#E76F51',
-    marginLeft: 10,
+    backgroundColor: COLORS.ORANGE,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   purpleIndicator: {
     width: 17,
     height: 17,
-    backgroundColor: '#A29FCF',
-    marginLeft: 10,
+    backgroundColor: COLORS.PURPLE,
     borderWidth: 1,
+    borderBottomWidth: 0.5,
   },
   // Box styles
   stitchBox: {
     marginBottom: 10,
     marginLeft: 0,
     padding: 5,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
   },
   roundIndicator: {
     flexDirection: 'row',
@@ -316,14 +376,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: 0,
     borderWidth: 2,
-    borderColor: '#CCCCCC',
+    borderColor: COLORS.DIVIDER,
   },
-  // Parts section styles
-  partsHeader: {
+  horizontalRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
+  // Parts section styles
   planButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -335,58 +395,8 @@ const styles = StyleSheet.create({
   },
   planText: {
     marginLeft: 5,
-    color: 'blue',
+    color: COLORS.PRIMARY,
     textDecorationLine: 'underline',
-  },
-  // Back section
-  backSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 1,
-  },
-  backSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  backSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  blueIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#009FE3',
-    marginLeft: 10,
-    borderWidth: 1,
-  },
-  // Front section
-  frontSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    justifyContent: 'center',
-    marginBottom: 1,
-  },
-  frontSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  frontSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  pinkIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#FDCFE1',
-    marginLeft: 10,
-    borderWidth: 1,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 1,
-    borderLeftColor: '#E76F51',
-    borderRightColor: '#E76F51',
   },
   // Front parts layout
   frontPartsLayout: {
@@ -419,34 +429,6 @@ const styles = StyleSheet.create({
   frontPartsTextWithMargin: {
     textAlign: 'center',
     marginLeft: 5,
-  },
-  // Sleeve section
-  sleeveSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 1,
-  },
-  sleeveSectionBold: {
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  sleeveSectionText: {
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  greenIndicatorLarge: {
-    width: 34,
-    height: 17,
-    backgroundColor: '#DAEDBD',
-    marginLeft: 10,
-    borderWidth: 1,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 1,
-    borderLeftColor: '#E76F51',
-    borderRightColor: '#E76F51',
   },
   // Sleeve parts layout
   sleevePartsLayout: {
