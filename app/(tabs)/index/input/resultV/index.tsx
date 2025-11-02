@@ -5,4 +5,4 @@ export {
   calculateIncreaseRows1x2_1x1V, 
   calculateIncreaseRows1x4_1x3V,
   determineIncreaseType 
-} from './resultV';
+} from './helpers';

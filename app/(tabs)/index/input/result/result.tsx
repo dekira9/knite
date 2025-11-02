@@ -60,7 +60,7 @@ export default observer(() => {
       /* Scroll carousel to planVaz3.png (index 1)*/
     }
     setTimeout(() => {
-      const slideSize = Dimensions.get('window').width - 40;
+      const slideSize = Dimensions.get('window').width - 32;
       carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
       setCurrentIndex(1);
       {
@@ -87,7 +87,7 @@ export default observer(() => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
     {/* Scroll carousel to planOaz1.png (index 0)*/}
     setTimeout(() => {
-      const slideSize = Dimensions.get('window').width - 40;
+      const slideSize = Dimensions.get('window').width - 32;
       carouselRef.current?.scrollTo({ x: slideSize * 0, animated: true });
       setCurrentIndex(0);   {/* Update current index to match*/}
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
