@@ -82,7 +82,13 @@ const Step1RibbingV = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}: {results.NRrezV}</Text>
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NRrezV}</Text>
         </View>
         
         <View style={styles.infoRow}>

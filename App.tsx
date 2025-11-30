@@ -34,12 +34,12 @@ const App = observer(() => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!onboardingState.hasCompletedOnboarding ? (
-          <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
-        ) : (
-          <Stack.Screen name="Main" component={MainNavigator} />
-        )}
+      <Stack.Navigator 
+        screenOptions={{ headerShown: false }}
+        initialRouteName={onboardingState.hasCompletedOnboarding ? 'Main' : 'Onboarding'}
+      >
+        <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+        <Stack.Screen name="Main" component={MainNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );

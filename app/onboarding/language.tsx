@@ -48,7 +48,7 @@ const LanguageScreen = observer(() => {
   const deviceLanguage = Localization.getLocales()[0].languageCode;
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView contentContainerStyle={styles.scrollContainer} style={{ backgroundColor: '#fff' }}>
       <View style={styles.container}>
         {/* <Text style={styles.title}>{i18n.t('onboardingLanguage')}</Text> */}
         <Text style={styles.title}>Choose language</Text>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,

@@ -6,6 +6,7 @@ import onboardingState from '@/state/onboardingState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import i18n from '@/utils/translations';
 import { resetAllState } from '@/state/reset';
+import { CommonActions } from '@react-navigation/native';
 
 const languages = [
   { code: 'en', name: 'English', nativeName: 'English' },
@@ -35,7 +36,15 @@ const Settings = observer(() => {
   const currentLanguageInfo = languages.find(lang => lang.code === currentLanguage);
 
   const handleLanguagePress = () => {
-    navigation.navigate('Onboarding', { screen: 'Language' });
+    const rootNavigation = navigation.getParent()?.getParent() || navigation.getParent() || navigation;
+    rootNavigation.dispatch(
+      CommonActions.navigate({
+        name: 'Onboarding',
+        params: {
+          screen: 'Language',
+        },
+      })
+    );
   };
 
   const toggleMeasurementSystem = () => {
@@ -56,10 +65,13 @@ const Settings = observer(() => {
           text: 'OK',
           onPress: () => {
             onboardingState.setOnboardingComplete(false);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'Onboarding' }],
-            });
+            const rootNavigation = navigation.getParent()?.getParent() || navigation.getParent() || navigation;
+            rootNavigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Onboarding' }],
+              })
+            );
           },
         },
       ]
@@ -77,10 +89,13 @@ const Settings = observer(() => {
           onPress: async () => {
             try {
               await resetAllState();
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'Onboarding' }],
-              });
+              const rootNavigation = navigation.getParent()?.getParent() || navigation.getParent() || navigation;
+              rootNavigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'Onboarding' }],
+                })
+              );
             } catch (e) {
               Alert.alert('Error', 'Failed to reset the app state.');
             }

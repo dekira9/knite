@@ -105,7 +105,7 @@ export default observer(() => {
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
       >
         <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
-          <Text style={styles.newStyleButtonText}>Новый проект</Text>
+          <Text style={styles.newStyleButtonText}>{i18n.t('newProject')}</Text>
         </TouchableOpacity>
         <ScrollView
           ref={carouselRef}

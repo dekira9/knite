@@ -403,6 +403,26 @@ const newStyle = {
   lt: "Naujas stilius",
 };
 
+const newProject = {
+  en: "New Project",
+  ru: "Новый проект",
+  sv: "Nytt projekt",
+  no: "Nytt prosjekt",
+  fi: "Uusi projekti",
+  de: "Neues Projekt",
+  fr: "Nouveau projet",
+  es: "Nuevo proyecto",
+  ja: "新しいプロジェクト",
+  cs: "Nový projekt",
+  bg: "Нов проект",
+  sk: "Nový projekt",
+  ko: "새 프로젝트",
+  tr: "Yeni proje",
+  ar: "مشروع جديد",
+  pt: "Novo projeto",
+  lt: "Naujas projektas",
+};
+
 const chooseFitType = {
   en: "Choose Fit Type",
   ru: "Выберите тип посадки",
@@ -1992,6 +2012,7 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       regularCollar: regularCollar[key as keyof typeof regularCollar],
       startKnitting: startKnitting[key as keyof typeof startKnitting],
       newStyle: newStyle[key as keyof typeof newStyle],
+      newProject: newProject[key as keyof typeof newProject],
       chooseFitType: chooseFitType[key as keyof typeof chooseFitType],
       fitted: fitted[key as keyof typeof fitted],
       semiFitted: semiFitted[key as keyof typeof semiFitted],
