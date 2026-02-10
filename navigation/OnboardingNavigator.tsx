@@ -22,13 +22,13 @@ export default function OnboardingNavigator() {
           },
         }}
       >
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
           options={{
             title: 'Welcome',
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Language"
           component={LanguageScreen}
