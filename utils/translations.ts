@@ -1963,7 +1963,44 @@ const collar = {
   lt: "Apykaklė",
 };
 
-
+const left = {
+  en: "left",
+  ru: "левый",
+  sv: "vänster",
+  no: "venstre",
+  fi: "vasen",
+  de: "links",
+  fr: "gauche",
+  es: "izquierda",
+  ja: "左",
+  cs: "levá",
+  bg: "ляво",
+  sk: "ľavá",
+  ko: "왼쪽",
+  tr: "sol",
+  ar: "يسار",
+  pt: "esquerda",
+  lt: "kairė",
+};
+const right = {
+  en: "right",
+  ru: "правый",
+  sv: "höger",
+  no: "høyre",
+  fi: "oikea",
+  de: "rechts",
+  fr: "droite",
+  es: "derecha",
+  ja: "右",
+  cs: "pravá",
+  bg: "право",
+  sk: "pravá",
+  ko: "오른쪽",
+  tr: "sağ",
+  ar: "يمين",
+  pt: "direita",
+  lt: "dešinė",
+};
 
 
   // Create translations object with all supported languages
@@ -2076,6 +2113,8 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       collarKnittingChart: collarKnittingChart[key as keyof typeof collarKnittingChart],
       collar: collar[key as keyof typeof collar],
       fromTheCollar: fromTheCollar[key as keyof typeof fromTheCollar],
+      left: left[key as keyof typeof left],
+      right: right[key as keyof typeof right],
       // Add other translations here as needed
     }
   };

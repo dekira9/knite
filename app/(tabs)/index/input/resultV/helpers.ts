@@ -103,15 +103,15 @@ export const calculateVNeckIncreases22 = (NRrezV: number, PribRV2: number,SpribV
    
  
   const MR2 = Array.from({ length: PribRV2 }, (_, ra) => ra + 1);
-  const MRN = Array.from({ length: NRrezV-1 }, (_, rn) => rn + 1);
+  const MRN = Array.from({ length: NRrezV }, (_, rn) => rn + 1);
   
-  const KVb = (NRrezV-1) / PribRV2;
+  const KVb = (NRrezV) / PribRV2;
   const PozS1 = MR2.map(ra => Math.floor(KVb * ra));
   const pozS1Set = new Set(PozS1);
   const PozS2 = MRN.filter(rb => !pozS1Set.has(rb));
   const pozS2Set = new Set(PozS2);
   
-  const increases22 = Array.from({ length: NRrezV-1 }, (_, index) => {
+  const increases22 = Array.from({ length: NRrezV }, (_, index) => {
     const position = index + 1;
    
     if (pozS2Set.has(position)) {

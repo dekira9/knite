@@ -204,8 +204,23 @@ const App = observer(() => {
 
   return (
     
-    <View style={styles.container}>
-      <ScrollView horizontal={true} contentContainerStyle={styles.container}>
+    <View style={styles.pagecontainer}>
+      <View style={styles.scrollContainer}>
+      <ScrollView 
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+        >
+      <View style={[styles.contentContainer, { paddingTop: 20 }]}>
+
+
+
+
+      <ScrollView 
+              horizontal 
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={styles.horizontalScrollContent}
+            >
+              <View style={styles.grid}>
         
       <View style={styles.horContainerTop}>
         <View style={[styles.rotatedLine3, { transform: line3Transform }]}>
@@ -237,12 +252,17 @@ const App = observer(() => {
           {renderRightSleeve()}
         </View>
       </View>
+      </View>
       </ScrollView>
+      </View>
+      </ScrollView>
+      </View>
 
       <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
-      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
+      
+      <View style={styles.bottomRow}>
+      <View style={styles.redIndicator}></View>
         <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
         </View>
         <Text style={styles.infoText}>Stitches: {K*4+2*SFrontO + 2*Sa}</Text>
@@ -262,17 +282,50 @@ const App = observer(() => {
 });
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  pagecontainer: {
+    flex: 1,
     flexDirection: 'column',
-    top: 0,
-    minHeight: '100%',
   },
-  horContainerTop: {
+   scrollContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollContent: {
+    paddingBottom: 500,
+  },
+  contentContainer: {
+    minHeight: 800,
+  },
+
+  horizontalScrollContent: {
+    paddingRight: 250,
+  },
+  grid: {
+    flexDirection: 'column',
+    
+    margin: 0,
+  },
+  redIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: 'red',
+    borderWidth: 1,
+  },
+  bottomRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    
+    gap: 10,
+  },
+
+  horContainerTop: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+    flexDirection: 'row',
     borderWidth: 0,
     borderColor: 'green',
   },
@@ -286,7 +339,7 @@ const styles = StyleSheet.create({
   verticalContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 10,
     borderColor: 'grey',
   },
   HorizontalContainer: {
@@ -298,11 +351,11 @@ const styles = StyleSheet.create({
   controlsInfoContainer: {
     position: 'absolute',
     bottom: 0,
-    left: 0,
-    right: 0,
+   // left: 0,
+    //right: 0,
     flexDirection: 'column',
     backgroundColor: '#fff',
-    paddingBottom: 20,
+    width: '100%',
   },
   LeftSleeve: {
     flexDirection: 'column',
@@ -369,6 +422,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 0,
     transform: [{ rotate: '180deg' }],
+    borderWidth: 0,
+    borderColor: 'red',
   },
   navigationButtons: {
     flexDirection: 'row',

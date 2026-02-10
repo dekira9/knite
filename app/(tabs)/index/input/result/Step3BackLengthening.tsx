@@ -87,7 +87,10 @@ const Step3BackLengthening = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.orangeIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SKfront}
+                {i18n.t('stitches')}: 
+              </Text>
+              <Text style={styles.resultText}>
+                {results.SKfront}
               </Text>
             </View>
             {/* round*/}
@@ -97,7 +100,10 @@ const Step3BackLengthening = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.purpleIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SFrontO + 2 * results.Sfx}
+                {i18n.t('stitches')}: 
+              </Text>
+              <Text style={styles.resultText}>
+               {results.SFrontO + 2 * results.Sfx}
               </Text>
             </View>
             {/* round*/}
@@ -107,7 +113,10 @@ const Step3BackLengthening = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.orangeIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SKfront}
+                {i18n.t('stitches')}:
+              </Text>
+              <Text style={styles.resultText}>
+               {results.SKfront}
               </Text>
             </View>
           </View>
@@ -278,15 +287,15 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY,
   },
   knitIcon: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
   },
   startIcon: {
-    width: 20,
+    width: 25,
     height: 20,
   },
   resultText: {
-    fontSize: 12,
+    fontSize: 14,
     marginBottom: 5,
     textAlign: 'center' as const,
     color: COLORS.TEXT_PRIMARY,
@@ -297,6 +306,8 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 5,
     marginBottom: 3,
+    marginLeft:3,
+    marginRight:3,
     justifyContent: 'center',
   },
   // Common layout styles
@@ -356,20 +367,20 @@ const styles = StyleSheet.create({
   },
   // Box styles
   stitchBox: {
-    marginBottom: 10,
+    marginBottom: 0,
     marginLeft: 0,
-    padding: 5,
+    padding: 10,
     backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
-    width: 80,
-    height: 80,
+    //width: 80,
+    //height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
   },
   roundDot: {
     width: 17,

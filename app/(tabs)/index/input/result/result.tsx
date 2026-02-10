@@ -181,29 +181,36 @@ export default observer(() => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.resultContainer}>
               <Image
-                source={require('../../../../../assets/images/sleevebodyO.png')}
+                source={require('../../../../../assets/images/sleevebodyO2.png')}
                 style={styles.resultImage}
               />
             </View>
           </ScrollView>
           {/* корпус итоги*/}
-          <View style={styles.resultHeaderRow}>
-            <Text style={[styles.resultText, styles.resultTextBold]}>
-              {i18n.t('corpus')}
-            </Text>
-            <View style={styles.blueIndicatorLarge}></View>
-            <Text style={[styles.resultText, styles.resultTextCentered]}>
-              {i18n.t('stitches')}:{results.SRostok * 2 + results.SPodr * 2}
-            </Text>
-          </View>
+          <View style={styles.divider}></View>
+
+          <View style={styles.chartRow}>
+           <Text style={styles.chartTitle}>
+             {i18n.t('corpus')}
+          </Text>
+          <View style={styles.blueIndicatorLarge} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.SRostok * 2 + results.SPodr * 2}</Text>
+        </View>
+
+          
           {/*скролл корпус*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.separatingLayout}>
               <View style={styles.resultScrollBox}>
-                <Text style={styles.resultText}>{i18n.t('back')}</Text>
+                <Text style={styles.textinBox}>{i18n.t('back')}</Text>
                 <View style={styles.smallGrayIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
@@ -216,9 +223,9 @@ export default observer(() => {
               <View style={styles.resultScrollBox}>
                 <View style={styles.smallPinkIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                  <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
               </View>
               {/*  round*/}
@@ -227,10 +234,10 @@ export default observer(() => {
               </View>
 
               <View style={styles.resultScrollBox}>
-                <Text style={styles.resultText}>{i18n.t('front')}</Text>
+                <Text style={styles.textinBox}>{i18n.t('front')}</Text>
                 <View style={styles.smallGrayIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.SRostok}
                 </Text>
               </View>
@@ -243,38 +250,51 @@ export default observer(() => {
               <View style={styles.resultScrollBox}>
                 <View style={styles.smallPinkIndicator}></View>
                 <View style={styles.smallBlueIndicator}></View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                  <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                  <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
               </View>
             </View>
           </ScrollView>
+          <View style={styles.divider}></View>
+          
 
-          <View style={styles.resultHeaderRow}>
-            {/* рукав итоги*/}
-            <Text style={[styles.resultText, styles.resultTextBold]}>
-              {i18n.t('sleeve')}
+            {/* рукав левый итоги*/}
+          <View style={styles.chartRow}>
+            <View style={styles.resultHeaderRow}>
+           <Text style={styles.chartTitle}>
+             {i18n.t('sleeve')}
+          </Text>
+          <Text style={[styles.resultText]}>{'  '}
+              {i18n.t('left')}
             </Text>
-            <View style={styles.greenIndicatorLarge}></View>
-            <Text style={[styles.resultText, styles.resultTextCentered]}>
-              {i18n.t('stitches')}:
-              {results.Sa +
+            </View>
+          <View style={styles.greenIndicatorLarge} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.Sa +
                 2 * results.Sfx +
                 2 * results.SKa +
                 results.SPodr +
-                results.NRostok * 0.5}
-            </Text>
-          </View>
+                results.NRostok * 0.5}</Text>
+        </View>
+
+
+
           {/*скролл рукав*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.separatingLayout}>
               <View style={styles.sleeveBox}>
+                <Text style={styles.textinBox}>1</Text>
                 <View style={styles.textBox}>
-                  <Text style={styles.textInsideBox}>{i18n.t('sleeve')}</Text>
-                </View>
+                  <Text style={styles.smallText}>{i18n.t('sleeve')}</Text>
+                  </View>
 
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
                 </Text>
               </View>
@@ -284,14 +304,15 @@ export default observer(() => {
               </View>
 
               <View style={styles.sleeveBox}>
+                <Text style={styles.textinBox}>2</Text>
                 <View style={styles.indicatorRow}>
                   <View style={styles.smallGrayIndicatorVertical}></View>
                   <View style={styles.smallGreenIndicator}></View>
                 </View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.NRostok * 0.5} </Text>
-                  <Text style={styles.createText}>{i18n.t('create')}</Text>
-                  <Text style={styles.createText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
+                  <Text style={styles.smallText}>{i18n.t('create')}</Text>
+                  <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
                 
               </View>
 
@@ -301,15 +322,107 @@ export default observer(() => {
               </View>
 
               <View style={styles.sleeveBox}>
+              <Text style={styles.textinBox}>3</Text>
                 <View style={styles.smallGreenIndicatorHorizontal}></View>
                 <View style={styles.smallPinkIndicator}></View>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                  <Text style={styles.createText}>{i18n.t('create')}</Text>
+                  <Text style={styles.smallText}>{i18n.t('create')}</Text>{'\n'}
+                  <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
                 </Text>
+                
               </View>
             </View>
           </ScrollView>
+          <View style={styles.divider}></View>
+          
+          {/* рукав правый итоги*/}
+
+          <View style={styles.chartRow}>
+            <View style={styles.resultHeaderRow}>
+           <Text style={styles.chartTitle}>
+             {i18n.t('sleeve')}
+          </Text>
+          <Text style={[styles.resultText]}>{'  '}
+              {i18n.t('right')}
+            </Text>
+            </View>
+          <View style={styles.greenIndicatorLarge} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.Sa +
+                2 * results.Sfx +
+                2 * results.SKa +
+                results.SPodr +
+                results.NRostok * 0.5}</Text>
+        </View>
+
+
+
+
+
+
+
+
+          {/*скролл рукав правый*/}
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+            <View style={styles.separatingLayout}>
+              
+
+
+
+              <View style={styles.sleeveBox}>
+                <Text style={styles.textinBox}>1</Text>
+                <View style={styles.indicatorRow}>
+                  <View style={styles.smallGrayIndicatorVertical}></View>
+                  <View style={styles.smallGreenIndicator}></View>
+                </View>
+                <Text style={styles.textinBox}>
+                  {i18n.t('stitches')}: {results.NRostok * 0.5} </Text>
+                  <Text style={styles.smallText}>{i18n.t('create')}</Text>
+                  <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
+                
+              </View>
+              {/*  round*/}
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
+              </View>
+
+              <View style={styles.sleeveBox}>
+                <Text style={styles.textinBox}>2</Text>
+                <View style={styles.textBox}>
+                  <Text style={styles.smallText}>{i18n.t('sleeve')}</Text>
+                  </View>
+
+                <Text style={styles.textinBox}>
+                  {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
+                </Text>
+              </View>
+             
+             
+
+              {/*  round*/}
+              <View style={styles.roundIndicator}>
+                <View style={styles.roundDot}></View>
+              </View>
+
+              <View style={styles.sleeveBox}>
+              <Text style={styles.textinBox}>3</Text>
+                <View style={styles.smallGreenIndicatorHorizontal}></View>
+                <View style={styles.smallPinkIndicator}></View>
+                <Text style={styles.textinBox}>
+                  {i18n.t('stitches')}: {results.SPodr} {'\n'}
+                  <Text style={styles.smallText}>{i18n.t('create')}</Text>{'\n'}
+                  <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
+                </Text>
+                
+              </View>
+            </View>
+          </ScrollView>
+
         </View>
       </ScrollView>
     </View>
@@ -372,7 +485,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 0,
     textAlign: 'center' as const,
     color: COLORS.TEXT_PRIMARY,
   },
@@ -446,6 +559,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   
+textinBox: {
+  fontSize: 14,
+  marginBottom: 5,
+  textAlign: 'center' as const,
+  color: COLORS.TEXT_PRIMARY,
+},
+ smallText: {
+  fontSize: 12,
+  color: COLORS.TEXT_PRIMARY,
+  textAlign: 'center',
+},
+  
   // Result section styles
   resultContainer: {
     width: '100%',
@@ -461,7 +586,7 @@ const styles = StyleSheet.create({
   },
   separatingLayout: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 10,
   },
   resultScrollBox: {
@@ -607,5 +732,37 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderWidth: 1,
     borderBottomWidth: 0.5,
+  },
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.TEXT_PRIMARY,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  leftLabel: {
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  divider: {
+    height: 0.5,
+    backgroundColor: COLORS.DIVIDER,
+    marginTop: 5,
+    marginBottom: 20,
   },
 });

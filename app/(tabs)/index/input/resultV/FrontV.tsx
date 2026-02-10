@@ -60,33 +60,41 @@ const FrontV = observer(({
   return (
     <View style={styles.container}>
       <View style={styles.resultCard}>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={styles.subtitle}>{i18n.t('front')}</Text>
-          <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+      <View style={styles.stepHeader}>
+        <Text style={styles.subtitle}>{i18n.t('front')}</Text>
+          <View style={styles.indicatorsRow}>
+            
+            <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
+            
+          </View>
+          
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('knittingChart')}:</Text>
-          <TouchableOpacity onPress={navigateToFrontV}>
-            <Image
-              source={require('@/assets/images/view.svg')}
-              style={styles.viewImage}  
-              contentFit="contain"
-            />
-          </TouchableOpacity>
-        </View>
+        <View style={styles.divider}></View>
+
+        
+        
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
           <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')}1:</Text>
-          <Text style={[styles.resultText, {padding: 5}]}>
-            {i18n.t('knitting')}
+          
+          
+        </View>
+        <View style={styles.infoRowmin}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('knitting')}:
           </Text>
           <Image
-            source={require('@/assets/images/znts2.svg')}
-            style={styles.styleZntsImage}
+            source={require('@/assets/images/znts8.svg')}
+            style={styles.knitIconznts}
             contentFit="contain"
-          /> 
-          <Text style={styles.resultText}>
-            {i18n.t('rows')}:{results.NHV},
+          />
+           </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
           </Text>
+          
+          <Text style={styles.boldNumber}>{results.NHV}</Text>
         </View>
        
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -114,18 +122,18 @@ const FrontV = observer(({
           </ScrollView>
         </View>
         {/*1*/} 
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('calculationForYou')}: {i18n.t('rows')} 1, 2</Text>  
         </View>
           
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> 1: {i18n.t('row1ForPart')} R </Text>
         </View>
           
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
+          <View style={styles.horizontalRow}>
+            <View style={styles.stitchBox}>
+              <View style={styles.blueIndicator}></View>
              
               <Text style={styles.resultText}>
                 {i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
@@ -173,11 +181,11 @@ const FrontV = observer(({
               </Text>
             </View>
             {/* round*/}
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-              <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+            <View style={styles.horizontalRow}>
+              <View style={styles.roundDot}></View>
             </View>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+            <View style={styles.stitchBox}>
+              <View style={styles.pinkIndicator}></View>
               
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
@@ -199,16 +207,16 @@ const FrontV = observer(({
             </View>
           </View>
         </ScrollView>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> {i18n.t('turn')} </Text>
         </View>
         {/*2*/}
           
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> 2: {i18n.t('row2ForPart')} R </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={styles.horizontalRow}>
             <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
               <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
               
@@ -251,7 +259,7 @@ const FrontV = observer(({
           <Text style={styles.resultText}> 3: {i18n.t('row1ForPart')} L </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={styles.horizontalRow}>
             <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
               <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
 
@@ -301,7 +309,7 @@ const FrontV = observer(({
               </Text>
             </View>
             {/* round*/}
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+            <View style={styles.horizontalRow}>
               <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
             </View>
             <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
@@ -327,16 +335,16 @@ const FrontV = observer(({
             </View>
           </View>
         </ScrollView>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> {i18n.t('turn')} </Text>
         </View>
         {/*4*/}
 
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> 4: {i18n.t('row2ForPart')} L </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={styles.horizontalRow}>
             <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
               <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
               
@@ -374,14 +382,14 @@ const FrontV = observer(({
           </View> 
         </ScrollView>
 
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 2:</Text>
           <View style={{width: 17, height: 17, backgroundColor: 'black', marginRight: 10,marginLeft: 10, borderWidth: 1}}></View>
           
           <Text style={[styles.resultText, {flexShrink: 1}]}>{i18n.t('decreasesOnOneSide')}: {i18n.t('stitches')} {results.SVfront - results.SFrontV / 2}</Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+          <View style={styles.horizontalRow}>
             <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 3:</Text>
             <Text style={[styles.resultText, {padding: 5}]}>
               {i18n.t('knitting')}
@@ -396,7 +404,7 @@ const FrontV = observer(({
             </Text>
           </View>
         </ScrollView>
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}>
             {i18n.t('start')}:
           </Text>
@@ -481,6 +489,92 @@ const styles = StyleSheet.create({
     height: undefined,
     resizeMode: 'contain',
     padding: 300,
+  },
+  stepHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    justifyContent: 'space-between',
+  },
+  indicatorsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  indicator: {
+    width: 17,
+    height: 17,
+    marginLeft: 10,
+    borderWidth: 1,
+  },
+  divider: {
+    height: 0.5,
+    backgroundColor: COLORS.DIVIDER,
+    marginTop: 5,
+    marginBottom: 20,
+  },
+  infoRowmin: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 0,
+  },
+  leftLabel: {
+    fontSize: 14,
+    color: COLORS.TEXT_PRIMARY,
+    marginBottom: 5,
+  },
+  knitIconznts: {
+    width: 30,
+    height: 30,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  horizontalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  stitchBox: {
+    marginBottom: 10,
+    marginLeft: 0,
+    padding: 10,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  blueIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#00ADF2',
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  pinkIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#FDCFE1',
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  roundDot: {
+    width: 17,
+    height: 17,
+    borderRadius: 8,
+    marginLeft: 0,
+    borderWidth: 2,
+    borderColor: '#CCCCCC',
   },
 });
 

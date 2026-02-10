@@ -401,14 +401,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   horContainerTop: {
-  
-    width: 'auto',
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginRight: 5,
     marginTop: 5,
     backgroundColor: '#FFFFFF',
+    width: 'auto',
     paddingHorizontal: 1,
     gap: 2,
   },

@@ -12,23 +12,28 @@ import {
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
   calculateVNeckIncreases22
-} from '@/app/(tabs)/index/input/resultV';
+} from '@/app/(tabs)/index/input/resultV/helpers';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;
 const LsV = 1 / stitches;   //см ширина петли
 const hsV = 1 / rows; //см высота петли или ряда
 const Hc=hsV*25;
-const Lc=LsV*25
+const Lc=LsV*25;
 
 const App = observer(() => {
   const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
+ 
+ 
+ 
+ 
   const ribbingWidthV = introState.ribbingWidthV;
 
     const NHV = Math.round(LHV * rows/2)*2;
 
 
   const [highlightedRow, setHighlightedRow] = useState(-1);
+  
   const router = useRouter();
   //rotate v
   const angleInRadians = Math.acos(((SFrontV)*LsV/2)/((SVfront+1)*LsV)); 
@@ -36,6 +41,7 @@ const App = observer(() => {
   console.log('SVfront',SVfront)
   console.log('LVfront',LVfront)
   console.log('SV',SV)
+  console.log('NRrezV',NRrezV)
   const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
 
   console.log('angleInDegrees',angleInDegrees)
@@ -249,7 +255,8 @@ const App = observer(() => {
       const row = [];
       for (let j = 0; j < numCols; j++) {
         row.push(
-          <View key={`${i}-${j}`} style={[i === 0 ? styles.firstCell : styles.cell,
+          <View key={`${i}-${j}`} style={[
+            i === 0 ? styles.firstCell : styles.cell,
             i === -1 && styles.zeroRowSquare,
             i === numRows - 1 && styles.lastRowSquare,
             i === highlightedRow && styles.highlightedCell,
@@ -293,13 +300,14 @@ const App = observer(() => {
 
     return cells;
   };
-  
+  //отрисовка на экране рядов с прибавками угол V//
   const renderRows = () => {
     const rows = [];
-    const totalRows = NRrezV + 1;
+    const numRows = NRrezV;
+    const numCols = SV;
     const cellCounts = calculateRowCellCounts(highlightedRow);
   
-    if (!NRrezV || !SpribVcorn || !SV || totalRows <= 1) {
+    if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
       return <Text>Загрузка данных...</Text>;
     }
   
@@ -331,7 +339,14 @@ const App = observer(() => {
   
     let currentSquares = SV;
   
-    for (let i = -1; i < totalRows - 1; i++) {
+    // Используем ту же логику цикла что и в renderBack, renderLine1 и т.д.
+    for (let i = -1; i < numRows; i++) {
+      // Прибавки применяются ДО отрисовки ряда, начиная с ряда i=0
+      // (ряд i=-1 наборный)
+      if (i >= 0) {
+        currentSquares += increases[i];
+      }
+      
       const row = [];
       for (let j = 0; j < currentSquares; j++) {
         row.push(
@@ -341,7 +356,7 @@ const App = observer(() => {
               styles.square,
               i === -1 && styles.zeroRowSquare,
               i===0 && styles.firstRowSquare,
-              i === totalRows - 2 && styles.lastRowSquare,
+              i === numRows - 1 && styles.lastRowSquare,
               i  === highlightedRow && styles.highlightedCell
             ]} 
           />
@@ -355,10 +370,6 @@ const App = observer(() => {
           </View>
         </View>
       );
-  
-      if (i < totalRows - 2) {
-        currentSquares += increases[i + 1];
-      }
     }
     
   
@@ -376,10 +387,10 @@ const App = observer(() => {
 
   const renderRowsRight = () => {
     const rows = [];
-    const totalRows = NRrezV + 1;
+    const numRows = NRrezV;
     const cellCounts = calculateRowCellCounts(highlightedRow);
   
-    if (!NRrezV || !SpribVcorn || !SV || totalRows <= 1) {
+    if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
       return <Text>Загрузка данных...</Text>;
     }
   
@@ -411,7 +422,14 @@ const App = observer(() => {
   
     let currentSquares = SV;
   
-    for (let i = -1; i < totalRows-1; i++) {
+    // Используем ту же логику цикла что и в renderBack, renderLine1 и т.д.
+    for (let i = -1; i < numRows; i++) {
+      // Прибавки применяются ДО отрисовки ряда, начиная с ряда i=0
+      // (ряд i=-1 наборный)
+      if (i >= 0) {
+        currentSquares += increases[i];
+      }
+      
       const row = [];
       for  (let j = 0; j < currentSquares; j++)  {
         row.push(
@@ -420,8 +438,8 @@ const App = observer(() => {
             style={[
               styles.square,
               i === -1 && styles.zeroRowSquare,
-              i===0 && styles.firstRowSquare,
-              i === totalRows - 2 && styles.lastRowSquare,
+              i=== 0 && styles.firstRowSquare,
+              i === numRows - 1 && styles.lastRowSquare,
               i === highlightedRow && styles.highlightedCell //Условие, чтобы нулевой ряд не выделялся
             ]} 
           />
@@ -437,10 +455,6 @@ const App = observer(() => {
           <Text style={styles.squareCount}>{currentSquares}</Text>  {/*количество квадратов в ряду*/}
         </View>
       );
-  
-      if (i < totalRows - 2) {
-        currentSquares += increases[i+1];
-      }
     }
     return (
       <>
@@ -471,9 +485,9 @@ const App = observer(() => {
 
 
 
-{/*КОНЕЦ вычисление количества ячеек в рядах V резинки */}
+// КОНЕЦ вычисление количества ячеек в рядах V резинки
 
-if (!SpribVcorn) {
+  if (!SpribVcorn) {
   return <Text>Ошибка: SpribVcorn не определен</Text>;
 }
 
@@ -616,7 +630,7 @@ const styles = StyleSheet.create({
     paddingBottom: 300,
   },
   contentContainer: {
-    minHeight: 800,
+    minHeight: '300%',
   },
   scrollViewHorizontal: {
     width: '100%',
@@ -640,7 +654,8 @@ const styles = StyleSheet.create({
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    
+    borderWidth: 0,
+    borderColor: 'green',
     
        
   },

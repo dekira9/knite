@@ -63,9 +63,9 @@ const Step4SeparatingSleeves = observer(({
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
         <View style={styles.separatingLayout}>
           <View style={styles.stitchBox}>
-            <Text style={styles.resultText}>{i18n.t('back')}</Text>
+            <Text style={styles.textinBox}>{i18n.t('back')}</Text>
             <View style={styles.grayIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.SRostok}
             </Text>
           </View>
@@ -76,10 +76,10 @@ const Step4SeparatingSleeves = observer(({
 
           <View style={styles.stitchBox}>
             <View style={styles.textBox}>
-              <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
+              <Text style={styles.smallText}>{i18n.t('separateTheSleeve')}</Text>
             </View>
 
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
             </Text>
           </View>
@@ -91,10 +91,10 @@ const Step4SeparatingSleeves = observer(({
 
           <View style={styles.stitchBox}>
             <View style={styles.magentaIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.SPodr} </Text>
-              <Text style={styles.createText}>{i18n.t('create')}</Text>
-              <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+              <Text style={styles.smallText}>{i18n.t('create')}</Text>
+              <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
             
           </View>
           {/* round*/}
@@ -103,9 +103,9 @@ const Step4SeparatingSleeves = observer(({
           </View>
 
           <View style={styles.stitchBox}>
-            <Text style={styles.resultText}>{i18n.t('front')}</Text>
+            <Text style={styles.textinBox}>{i18n.t('front')}</Text>
             <View style={styles.grayIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.SRostok}
             </Text>
           </View>
@@ -116,9 +116,9 @@ const Step4SeparatingSleeves = observer(({
 
           <View style={styles.stitchBox}>
             <View style={styles.textBox}>
-              <Text style={styles.textInsideBox}>{i18n.t('separateTheSleeve')}</Text>
+              <Text style={styles.smallText}>{i18n.t('separateTheSleeve')}</Text>
             </View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.Sa + 2 * results.Sfx + 2 * results.SKa}
             </Text>
           </View>
@@ -128,10 +128,10 @@ const Step4SeparatingSleeves = observer(({
           </View>
           <View style={styles.stitchBox}>
             <View style={styles.magentaIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {results.SPodr}</Text>
-              <Text style={styles.createText}>{i18n.t('create')}</Text>
-              <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+              <Text style={styles.smallText}>{i18n.t('create')}</Text>
+              <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
             
           </View>
         </View>
@@ -182,15 +182,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.TEXT_PRIMARY,
   },
-  resultText: {
-    fontSize: 12,
+textinBox: {
+    fontSize: 14,
     marginBottom: 5,
     textAlign: 'center' as const,
     color: COLORS.TEXT_PRIMARY,
   },
+   smallText: {
+    fontSize: 12,
+    color: COLORS.TEXT_PRIMARY,
+    textAlign: 'center',
+  },
   knitIcon: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     marginLeft: 10,
   },
   startvImage: {
@@ -205,15 +210,8 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     justifyContent: 'center',
   },
-  textInsideBox: {
-    fontSize: 12,
-    color: COLORS.BLACK,
-  },
-  createText: {
-    fontSize: 12,
-    color: COLORS.TEXT_PRIMARY,
-    textAlign: 'center',
-  },
+  
+ 
   // Common layout styles
   separatingHeader: {
     flexDirection: 'row',
@@ -256,8 +254,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {

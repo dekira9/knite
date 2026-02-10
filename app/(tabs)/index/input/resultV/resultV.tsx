@@ -150,7 +150,7 @@ export default observer(() => {
     introState.setIntroFinished(false);
     navigation.navigate('Styles');
   };
-
+ 
   return (
     <View style={styles.mainContainer}>
       <ScrollView 

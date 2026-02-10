@@ -64,13 +64,21 @@ const Step1RibbingV = observer(({
             {i18n.t('stitches')}:
           </Text>
           <View style={{marginLeft: 10}}>
-            <Text style={styles.resultText}>
+            <Text style={styles.boldNumber}>
               {i18n.t('start')}: {results.SOcutV}
             </Text>
-            <Text style={styles.resultText}>
+            <Text style={styles.boldNumber}>
               {i18n.t('end')}: {results.SOcutV + results.SpribVcorn * 2}
             </Text>
           </View>
+        </View>
+
+       
+       <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}> {results.NRrezV}</Text>
         </View>
 
         <View style={styles.infoRow}>
@@ -82,8 +90,8 @@ const Step1RibbingV = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}: {results.NRrezV}</Text>
-        </View>
+       </View>
+
         
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>{i18n.t('start')}:</Text>
@@ -98,7 +106,7 @@ const Step1RibbingV = observer(({
               <View style={styles.yellowIndicator}></View>
             </View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.KV}
+              {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
           {/* round*/}
@@ -110,7 +118,7 @@ const Step1RibbingV = observer(({
             <View style={styles.greenIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SaV}
+              {i18n.t('stitches')}:{'\n'} {results.SaV}
             </Text>
           </View>
           {/* round*/}
@@ -121,7 +129,7 @@ const Step1RibbingV = observer(({
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.KV}
+              {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
           {/* round*/}
@@ -132,7 +140,7 @@ const Step1RibbingV = observer(({
             <View style={styles.purpleIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SFrontV}
+              {i18n.t('stitches')}:{'\n'} {results.SFrontV}
             </Text>
           </View>
 
@@ -144,7 +152,7 @@ const Step1RibbingV = observer(({
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.KV}
+              {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
           {/* round*/}
@@ -155,7 +163,7 @@ const Step1RibbingV = observer(({
             <View style={styles.greenIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SaV}
+              {i18n.t('stitches')}:{'\n'} {results.SaV}
             </Text>
           </View>
           {/* round*/}
@@ -166,7 +174,7 @@ const Step1RibbingV = observer(({
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.KV}
+              {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
           {/* round*/}
@@ -177,7 +185,7 @@ const Step1RibbingV = observer(({
             <View style={styles.pinkIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SV}
+              {i18n.t('stitches')}:{'\n'} {results.SV}
             </Text>
           </View>
           {/* round*/}
@@ -212,7 +220,7 @@ const Step1RibbingV = observer(({
             <View style={styles.pinkIndicator}></View>
             <View style={styles.yellowIndicator}></View>
             <Text style={styles.resultText}>
-              {i18n.t('stitches')}: {results.SV}
+              {i18n.t('stitches')}: {'\n'}{results.SV}
             </Text>
           </View>
           
@@ -223,15 +231,15 @@ const Step1RibbingV = observer(({
           <Text style={styles.breakdownText}>
             {i18n.t('stitches')} {i18n.t('back')}: <Text style={styles.boldNumber}>{results.SFrontV}</Text>
           </Text>
-          <View style={styles.infoRow}>
+          <View style={styles.infoRowStart}>
             <Text style={styles.breakdownText}>
-              {i18n.t('stitches')} {i18n.t('front')}:
+              {i18n.t('stitches')} {i18n.t('front')}:{'  '}
             </Text>
-            <View style={{marginLeft: 10}}>
-              <Text style={styles.resultText}>
+            <View >
+              <Text style={styles.boldNumber}>
                 {i18n.t('start')}: {results.SVO}
               </Text>
-              <Text style={styles.resultText}>
+              <Text style={styles.boldNumber}>
                 {i18n.t('end')}: {results.SVfront*2}
               </Text>
             </View>
@@ -343,8 +351,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   knitIcon: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
   },
   leftLabel: {
     fontSize: 16,
@@ -381,12 +389,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+   
+  },
+  infoRowStart: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    justifyContent: 'flex-start',
   },
   // Indicator styles
   yellowIndicator: {
     width: 17,
     height: 17,
-    backgroundColor: '#FFD700',
+    backgroundColor: '#FAEE25',
     borderWidth: 1,
     borderTopWidth: 0.5,
   },
@@ -429,12 +444,10 @@ const styles = StyleSheet.create({
   stitchBox: {
     marginBottom: 10,
     marginLeft: 0,
-    padding: 5,
+    padding: 10,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
     alignItems: 'center',
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {
@@ -457,7 +470,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     fontSize: 12,
-    marginBottom: 5,
+    marginBottom: 0,
     textAlign: 'center' as const,
     color: '#1A1A1A',
   },
@@ -479,6 +492,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: 0.5,
   },
+ 
 });
 
 export default Step1RibbingV;

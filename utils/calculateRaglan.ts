@@ -133,6 +133,7 @@ export interface RaglanOutput {
   NRfxV: number;
   NRfx: number;
   hsV: number;
+  LsV: number;
 }
 
 
@@ -583,6 +584,7 @@ console.log('HrezV', HrezV);
     RowPribRV2,
     RowPribRVz,
     hsV,
+    LsV,
     isV,
     isPlusOneV,
     pairsWithIsV,

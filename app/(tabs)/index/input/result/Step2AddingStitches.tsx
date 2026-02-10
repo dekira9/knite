@@ -457,16 +457,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   knitIcon: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 5,
     textAlign: 'center' as const,
   },
   resultTextCentered: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center' as const,
   },
   boldText: {

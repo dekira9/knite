@@ -87,12 +87,17 @@ const ChartRow: React.FC<ChartRowProps> = ({ title, color, onPress }) => (
         {title}
       </Text>
       <View style={[styles.indicator, { backgroundColor: color }]} />
-      <TouchableOpacity onPress={onPress}>
+      </View>
+      <View style={styles.chartRowWithMargin}>
+      <Text style={styles.leftLabel}>Knitting Chart:</Text>
+      <TouchableOpacity style={styles.viewChartButton} onPress={onPress}>
         <Image
           source={require('@/assets/images/view.svg')}
           style={styles.viewIcon}
           contentFit="contain"
         />
+        <Text style={styles.viewChartText}>View Chart</Text>
+        
       </TouchableOpacity>
     </View>
   </>
@@ -126,36 +131,62 @@ const Step2AddingStitchesV = observer(({
   return (
     <View style={styles.container}>
       <Text style={styles.stepTitle}>
-        {i18n.t('step')} 2{'\n'}{i18n.t('knittingAfterCollar')}
+        {i18n.t('step')} 2
       </Text>
       
       <View style={styles.resultCard}>
         <View style={styles.stepHeader}>
-          <Text style={styles.subtitle}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
+        <Text style={styles.subtitle}>Back, Front, Sleeve</Text>
+          <View style={styles.indicatorsRow}>
+            <View style={[styles.indicator, { backgroundColor: COLORS.PURPLE }]} />
+            <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
+            <View style={[styles.indicator, { backgroundColor: COLORS.GREEN }]} />
+          </View>
         </View>
         
         <View style={styles.divider}></View>
+
+        <View style={styles.subtitleRow}>
+          <Text style={styles.leftLabel}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
+        </View>
+
+        <View style={styles.infoRowmin}>
+        <Text style={styles.leftLabel}>
+          {i18n.t('additionsOnOneSide')}
+        </Text>
+        
+      </View>
         
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
-            {i18n.t('stitches')}:
+          {i18n.t('stitches')}:
           </Text>
           <Text style={styles.boldNumber}>+{results.SfxV}</Text>
         </View>
 
-        <View style={styles.infoRow}>
+        <View style={styles.infoRowmin}>
           <Text style={styles.leftLabel}>
             {i18n.t('knitting')}:
           </Text>
           <Image
-            source={require('@/assets/images/znts2.svg')}
-            style={styles.knitIcon}
+            source={require('@/assets/images/znts8.svg')}
+            style={styles.knitIconznts}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}:{results.NHV},</Text>
+          
         </View>
 
         <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          
+          <Text style={styles.boldNumber}>{results.NHV}</Text>
+        </View>
+
+
+
+        <View style={styles.infoRowmin}>
           <Text style={styles.leftLabel}>
             {i18n.t('knitting')}:
           </Text>
@@ -164,7 +195,15 @@ const Step2AddingStitchesV = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}:{results.NHFrontV - results.NHV},</Text>
+          
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          
+          <Text style={styles.boldNumber}>{results.NHFrontV - results.NHV}</Text>
         </View>
 
         <View style={styles.divider}></View>
@@ -441,23 +480,30 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY,
   },
   viewIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
+    width: 16,
+    height: 16,
+    marginRight: 6,
+    tintColor: COLORS.WHITE,
   },
   knitIcon: {
+    width: 25,
+    height: 25,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  knitIconznts: {
     width: 30,
     height: 30,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 0,
+    marginRight: 0,
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 5,
     textAlign: 'center' as const,
   },
   resultTextCentered: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center' as const,
   },
   boldText: {
@@ -481,7 +527,7 @@ const styles = StyleSheet.create({
   chartRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   chartTitle: {
@@ -496,6 +542,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
+  infoRowmin: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 0,
+  },
   divider: {
     height: 0.5,
     backgroundColor: COLORS.DIVIDER,
@@ -504,7 +556,7 @@ const styles = StyleSheet.create({
   },
   // Indicator styles
   indicator: {
-    width: 34,
+    width: 17,
     height: 17,
     marginLeft: 10,
     borderWidth: 1,
@@ -548,6 +600,35 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: 'bold',
     marginTop: 14,
+  },
+  indicatorsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  subtitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  chartRowWithMargin: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+  },
+  viewChartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.PRIMARY,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    marginLeft: 10,
+  },
+  viewChartText: {
+    color: COLORS.WHITE,
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 
