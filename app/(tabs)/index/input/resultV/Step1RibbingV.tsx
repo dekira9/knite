@@ -74,12 +74,7 @@ const Step1RibbingV = observer(({
         </View>
 
        
-       <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>
-            {i18n.t('rows')}:
-          </Text>
-          <Text style={styles.boldNumber}> {results.NRrezV}</Text>
-        </View>
+      
 
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -90,7 +85,14 @@ const Step1RibbingV = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}: {results.NRrezV}</Text>
+          
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}> {results.NRrezV}</Text>
         </View>
         
         <View style={styles.infoRow}>
@@ -105,7 +107,7 @@ const Step1RibbingV = observer(({
               <View style={styles.orangeIndicator}></View>
               <View style={styles.yellowIndicator}></View>
             </View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
@@ -117,7 +119,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.greenIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.SaV}
             </Text>
           </View>
@@ -128,7 +130,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
@@ -139,7 +141,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.purpleIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.SFrontV}
             </Text>
           </View>
@@ -151,7 +153,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
@@ -162,7 +164,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.greenIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.SaV}
             </Text>
           </View>
@@ -173,7 +175,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.orangeIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.KV}
             </Text>
           </View>
@@ -184,7 +186,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.pinkIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}:{'\n'} {results.SV}
             </Text>
           </View>
@@ -195,7 +197,7 @@ const Step1RibbingV = observer(({
 
           <View style={styles.stitchBox}>
             <View style={{width: 34, height: 14, marginLeft: 0, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'yellow', borderRightColor: 'transparent', borderBottomColor: 'yellow'}}></View>
-            <Text style={[styles.resultText, {textAlign: 'center', marginLeft: 10}]}> 
+            <Text style={[styles.textinBox, {textAlign: 'center', marginLeft: 10}]}> 
               {i18n.t('adding')}: {'\n'}
               +{results.SpribVcorn}
             </Text>
@@ -207,7 +209,7 @@ const Step1RibbingV = observer(({
 {/* adding ribbing*/}
           <View style={styles.stitchBox}>
             <View style={{width: 34, height: 14, borderTopWidth: 8.5, borderLeftWidth: 17, borderRightWidth: 17, borderBottomWidth: 8.5, borderTopColor: 'transparent', borderLeftColor: 'transparent', borderRightColor: 'yellow', borderBottomColor: 'yellow'}}></View>
-            <Text style={[styles.resultText, {textAlign: 'center'}]}>
+            <Text style={[styles.textinBox, {textAlign: 'center'}]}>
               {i18n.t('adding')}: {'\n'}
               +{results.SpribVcorn}
             </Text> 
@@ -219,7 +221,7 @@ const Step1RibbingV = observer(({
           <View style={styles.stitchBox}>
             <View style={styles.pinkIndicator}></View>
             <View style={styles.yellowIndicator}></View>
-            <Text style={styles.resultText}>
+            <Text style={styles.textinBox}>
               {i18n.t('stitches')}: {'\n'}{results.SV}
             </Text>
           </View>
@@ -259,14 +261,14 @@ const Step1RibbingV = observer(({
         <View style={styles.resultCard}>
           {
             Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV && (
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('sequenceOfAdditions')}: {resultStringV12}
               </Text>
             )
           }
           {
             Math.floor(SpribVcorn / NRrezV) === 0 && (
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('sequenceOfAdditions')}: {resultStringV01}
               </Text>
             ) 
@@ -274,12 +276,12 @@ const Step1RibbingV = observer(({
           {
             SpribVcorn === NRrezV && (
               <View style={styles.resultContainer}>
-                <Text style={styles.resultText}>
+                <Text style={styles.textinBox}>
                   {i18n.t('sequenceOfAdditions')}:
                 </Text>
 
                 <View style={styles.sequenceContainer}>
-                  <Text style={[styles.resultText, styles.numbersText]}>
+                  <Text style={[styles.textinBox, styles.numbersText]}>
                     {resultStringV11}
                   </Text>
                 </View>
@@ -288,7 +290,7 @@ const Step1RibbingV = observer(({
           }
           {
             SpribVcorn === (2*NRrezV) && (
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('sequenceOfAdditions')}: {resultStringV22}
               </Text>
             )
@@ -468,7 +470,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  resultText: {
+  textinBox: {
     fontSize: 12,
     marginBottom: 0,
     textAlign: 'center' as const,

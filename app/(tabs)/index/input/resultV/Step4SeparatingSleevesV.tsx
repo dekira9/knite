@@ -40,7 +40,7 @@ const Step4SeparatingSleevesV = observer(({
             <TouchableOpacity onPress={handleScrollToTop1}>
               <Image
                 source={require('@/assets/images/startend.svg')}
-                style={styles.startvImage}
+                style={styles.startendImage}
                 contentFit="contain"
               />
             </TouchableOpacity>
@@ -48,16 +48,21 @@ const Step4SeparatingSleevesV = observer(({
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>{i18n.t('rows')}:</Text>
-          <View style={styles.knittingRow}>
-            <Text style={styles.boldNumber}>1</Text>
-            <Image
+          <Text style={styles.leftLabel}>{i18n.t('knitting')}:</Text>
+              <Image
               source={require('@/assets/images/knitcircle.svg')}
-              style={styles.knitIcon}
+              style={styles.KnitCircleImage}
               contentFit="contain"
             />
-          </View>
+         </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('rows')}:</Text>
+          
+            <Text style={styles.boldNumber}>1</Text>
+           
         </View>
+
 
         <View style={styles.divider}></View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -187,12 +192,14 @@ const styles = StyleSheet.create({
     textAlign: 'center' as const,
     color: COLORS.TEXT_PRIMARY,
   },
-  knitIcon: {
-    width: 20,
-    height: 20,
-    marginLeft: 10,
+
+  KnitCircleImage: {
+    width: 25,
+    height: 25,
+    marginLeft: 0,
+    marginRight: 0,
   },
-  startvImage: {
+  startendImage: {
     width: 30,
     height: 20,
   },
@@ -249,20 +256,18 @@ const styles = StyleSheet.create({
   },
   // Box styles
   stitchBox: {
-    marginBottom: 10,
+    marginBottom: 0,
     marginLeft: 0,
-    padding: 5,
+    padding: 10,
     backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
   },
   roundDot: {
     width: 17,

@@ -64,7 +64,7 @@ const FrontV = observer(({
         <Text style={styles.subtitle}>{i18n.t('front')}</Text>
           <View style={styles.indicatorsRow}>
             
-            <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
+            <View style={styles.pinkIndicator} />
             
           </View>
           
@@ -74,7 +74,7 @@ const FrontV = observer(({
         
         
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
-          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')}1:</Text>
+          <Text style={styles.subtitle}>{i18n.t('action')}1:</Text>
           
           
         </View>
@@ -97,16 +97,16 @@ const FrontV = observer(({
           <Text style={styles.boldNumber}>{results.NHV}</Text>
         </View>
        
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-          <Text style={styles.resultText}>
-            {i18n.t('start')}
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('start')}:
           </Text>
           <Image
             source={require('@/assets/images/znstartfront.svg')}
             style={styles.styleznsfImage}
             contentFit="contain"
           /> 
-          <Text style={styles.resultText}> : </Text>
+          
         </View>
         <View style={{marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center'}}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
@@ -217,8 +217,8 @@ const FrontV = observer(({
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+            <View style={styles.stitchBox} >
+              <View style={styles.pinkIndicator}></View>
               
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
@@ -255,13 +255,13 @@ const FrontV = observer(({
         </ScrollView>
         {/*3*/} 
 
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+        <View style={styles.horizontalRow}>
           <Text style={styles.resultText}> 3: {i18n.t('row1ForPart')} L </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
+            <View style={styles.stitchBox} >
+              <View style={styles.blueIndicator}></View>
 
               <Text style={styles.resultText}>
                 {i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
@@ -310,10 +310,10 @@ const FrontV = observer(({
             </View>
             {/* round*/}
             <View style={styles.horizontalRow}>
-              <View style={{width: 17, height: 17, borderRadius: 8 , marginLeft: 0, borderWidth:2, borderColor: '#CCCCCC'}}></View>
+              <View style={styles.roundDot}></View>
             </View>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+            <View style={styles.stitchBox} >
+              <View style={styles.pinkIndicator}></View>
 
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
@@ -345,8 +345,8 @@ const FrontV = observer(({
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
-            <View style={{  marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8,alignItems: 'center'}} >
-              <View style={{width: 17, height: 17, backgroundColor: '#FDCFE1', marginLeft: 10, borderWidth: 1}}></View>
+            <View style={styles.stitchBox} >
+              <View style={styles.pinkIndicator}></View>
               
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
@@ -383,41 +383,62 @@ const FrontV = observer(({
         </ScrollView>
 
         <View style={styles.horizontalRow}>
-          <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 2:</Text>
-          <View style={{width: 17, height: 17, backgroundColor: 'black', marginRight: 10,marginLeft: 10, borderWidth: 1}}></View>
+          <Text style={styles.subtitle}>{i18n.t('action')} 2:</Text>
           
-          <Text style={[styles.resultText, {flexShrink: 1}]}>{i18n.t('decreasesOnOneSide')}: {i18n.t('stitches')} {results.SVfront - results.SFrontV / 2}</Text>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+
+        <View style={styles.infoRowmin}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('decreasesOnOneSide')}:
+          </Text>
+          <View style={styles.blackIndicator}></View>
+           </View>
+           <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          
+          <Text style={styles.boldNumber}>{results.SVfront - results.SFrontV / 2}</Text>
+        </View>
+
+        
           <View style={styles.horizontalRow}>
-            <Text style={[styles.resultText, {fontWeight: 'bold'}]}>{i18n.t('action')} 3:</Text>
-            <Text style={[styles.resultText, {padding: 5}]}>
-              {i18n.t('knitting')}
-            </Text>
-            <Image
+            <Text style={styles.subtitle}>{i18n.t('action')} 3:</Text>
+
+            
+          </View>
+        
+        <View style={styles.infoRowmin}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('knitting')}:
+          </Text>
+          
+          <Image
               source={require('@/assets/images/knitcircle.svg')}
               style={styles.styleKnitCircleImage}
               contentFit="contain"
             /> 
-            <Text style={styles.resultText}>
-              {i18n.t('rows')}:{results.NHFrontV-results.NHV}
-            </Text>
-          </View>
-        </ScrollView>
-        <View style={styles.horizontalRow}>
-          <Text style={styles.resultText}>
-            {i18n.t('start')}:
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          
+          <Text style={styles.boldNumber}>{results.NHFrontV-results.NHV}</Text>
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('start')} {i18n.t('row')} № {results.NHV +1}:
           </Text>
           <TouchableOpacity onPress={handleScrollToTop1}>
             <Image
-              source={require('@/assets/images/znkr2.svg')}
+              source={require('@/assets/images/znkr6.svg')}
               style={styles.styleZnkr}
               contentFit="contain"
             /> 
           </TouchableOpacity>
-          <Text style={styles.resultText}>
-            {i18n.t('row')}: {results.NHV +1}
-          </Text>
+          
         </View>
       </View>
     </View>
@@ -466,22 +487,22 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   styleznsfImage: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginRight: 10,
+    width: 35,
+    height: 35,
+    marginLeft: 0,
+    marginRight: 0,
   },
   styleKnitCircleImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
+    width: 25,
+    height: 25,
+    marginLeft: 0,
+    marginRight: 0,
   },
   styleZnkr: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginRight: 10,
+    width: 30,
+    height: 30,
+    marginLeft: 0,
+    marginRight: 0,
   },
   frontImage: {
     width: '100%',
@@ -519,9 +540,10 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   leftLabel: {
-    fontSize: 14,
-    color: COLORS.TEXT_PRIMARY,
+    fontSize: 16,
+   // color: COLORS.TEXT_PRIMARY,
     marginBottom: 5,
+    color: '#6b7280',
   },
   knitIconznts: {
     width: 30,
@@ -565,6 +587,13 @@ const styles = StyleSheet.create({
     width: 17,
     height: 17,
     backgroundColor: '#FDCFE1',
+    borderWidth: 1,
+    borderBottomWidth: 0.5,
+  },
+  blackIndicator: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#000000',
     borderWidth: 1,
     borderBottomWidth: 0.5,
   },

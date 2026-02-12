@@ -64,7 +64,14 @@ const Step3BackLengtheningV = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
-          <Text style={styles.boldNumber}>{i18n.t('rows')}: {results.NRostok}</Text>
+          
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NRostok}</Text>
         </View>
 
         <View style={styles.infoRow}>
@@ -83,7 +90,7 @@ const Step3BackLengtheningV = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.orangeIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SKfrontV}
+                {i18n.t('stitches')}:{'\n'} {results.SKfrontV}
               </Text>
             </View>
             {/* round*/}
@@ -93,7 +100,7 @@ const Step3BackLengtheningV = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.purpleIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SFrontV+2*results.SfxV}
+                {i18n.t('stitches')}:{'\n'} {results.SFrontV+2*results.SfxV}
               </Text>
             </View>
             {/* round*/}
@@ -103,7 +110,7 @@ const Step3BackLengtheningV = observer(({
             <View style={styles.stitchBox}>
               <View style={styles.orangeIndicator}></View>
               <Text style={styles.resultText}>
-                {i18n.t('stitches')}: {results.SKfrontV}
+                {i18n.t('stitches')}:{'\n'} {results.SKfrontV}
               </Text>
             </View>
           </View>
@@ -274,20 +281,20 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY,
   },
   knitIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
+    width: 25,
+    height: 25,
+    marginLeft: 0,
+    marginRight: 0,
   },
   startIcon: {
-    width: 30,
+    width: 20,
     height: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 0,
+    marginRight: 0,
   },
   resultText: {
     fontSize: 12,
-    marginBottom: 5,
+    marginBottom: 0,
     textAlign: 'center' as const,
     color: COLORS.TEXT_PRIMARY,
   },
@@ -297,14 +304,16 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 5,
     marginBottom: 3,
+    marginLeft:3,
+    marginRight:3,
     justifyContent: 'center',
   },
   // Common layout styles
   stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
     justifyContent: 'space-between',
+    marginBottom: 20,
   },
   indicatorsRow: {
     flexDirection: 'row',
@@ -313,7 +322,7 @@ const styles = StyleSheet.create({
   chartRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   chartTitle: {
@@ -363,20 +372,18 @@ const styles = StyleSheet.create({
   },
   // Box styles
   stitchBox: {
-    marginBottom: 10,
+    marginBottom: 0,
     marginLeft: 0,
-    padding: 5,
+    padding: 10,
     backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
   },
   roundDot: {
     width: 17,

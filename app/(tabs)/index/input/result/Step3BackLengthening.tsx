@@ -373,8 +373,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.GRAY,
     borderRadius: 8,
     alignItems: 'center',
-    //width: 80,
-    //height: 80,
     justifyContent: 'center',
   },
   roundIndicator: {

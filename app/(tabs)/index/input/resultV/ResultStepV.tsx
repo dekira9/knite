@@ -47,11 +47,18 @@ const ResultStepV = observer(({
         </ScrollView>
         
         {/* корпус итоги*/}
-        <View style={styles.corpusHeaderRow}>
+        <View style={styles.chartRow}>
           <Text style={styles.corpusTitle}>{i18n.t('corpus')}</Text>
           <View style={styles.blueIndicatorLarge}></View>
-          <Text style={styles.corpusStitchesText}>
-            {i18n.t('stitches')}: {results.SRostok * 2 + results.SPodr * 2}
+          
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>
+            {results.SRostok * 2 + results.SPodr * 2}
           </Text>
         </View>
         
@@ -59,12 +66,12 @@ const ResultStepV = observer(({
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.corpusScrollRow}>
             <View style={styles.corpusBox}>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('back')}
               </Text>
               <View style={styles.smallGrayIndicator}></View>
               <View style={styles.blueIndicator}></View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SRostok}
               </Text>
             </View>
@@ -77,9 +84,9 @@ const ResultStepV = observer(({
             <View style={styles.corpusBox}>
               <View style={styles.smallMagentaIndicator}></View>
               <View style={styles.blueIndicator}></View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
               </Text>
             </View>
             
@@ -89,12 +96,12 @@ const ResultStepV = observer(({
             </View>
 
             <View style={styles.corpusBox}>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('front')}
               </Text>
               <View style={styles.smallGrayIndicator}></View>
               <View style={styles.blueIndicator}></View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SRostok}
               </Text>
             </View>
@@ -107,20 +114,26 @@ const ResultStepV = observer(({
             <View style={styles.corpusBox}>
               <View style={styles.smallMagentaIndicator}></View>
               <View style={styles.blueIndicator}></View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                <Text style={styles.createText}>{i18n.t('underarmStitches')}</Text>
+                <Text style={styles.smallText}>{i18n.t('underarmStitches')}</Text>
               </Text>
             </View>
           </View>
         </ScrollView>
         
         {/* рукав итоги*/}
-        <View style={styles.sleeveHeaderRow}>
+        <View style={styles.chartRow}>
           <Text style={styles.sleeveTitle}>{i18n.t('sleeve')}</Text>
           <View style={styles.greenIndicatorLarge}></View>
-          <Text style={styles.sleeveStitchesText}>
-            {i18n.t('stitches')}: {results.SaV + 2 * results.SfxV + 2 * results.SKaV + results.SPodr + results.NRostok * 0.5}
+        </View>
+        <View style={styles.infoRow}>
+          
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>
+           {results.SaV + 2 * results.SfxV + 2 * results.SKaV + results.SPodr + results.NRostok * 0.5}
           </Text>
         </View>
         
@@ -129,11 +142,11 @@ const ResultStepV = observer(({
           <View style={styles.sleeveScrollRow}>
             <View style={styles.sleeveBox}>
               <View style={styles.textBox}>
-                <Text style={styles.textInsideBox}>
+                <Text style={styles.smallText}>
                   {i18n.t('sleeve')}
                 </Text>
               </View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SaV + 2 * results.SfxV + 2 * results.SKaV}
               </Text>
             </View>
@@ -148,11 +161,11 @@ const ResultStepV = observer(({
                 <View style={styles.smallVerticalGrayIndicator}></View>
                 <View style={styles.greenIndicator}></View>
               </View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.NRostok * 0.5}
               </Text>
-              <Text style={styles.createText}>{i18n.t('create') || 'create'}</Text>
-              <Text style={styles.createText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
+              <Text style={styles.smallText}>{i18n.t('create') || 'create'}</Text>
+              <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
             </View>
             
             {/*  round*/}
@@ -163,9 +176,9 @@ const ResultStepV = observer(({
             <View style={styles.sleeveBox}>
               <View style={styles.greenIndicator}></View>
               <View style={styles.smallMagentaIndicator}></View>
-              <Text style={styles.resultText}>
+              <Text style={styles.textinBox}>
                 {i18n.t('stitches')}: {results.SPodr} {'\n'}
-                <Text style={styles.createText}>{i18n.t('create')}</Text>
+                <Text style={styles.smallText}>{i18n.t('create')}</Text>
               </Text>
             </View>
           </View>
@@ -237,14 +250,14 @@ const styles = StyleSheet.create({
   corpusHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 1,
+    justifyContent: 'space-between',
+    marginTop: 0,
     marginBottom: 10,
   },
   corpusTitle: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 0,
     color: COLORS.TEXT_PRIMARY,
   },
   corpusStitchesText: {
@@ -257,7 +270,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 17,
     backgroundColor: COLORS.BLUE,
-    marginLeft: 10,
+    marginLeft: 0,
     borderWidth: 1,
   },
   corpusScrollRow: {
@@ -274,29 +287,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: COLORS.BLUE,
     borderWidth: 1,
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   blueIndicator: {
     width: 17,
     height: 17,
     backgroundColor: COLORS.BLUE,
-    marginLeft: 10,
+    marginLeft: 0,
     borderWidth: 1,
   },
   smallGrayIndicator: {
     width: 17,
     height: 8,
     backgroundColor: COLORS.DIVIDER,
-    marginLeft: 10,
+    marginLeft: 0,
     borderWidth: 1,
   },
   smallMagentaIndicator: {
     width: 17,
     height: 8,
     backgroundColor: COLORS.UNDERARM,
-    marginLeft: 10,
+    marginLeft: 0,
     borderWidth: 1,
   },
   // Sleeve section styles
@@ -308,9 +319,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sleeveTitle: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 0,
     color: COLORS.TEXT_PRIMARY,
   },
   sleeveStitchesText: {
@@ -340,8 +351,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: COLORS.SLEEVE_GREEN,
     borderWidth: 1,
-    width: 80,
-    height: 80,
     justifyContent: 'center',
   },
   greenIndicator: {
@@ -374,6 +383,38 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     borderWidth: 2,
     borderColor: COLORS.DIVIDER,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  leftLabel: {
+    fontSize: 16,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  boldNumber: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  textinBox: {
+    fontSize: 14,
+    marginBottom: 5,
+    textAlign: 'center' as const,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  smallText: {
+    fontSize: 12,
+    color: COLORS.TEXT_PRIMARY,
+    textAlign: 'center',
   },
 });
 
