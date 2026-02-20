@@ -60,12 +60,12 @@ export default observer(() => {
   console.log('rows:', rows);
   
   const handleStartKnitting = () => {
-    navigation.navigate('Raglan', { screen: 'RibbingV' });
+    (navigation as any).navigate('Raglan', { screen: 'RibbingV' });
   };
 
   const handleNewStyle = () => {
     introState.setStyleChosen(false);
-    navigation.navigate('Styles');
+    (navigation as any).navigate('Styles');
   };
 
   // Проверяем, что results это RaglanOutput, а не строка с ошибкой
@@ -148,7 +148,7 @@ export default observer(() => {
 
   const handleSelectNewStyle = () => {
     introState.setIntroFinished(false);
-    navigation.navigate('Styles');
+    (navigation as any).navigate('Styles');
   };
  
   return (
