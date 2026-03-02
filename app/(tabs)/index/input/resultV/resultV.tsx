@@ -22,7 +22,8 @@ import {
   calculateIncreaseRows1x2_1x3V,
   calculateIncreaseRows1x2_1x1V,
   calculateIncreaseRows1x4_1x3V,
-  determineIncreaseType
+  determineIncreaseType,
+  calculateVNeckIncreases23
 } from './helpers';
 import Step1RibbingV from './Step1RibbingV';
 import Step2AddingStitchesV from './Step2AddingStitchesV';
@@ -87,6 +88,7 @@ export default observer(() => {
   const { resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
   const { resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
   const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
+  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV2);
   // Исправляем вызов функции - убираем лишний параметр SVfront
   const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
   console.log('resultStringV11', resultStringV11);
@@ -220,6 +222,7 @@ export default observer(() => {
           resultStringV11={resultStringV11}
           resultStringV12={resultStringV12}
           resultStringV22={resultStringV22}
+          resultStringV23={resultStringV23}
         />
         
         <Step2AddingStitchesV 
