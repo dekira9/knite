@@ -88,7 +88,7 @@ export default observer(() => {
   const { resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
   const { resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
   const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
-  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV2);
+  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, SpribVcorn);
   // Исправляем вызов функции - убираем лишний параметр SVfront
   const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
   console.log('resultStringV11', resultStringV11);
