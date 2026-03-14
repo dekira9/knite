@@ -194,49 +194,6 @@ export const calculateVNeckIncreases22 = (NRrezV: number, PribRV2: number,SpribV
   };
 };
 
-export const calculateVNeckIncreases23 = (NRrezV: number, PribRV2: number, SpribVcorn: number) => {
-  console.log('calculateVNeckIncreases23 params:', { NRrezV, PribRV2, SpribVcorn });
-
-  if (PribRV2 <= 0) {
-    throw new Error('PribRV2 должен быть больше нуля для типа 2/3');
-  }
-
-  const MR2 = Array.from({ length: PribRV2 }, (_, ra) => ra + 1);
-  const MRN = Array.from({ length: NRrezV }, (_, rn) => rn + 1);
-
-  // Равномерно распределяем ряды с 2 прибавками по всей высоте резинки
-  const KVb = NRrezV / PribRV2;
-  const PozS2 = MR2.map(ra => Math.floor(KVb * ra)); // ряды с 2 прибавками
-  const pozS2Set = new Set(PozS2);
-
-  // Остальные ряды (в пределах NRrezV) будут с 3 прибавками
-  const PozS3 = MRN.filter(rn => !pozS2Set.has(rn));
-  const pozS3Set = new Set(PozS3);
-
-  const increases23 = Array.from({ length: NRrezV }, (_, index) => {
-    const position = index + 1;
-
-    if (pozS2Set.has(position)) {
-      return 2;
-    } else if (pozS3Set.has(position)) {
-      return 3;
-    } else {
-      return 0;
-    }
-  });
-
-  const resultStringV23 = increases23.join(', ');
-
-  return {
-    MR2,
-    PozS2,
-    PozS3,
-    PribRV2,
-    increases23,
-    resultStringV23
-  };
-};
-
 {/*расчет рядов с прибавками для 1x2, 1x4 по линиям реглана*/}
 export const calculateIncreaseRows1x2_1x4V = (
   NHFrontV: number,
