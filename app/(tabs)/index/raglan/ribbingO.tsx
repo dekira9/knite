@@ -4,6 +4,7 @@ import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
+import i18n from '@/utils/translations';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez } = introState;
@@ -263,9 +264,9 @@ const App = observer(() => {
       
       <View style={styles.bottomRow}>
       <View style={styles.redIndicator}></View>
-        <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
         </View>
-        <Text style={styles.infoText}>Stitches: {K*4+2*SFrontO + 2*Sa}</Text>
+        <Text style={styles.infoText}>{i18n.t('stitches')}: {K*4+2*SFrontO + 2*Sa}</Text>
       </View>
       <View style={styles.navigationButtons}>
         <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>

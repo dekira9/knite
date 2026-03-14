@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: COLORS.TEXT_PRIMARY,
-    marginLeft: 10,
+    marginLeft: 0,
   },
   infoRow: {
     flexDirection: 'row',

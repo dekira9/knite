@@ -38,6 +38,7 @@ export default observer(() => {
   const results = introState.calculateRaglan();
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
+  const step3Y = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const insets = useSafeAreaInsets();
@@ -148,6 +149,15 @@ export default observer(() => {
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
 
+  const handleScrollToStep3 = () => {
+    scrollViewRef.current?.scrollTo({ y: step3Y.current, animated: true });
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 32;
+      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
+      setCurrentIndex(1);
+    }, 100);
+  };
+
   const handleSelectNewStyle = () => {
     introState.setIntroFinished(false);
     (navigation as any).navigate('Styles');
@@ -183,14 +193,17 @@ export default observer(() => {
               contentFit="contain"
              />
           </View>
-          <View style={styles.slideContainer}>
-          
+          <TouchableOpacity 
+            style={styles.slideContainer} 
+            onPress={handleScrollToStep3}
+            activeOpacity={1}
+          >
           <Image
               source={require('../../../../../assets/images/planVaz44.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
-          </View>
+          </TouchableOpacity>
           <View style={styles.slideContainer}>
             <Image
               source={require('../../../../../assets/images/v-neck.png')}
@@ -250,11 +263,16 @@ export default observer(() => {
           handleScrollToTop1={handleScrollToTop1}
         />
         
+        <View 
+          onLayout={(e) => { step3Y.current = e.nativeEvent.layout.y; }}
+          collapsable={false}
+        >
         <Step3BackLengtheningV 
           results={results}
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
         />
+        </View>
 
         <Step4SeparatingSleevesV 
           results={results}

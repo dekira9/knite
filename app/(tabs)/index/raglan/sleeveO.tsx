@@ -338,9 +338,9 @@ const App = observer(() => {
         <View style={styles.infoContainer}>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
         <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
-        <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
             </View>
-            <Text style={styles.infoText}>Stitches: {Sa + leftCellCount + rightCellCount}</Text>
+            <Text style={styles.infoText}>{i18n.t('stitches')}: {Sa + leftCellCount + rightCellCount}</Text>
         </View>
         <View style={styles.navigationButtons}>
             <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>

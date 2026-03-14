@@ -22,15 +22,15 @@ const Lc=LsV*25
 
 
 const App = observer(() => {
-  const { SFrontV,NHV, SaV, KV, NRrezV, NHFrontV, SVfront, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseType} = introState;
+  const { SFrontV,NHV, SaV, KV, NRrezV, NHFrontV, SVfront, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseTypeV} = introState;
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
+  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseTypeV?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   const colorScheme = useColorScheme();
   const screenWidth = Dimensions.get('window').width;
   
-  const currentIndex = usedIncreaseType ? usedIncreaseType.indexOf(selectedIncreaseType) : -1;
+  const currentIndex = usedIncreaseTypeV ? usedIncreaseTypeV.indexOf(selectedIncreaseType) : -1;
 
   const results = introState.calculateRaglan();
   const isRaglanOutput = (value: any): value is RaglanOutput => {
@@ -734,8 +734,8 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
           showsHorizontalScrollIndicator={false}
         >
       <View style={[styles.horContainerTop]}>
-        {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
-        usedIncreaseType.map(type  => (
+        {usedIncreaseTypeV && Array.isArray(usedIncreaseTypeV) ? (
+        usedIncreaseTypeV.map((type: string) => (
           <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
             <TouchableOpacity 
               onPress={() => {
@@ -838,7 +838,7 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       
       
       <View style={styles.paginationContainer}  >
-        {usedIncreaseType && Array.isArray(usedIncreaseType) && usedIncreaseType.map((_, index) => (
+        {usedIncreaseTypeV && Array.isArray(usedIncreaseTypeV) && usedIncreaseTypeV.map((_, index) => (
             <View
                 key={`dot-${index}`}
                 style={[
@@ -900,9 +900,9 @@ const rightVNeckCount = getVNeckRightStitchCount(vNeckData);
       <View style={styles.infoContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
       <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
-        <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
         </View>
-        <Text style={styles.infoText}>Stitches: {leftCellCount + rightCellCount + leftVNeckCount + rightVNeckCount}</Text>
+        <Text style={styles.infoText}>{i18n.t('stitches')}: {leftCellCount + rightCellCount + leftVNeckCount + rightVNeckCount}</Text>
       </View>
       <View style={styles.navigationButtons}>
 
@@ -1087,6 +1087,7 @@ const styles = StyleSheet.create({
     width: Lc,
     height: Hc,
     borderWidth: 1,
+    borderColor: '#715604',
     borderTopWidth: 3,
     borderBottomWidth: 1,
     borderLeftWidth: 1,

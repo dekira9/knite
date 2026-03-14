@@ -40,7 +40,7 @@ const ResultStepV = observer(({
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.resultContainer}>
             <Image
-              source={require('../../../../../assets/images/sleevebodyV.png')}
+              source={require('../../../../../assets/images/sleevebodyV2.png')}
               style={styles.resultImage}
             />
           </View>
@@ -124,7 +124,12 @@ const ResultStepV = observer(({
         
         {/* рукав итоги*/}
         <View style={styles.chartRow}>
+          <View style={styles.resultHeaderRow}>
           <Text style={styles.sleeveTitle}>{i18n.t('sleeve')}</Text>
+          <Text style={[styles.leftLabel]}>{'  '}
+              {i18n.t('left')}
+            </Text>
+            </View>
           <View style={styles.greenIndicatorLarge}></View>
         </View>
         <View style={styles.infoRow}>
@@ -141,6 +146,7 @@ const ResultStepV = observer(({
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.sleeveScrollRow}>
             <View style={styles.sleeveBox}>
+            <Text style={styles.textinBox}>1</Text>
               <View style={styles.textBox}>
                 <Text style={styles.smallText}>
                   {i18n.t('sleeve')}
@@ -157,6 +163,7 @@ const ResultStepV = observer(({
             </View>
 
             <View style={styles.sleeveBox}>
+            <Text style={styles.textinBox}>2</Text>
               <View style={styles.indicatorRow}>
                 <View style={styles.smallVerticalGrayIndicator}></View>
                 <View style={styles.greenIndicator}></View>
@@ -174,6 +181,7 @@ const ResultStepV = observer(({
             </View>
 
             <View style={styles.sleeveBox}>
+            <Text style={styles.textinBox}>3</Text>
               <View style={styles.greenIndicator}></View>
               <View style={styles.smallMagentaIndicator}></View>
               <Text style={styles.textinBox}>
@@ -183,6 +191,75 @@ const ResultStepV = observer(({
             </View>
           </View>
         </ScrollView>
+
+         {/* рукав итоги*/}
+         <View style={styles.chartRow}>
+          <View style={styles.resultHeaderRow}>
+          <Text style={styles.sleeveTitle}>{i18n.t('sleeve')}</Text>
+          <Text style={[styles.leftLabel]}>{'  '}
+              {i18n.t('right')}
+            </Text>
+            </View>
+          <View style={styles.greenIndicatorLarge}></View>
+        </View>
+        <View style={styles.infoRow}>
+          
+          <Text style={styles.leftLabel}>
+            {i18n.t('stitches')}:
+          </Text>
+          <Text style={styles.boldNumber}>
+           {results.SaV + 2 * results.SfxV + 2 * results.SKaV + results.SPodr + results.NRostok * 0.5}
+          </Text>
+        </View>
+        
+        {/*скролл рукав*/}
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <View style={styles.sleeveScrollRow}>
+
+          <View style={styles.sleeveBox}>
+              <View style={styles.indicatorRow}>
+                <View style={styles.smallVerticalGrayIndicator}></View>
+                <View style={styles.greenIndicator}></View>
+              </View>
+              <Text style={styles.textinBox}>
+                {i18n.t('stitches')}: {results.NRostok * 0.5}
+              </Text>
+              <Text style={styles.smallText}>{i18n.t('create') || 'create'}</Text>
+              <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
+            </View>
+
+            {/*  round*/}
+            <View style={styles.roundIndicator}>
+              <View style={styles.roundDot}></View>
+            </View>
+
+            <View style={styles.sleeveBox}>
+              <View style={styles.textBox}>
+                <Text style={styles.smallText}>
+                  {i18n.t('sleeve')}
+                </Text>
+              </View>
+              <Text style={styles.textinBox}>
+                {i18n.t('stitches')}: {results.SaV + 2 * results.SfxV + 2 * results.SKaV}
+              </Text>
+            </View>
+            
+            {/*  round*/}
+            <View style={styles.roundIndicator}>
+              <View style={styles.roundDot}></View>
+            </View>
+
+            <View style={styles.sleeveBox}>
+              <View style={styles.greenIndicator}></View>
+              <View style={styles.smallMagentaIndicator}></View>
+              <Text style={styles.textinBox}>
+                {i18n.t('stitches')}: {results.SPodr} {'\n'}
+                <Text style={styles.smallText}>{i18n.t('create')}</Text>
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+
       </View>
     </View>
   );
@@ -214,13 +291,18 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   resultContainer: {
-    marginTop: 10,
-    marginBottom: 20,
+    
+   width: '100%',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   resultImage: {
-    width: 300,
-    height: 200,
+    
+    width: '100%',
+    aspectRatio: 2,
+    height: undefined,
     resizeMode: 'contain',
+    padding: 150,
   },
   resultText: {
     fontSize: 12,
@@ -415,6 +497,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.TEXT_PRIMARY,
     textAlign: 'center',
+  },
+  resultHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
   },
 });
 

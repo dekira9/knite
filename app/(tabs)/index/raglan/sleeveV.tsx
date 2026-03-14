@@ -23,17 +23,17 @@ const Lc=LsV*25
 
 
 const App = observer(() => {
-  const { SFrontV, SaV, KV, NRrezV, NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseType} = introState;
+  const { SFrontV, SaV, KV, NRrezV, NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseTypeV} = introState;
   const colorScheme = useColorScheme();
   const [highlightedRow, setHighlightedRow] = useState(0);
   const router = useRouter();
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
+  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseTypeV?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
   
-  const currentIndex = usedIncreaseType ? usedIncreaseType.indexOf(selectedIncreaseType) : -1;
+  const currentIndex = usedIncreaseTypeV ? usedIncreaseTypeV.indexOf(selectedIncreaseType) : -1;
   const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value;
   };
@@ -223,8 +223,8 @@ const App = observer(() => {
           showsHorizontalScrollIndicator={false}
         >
       <View style={[styles.horContainerTop]}>
-        {usedIncreaseType && Array.isArray(usedIncreaseType) ? (
-        usedIncreaseType.map(type  => (
+        {usedIncreaseTypeV && Array.isArray(usedIncreaseTypeV) ? (
+        usedIncreaseTypeV.map((type: string) => (
           <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
             <TouchableOpacity 
               onPress={() => {
@@ -324,7 +324,7 @@ const App = observer(() => {
       </View>
       
       <View style={styles.paginationContainer}>
-        {usedIncreaseType && Array.isArray(usedIncreaseType) && usedIncreaseType.map((_, index) => (
+        {usedIncreaseTypeV && Array.isArray(usedIncreaseTypeV) && usedIncreaseTypeV.map((_, index) => (
             <View
                 key={`dot-${index}`}
                 style={[
@@ -337,7 +337,7 @@ const App = observer(() => {
 
       <View style={styles.indicatorRow}>
        <View style={styles.yellowIndicator}></View>
-       <Text style={styles.resultText}> {i18n.t('lastRowOfRibbing')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}</Text>
+       <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}</Text>
       </View>
 
       <ScrollView 
@@ -365,9 +365,9 @@ const App = observer(() => {
       <View style={styles.infoContainer}>
        <View style={styles.bottomRow}>
        <View style={styles.redIndicator}></View>
-        <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
+        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
          </View>
-        <Text style={styles.infoText}>Stitches: {SaV + leftCellCount + rightCellCount}</Text>
+        <Text style={styles.infoText}>{i18n.t('stitches')}: {SaV + leftCellCount + rightCellCount}</Text>
         
       </View>
       <View style={styles.navigationButtons}>

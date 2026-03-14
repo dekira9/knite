@@ -26,7 +26,7 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
       <View style={styles.resultCard}>
         <View style={styles.ribbingHeader}>
           {/* <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text> */}
-          <Text style={styles.subtitle}>Collar</Text>
+          <Text style={styles.subtitle}>{i18n.t('collarKnitting')}</Text>
           <View style={[styles.yellowIndicator, {borderTopWidth: 1}]}></View>
         </View>
         
@@ -36,11 +36,11 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
           </Text>
           <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingO}>
             <Image
-              source={require('@/assets/images/view.svg')}
+              source={require('@/assets/images/view1.png')}
               style={styles.viewIcon}
               contentFit="contain"
             />
-            <Text style={styles.viewChartText}>View Chart</Text>
+            {/* <Text style={styles.viewChartText}>View Chart</Text> */}
           </TouchableOpacity>
         </View>
 
@@ -53,12 +53,7 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
           <Text style={styles.boldNumber}>{results.Sgor}</Text>
         </View>
 
-        <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>
-            {i18n.t('rows')}:
-          </Text>
-          <Text style={styles.boldNumber}>{results.NRrez}</Text>
-        </View>
+        
         
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -69,6 +64,13 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
             style={styles.knitIcon}
             contentFit="contain"
           />
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NRrez}</Text>
         </View>
 
         <View style={styles.infoRow}>
@@ -243,8 +245,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   viewIcon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 25,
     marginRight: 6,
     tintColor: '#ffffff',
   },

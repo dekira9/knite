@@ -110,7 +110,7 @@ const DepthNeckV = () => {
           style={styles.input}
           value={sliderValue}
           keyboardType="numeric"
-          placeholder="Введите значение"
+          placeholder="0"
           onChangeText={handleTextInputChange}  
         />
         <TouchableOpacity onPress={() => {
@@ -130,9 +130,9 @@ const DepthNeckV = () => {
         value={parseFloat(sliderValue)}
         onValueChange={handleSliderChange}
         step={0.1}
-        minimumTrackTintColor="#009FE3"
-        maximumTrackTintColor="#000000"
-        thumbTintColor="#009FE3"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#CCCCCC"
+        thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
         <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {i18n.t('sm')}</Text>

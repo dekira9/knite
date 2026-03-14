@@ -20,11 +20,11 @@ const LineraglanV = () => {
     setSliderValue(introState.raglanLineWidthV.toString());
   }, [introState.raglanLineWidthV]);
 
-  // Функция для обработки изменений в Slider
+  // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)
   const handleSliderChange = (value: number) => {
     const newValue = Math.round(value);
     if (introState.raglanLineWidthV !== newValue) {
-      introState.setRaglanLineWidthV(newValue); // Обновляем ширину регланной линии в introState
+      setTimeout(() => introState.setRaglanLineWidthV(newValue), 0);// Обновляем ширину регланной линии в introState
     }
   };
 
@@ -57,7 +57,7 @@ const LineraglanV = () => {
 
   const handleNext = () => {
     console.log('Next button pressed with value:', introState.raglanLineWidthV);
-    navigation.navigate('DepthNeckV');
+    (navigation as any).navigate('DepthNeckV');
   };
 
   return (

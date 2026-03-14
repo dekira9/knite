@@ -110,6 +110,7 @@ const IntroState = types
     RowPribRV1:types.optional(types.number, 0),
     RowPribRVz:types.optional(types.number, 0),
     RowPribRV2:types.optional(types.number, 0),
+    RowPribRV3:types.optional(types.number, 0),
   })
   .actions((self) => ({
     setStyle(style: string) {
@@ -283,6 +284,7 @@ const IntroState = types
           RowPribRV1: self.RowPribRV1,
           RowPribRVz: self.RowPribRVz,
           RowPribRV2: self.RowPribRV2,
+          RowPribRV3: self.RowPribRV3,
           introFinished: self.introFinished,
         };
         await AsyncStorage.setItem('introState', JSON.stringify(state));
@@ -388,11 +390,13 @@ const IntroState = types
       self.RowPribRV1=state.RowPribRV1;
       self.RowPribRVz=state.RowPribRVz;
       self.RowPribRV2=state.RowPribRV2;
+      self.RowPribRV3=state.RowPribRV3;
       self.SV=state.SV;
       self.SVfront=state.SVfront;
       self.LHV=state.LHV;
       self.LVfront=state.LVfront;
       self.NHV=state.NHV;
+      self.RowPribRV3=state.RowPribRV3;
       self.introFinished=state.introFinished;
     },
     async loadPersistedState() {

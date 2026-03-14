@@ -1205,7 +1205,7 @@ const calculationForYou = {
 
 const knitTheStitchesFromTheCollar = {
   en: "Knit the stitches from the collar",
-  ru: "Связать петли от воротника",
+  ru: "Вязать петли от воротника",
   sv: "Sticka maskorna från kragen",
   no: "Strikk maskene fra kragen",
   fi: "Neulo silmukat kauluksesta",
@@ -2022,7 +2022,45 @@ const right = {
   lt: "dešinė",
 };
 
+const currentRow = {
+  en: "Current Row",
+  ru: "Текущий ряд",
+  sv: "Aktuell Rad",
+  no: "Nåværende Rad",
+  fi: "Nykyinen Rivi",
+  de: "Aktuelle Reihe",
+  fr: "Rang Actuel",
+  es: "Fila Actual",
+  ja: "現在の行",
+  cs: "Aktuální řada",
+  bg: "Текущ ред",
+  sk: "Aktuálny rad",
+  ko: "현재 행",
+  tr: "Mevcut Satır",
+  ar: "السطر الحالي",
+  pt: "Linha Atual",
+  lt: "Dabartinė eilutė",
+};
 
+const viewChart = {
+  en: "View Chart",
+  ru: "Смотреть график",
+  sv: "Visa Diagram",
+  no: "Vis Diagram",
+  fi: "Näytä Diagrammi",
+  de: "Diagramm anzeigen",
+  fr: "Voir le diagramme",
+  es: "Ver diagrama",
+  ja: "ダイアグラムを表示",
+  cs: "Zobrazit diagram",
+  bg: "Покажи диаграма",
+  sk: "Zobraziť diagram",
+  ko: "다이어그램 보기",
+  tr: "Grafiği Görüntüle",
+  ar: "عرض الرسم البياني",
+  pt: "Ver diagrama",
+  lt: "Diagramą peržiūrėti",
+};
   // Create translations object with all supported languages
 const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => {
   return {
@@ -2136,6 +2174,8 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       fromTheCollar: fromTheCollar[key as keyof typeof fromTheCollar],
       left: left[key as keyof typeof left],
       right: right[key as keyof typeof right],
+      currentRow: currentRow[key as keyof typeof currentRow],
+      viewChart: viewChart[key as keyof typeof viewChart],
       // Add other translations here as needed
     }
   };
@@ -2147,6 +2187,6 @@ export function updateLocale(locale: string) {
   i18n.locale = locale;
 }
 
-i18n.locale = onboardingState.language || Localization.locale;
+i18n.locale = onboardingState.language || Localization.getLocales()[0]?.languageCode || 'en';
 
 export default i18n;

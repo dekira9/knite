@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
+import { View, StyleSheet , ScrollView,TouchableOpacity,Text, ActivityIndicator   } from 'react-native';
 import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
@@ -11,7 +11,9 @@ import {
   calculateVNeckIncreases01,
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
-  calculateVNeckIncreases22
+  calculateVNeckIncreases22,
+  calculateVNeckIncreases23
+
 } from '@/app/(tabs)/index/input/resultV/helpers';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
@@ -22,7 +24,7 @@ const Hc=hsV*25;
 const Lc=LsV*25;
 
 const App = observer(() => {
-  const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
+  const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRV3, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
  
  
  
@@ -69,7 +71,10 @@ const App = observer(() => {
       const { increases22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
       increases = increases22;
     }
-  
+    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
+      const { increases23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+    }
    
     // Расчет количества ячеек для каждого ряда
     const cellCounts: number[] = [];
@@ -306,9 +311,10 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = SV;
     const cellCounts = calculateRowCellCounts(highlightedRow);
-  
+
+  {/* Если NRrezV, SpribVcorn, SV или numRows не определены, то выводим ActivityIndicator */}
     if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
-      return <Text>Загрузка данных...</Text>;
+      return <ActivityIndicator size="small" color="#999" />;
     }
   
     let increases: Array<number> = [];
@@ -335,6 +341,11 @@ const App = observer(() => {
       increases = increases22;
       resultString = resultStringV22 || '';
      
+    }if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
+      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+      resultString = resultStringV23 || '';
+      
     }
   
     let currentSquares = SV;
@@ -391,7 +402,8 @@ const App = observer(() => {
     const cellCounts = calculateRowCellCounts(highlightedRow);
   
     if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
-      return <Text>Загрузка данных...</Text>;
+      return <ActivityIndicator size="small" color="#999" />;
+    
     }
   
     let increases: Array<number> = [];
@@ -418,6 +430,11 @@ const App = observer(() => {
       increases = increases22;
       resultString = resultStringV22 || '';
      
+    } if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
+      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+      resultString = resultStringV23 || '';
+      
     }
   
     let currentSquares = SV;
@@ -447,9 +464,8 @@ const App = observer(() => {
       }
       rows.push(
         <View key={`right-${i}`} style={styles.row}>
-       {/*<Text style={styles.rowNumber}>{i + 1}</Text> //цифры рядов*/}
-         <View style={styles.squaresContainer}>
-            {row}
+          {/*<Text style={styles.rowNumber}>{i + 1}</Text> //цифры рядов*/}
+          <View style={styles.squaresContainer}>{row}
           </View>
           <Text style={styles.squareCount}>{currentSquares}</Text>{/*количество квадратов в ряду*/}
         </View>
@@ -482,41 +498,43 @@ const App = observer(() => {
 
 
 
-
-
 // КОНЕЦ вычисление количества ячеек в рядах V резинки
 
+{/* Если SpribVcorn не определен, то выводим warning icon */}
   if (!SpribVcorn) {
-  return <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+    return <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
     <Ionicons name="warning-outline" size={40} color="#FF9500" />
   </View>;
 }
 
   return (
     <View style={styles.pageContainer}>
+      
       <View style={styles.scrollContainer}>
-        <ScrollView
+        <ScrollView 
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
         >
+
        <View>
       <View style={styles.indicatorRow}>
        <View style={styles.grayIndicator}></View>
-       <Text style={styles.resultText}> {i18n.t('castOnRow') || 'Cast On Row'} </Text>
+       <Text style={styles.resultText}> {i18n.t('castOnRow') || 'Cast On Row'}copy</Text>
       </View>
       <View style={styles.indicatorRow}>
        <View style={styles.yellowIndicator}></View>
-       <Text style={styles.resultText}> {i18n.t('ribbing') || 'Ribbing'} </Text>
+       <Text style={styles.resultText}> {i18n.t('collar') || 'collar'}</Text>
       </View>
       </View>
           <View style={[styles.contentContainer, { paddingTop: 20 }]}>
-            <ScrollView
-              horizontal
+            <ScrollView 
+              horizontal 
               showsHorizontalScrollIndicator={true}
               contentContainerStyle={styles.horizontalScrollContent}
             >
               <View style={styles.grid}>
                 <View style={[styles.horContainerTop,{ marginLeft: SaV*Lc}]}>
+                
                   <View style={[styles.rotatedLine3 , { transform: line3Transform }]}>
                     {renderLine3()}
                   </View>
@@ -527,6 +545,8 @@ const App = observer(() => {
                     {renderLine4()}
                   </View>
                 </View>
+                
+              
                 <View style={[styles.horContainer, { marginTop: SaV * Lc + 2*KV * Lc * Math.sin(angleInRadians) },{width: (SaV+KV+SFrontV/2)*Lc}]}>
                    <View style={[styles.rotatedLeftSleeve, { transform: LeftSleeveTransform }]}>
                     {renderLeftSleeve()}
@@ -534,20 +554,23 @@ const App = observer(() => {
                    <View style={[styles.rotatedLine1, { transform: [{ rotate: `${angleInDegrees}deg` }] }]}>
                     {renderLine1()}
                    </View>
+                                   
                     <View style={[styles.arrayContainer, { height: (NRrezV+1)*Hc, transform: [{ rotate: `${angleInDegrees}deg` }] }]}>
-                      {renderRows()}
+                      {renderRows()} 
                     </View>
                  </View>
+                
+
                  <View style={[styles.horContainerRight, {
                    marginLeft: (SaV + KV + SFrontV / 2) * Lc ,
                    marginTop: -(NRrezV+1)*Hc-2,
                    width: (SFrontV/2)*Lc
-                 }]}>
-                 <View style={styles.relativeContainer}>
-                     <View style={[styles.arrayContainerRight, {
+                 }]}>    
+                   <View style={styles.relativeContainer}>
+                     <View style={[styles.arrayContainerRight, { 
                        height: (NRrezV+1)*Hc,
                        transform: [{ rotate: `${360 - angleInDegrees}deg` }],
-                        translateY: -10
+                       translateY: -10 
                      }]}>
                        {renderRowsRight()}
                        </View>
@@ -555,24 +578,35 @@ const App = observer(() => {
                    <View style={[styles.rotatedLine2, { transform: [{ rotate: `-${angleInDegrees}deg` }] }]}>
                     {renderLine2()}
                    </View>
+
                    <View style={[styles.rotatedRightSleeve, { transform: RightSleeveTransform }]}>
                     {renderRightSleeve()}
                    </View>
                  </View>
+
+                 <View style={[styles.horContainer, { marginTop: SaV * Lc + 2*KV * Lc * Math.sin(angleInRadians) },{height: (SaV+KV+SFrontV/2)*Lc}]}>
+                   
                  </View>
+                 
+                 </View>
+                 
+              
             </ScrollView>
           </View>
         </ScrollView>
       </View>
+      
       <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
       <View style={styles.bottomRow}>
       <View style={styles.redIndicator}></View>
-      <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
+      <Text style={styles.infoText}>Current Row: {highlightedRow + 1}</Text>
       </View>
-          <Text style={styles.infoText}>{i18n.t('stitches')}: {KV*4 + SFrontV + 2 * SaV + 2*(currentRowStitches as number)}</Text>
+          <Text style={styles.infoText}>Stitches: {KV*4 + SFrontV + 2 * SaV + 2*(currentRowStitches as number)}</Text>
         </View>
+        
         <View style={styles.navigationButtons}>
+        
           <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
             <Ionicons name="chevron-up" size={24} color='red' />
           </TouchableOpacity>
@@ -581,9 +615,12 @@ const App = observer(() => {
           </TouchableOpacity>
         </View>
         </View>
+     
+     
     </View>
   );
 });
+
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
@@ -612,8 +649,10 @@ const styles = StyleSheet.create({
     paddingBottom: 300,
   },
   contentContainer: {
-    minHeight: '300%',
+    minHeight: '100%',
   },
+  
+
   scrollViewHorizontal: {
     width: '100%',
   },
@@ -629,14 +668,15 @@ const styles = StyleSheet.create({
   horContainerTop: {
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'blue',
     
     
-    
-    },
+  },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    borderWidth: 0,
+    borderWidth: 1,
     borderColor: 'green',
     
        
@@ -645,7 +685,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
    
     alignItems: 'flex-start',
-    
+    borderWidth: 0,
+    borderColor: 'green',
        
   },
   verticalContainer: {
@@ -770,18 +811,13 @@ const styles = StyleSheet.create({
   },
   arrayContainer: {
     alignItems: 'flex-start',
-    
     transformOrigin: 'left bottom',
-    
-    
+    borderWidth: 1,
+    borderColor: 'red',
   },
   arrayContainerRight: {
     alignItems: 'flex-end',
-    
     transformOrigin: 'right bottom',
-  
-
-    
   },
   rowNumber: {
     position: 'absolute',
@@ -895,6 +931,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: '100%',
+    borderWidth: 0,
+    borderColor: 'red',
   },
   bottomRow: {
     flexDirection: 'row',

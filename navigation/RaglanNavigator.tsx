@@ -22,6 +22,7 @@ import SleeveScreen from '../app/(tabs)/index/raglan/sleeve';
 import BackScreen from '../app/(tabs)/index/raglan/back';
 import FrontVCopyScreen from '../app/(tabs)/index/raglan/frontV copy';
 import RaglanLineScreen from '../app/(tabs)/index/raglan/raglan-line';
+import RibbingVCopyScreen from '../app/(tabs)/index/raglan/ribbingV copy';
 
 const Stack = createStackNavigator();
 
@@ -145,54 +146,8 @@ export default function RaglanNavigator() {
         />
         
         {/* Скрытые экраны */}
-        <Stack.Screen
-          name="Ribbing"
-          component={RibbingScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Front"
-          component={FrontScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Sleeve"
-          component={SleeveScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Back"
-          component={BackScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="FrontVCopy"
-          component={FrontVCopyScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="RaglanLine"
-          component={RaglanLineScreen}
-          options={{
-            presentation: 'none',
-            headerShown: false,
-          }}
-        />
+        
+       
       </Stack.Navigator>
     </View>
   );

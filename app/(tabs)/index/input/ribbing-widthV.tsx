@@ -35,7 +35,7 @@ const RibbingWidthV: React.FC = observer(() => {
   }
   const handleValueChange = (value: string) => {
     if (value === '') {
-      setLocalRibbingWidthV('');
+      setLocalRibbingWidthV(LRezMinV);
       introState.setRibbingWidthV(LRezMinV.toString());
     } else {
       const numericValue = parseFloat(value.replace(',', '.'));
@@ -51,7 +51,7 @@ const RibbingWidthV: React.FC = observer(() => {
 
   const handleNext = () => {
     introState.setRibbingWidthV(localRibbingWidthV.toString());
-    navigation.navigate('LineraglanV');
+    (navigation as any).navigate('LineraglanV');
   };
   return (
     <View style={styles.container}>

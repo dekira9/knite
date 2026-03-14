@@ -85,14 +85,14 @@ const ChartRow: React.FC<ChartRowProps> = ({ title, color, onPress }) => (
       <View style={[styles.indicator, { backgroundColor: color }]} />
     </View>
     <View style={styles.chartRowWithMargin}>
-      <Text style={styles.leftLabel}>Knitting Chart:</Text>
+      <Text style={styles.leftLabel}>{i18n.t('knittingChart')}:</Text>
       <TouchableOpacity style={styles.viewChartButton} onPress={onPress}>
         <Image
-          source={require('@/assets/images/view.svg')}
+          source={require('@/assets/images/view1.png')}
           style={styles.viewIcon}
           contentFit="contain"
         />
-        <Text style={styles.viewChartText}>View Chart</Text>
+       {/* <Text style={styles.viewChartText}>View Chart</Text> */}
       </TouchableOpacity>
     </View>
   </>
@@ -125,7 +125,7 @@ const Step2AddingStitches = observer(({
       
       <View style={styles.resultCard}>
         <View style={styles.stepHeader}>
-          <Text style={styles.subtitle}>Back, Front, Sleeve</Text>
+          <Text style={styles.subtitle}>{i18n.t('back')}, {i18n.t('front')}, {i18n.t('sleeve')}</Text>
           <View style={styles.indicatorsRow}>
             <View style={[styles.indicator, { backgroundColor: COLORS.PURPLE }]} />
             <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
@@ -138,6 +138,13 @@ const Step2AddingStitches = observer(({
         <View style={styles.subtitleRow}>
           <Text style={styles.leftLabel}>{i18n.t('addingStitchesAlongTheRaglanLine')}</Text>
         </View>
+
+        <View style={styles.infoRowmin}>
+        <Text style={styles.leftLabel}>
+          {i18n.t('additionsOnOneSide')}
+        </Text>
+        
+      </View>
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
             {i18n.t('stitches')}:
@@ -145,21 +152,7 @@ const Step2AddingStitches = observer(({
           <Text style={styles.boldNumber}>+{results.Sfx}</Text>
         </View>
 
-        <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>
-            {i18n.t('rows')}:
-          </Text>
-          <Text style={styles.boldNumber}>{results.NHFront}</Text>
-        </View>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.leftLabel}>
-          {i18n.t('additionsOnOneSide')}:
-        </Text>
-        <Text style={styles.boldNumber}>{results.Sfx}</Text>
-      </View>
-        
-        <View style={styles.infoRow}>
+        <View style={styles.infoRowmin}>
           <Text style={styles.leftLabel}>
             {i18n.t('knitting')}:
           </Text>
@@ -169,6 +162,17 @@ const Step2AddingStitches = observer(({
             contentFit="contain"
           />
         </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NHFront}</Text>
+        </View>
+
+      
+        
+        
 
         <View style={styles.divider}></View>
 
@@ -446,8 +450,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   viewIcon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 25,
     marginRight: 6,
     tintColor: COLORS.WHITE,
   },
@@ -571,6 +575,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: 'bold',
     marginTop: 14,
+  },
+  infoRowmin: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 0,
   },
 });
 

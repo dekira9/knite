@@ -54,12 +54,7 @@ const Step3BackLengthening = observer(({
           <Text style={styles.boldNumber}>{results.SRostok}</Text>
         </View>
 
-        <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>
-            {i18n.t('rows')}:
-          </Text>
-          <Text style={styles.boldNumber}>{results.NRostok}</Text>
-        </View>
+        
 
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -70,6 +65,13 @@ const Step3BackLengthening = observer(({
             style={styles.knitIcon}
             contentFit="contain"
           />
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>
+            {i18n.t('rows')}:
+          </Text>
+          <Text style={styles.boldNumber}>{results.NRostok}</Text>
         </View>
 
         <View style={styles.infoRow}>
@@ -148,7 +150,7 @@ const Step3BackLengthening = observer(({
           <Text style={styles.chartTitle}>
             {i18n.t('back')}
           </Text>
-          <View style={[styles.indicator, { backgroundColor: COLORS.BLUE }]} />
+          <View style={[styles.indicator, { backgroundColor: COLORS.BLUE, width: 34, height: 17 }]} />
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -163,7 +165,7 @@ const Step3BackLengthening = observer(({
           <Text style={styles.chartTitle}>
             {i18n.t('front')}
           </Text>
-          <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
+          <View style={[styles.indicatorLarge, { backgroundColor: COLORS.PINK, borderLeftWidth: 7, borderRightWidth: 7, borderLeftColor: COLORS.ORANGE, borderRightColor: COLORS.ORANGE }]} />
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -205,7 +207,7 @@ const Step3BackLengthening = observer(({
           <Text style={styles.chartTitle}>
             {i18n.t('sleeve')}
           </Text>
-          <View style={[styles.indicator, { backgroundColor: COLORS.GREEN }]} />
+          <View style={[styles.indicatorLarge, { backgroundColor: COLORS.GREEN, borderLeftWidth: 7, borderRightWidth: 7, borderLeftColor: COLORS.ORANGE, borderRightColor: COLORS.ORANGE }]} />
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>
@@ -470,6 +472,12 @@ const styles = StyleSheet.create({
   sleevePartsTextWithMargin: {
     textAlign: 'center',
     marginLeft: 5,
+  },
+  indicatorLarge: {
+    width: 34,
+    height: 17,
+    marginLeft: 10,
+    borderWidth: 1,
   },
 });
 

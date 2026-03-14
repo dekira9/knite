@@ -117,9 +117,11 @@ export interface RaglanOutput {
   PribRVz: number;
   PribRV1s: number;
   PribRV2s: number;
+  PribRV3s: number;
   RowPribRVz: number;
   RowPribRV1: number;
   RowPribRV2: number;
+  RowPribRV3: number;
   isV: number;
   isPlusOneV: number;
   pairsWithIsV: number;
@@ -425,10 +427,12 @@ console.log('HrezV', HrezV);
   const SVO = SV * 2;
   const SOcutV = SgorV - SFrontV + SVO;
   const PribRVz=((NRrezV) > SpribVcorn)? (NRrezV-SpribVcorn):0;   //прибавка в углу резинки 0 петель в одном ряду с одной стороны угла.//
-  const PribRV2s= Math.floor( SpribVcorn / (NRrezV)) === 1 ? (2*(SpribVcorn -(NRrezV))):0; //прибавка в углу резинки 2 петли в 1 ряду с одной сроны угла  //  
+  const PribRV3s= Math.floor( SpribVcorn / (NRrezV)) === 2 ? (3*(SpribVcorn -2*(NRrezV))):0; //прибавка в углу резинки 3 петли в 1 ряду с одной сроны угла  //  
+  const PribRV2s= Math.floor( SpribVcorn / (NRrezV)) === 1 ? (2*(SpribVcorn -(NRrezV))) : Math.floor( SpribVcorn / (NRrezV)) === 2 ? (SpribVcorn-PribRV3s):0; //прибавка в углу резинки 2 петли в 1 ряду с одной сроны угла  //  
   const PribRV1s=((NRrezV) > SpribVcorn)?(NRrezV -PribRVz):(SpribVcorn-PribRV2s) ;   //прибавка в углу резинки 1 петля в 1 ряду с одной стороны угла  // 
   const RowPribRVz=PribRVz;
-  const RowPribRV2=PribRV2s /2;
+  const RowPribRV3=PribRV3s /3;
+  const RowPribRV2= Math.floor( SpribVcorn / (NRrezV)) === 1 ? (PribRV2s /2) : Math.floor( SpribVcorn / (NRrezV)) === 2 ? (NRrezV-RowPribRV3) : 0;
   const RowPribRV1 = NRrezV - RowPribRVz - RowPribRV2;
 
   // Расчеты для V-выреза переда
@@ -580,8 +584,10 @@ console.log('HrezV', HrezV);
     PribRVz,
     PribRV1s,
     PribRV2s,
+    PribRV3s,
     RowPribRV1,
     RowPribRV2,
+    RowPribRV3,
     RowPribRVz,
     hsV,
     LsV,

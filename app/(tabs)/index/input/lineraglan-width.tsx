@@ -19,13 +19,14 @@ const LineraglanWidth = () => {
     setSliderValue(introState.raglanLineWidth.toString());
   }, [introState.raglanLineWidth]);
 
-  // Функция для обработки изменений в Slider
-  const handleSliderChange = (value) => {
-    introState.setRaglanLineWidth(value); // Обновляем ширину регланной линии в introState
+  // Функция для обработки изменений в Slider (откладываем обновление, чтобы избежать setState во время рендера)
+  const handleSliderChange = (value: number) => {
+    setSliderValue(Math.round(value).toString());
+    setTimeout(() => introState.setRaglanLineWidth(Math.round(value)), 0);
   };
 
   // Функция для обработки изменений в TextInput
-  const handleTextInputChange = (value) => {
+  const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue(''); // Позволяем очистить поле ввода
       introState.setRaglanLineWidth(Kmin); // Устанавливаем минимальное значение по умолчанию
@@ -75,7 +76,7 @@ const LineraglanWidth = () => {
         minimumValue={Kmin}
         maximumValue={Kmax}
         step={1}
-        value={parseInt(sliderValue, 10)}
+        value={Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin))}
         onValueChange={handleSliderChange}
         minimumTrackTintColor="#000000"
   maximumTrackTintColor="#CCCCCC"
@@ -134,8 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    //width: 80,
-    //height: 60,
+    
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',

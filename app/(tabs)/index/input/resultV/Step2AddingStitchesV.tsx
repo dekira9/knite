@@ -89,14 +89,14 @@ const ChartRow: React.FC<ChartRowProps> = ({ title, color, onPress }) => (
       <View style={[styles.indicator, { backgroundColor: color }]} />
       </View>
       <View style={styles.chartRowWithMargin}>
-      <Text style={styles.leftLabel}>Knitting Chart:</Text>
+      <Text style={styles.leftLabel}>{i18n.t('knittingChart')}:</Text>
       <TouchableOpacity style={styles.viewChartButton} onPress={onPress}>
         <Image
-          source={require('@/assets/images/view.svg')}
+          source={require('@/assets/images/view1.png')}
           style={styles.viewIcon}
           contentFit="contain"
         />
-        <Text style={styles.viewChartText}>View Chart</Text>
+        {/* <Text style={styles.viewChartText}>View Chart</Text> */}
         
       </TouchableOpacity>
     </View>
@@ -136,7 +136,7 @@ const Step2AddingStitchesV = observer(({
       
       <View style={styles.resultCard}>
         <View style={styles.stepHeader}>
-        <Text style={styles.subtitle}>Back, Front, Sleeve</Text>
+        <Text style={styles.subtitle}>{i18n.t('back')}, {i18n.t('front')}, {i18n.t('sleeve')}</Text>
           <View style={styles.indicatorsRow}>
             <View style={[styles.indicator, { backgroundColor: COLORS.PURPLE }]} />
             <View style={[styles.indicator, { backgroundColor: COLORS.PINK }]} />
@@ -480,8 +480,8 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY,
   },
   viewIcon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 25,
     marginRight: 6,
     tintColor: COLORS.WHITE,
   },

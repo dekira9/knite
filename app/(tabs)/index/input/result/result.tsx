@@ -19,9 +19,28 @@ export default observer(() => {
   const results = introState.calculateRaglan();
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
+  const step3Y = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
+
+
+
+
+   // Проверяем, что results это RaglanOutput, а не строка с ошибкой
+   if (typeof results === 'string') {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.error}>{results}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   const { PozB, RowB, RowN, RowA, RowPrib1x2_1x4, resultString24 } = calculateIncreaseRows1x2_1x4(
     results.NHFront,
@@ -72,16 +91,7 @@ export default observer(() => {
     }
   };
 
-  if (typeof results === 'string') {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+
   const handleScrollToTop1 = () => {
     {/*// Scroll to top*/ }
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -93,9 +103,18 @@ export default observer(() => {
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
 
+  const handleScrollToStep3 = () => {
+    scrollViewRef.current?.scrollTo({ y: step3Y.current, animated: true });
+    setTimeout(() => {
+      const slideSize = Dimensions.get('window').width - 32;
+      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
+      setCurrentIndex(1);
+    }, 100);
+  };
+
   const handleSelectNewStyle = () => {
     introState.setIntroFinished(false);
-    navigation.navigate('Styles');
+    (navigation as any).navigate('Styles');
   };
 
   return (
@@ -128,13 +147,17 @@ export default observer(() => {
             />
           </View>
 
-          <View style={styles.slideContainer}>
+          <TouchableOpacity
+            style={styles.slideContainer}
+            onPress={handleScrollToStep3}
+            activeOpacity={1}
+          >
             <Image
               source={require('../../../../../assets/images/planOaz3.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.slideContainer}>
             <Image
@@ -163,11 +186,16 @@ export default observer(() => {
           resultString43={resultString43}
         />
 
+        <View
+          onLayout={(e) => { step3Y.current = e.nativeEvent.layout.y; }}
+          collapsable={false}
+        >
         <Step3BackLengthening 
           results={results} 
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
         />
+        </View>
 
         <Step4SeparatingSleeves 
           results={results} 
@@ -360,19 +388,9 @@ export default observer(() => {
                 results.NRostok * 0.5}</Text>
         </View>
 
-
-
-
-
-
-
-
           {/*скролл рукав правый*/}
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.separatingLayout}>
-              
-
-
 
               <View style={styles.sleeveBox}>
                 <Text style={styles.textinBox}>1</Text>
@@ -643,7 +661,7 @@ textinBox: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 1,
+    marginTop: 0,
   },
   resultTextBold: {
     marginLeft: 10,

@@ -15,6 +15,7 @@ interface Step1RibbingVProps {
   resultStringV11: string;
   resultStringV12: string;
   resultStringV22: string;
+  resultStringV23: string;
 }
 
 const Step1RibbingV = observer(({ 
@@ -24,7 +25,8 @@ const Step1RibbingV = observer(({
   resultStringV01, 
   resultStringV11, 
   resultStringV12, 
-  resultStringV22 
+  resultStringV22,
+  resultStringV23,
 }: Step1RibbingVProps) => {
   const navigation = useNavigation();
 
@@ -49,11 +51,11 @@ const Step1RibbingV = observer(({
           </Text>
           <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingCopyV}>
             <Image
-              source={require('@/assets/images/view.svg')}
+              source={require('@/assets/images/view1.png')}
               style={styles.viewIcon}
               contentFit="contain"
             />
-            <Text style={styles.viewChartText}>View Chart</Text>
+            {/* <Text style={styles.viewChartText}>{i18n.t('viewChart')}</Text> */}
           </TouchableOpacity>
         </View>
 
@@ -267,6 +269,13 @@ const Step1RibbingV = observer(({
             )
           }
           {
+            Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV && (
+              <Text style={styles.textinBox}>
+                {i18n.t('sequenceOfAdditions')}: {resultStringV23}
+              </Text>
+            )
+          }
+          {
             Math.floor(SpribVcorn / NRrezV) === 0 && (
               <Text style={styles.textinBox}>
                 {i18n.t('sequenceOfAdditions')}: {resultStringV01}
@@ -342,8 +351,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   viewIcon: {
-    width: 16,
-    height: 16,
+    width: 25,
+    height: 25,
     marginRight: 6,
     tintColor: '#ffffff',
   },

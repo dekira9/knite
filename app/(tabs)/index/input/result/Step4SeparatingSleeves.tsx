@@ -48,15 +48,19 @@ const Step4SeparatingSleeves = observer(({
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.leftLabel}>{i18n.t('rows')}:</Text>
-          <View style={styles.knittingRow}>
-            <Text style={styles.boldNumber}>1</Text>
+          <Text style={styles.leftLabel}>{i18n.t('knitting')}:</Text>
             <Image
               source={require('@/assets/images/knitcircle.svg')}
               style={styles.knitIcon}
               contentFit="contain"
             />
-          </View>
+          
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.leftLabel}>{i18n.t('rows')}:</Text>
+          
+            <Text style={styles.boldNumber}>1</Text>
         </View>
 
         <View style={styles.divider}></View>
