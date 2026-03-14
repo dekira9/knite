@@ -11,13 +11,20 @@ import { screenWidth } from '@/utils/Layout';
 const LineraglanV = () => {
   const navigation = useNavigation();
   const Kmin = 0;
-  const results = introState.calculateRaglan();
-  const KmaxV = typeof results === 'string' ? 5 : results.KmaxV || 5;
+  const [KmaxV, setKmaxV] = useState(() => {
+    const r = introState.calculateRaglan();
+    return typeof r === 'string' ? 5 : r.KmaxV || 5;
+  });
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
 
   useEffect(() => {
-    // Синхронизируем значение слайдера с TextInput
     setSliderValue(introState.raglanLineWidthV.toString());
+  }, [introState.raglanLineWidthV]);
+
+  useEffect(() => {
+    const r = introState.calculateRaglan();
+    setKmaxV(typeof r === 'string' ? 5 : r.KmaxV || 5);
+    introState.updateRaglanData();
   }, [introState.raglanLineWidthV]);
 
   // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)
@@ -32,25 +39,22 @@ const LineraglanV = () => {
   const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue('');
-      introState.setRaglanLineWidthV(Kmin);
+      setTimeout(() => introState.setRaglanLineWidthV(Kmin), 0);
     } else {
       const numericValue = parseInt(value, 10);
       if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= KmaxV) {
-        // Обновляем состояние только если значение действительно изменилось
         if (sliderValue !== value) {
           setSliderValue(value);
         }
         if (introState.raglanLineWidthV !== numericValue) {
-          introState.setRaglanLineWidthV(numericValue);
+          setTimeout(() => introState.setRaglanLineWidthV(numericValue), 0);
         }
       } else if (numericValue > KmaxV) {
-        // Если значение больше максимума, устанавливаем максимум
         setSliderValue(KmaxV.toString());
-        introState.setRaglanLineWidthV(KmaxV);
+        setTimeout(() => introState.setRaglanLineWidthV(KmaxV), 0);
       } else if (numericValue < Kmin) {
-        // Если значение меньше минимума, устанавливаем минимум
         setSliderValue(Kmin.toString());
-        introState.setRaglanLineWidthV(Kmin);
+        setTimeout(() => introState.setRaglanLineWidthV(Kmin), 0);
       }
     }
   };

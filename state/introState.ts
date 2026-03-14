@@ -473,7 +473,6 @@ const IntroState = types
         return result;
       }
 
-      self.setRaglanData(result);
       return result;
     },
     getNHV() {
@@ -483,6 +482,14 @@ const IntroState = types
       
       const rowDensity = parseFloat(self.rowDensity.replace(',', '.')) / 10;
       return Math.round(self.depthNeckV * rowDensity);
+    },
+  }))
+  .actions((self) => ({
+    updateRaglanData() {
+      const result = self.calculateRaglan();
+      if (typeof result !== 'string') {
+        self.setRaglanData(result);
+      }
     },
   }));
 

@@ -1024,10 +1024,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   section: {
-    marginBottom: 10,
-    marginLeft: 10,
-    padding: 5,
-    backgroundColor: '#E6E6E6',
+    marginBottom: 0,
+    marginLeft: 0,
+    padding: 0,
+    backgroundColor: '#F1F1F2',
     borderRadius: 8,  
     
   },
