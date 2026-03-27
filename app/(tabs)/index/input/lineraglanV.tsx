@@ -24,7 +24,6 @@ const LineraglanV = () => {
   useEffect(() => {
     const r = introState.calculateRaglan();
     setKmaxV(typeof r === 'string' ? 5 : r.KmaxV || 5);
-    introState.updateRaglanData();
   }, [introState.raglanLineWidthV]);
 
   // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)

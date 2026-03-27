@@ -11,7 +11,8 @@ import {
   calculateVNeckIncreases01,
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
-  calculateVNeckIncreases22
+  calculateVNeckIncreases22,
+  calculateVNeckIncreases23
 } from '@/app/(tabs)/index/input/resultV/helpers';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
@@ -22,7 +23,7 @@ const Hc=hsV*25;
 const Lc=LsV*25;
 
 const App = observer(() => {
-  const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
+  const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRV3, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
  
  
  
@@ -57,7 +58,7 @@ const App = observer(() => {
   
     // Выбор функции на основе условий (аналогично renderRows)
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
+      const { increases12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
       increases = increases12;
     } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
       const { increases01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
@@ -69,8 +70,11 @@ const App = observer(() => {
       const { increases22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
       increases = increases22;
     }
+    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
+      const { increases23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+    }
   
-   
     // Расчет количества ячеек для каждого ряда
     const cellCounts: number[] = [];
     let currentSquares = SV;
@@ -316,7 +320,7 @@ const App = observer(() => {
   
     // Выбор функции на основе условий
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
+      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
       increases = increases12;
       resultString = resultStringV12 || '';
       
@@ -335,6 +339,11 @@ const App = observer(() => {
       increases = increases22;
       resultString = resultStringV22 || '';
      
+    }
+    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn >2 * NRrezV) {
+      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+      resultString = resultStringV23 || '';
     }
   
     let currentSquares = SV;
@@ -399,7 +408,7 @@ const App = observer(() => {
   
     // Выбор функции на основе условий
     if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
+      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
       increases = increases12;
       resultString = resultStringV12 || '';
       
@@ -418,6 +427,11 @@ const App = observer(() => {
       increases = increases22;
       resultString = resultStringV22 || '';
      
+    }
+    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
+      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
+      increases = increases23;
+      resultString = resultStringV23 || '';
     }
   
     let currentSquares = SV;
@@ -506,7 +520,7 @@ const App = observer(() => {
       </View>
       <View style={styles.indicatorRow}>
        <View style={styles.yellowIndicator}></View>
-       <Text style={styles.resultText}> {i18n.t('ribbing') || 'Ribbing'} </Text>
+       <Text style={styles.resultText}> {i18n.t('collar') || 'collar'} </Text>
       </View>
       </View>
           <View style={[styles.contentContainer, { paddingTop: 20 }]}>
@@ -559,6 +573,11 @@ const App = observer(() => {
                     {renderRightSleeve()}
                    </View>
                  </View>
+
+                 <View style={[styles.horContainer, { marginTop: SaV * Lc + 2*KV * Lc * Math.sin(angleInRadians) },{height: (SaV+KV+SFrontV/2)*Lc}]}>
+                   
+                   </View>
+                 
                  </View>
             </ScrollView>
           </View>

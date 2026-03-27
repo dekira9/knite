@@ -87,7 +87,7 @@ const RibbingWidthV: React.FC = observer(() => {
         >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
+        <Text style={styles.inputLabel}>cm</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -101,8 +101,8 @@ const RibbingWidthV: React.FC = observer(() => {
         thumbTintColor="#000000"
       />
       <View style={styles.rangeLabels}>
-        <Text style={styles.rangeText}>{LRezMinV.toFixed(1)} см</Text>
-        <Text style={styles.rangeText}>{LRezMaxV.toFixed(1)} см</Text>
+        <Text style={styles.rangeText}>{LRezMinV.toFixed(1)} cm</Text>
+        <Text style={styles.rangeText}>{LRezMaxV.toFixed(1)} cm</Text>
       </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>

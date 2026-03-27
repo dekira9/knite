@@ -56,7 +56,7 @@ export default function MeasurementInput({
     }
     
     // Navigate to the next screen
-    navigation.navigate(nextScreen);
+    (navigation as any).navigate(nextScreen);
   };
 
   return (
@@ -77,7 +77,7 @@ export default function MeasurementInput({
             value={value}
             onChangeText={onValueChange}
             keyboardType="numeric"
-            placeholder={`${title} (${unit})`}
+            placeholder=""
           />
           {!doNotShowCM && <Text style={styles.unit}>{unit}</Text>}
         </View>

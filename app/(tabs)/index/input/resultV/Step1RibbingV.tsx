@@ -269,7 +269,7 @@ const Step1RibbingV = observer(({
             )
           }
           {
-            Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV && (
+            Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > 2* NRrezV && (
               <Text style={styles.textinBox}>
                 {i18n.t('sequenceOfAdditions')}: {resultStringV23}
               </Text>

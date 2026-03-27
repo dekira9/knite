@@ -31,7 +31,8 @@ const increases01=Array.from({ length: NRrezV }, (_, index) => {
 export const calculateVNeckIncreases12 = (
   NRrezV: number,
   RowPribRV1: number,
-  RowPribRV2: number
+  RowPribRV2: number,
+  SpribVcorn: number
   
 ) => {
   console.log('calculateVNeckIncreases12 params:', { NRrezV, RowPribRV1, RowPribRV2 });
@@ -86,49 +87,45 @@ export const calculateVNeckIncreases23 = (
   NRrezV: number,
   RowPribRV2: number,
   RowPribRV3: number
-  
 ) => {
-  console.log('calculateVNeckIncreases12 params:', { NRrezV, RowPribRV2, RowPribRV3 });
+  console.log('calculateVNeckIncreases23 params:', { NRrezV, RowPribRV2, RowPribRV3 });
   if (RowPribRV2 <= 0) {
     console.warn("RowPribRV2 равен " + RowPribRV2 + ", возвращаем пустой результат");
-    const increases23 = Array.from({ length: NRrezV }, () => 2);
+    const increases23 = Array.from({ length: NRrezV }, () => 3);
     const resultStringV23 = increases23.join(', ');
-    return { increases23, resultStringV23, PozS1: [], PozS2: [], RowPribRV2, RowPribRV3 };
+    return { increases23, resultStringV23, PozS2: [], PozS3: [], RowPribRV2, RowPribRV3 };
   }
-  const MR2 = Array.from({ length: RowPribRV3 }, (_, rb) => rb + 1);
-  const MR1 = Array.from({ length: RowPribRV2 }, (_, ra) => ra + 1);
+  const MR3 = Array.from({ length: RowPribRV3 }, (_, rb) => rb + 1);
+  const MR2 = Array.from({ length: RowPribRV2 }, (_, ra) => ra + 1);
   const MRN = Array.from({ length: NRrezV }, (_, rn) => rn + 1);
   
   const KVb = (NRrezV) / RowPribRV2;
-  const PozS2 = MR1.map(ra => Math.floor(KVb * ra));
+  const PozS2 = MR2.map(ra => Math.floor(KVb * ra));
   const pozS2Set = new Set(PozS2);
-  const PozS3 = MRN.filter(rb => !pozS2Set.has(rb));
-  const pozS3Set = new Set(PozS2);
+  const PozS3 = MRN.filter(rn => !pozS2Set.has(rn));
+  const pozS3Set = new Set(PozS3);
   
   const increases23 = Array.from({ length: NRrezV }, (_, index) => {
     const position = index + 1;
-    {/*if (index === 0) {
-     return 0; // No increase on the first row
-    } else */}
     if (pozS3Set.has(position)) {
       return 3;
     } else if (pozS2Set.has(position)) {
       return 2;
     } else {
-      return 0; // Значение по умолчанию, если индекс не принадлежит ни одному из множеств
+      return 0;
     }
   });
   
   const resultStringV23 = increases23.join(', ');
-  console.log('PozS2',PozS2)
-  console.log('PozS3',PozS3)
-  console.log('распред 23',increases23)
+  console.log('PozS2', PozS2)
+  console.log('PozS3', PozS3)
+  console.log('распред 23', increases23)
 
-  
   return { 
+    MR3,
     MR2,
-    MR1,
     PozS2,
+    PozS3,
     RowPribRV2,
     RowPribRV3,
     increases23,

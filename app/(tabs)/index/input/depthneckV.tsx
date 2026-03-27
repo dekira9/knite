@@ -121,7 +121,7 @@ const DepthNeckV = () => {
         }}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
+        <Text style={styles.inputLabel}>cm</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -135,8 +135,8 @@ const DepthNeckV = () => {
         thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
-        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
-        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} {i18n.t('sm')}</Text>
+        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} cm</Text>
+        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} cm</Text>
        
       </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>

@@ -63,7 +63,7 @@ const LineraglanWidth = () => {
           style={styles.input}
           value={sliderValue}
           keyboardType="numeric"
-          placeholder="Введите значение"
+          //placeholder="Введите значение"
           onChangeText={handleTextInputChange}  
         />
         <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) + 1).toString())}>

@@ -473,6 +473,7 @@ const IntroState = types
         return result;
       }
 
+        setTimeout(() => self.setRaglanData(result), 0);
       return result;
     },
     getNHV() {

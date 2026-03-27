@@ -57,6 +57,7 @@ export default observer(() => {
   const RowPribRV1 = introState.RowPribRV1;
   const RowPribRVz = introState.RowPribRVz;
   const RowPribRV2 = introState.RowPribRV2;
+  const RowPribRV3 = introState.RowPribRV3;
   
   console.log('ribbingWidthV:', ribbingWidthV);
   console.log('rows:', rows);
@@ -88,8 +89,8 @@ export default observer(() => {
   // Теперь results точно RaglanOutput
   const { resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
   const { resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
-  const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2);
-  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, SpribVcorn);
+  const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
+  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
   // Исправляем вызов функции - убираем лишний параметр SVfront
   const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
   console.log('resultStringV11', resultStringV11);

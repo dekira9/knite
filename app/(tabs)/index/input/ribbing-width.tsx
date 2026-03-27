@@ -8,18 +8,21 @@ import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
 
+
 export default observer(() => {
+  
+ 
   const navigation = useNavigation();
   {
     /* Calculate min and max values*/
   }
   const stitches = parseFloat(introState.stitchDensity.replace(',', '.')) / 10;
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
-  const K = 2; // Петли в регланной линии
+  const K = introState.K; // Петли в регланной линии
   const LK = K / stitches;
   const LRezMin = Math.round((2 / rows) * 10) / 10;
 
-  const LRezMax = Math.round((introState.neckCircumference / Math.PI) * 10) / 10;
+  const LRezMax = Math.round((Number(introState.neckCircumference) / Math.PI) * 10) / 10;
 
   const [localRibbingWidth, setLocalRibbingWidth] = useState(2);
   console.log('localRibbingWidth', localRibbingWidth);
@@ -27,25 +30,25 @@ export default observer(() => {
   {
     /* //ширина резинки*/
   }
-  const handleValueChange = (value) => {
+  const handleValueChange = (value: string) => {
     if (value === '') {
-      setLocalRibbingWidth(''); // Позволяем очистить поле ввода
-      introState.setRibbingWidth(LRezMin); // Устанавливаем минимальное значение по умолчанию
+      setLocalRibbingWidth(LRezMin); // Позволяем очистить поле ввода
+      introState.setRibbingWidth(LRezMin.toString()); // Устанавливаем минимальное значение по умолчанию
     } else {
       const numericValue = parseFloat(value.replace(',', '.')); // Заменяем запятую на точку
       if (!isNaN(numericValue) && numericValue >= LRezMin && numericValue <= LRezMax) {
         const fixedValue = parseFloat(numericValue.toFixed(1)); // Ограничиваем до 1 знака после запятой
         setLocalRibbingWidth(fixedValue);
-        introState.setRibbingWidth(fixedValue);
+        introState.setRibbingWidth(fixedValue.toString());
       } else {
-        setLocalRibbingWidth(''); // Очищаем поле ввода, если значение некорректно
+        setLocalRibbingWidth(localRibbingWidth); // Очищаем поле ввода, если значение некорректно
       }
     }
   };
 
   const handleNext = () => {
-    introState.setRibbingWidth(localRibbingWidth);
-    navigation.navigate('LineraglanWidth');
+    introState.setRibbingWidth(localRibbingWidth.toString());
+    (navigation as any).navigate('LineraglanWidth');
   };
 
   return (
@@ -71,7 +74,7 @@ export default observer(() => {
           value={localRibbingWidth.toString()}
           onChangeText={handleValueChange}
           keyboardType="numeric"
-          placeholder="Введите значение"
+          //placeholder={i18n.t(' ')}
         />
         <TouchableOpacity
           onPress={() =>
@@ -80,7 +83,7 @@ export default observer(() => {
         >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>{i18n.t('sm')}</Text>
+        <Text style={styles.inputLabel}>cm</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -94,8 +97,8 @@ export default observer(() => {
         thumbTintColor="#000000"
       />
       <View style={styles.rangeLabels}>
-        <Text style={styles.rangeText}>{LRezMin.toFixed(1)} см</Text>
-        <Text style={styles.rangeText}>{LRezMax.toFixed(1)} см</Text>
+        <Text style={styles.rangeText}>{LRezMin.toFixed(1)} cm</Text>
+        <Text style={styles.rangeText}>{LRezMax.toFixed(1)} cm</Text>
       </View>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
