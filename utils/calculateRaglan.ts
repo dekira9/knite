@@ -1,5 +1,4 @@
 import introState from "@/state/introState";
-import onboardingState from "@/state/onboardingState";
 
 const INCH_TO_CM = 2.54;
 const CM_ROUNDING_STEP = 0.5;
@@ -34,6 +33,7 @@ interface RaglanInput {
   resultString24?: string;
   raglanLineWidthV?: number;
   depthNeckV?: number;
+  measurementSystem?: string;
   [key: string]: any;
 }
 
@@ -171,8 +171,9 @@ export function calculateRaglan({
   ribbingWidth,
   ribbingWidthV,
   raglanLineWidthV,
+  measurementSystem,
 }: RaglanInput): RaglanOutput | string {
-  const shouldConvertFromInch = onboardingState.measurementSystem === "imperial";
+  const shouldConvertFromInch = measurementSystem === "imperial";
   const head = toCentimetersIfNeeded(parseNumericInput(headCircumference), shouldConvertFromInch);
   const neck = toCentimetersIfNeeded(parseNumericInput(neckCircumference), shouldConvertFromInch);
   const chest = toCentimetersIfNeeded(parseNumericInput(chestCircumference), shouldConvertFromInch);

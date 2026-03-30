@@ -2,6 +2,7 @@ import { types } from "mobx-state-tree";
 import { calculateRaglan } from '@/utils/calculateRaglan';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeAutoObservable } from 'mobx';
+import onboardingState from "@/state/onboardingState";
 
 const IntroState = types
   .model({
@@ -467,6 +468,7 @@ const IntroState = types
         SVfront: self.SVfront,
         LHV:self.LHV,
         LVfront:self.LVfront,
+        measurementSystem: onboardingState.measurementSystem,
       });
 
       if (typeof result === 'string') {
