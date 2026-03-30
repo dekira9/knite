@@ -7,8 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
 import { observer } from 'mobx-react-lite';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const RibbingWidthV: React.FC = observer(() => {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
 
   // Calculate min and max values
@@ -104,7 +108,13 @@ const RibbingWidthV: React.FC = observer(() => {
         <Text style={styles.rangeText}>{LRezMinV.toFixed(1)} cm</Text>
         <Text style={styles.rangeText}>{LRezMaxV.toFixed(1)} cm</Text>
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+      <TouchableOpacity
+        style={[
+          styles.nextButton,
+          { backgroundColor: Colors[theme].tint },
+        ]}
+        onPress={handleNext}
+      >
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
       </TouchableOpacity>
     </View>
@@ -177,7 +187,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   nextButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,

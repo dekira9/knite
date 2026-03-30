@@ -7,8 +7,12 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const DepthNeckV = () => {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   
   const results = introState.calculateRaglan();
@@ -139,7 +143,13 @@ const DepthNeckV = () => {
         <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} cm</Text>
        
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+      <TouchableOpacity
+        style={[
+          styles.nextButton,
+          { backgroundColor: Colors[theme].tint },
+        ]}
+        onPress={handleNext}
+      >
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
       </TouchableOpacity>
     </View>
@@ -202,7 +212,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   nextButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,

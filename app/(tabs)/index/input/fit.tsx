@@ -5,7 +5,6 @@ import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
-import IntroProgress from '@/app/components/IntroProgress';
 
 export default observer(() => {
   const navigation = useNavigation();

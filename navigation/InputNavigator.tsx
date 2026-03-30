@@ -27,6 +27,7 @@ const Stack = createStackNavigator();
 
 const CustomHeader = ({ navigation, route, options }: any) => {
   const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   
   return (
     <View 
@@ -49,7 +50,11 @@ const CustomHeader = ({ navigation, route, options }: any) => {
             alignItems: 'center',
           }}
         >
-          <Ionicons name="arrow-back" size={20} color="#007AFF" />
+          <Ionicons
+            name="arrow-back"
+            size={20}
+            color={Colors[theme].tint}
+          />
         </TouchableOpacity>
       )}
       <Text

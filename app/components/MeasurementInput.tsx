@@ -12,7 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 import i18n from '@/utils/translations';
 import onboardingState from '@/state/onboardingState';
 import { Image } from 'expo-image';
-import IntroProgress from './IntroProgress';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface MeasurementInputProps {
   title: string;
@@ -36,6 +37,8 @@ export default function MeasurementInput({
   onNext,
 }: MeasurementInputProps) {
   const navigation = useNavigation();
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const measurementSystem = onboardingState.measurementSystem;
   const unit = measurementSystem === 'metric' ? 'cm' : 'in';
   const inputRef = useRef<TextInput>(null);
@@ -83,7 +86,10 @@ export default function MeasurementInput({
         </View>
 
         <TouchableOpacity
-          style={styles.nextButton}
+          style={[
+            styles.nextButton,
+            { backgroundColor: Colors[theme].tint },
+          ]}
           onPress={handleNext}
         >
           <Text style={styles.buttonText}>
@@ -133,7 +139,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   nextButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,

@@ -143,6 +143,26 @@ const settings = {
   lt: "Nustatymai",
 };
 
+const styles = {
+  en: "Styles",
+  ru: "Стили",
+  sv: "Stilar",
+  no: "Stiler",
+  fi: "Tyylit",
+  de: "Stile",
+  fr: "Styles",
+  es: "Estilos",
+  ja: "スタイル",
+  cs: "Styly",
+  bg: "Стилове",
+  sk: "Štýly",
+  ko: "스타일",
+  tr: "Stiller",
+  ar: "الأنماط",
+  pt: "Estilos",
+  lt: "Stiliai",
+};
+
 const headCircumference = {
   en: "Head Circumference",
   ru: "Обхват головы",
@@ -2072,6 +2092,7 @@ const mergedTranslations = Object.keys(onboardingLanguage).reduce((acc, key) => 
       imperial: imperial[key as keyof typeof imperial],
       metric: metric[key as keyof typeof metric],
       settings: settings[key as keyof typeof settings],
+      styles: styles[key as keyof typeof styles],
       headCircumference: headCircumference[key as keyof typeof headCircumference],
       neckCircumference: neckCircumference[key as keyof typeof neckCircumference],
       chestCircumference: chestCircumference[key as keyof typeof chestCircumference],

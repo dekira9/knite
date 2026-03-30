@@ -7,11 +7,13 @@ import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { screenWidth } from '@/utils/Layout';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 
 export default observer(() => {
-  
- 
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   {
     /* Calculate min and max values*/
@@ -100,7 +102,13 @@ export default observer(() => {
         <Text style={styles.rangeText}>{LRezMin.toFixed(1)} cm</Text>
         <Text style={styles.rangeText}>{LRezMax.toFixed(1)} cm</Text>
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+      <TouchableOpacity
+        style={[
+          styles.nextButton,
+          { backgroundColor: Colors[theme].tint },
+        ]}
+        onPress={handleNext}
+      >
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
       </TouchableOpacity>
     </View>
@@ -171,7 +179,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   nextButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,

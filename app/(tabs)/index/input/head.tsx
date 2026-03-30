@@ -3,7 +3,6 @@ import MeasurementInput from '@/app/components/MeasurementInput';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import IntroProgress from '@/app/components/IntroProgress';
 
 export default observer(() => {
   return (

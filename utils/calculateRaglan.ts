@@ -1,4 +1,26 @@
 import introState from "@/state/introState";
+import onboardingState from "@/state/onboardingState";
+
+const INCH_TO_CM = 2.54;
+const CM_ROUNDING_STEP = 0.5;
+
+function roundToStep(value: number, step: number): number {
+  return Math.round(value / step) * step;
+}
+
+function parseNumericInput(value: number | string): number {
+  if (typeof value === "number") {
+    return value;
+  }
+  return parseFloat(value.replace(",", "."));
+}
+
+function toCentimetersIfNeeded(value: number, shouldConvert: boolean): number {
+  if (!shouldConvert || Number.isNaN(value)) {
+    return value;
+  }
+  return roundToStep(value * INCH_TO_CM, CM_ROUNDING_STEP);
+}
 
 interface RaglanInput {
   headCircumference: string;
@@ -150,28 +172,28 @@ export function calculateRaglan({
   ribbingWidthV,
   raglanLineWidthV,
 }: RaglanInput): RaglanOutput | string {
-  const head = parseFloat(headCircumference.replace(',', '.'));
-  const neck = parseFloat(neckCircumference.replace(',', '.'));
-  const chest = parseFloat(chestCircumference.replace(',', '.'));
+  const shouldConvertFromInch = onboardingState.measurementSystem === "imperial";
+  const head = toCentimetersIfNeeded(parseNumericInput(headCircumference), shouldConvertFromInch);
+  const neck = toCentimetersIfNeeded(parseNumericInput(neckCircumference), shouldConvertFromInch);
+  const chest = toCentimetersIfNeeded(parseNumericInput(chestCircumference), shouldConvertFromInch);
   const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
   const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-  const ribbing = typeof ribbingWidth === 'string' ? parseFloat(ribbingWidth) : ribbingWidth;
-  const ribbingV = typeof ribbingWidthV === 'string' ? parseFloat(ribbingWidthV) : ribbingWidthV;
+  const ribbing = toCentimetersIfNeeded(parseNumericInput(ribbingWidth), shouldConvertFromInch);
+  const ribbingV = toCentimetersIfNeeded(parseNumericInput(ribbingWidthV), shouldConvertFromInch);
   
 
   if (isNaN(head) || isNaN(neck) || isNaN(chest) || isNaN(stitches) || isNaN(rows)) {
     return 'Please enter all values correctly.';
   }
 
-  const K = introState.raglanLineWidth; // Используем ширину регланной линии из introState
-  const KV = raglanLineWidthV !== undefined ? raglanLineWidthV : 2; // Значение по умолчанию 2
+  const K = toCentimetersIfNeeded(introState.raglanLineWidth, shouldConvertFromInch); // Используем ширину регланной линии из introState
+  const KVInput = raglanLineWidthV !== undefined ? raglanLineWidthV : 2;
+  const KV = toCentimetersIfNeeded(KVInput, shouldConvertFromInch); // Значение по умолчанию 2
   const Hrez = ribbing; // ширина резинки в см
   const HrezV = ribbingV; // ширина резинки в см  
 
   const pi = Math.PI;
-console.log('HrezV', HrezV);
   const dr = (head - neck) / (2 * pi);
-  console.log('head', head);
   const Lgor = Hrez <= dr ? (head - pi * Hrez) : (neck +  pi * Hrez) ;
   const LgorV = HrezV <= dr ? (head - pi * HrezV) : (neck +  pi * HrezV) ;
   const LFrontO = (Lgor - 4 * K / stitches) / 8 * 3;
@@ -413,7 +435,8 @@ console.log('HrezV', HrezV);
   }
 
   // Получаем значение depthNeckV из параметров или из introState
-  const LHV = introState.depthNeckV !== undefined ? introState.depthNeckV : LHVmin;
+  const LHVInput = introState.depthNeckV !== undefined ? introState.depthNeckV : LHVmin;
+  const LHV = toCentimetersIfNeeded(LHVInput, shouldConvertFromInch);
   
   // Рассчитываем NHV на основе LHV
   const NHV = Math.round(LHV * rows/2)*2;

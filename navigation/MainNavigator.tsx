@@ -9,17 +9,19 @@ import { useColorScheme } from '../hooks/useColorScheme';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import StylesNavigator from './StylesNavigator';
 import SettingsScreen from '../app/(tabs)/settings';
+import i18n from '@/utils/translations';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainNavigator() {
   const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
 
   return (
     <Tab.Navigator
       initialRouteName="Styles"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[theme].tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -35,7 +37,7 @@ export default function MainNavigator() {
         name="Styles"
         component={StylesNavigator}
         options={{
-          title: 'Styles',
+          title: i18n.t('styles'),
           tabBarIcon: ({ color }) => <FontAwesome6 name="shirt" size={24} color={color} />,
         }}
       />
@@ -43,7 +45,7 @@ export default function MainNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={{
-          title: 'Settings',
+          title: i18n.t('settings'),
           tabBarIcon: ({ color }) => <FontAwesome6 name="gear" size={24} color={color} />,
         }}
       />

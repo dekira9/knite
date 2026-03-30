@@ -7,8 +7,12 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const LineraglanWidth = () => {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   const Kmin = 0;
   const Kmax = Math.floor((introState.Sgor - 16) / 4);
@@ -86,7 +90,13 @@ const LineraglanWidth = () => {
         <Text style={styles.labelText}>{Kmin} {i18n.t('stitches')}</Text>
         <Text style={styles.labelText}>{Kmax} {i18n.t('stitches')}</Text>
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+      <TouchableOpacity
+        style={[
+          styles.nextButton,
+          { backgroundColor: Colors[theme].tint },
+        ]}
+        onPress={handleNext}
+      >
         <Text style={styles.buttonText}>{i18n.t('next')}</Text>
       </TouchableOpacity>
     </View>
@@ -149,7 +159,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   nextButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,
