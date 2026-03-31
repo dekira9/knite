@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Image } from 'expo-image';
@@ -15,55 +15,37 @@ const LineraglanV = () => {
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   const Kmin = 0;
-  const [KmaxV, setKmaxV] = useState(() => {
-    const r = introState.calculateRaglan();
-    return typeof r === 'string' ? 5 : r.KmaxV || 5;
+  const [KmaxV] = useState(() => {
+    const result = introState.calculateRaglan();
+    return typeof result === 'string' ? 5 : result.KmaxV || 5;
   });
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
-
-  useEffect(() => {
-    setSliderValue(introState.raglanLineWidthV.toString());
-  }, [introState.raglanLineWidthV]);
-
-  useEffect(() => {
-    const r = introState.calculateRaglan();
-    setKmaxV(typeof r === 'string' ? 5 : r.KmaxV || 5);
-  }, [introState.raglanLineWidthV]);
 
   // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)
   const handleSliderChange = (value: number) => {
     const newValue = Math.round(value);
-    if (introState.raglanLineWidthV !== newValue) {
-      setTimeout(() => introState.setRaglanLineWidthV(newValue), 0);// Обновляем ширину регланной линии в introState
-    }
+    setSliderValue(newValue.toString());
   };
 
   // Функция для обработки изменений в TextInput
   const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue('');
-      setTimeout(() => introState.setRaglanLineWidthV(Kmin), 0);
     } else {
       const numericValue = parseInt(value, 10);
       if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= KmaxV) {
-        if (sliderValue !== value) {
-          setSliderValue(value);
-        }
-        if (introState.raglanLineWidthV !== numericValue) {
-          setTimeout(() => introState.setRaglanLineWidthV(numericValue), 0);
-        }
+        setSliderValue(value);
       } else if (numericValue > KmaxV) {
         setSliderValue(KmaxV.toString());
-        setTimeout(() => introState.setRaglanLineWidthV(KmaxV), 0);
       } else if (numericValue < Kmin) {
         setSliderValue(Kmin.toString());
-        setTimeout(() => introState.setRaglanLineWidthV(Kmin), 0);
       }
     }
   };
 
   const handleNext = () => {
-    console.log('Next button pressed with value:', introState.raglanLineWidthV);
+    const nextValue = Math.min(KmaxV, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin));
+    introState.setRaglanLineWidthV(nextValue);
     (navigation as any).navigate('DepthNeckV');
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Slider from '@react-native-community/slider';
 import introState from '@/state/introState';
+import onboardingState from '@/state/onboardingState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +16,7 @@ export default observer(() => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
+  const unit = onboardingState.measurementSystem === 'imperial' ? 'in' : 'cm';
   {
     /* Calculate min and max values*/
   }
@@ -26,22 +28,21 @@ export default observer(() => {
 
   const LRezMax = Math.round((Number(introState.neckCircumference) / Math.PI) * 10) / 10;
 
-  const [localRibbingWidth, setLocalRibbingWidth] = useState(2);
-  console.log('localRibbingWidth', localRibbingWidth);
+  const [localRibbingWidth, setLocalRibbingWidth] = useState(
+    Math.min(LRezMax, Math.max(LRezMin, Number(introState.ribbingWidth) || LRezMin)),
+  );
 
   {
     /* //ширина резинки*/
   }
   const handleValueChange = (value: string) => {
     if (value === '') {
-      setLocalRibbingWidth(LRezMin); // Позволяем очистить поле ввода
-      introState.setRibbingWidth(LRezMin.toString()); // Устанавливаем минимальное значение по умолчанию
+      setLocalRibbingWidth(LRezMin);
     } else {
       const numericValue = parseFloat(value.replace(',', '.')); // Заменяем запятую на точку
       if (!isNaN(numericValue) && numericValue >= LRezMin && numericValue <= LRezMax) {
         const fixedValue = parseFloat(numericValue.toFixed(1)); // Ограничиваем до 1 знака после запятой
         setLocalRibbingWidth(fixedValue);
-        introState.setRibbingWidth(fixedValue.toString());
       } else {
         setLocalRibbingWidth(localRibbingWidth); // Очищаем поле ввода, если значение некорректно
       }
@@ -85,7 +86,7 @@ export default observer(() => {
         >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>cm</Text>
+        <Text style={styles.inputLabel}>{unit}</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -99,8 +100,8 @@ export default observer(() => {
         thumbTintColor="#000000"
       />
       <View style={styles.rangeLabels}>
-        <Text style={styles.rangeText}>{LRezMin.toFixed(1)} cm</Text>
-        <Text style={styles.rangeText}>{LRezMax.toFixed(1)} cm</Text>
+        <Text style={styles.rangeText}>{LRezMin.toFixed(1)} {unit}</Text>
+        <Text style={styles.rangeText}>{LRezMax.toFixed(1)} {unit}</Text>
       </View>
       <TouchableOpacity
         style={[

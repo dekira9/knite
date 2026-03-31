@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Image } from 'expo-image';
@@ -18,27 +18,19 @@ const LineraglanWidth = () => {
   const Kmax = Math.floor((introState.Sgor - 16) / 4);
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidth.toString());
 
-  useEffect(() => {
-    // Синхронизируем значение слайдера с TextInput
-    setSliderValue(introState.raglanLineWidth.toString());
-  }, [introState.raglanLineWidth]);
-
-  // Функция для обработки изменений в Slider (откладываем обновление, чтобы избежать setState во время рендера)
+  // Функция для обработки изменений в Slider
   const handleSliderChange = (value: number) => {
     setSliderValue(Math.round(value).toString());
-    setTimeout(() => introState.setRaglanLineWidth(Math.round(value)), 0);
   };
 
   // Функция для обработки изменений в TextInput
   const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue(''); // Позволяем очистить поле ввода
-      introState.setRaglanLineWidth(Kmin); // Устанавливаем минимальное значение по умолчанию
     } else {
       const numericValue = parseInt(value, 10);
       if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= Kmax) {
         setSliderValue(value);
-        introState.setRaglanLineWidth(numericValue);
       } else {
         setSliderValue(''); // Очищаем поле ввода, если значение некорректно
       }
@@ -46,7 +38,8 @@ const LineraglanWidth = () => {
   };
 
   const handleNext = () => {
-    console.log('Next button pressed with value:', introState.raglanLineWidth);
+    const nextValue = Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin));
+    introState.setRaglanLineWidth(nextValue);
     introState.setIntroFinished(true);
     // router.push('/input/result');
   };

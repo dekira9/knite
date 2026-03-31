@@ -24,7 +24,7 @@ export default observer(() => {
           value={introState.rowDensity}
           onValueChange={introState.setRowDensity}
           nextScreen="Fit"
-          imageSource={require('@/assets/images/density3.svg')}
+          imageSource={require('@/assets/images/densityInch.svg')}
           doNotShowCM={true}
         />
       )}

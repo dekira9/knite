@@ -18,9 +18,9 @@ export default function OnboardingProgress() {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <View style={styles.track}>
+      {/* <View style={styles.track}>
         <View style={[styles.progress, { width: `${progress * 100}%` }]} />
-      </View>
+      </View> */}
     </View>
   );
 }

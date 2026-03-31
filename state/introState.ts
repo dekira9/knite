@@ -151,7 +151,7 @@ const IntroState = types
       this.persistState();
     },
     setRibbingWidth(value: string) {
-      self.ribbingWidth = parseInt(value);
+      self.ribbingWidth = parseFloat(value);
       this.persistState();
     },
     setRaglanLineWidth(width: number) {
@@ -164,7 +164,7 @@ const IntroState = types
       this.persistState();
     },
     setRibbingWidthV(value: string) {
-      self.ribbingWidthV = parseInt(value);
+      self.ribbingWidthV = parseFloat(value);
       this.persistState();
     },
     setDepthNeckV(value: number | string) {

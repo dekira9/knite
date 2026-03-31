@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, TouchableOpacity, Text, Platform } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import IntroProgress from '../app/components/IntroProgress';
 
 // Import all input screens
@@ -24,15 +23,16 @@ import i18n from '@/utils/translations';
 // Result screens moved to ResultNavigator
 
 const Stack = createStackNavigator();
+const HEADER_BG = '#f5f5f5';
 
 const CustomHeader = ({ navigation, route, options }: any) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
-  
+
   return (
     <View 
       style={{
-        backgroundColor: '#f5f5f5',
+        backgroundColor: HEADER_BG,
         paddingTop: 0,
         height: 40,
         flexDirection: 'row',
@@ -73,21 +73,30 @@ const CustomHeader = ({ navigation, route, options }: any) => {
 };
 
 export default function InputNavigator() {
-  const insets = useSafeAreaInsets();
-  
+  const [activeRouteName, setActiveRouteName] = useState<string>('Index');
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+    <View style={{ flex: 1, backgroundColor: HEADER_BG }}>
       <View style={{ 
         paddingTop: 0,
         borderBottomWidth: 0,
-        backgroundColor: '#ffffff'
+        backgroundColor: HEADER_BG,
       }}>
-        <IntroProgress />
+        <IntroProgress currentRouteName={activeRouteName} />
       </View>
       <Stack.Navigator
         screenOptions={{
           header: (props) => <CustomHeader {...props} />,
           headerShown: true,
+        }}
+        screenListeners={{
+          state: (e: any) => {
+            const state = e.data?.state;
+            const route = state?.routes?.[state.index];
+            if (route?.name) {
+              setActiveRouteName(route.name);
+            }
+          },
         }}
       >
         <Stack.Screen

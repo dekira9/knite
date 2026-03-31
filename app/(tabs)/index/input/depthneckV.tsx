@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Image } from 'expo-image';
 import introState from '@/state/introState';
+import onboardingState from '@/state/onboardingState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
@@ -14,25 +15,16 @@ const DepthNeckV = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
-  
-  const results = introState.calculateRaglan();
+  const unit = onboardingState.measurementSystem === 'imperial' ? 'in' : 'cm';
   const HrezV = introState.ribbingWidthV;
-  console.log(HrezV);
-  
-  // Округляем значения до 1 десятичного знака
-  const LHVmin = typeof results === 'string' ? 1 : 
-    parseFloat((results.LHVmin || 1).toFixed(1)); 
-  const LHVmax = typeof results === 'string' ? 5 : 
-    parseFloat((results.LHVmax || 5).toFixed(1)); 
-  console.log('LHVmin', LHVmin);
-  console.log('LHVmax', LHVmax);
-  
-  // Инициализируем значение depthNeckV, если оно не определено
-  useEffect(() => {
-    if (introState.depthNeckV === undefined) {
-      introState.setDepthNeckV(LHVmin);
-    }
-  }, [LHVmin]);
+  const [limits] = useState(() => {
+    const results = introState.calculateRaglan();
+    const min = typeof results === 'string' ? 1 : parseFloat((results.LHVmin || 1).toFixed(1));
+    const max = typeof results === 'string' ? 5 : parseFloat((results.LHVmax || 5).toFixed(1));
+    return { min, max };
+  });
+  const LHVmin = limits.min;
+  const LHVmax = limits.max;
   
   // Используем безопасную инициализацию состояния для отображения с учетом HrezV
   const [sliderValue, setSliderValue] = useState(
@@ -40,13 +32,6 @@ const DepthNeckV = () => {
       (introState.depthNeckV + HrezV).toFixed(1) : 
       (LHVmin + HrezV).toFixed(1)
   );
-
-  useEffect(() => {
-    // Синхронизируем значение слайдера с TextInput, только если depthNeckV определено
-    if (introState.depthNeckV !== undefined) {
-      setSliderValue((introState.depthNeckV + HrezV).toFixed(1));
-    }
-  }, [introState.depthNeckV, HrezV]);
 
   // Функция для обработки изменений в Slider
   const handleSliderChange = (value: number) => {
@@ -57,7 +42,6 @@ const DepthNeckV = () => {
     
     // Проверяем, что значение находится в допустимых пределах
     if (actualValue >= LHVmin && actualValue <= LHVmax) {
-      introState.setDepthNeckV(actualValue);
       setSliderValue(roundedValue.toFixed(1));
     }
   };
@@ -66,7 +50,6 @@ const DepthNeckV = () => {
   const handleTextInputChange = (value: string) => {
     if (value === '') {
       setSliderValue(''); // Позволяем очистить поле ввода
-      introState.setDepthNeckV(LHVmin); // Устанавливаем минимальное значение по умолчанию
     } else {
       // Заменяем запятую на точку для корректного парсинга
       const cleanValue = value.replace(',', '.');
@@ -79,8 +62,6 @@ const DepthNeckV = () => {
         // Округляем до 1 десятичного знака
         const roundedValue = parseFloat(numericValue.toFixed(1));
         setSliderValue(roundedValue.toFixed(1));
-        // Сохраняем в introState без учета HrezV
-        introState.setDepthNeckV(roundedValue - HrezV);
       } else {
         setSliderValue(''); // Очищаем поле ввода, если значение некорректно
       }
@@ -88,7 +69,12 @@ const DepthNeckV = () => {
   };
 
   const handleNext = () => {
-    console.log('Next button pressed with value:', introState.depthNeckV);
+    const displayValue = parseFloat(sliderValue);
+    const safeDisplayValue = Number.isNaN(displayValue)
+      ? (LHVmin + HrezV)
+      : Math.min(LHVmax + HrezV, Math.max(LHVmin + HrezV, displayValue));
+    const actualValue = parseFloat((safeDisplayValue - HrezV).toFixed(1));
+    introState.setDepthNeckV(actualValue);
     introState.setIntroFinished(true);
     // router.push('/input/resultV');
   };
@@ -125,7 +111,7 @@ const DepthNeckV = () => {
         }}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>cm</Text>
+        <Text style={styles.inputLabel}>{unit}</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -139,8 +125,8 @@ const DepthNeckV = () => {
         thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
-        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} cm</Text>
-        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} cm</Text>
+        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {unit}</Text>
+        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} {unit}</Text>
        
       </View>
       <TouchableOpacity

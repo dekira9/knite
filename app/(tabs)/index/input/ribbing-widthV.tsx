@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import introState from '@/state/introState';
+import onboardingState from '@/state/onboardingState';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
@@ -14,6 +15,7 @@ const RibbingWidthV: React.FC = observer(() => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
+  const unit = onboardingState.measurementSystem === 'imperial' ? 'in' : 'cm';
 
   // Calculate min and max values
   const stitches = parseFloat(introState.stitchDensity.replace(',', '.')) / 10;
@@ -26,13 +28,9 @@ const RibbingWidthV: React.FC = observer(() => {
 
   const LRezMaxV =  Math.round(((neck + head) / 6 / Math.PI) * 10) / 10;
 
-  console.log('шея', introState.neckCircumference);
-  console.log('голова', introState.headCircumference); 
-  console.log('LRezMaxV', LRezMaxV);
-  console.log('LRezMinV:', LRezMinV);
-
-  const [localRibbingWidthV, setLocalRibbingWidthV] = useState(2);
-  console.log('localRibbingWidthV', localRibbingWidthV);
+  const [localRibbingWidthV, setLocalRibbingWidthV] = useState(
+    Math.min(LRezMaxV, Math.max(LRezMinV, Number(introState.ribbingWidthV) || LRezMinV)),
+  );
 
   {
     /* //ширина резинки*/
@@ -40,13 +38,11 @@ const RibbingWidthV: React.FC = observer(() => {
   const handleValueChange = (value: string) => {
     if (value === '') {
       setLocalRibbingWidthV(LRezMinV);
-      introState.setRibbingWidthV(LRezMinV.toString());
     } else {
       const numericValue = parseFloat(value.replace(',', '.'));
       if (!isNaN(numericValue) && numericValue >= LRezMinV && numericValue <= LRezMaxV) {
         const fixedValue = parseFloat(numericValue.toFixed(1));
         setLocalRibbingWidthV(fixedValue);
-        introState.setRibbingWidthV(fixedValue.toString());
       } else {
         setLocalRibbingWidthV(localRibbingWidthV);
       }
@@ -70,7 +66,6 @@ const RibbingWidthV: React.FC = observer(() => {
           onPress={() => {
             const newValue = Math.max(LRezMinV, parseFloat((localRibbingWidthV - 0.1).toFixed(1)));
             setLocalRibbingWidthV(newValue);
-            introState.setRibbingWidthV(newValue.toString());
           }}
         >
           <Text style={styles.arrow}>-</Text>
@@ -86,12 +81,11 @@ const RibbingWidthV: React.FC = observer(() => {
           onPress={() => {
             const newValue = Math.min(LRezMaxV, parseFloat((localRibbingWidthV + 0.1).toFixed(1)));
             setLocalRibbingWidthV(newValue);
-            introState.setRibbingWidthV(newValue.toString());
           }}
         >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.inputLabel}>cm</Text>
+        <Text style={styles.inputLabel}>{unit}</Text>
       </View>
       <Slider
         style={styles.slider}
@@ -105,8 +99,8 @@ const RibbingWidthV: React.FC = observer(() => {
         thumbTintColor="#000000"
       />
       <View style={styles.rangeLabels}>
-        <Text style={styles.rangeText}>{LRezMinV.toFixed(1)} cm</Text>
-        <Text style={styles.rangeText}>{LRezMaxV.toFixed(1)} cm</Text>
+        <Text style={styles.rangeText}>{LRezMinV.toFixed(1)} {unit}</Text>
+        <Text style={styles.rangeText}>{LRezMaxV.toFixed(1)} {unit}</Text>
       </View>
       <TouchableOpacity
         style={[

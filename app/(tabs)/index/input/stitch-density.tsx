@@ -38,7 +38,7 @@ export default observer(() => {
           value={localValue}
           onValueChange={setLocalValue}
           nextScreen="RowDensity"
-          imageSource={require('@/assets/images/density.svg')}
+          imageSource={require('@/assets/images/density2Inch.svg')}
           doNotShowCM={true}
           onNext={handleNext}
         />
