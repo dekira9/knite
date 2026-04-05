@@ -11,41 +11,51 @@ import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+const CM_PER_INCH = 2.54;
+const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
 
 export default observer(() => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
-  const unit = onboardingState.measurementSystem === 'imperial' ? 'in' : 'cm';
-  {
-    /* Calculate min and max values*/
-  }
+  const isMetric = onboardingState.measurementSystem === 'metric';
+
   const stitches = parseFloat(introState.stitchDensity.replace(',', '.')) / 10;
   const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
-  const K = introState.K; // Петли в регланной линии
+  const K = introState.K;
   const LK = K / stitches;
   const LRezMin = Math.round((2 / rows) * 10) / 10;
-
   const LRezMax = Math.round((Number(introState.neckCircumference) / Math.PI) * 10) / 10;
 
   const [localRibbingWidth, setLocalRibbingWidth] = useState(
     Math.min(LRezMax, Math.max(LRezMin, Number(introState.ribbingWidth) || LRezMin)),
   );
+  const [inchInput, setInchInput] = useState(cmToIn(localRibbingWidth));
 
-  {
-    /* //ширина резинки*/
-  }
-  const handleValueChange = (value: string) => {
+  const updateFromCm = (cmValue: number) => {
+    setLocalRibbingWidth(cmValue);
+    setInchInput(cmToIn(cmValue));
+  };
+
+  const handleCmChange = (value: string) => {
     if (value === '') {
-      setLocalRibbingWidth(LRezMin);
+      updateFromCm(LRezMin);
     } else {
-      const numericValue = parseFloat(value.replace(',', '.')); // Заменяем запятую на точку
+      const numericValue = parseFloat(value.replace(',', '.'));
       if (!isNaN(numericValue) && numericValue >= LRezMin && numericValue <= LRezMax) {
-        const fixedValue = parseFloat(numericValue.toFixed(1)); // Ограничиваем до 1 знака после запятой
-        setLocalRibbingWidth(fixedValue);
-      } else {
-        setLocalRibbingWidth(localRibbingWidth); // Очищаем поле ввода, если значение некорректно
+        updateFromCm(parseFloat(numericValue.toFixed(1)));
       }
+    }
+  };
+
+  const handleInchChange = (value: string) => {
+    setInchInput(value);
+    if (value === '') return;
+    const inVal = parseFloat(value.replace(',', '.'));
+    if (isNaN(inVal)) return;
+    const cmVal = parseFloat((inVal * CM_PER_INCH).toFixed(1));
+    if (cmVal >= LRezMin && cmVal <= LRezMax) {
+      setLocalRibbingWidth(cmVal);
     }
   };
 
@@ -63,46 +73,66 @@ export default observer(() => {
       />
       <Text style={styles.title}>{i18n.t('collarWidth')}</Text>
 
-      <View style={styles.inputContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            setLocalRibbingWidth((prev) =>
-             Math.max(LRezMin, parseFloat((prev - 0.1).toFixed(1))))
-          }
-        >
-          <Text style={styles.arrow}>-</Text>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.valueInput}
-          value={localRibbingWidth.toString()}
-          onChangeText={handleValueChange}
-          keyboardType="numeric"
-          //placeholder={i18n.t(' ')}
-        />
-        <TouchableOpacity
-          onPress={() =>
-            setLocalRibbingWidth((prev) => Math.min(LRezMax, parseFloat((prev + 0.1).toFixed(1))))
-          }
-        >
-          <Text style={styles.arrow}>+</Text>
-        </TouchableOpacity>
-        <Text style={styles.inputLabel}>{unit}</Text>
-      </View>
+      {isMetric ? (
+        <View style={styles.inputContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              const newValue = Math.max(LRezMin, parseFloat((localRibbingWidth - 0.1).toFixed(1)));
+              updateFromCm(newValue);
+            }}
+          >
+            <Text style={styles.arrow}>-</Text>
+          </TouchableOpacity>
+          <TextInput
+            style={styles.valueInput}
+            value={localRibbingWidth.toFixed(1)}
+            onChangeText={handleCmChange}
+            keyboardType="numeric"
+            placeholder=""
+          />
+          <TouchableOpacity
+            onPress={() => {
+              const newValue = Math.min(LRezMax, parseFloat((localRibbingWidth + 0.1).toFixed(1)));
+              updateFromCm(newValue);
+            }}
+          >
+            <Text style={styles.arrow}>+</Text>
+          </TouchableOpacity>
+          <Text style={styles.inputLabel}>cm</Text>
+        </View>
+      ) : (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.valueInput}
+            value={inchInput}
+            onChangeText={handleInchChange}
+            keyboardType="numeric"
+            placeholder=""
+          />
+          <Text style={styles.inputLabel}>in</Text>
+        </View>
+      )}
+
       <Slider
         style={styles.slider}
         minimumValue={LRezMin}
         maximumValue={LRezMax}
-        value={localRibbingWidth}
-        onValueChange={(value) => setLocalRibbingWidth(parseFloat(value.toFixed(1)))}
+        value={Math.min(Math.max(localRibbingWidth, LRezMin), LRezMax)}
+        onValueChange={(value) => updateFromCm(parseFloat(value.toFixed(1)))}
         step={0.1}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#CCCCCC"
         thumbTintColor="#000000"
       />
       <View style={styles.rangeLabels}>
-        <Text style={styles.rangeText}>{LRezMin.toFixed(1)} {unit}</Text>
-        <Text style={styles.rangeText}>{LRezMax.toFixed(1)} {unit}</Text>
+        <Text style={styles.rangeText}>
+          {isMetric ? `${LRezMin.toFixed(1)} cm` : `${cmToIn(LRezMin)} in`}
+        </Text>
+        <Text style={styles.rangeText}>
+          {isMetric ? `${LRezMax.toFixed(1)} cm` : `${cmToIn(LRezMax)} in`}
+        </Text>
       </View>
+
       <TouchableOpacity
         style={[
           styles.nextButton,

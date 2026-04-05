@@ -11,11 +11,14 @@ import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+const CM_PER_INCH = 2.54;
+const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
+
 const DepthNeckV = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
-  const unit = onboardingState.measurementSystem === 'imperial' ? 'in' : 'cm';
+  const isMetric = onboardingState.measurementSystem === 'metric';
   const HrezV = introState.ribbingWidthV;
   const [limits] = useState(() => {
     const results = introState.calculateRaglan();
@@ -25,58 +28,69 @@ const DepthNeckV = () => {
   });
   const LHVmin = limits.min;
   const LHVmax = limits.max;
-  
-  // Используем безопасную инициализацию состояния для отображения с учетом HrezV
+  const minDisplay = LHVmin + HrezV;
+  const maxDisplay = LHVmax + HrezV;
+
   const [sliderValue, setSliderValue] = useState(
     introState.depthNeckV !== undefined ? 
       (introState.depthNeckV + HrezV).toFixed(1) : 
-      (LHVmin + HrezV).toFixed(1)
+      minDisplay.toFixed(1)
   );
+  const [inchInput, setInchInput] = useState(() => cmToIn(parseFloat(sliderValue)));
 
-  // Функция для обработки изменений в Slider
+  const updateBoth = (cmStr: string) => {
+    setSliderValue(cmStr);
+    const v = parseFloat(cmStr);
+    if (!isNaN(v)) setInchInput(cmToIn(v));
+    else setInchInput('');
+  };
+
   const handleSliderChange = (value: number) => {
-    // Округляем значение до одного десятичного знака
     const roundedValue = parseFloat(value.toFixed(1));
-    // Вычитаем HrezV, чтобы получить чистое значение depthNeckV
     const actualValue = roundedValue - HrezV;
-    
-    // Проверяем, что значение находится в допустимых пределах
     if (actualValue >= LHVmin && actualValue <= LHVmax) {
-      setSliderValue(roundedValue.toFixed(1));
+      updateBoth(roundedValue.toFixed(1));
     }
   };
 
-  // Функция для обработки изменений в TextInput
   const handleTextInputChange = (value: string) => {
     if (value === '') {
-      setSliderValue(''); // Позволяем очистить поле ввода
+      setSliderValue('');
+      setInchInput('');
     } else {
-      // Заменяем запятую на точку для корректного парсинга
       const cleanValue = value.replace(',', '.');
       const numericValue = parseFloat(cleanValue);
-      
-      // Проверяем с учетом HrezV
       if (!isNaN(numericValue) && 
-          numericValue >= (LHVmin + HrezV) && 
-          numericValue <= (LHVmax + HrezV)) {
-        // Округляем до 1 десятичного знака
+          numericValue >= minDisplay && 
+          numericValue <= maxDisplay) {
         const roundedValue = parseFloat(numericValue.toFixed(1));
-        setSliderValue(roundedValue.toFixed(1));
+        updateBoth(roundedValue.toFixed(1));
       } else {
-        setSliderValue(''); // Очищаем поле ввода, если значение некорректно
+        setSliderValue('');
+        setInchInput('');
       }
+    }
+  };
+
+  const handleInchChange = (value: string) => {
+    setInchInput(value);
+    if (value === '') { setSliderValue(''); return; }
+    const inVal = parseFloat(value.replace(',', '.'));
+    if (isNaN(inVal)) return;
+    const cmVal = parseFloat((inVal * CM_PER_INCH).toFixed(1));
+    if (cmVal >= minDisplay && cmVal <= maxDisplay) {
+      setSliderValue(cmVal.toFixed(1));
     }
   };
 
   const handleNext = () => {
     const displayValue = parseFloat(sliderValue);
     const safeDisplayValue = Number.isNaN(displayValue)
-      ? (LHVmin + HrezV)
-      : Math.min(LHVmax + HrezV, Math.max(LHVmin + HrezV, displayValue));
+      ? minDisplay
+      : Math.min(maxDisplay, Math.max(minDisplay, displayValue));
     const actualValue = parseFloat((safeDisplayValue - HrezV).toFixed(1));
     introState.setDepthNeckV(actualValue);
     introState.setIntroFinished(true);
-    // router.push('/input/resultV');
   };
 
   return (
@@ -87,48 +101,65 @@ const DepthNeckV = () => {
         contentFit="contain"
       />
       <Text style={styles.title}>{i18n.t('depthNeck')}</Text>
-      <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={() => {
-          const currentValue = parseFloat(sliderValue) || (LHVmin + HrezV);
-          // Уменьшаем на 0.1 и округляем
-          const newValue = Math.max((LHVmin + HrezV), parseFloat((currentValue - 0.1).toFixed(1)));
-          handleTextInputChange(newValue.toFixed(1));
-        }}>
-          <Text style={styles.arrow}>-</Text>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          value={sliderValue}
-          keyboardType="numeric"
-          placeholder="0"
-          onChangeText={handleTextInputChange}  
-        />
-        <TouchableOpacity onPress={() => {
-          const currentValue = parseFloat(sliderValue) || (LHVmin + HrezV);
-          // Увеличиваем на 0.1 и округляем
-          const newValue = Math.min((LHVmax + HrezV), parseFloat((currentValue + 0.1).toFixed(1)));
-          handleTextInputChange(newValue.toFixed(1));
-        }}>
-          <Text style={styles.arrow}>+</Text>
-        </TouchableOpacity>
-        <Text style={styles.inputLabel}>{unit}</Text>
-      </View>
+
+      {isMetric ? (
+        <View style={styles.inputContainer}>
+          <TouchableOpacity onPress={() => {
+            const currentValue = parseFloat(sliderValue) || minDisplay;
+            const newValue = Math.max(minDisplay, parseFloat((currentValue - 0.1).toFixed(1)));
+            updateBoth(newValue.toFixed(1));
+          }}>
+            <Text style={styles.arrow}>-</Text>
+          </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            value={sliderValue}
+            keyboardType="numeric"
+            placeholder=""
+            onChangeText={handleTextInputChange}  
+          />
+          <TouchableOpacity onPress={() => {
+            const currentValue = parseFloat(sliderValue) || minDisplay;
+            const newValue = Math.min(maxDisplay, parseFloat((currentValue + 0.1).toFixed(1)));
+            updateBoth(newValue.toFixed(1));
+          }}>
+            <Text style={styles.arrow}>+</Text>
+          </TouchableOpacity>
+          <Text style={styles.inputLabel}>cm</Text>
+        </View>
+      ) : (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={inchInput}
+            keyboardType="numeric"
+            placeholder=""
+            onChangeText={handleInchChange}
+          />
+          <Text style={styles.inputLabel}>in</Text>
+        </View>
+      )}
+
       <Slider
         style={styles.slider}
-        minimumValue={LHVmin + HrezV}
-        maximumValue={LHVmax + HrezV}
-        value={parseFloat(sliderValue)}
+        minimumValue={minDisplay}
+        maximumValue={maxDisplay}
+        value={parseFloat(sliderValue) || minDisplay}
         onValueChange={handleSliderChange}
-        step={0.1}
+        step={0.03937}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#CCCCCC"
         thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
-        <Text style={styles.labelText}>{(LHVmin + HrezV).toFixed(1)} {unit}</Text>
-        <Text style={styles.labelText}>{(LHVmax + HrezV).toFixed(1)} {unit}</Text>
-       
+        <Text style={styles.labelText}>
+          {isMetric ? `${minDisplay.toFixed(1)} cm` : `${cmToIn(minDisplay)} in`}
+        </Text>
+        <Text style={styles.labelText}>
+          {isMetric ? `${maxDisplay.toFixed(1)} cm` : `${cmToIn(maxDisplay)} in`}
+        </Text>
       </View>
+
       <TouchableOpacity
         style={[
           styles.nextButton,

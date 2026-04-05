@@ -173,23 +173,22 @@ export function calculateRaglan({
   raglanLineWidthV,
   measurementSystem,
 }: RaglanInput): RaglanOutput | string {
-  const shouldConvertFromInch = measurementSystem === "imperial";
-  const head = toCentimetersIfNeeded(parseNumericInput(headCircumference), shouldConvertFromInch);
-  const neck = toCentimetersIfNeeded(parseNumericInput(neckCircumference), shouldConvertFromInch);
-  const chest = toCentimetersIfNeeded(parseNumericInput(chestCircumference), shouldConvertFromInch);
+  const head = parseNumericInput(headCircumference);
+  const neck = parseNumericInput(neckCircumference);
+  const chest = parseNumericInput(chestCircumference);
   const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
   const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-  const ribbing = toCentimetersIfNeeded(parseNumericInput(ribbingWidth), shouldConvertFromInch);
-  const ribbingV = toCentimetersIfNeeded(parseNumericInput(ribbingWidthV), shouldConvertFromInch);
+  const ribbing = parseNumericInput(ribbingWidth);
+  const ribbingV = parseNumericInput(ribbingWidthV);
   
 
   if (isNaN(head) || isNaN(neck) || isNaN(chest) || isNaN(stitches) || isNaN(rows)) {
     return 'Please enter all values correctly.';
   }
 
-  const K = toCentimetersIfNeeded(introState.raglanLineWidth, shouldConvertFromInch); // Используем ширину регланной линии из introState
+  const K = introState.raglanLineWidth;
   const KVInput = raglanLineWidthV !== undefined ? raglanLineWidthV : 2;
-  const KV = toCentimetersIfNeeded(KVInput, shouldConvertFromInch); // Значение по умолчанию 2
+  const KV = KVInput;
   const Hrez = ribbing; // ширина резинки в см
   const HrezV = ribbingV; // ширина резинки в см  
 
@@ -437,7 +436,7 @@ export function calculateRaglan({
 
   // Получаем значение depthNeckV из параметров или из introState
   const LHVInput = introState.depthNeckV !== undefined ? introState.depthNeckV : LHVmin;
-  const LHV = toCentimetersIfNeeded(LHVInput, shouldConvertFromInch);
+  const LHV = LHVInput;
   
   // Рассчитываем NHV на основе LHV
   const NHV = Math.round(LHV * rows/2)*2;
