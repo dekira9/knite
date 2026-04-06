@@ -42,7 +42,16 @@ const LanguageScreen = observer(() => {
       navigation.goBack();
     } else {
       navigation.navigate('Measurement');
+      // handleSkip();
     }
+  };
+
+  const handleSkip = () => {
+    onboardingState.completeOnboarding();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
   };
 
   const deviceLanguage = Localization.getLocales()[0].languageCode;
