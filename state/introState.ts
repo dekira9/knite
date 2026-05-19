@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree";
-import { calculateRaglan } from '@/utils/calculateRaglan';
+import { getSnapshot } from "mobx-state-tree";
+import { calculateRaglanRemote } from "@/utils/calculateRaglanCoreRemote";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeAutoObservable } from 'mobx';
 import onboardingState from "@/state/onboardingState";
@@ -73,6 +74,11 @@ const IntroState = types
     usedIncreaseTypeString: types.optional(types.string, ''),
     usedIncreaseTypeStringV: types.optional(types.string, ''),
     fit: types.optional(types.number, 0),
+    SFit: types.optional(types.number, 0),
+    SOgr: types.optional(types.number, 0),
+    SRostok: types.optional(types.number, 0),
+    SRostokV: types.optional(types.number, 0),
+    stitches: types.optional(types.number, 0),
     ribbingWidth: types.optional(types.number, 2),
     raglanLineWidth: types.optional(types.number, 0),
     raglanLineWidthV: types.optional(types.number, 1),
@@ -94,13 +100,29 @@ const IntroState = types
     RowPrib1x1V: types.optional(types.array(types.number), []),
     RowPrib1x1String: types.optional(types.string, ''),
     RowPrib1x1StringV: types.optional(types.string, ''),
+    resultString21V: types.optional(types.string, ''),
+    resultString23V: types.optional(types.string, ''),
+    resultString24V: types.optional(types.string, ''),
+    resultString43V: types.optional(types.string, ''),
+    resultStringV: types.optional(types.string, ''),
     Ls: types.optional(types.number, 0),
+    LsV: types.optional(types.number, 0),
     hs: types.optional(types.number, 0),
+    hsV: types.optional(types.number, 0),
+    NRfx: types.optional(types.number, 0),
+    NRfxV: types.optional(types.number, 0),
     SV:types.optional(types.number, 0),
     SVfront:types.optional(types.number, 0),
+    SVO: types.optional(types.number, 0),
     LHV: types.optional(types.number, 0),
     NHV: types.optional(types.number, 0),
+    NHVmax: types.optional(types.number, 0),
+    NHVmin: types.optional(types.number, 0),
     LVfront:types.optional(types.number, 0),
+    LKmaxV: types.optional(types.number, 0),
+    KmaxV: types.optional(types.number, 5),
+    LHVmin: types.optional(types.number, 0),
+    LHVmax: types.optional(types.number, 0),
     
 
     introFinished: types.optional(types.boolean, false),
@@ -108,10 +130,23 @@ const IntroState = types
     SOcutV: types.optional(types.number, 0),
     SpribVcorn: types.optional(types.number, 0),
     LpribVcorn: types.optional(types.number, 0),
+    PribRVz: types.optional(types.number, 0),
+    PribRV1s: types.optional(types.number, 0),
+    PribRV2s: types.optional(types.number, 0),
+    PribRV3s: types.optional(types.number, 0),
     RowPribRV1:types.optional(types.number, 0),
     RowPribRVz:types.optional(types.number, 0),
     RowPribRV2:types.optional(types.number, 0),
     RowPribRV3:types.optional(types.number, 0),
+    isV: types.optional(types.number, 0),
+    isPlusOneV: types.optional(types.number, 0),
+    pairsWithIsV: types.optional(types.number, 0),
+    pairsWithIsPlusOneV: types.optional(types.number, 0),
+    rowsWithIsV: types.optional(types.number, 0),
+    rowsWithIsPlusOneV: types.optional(types.number, 0),
+    krV: types.optional(types.number, 0),
+    positionsWithIsV: types.optional(types.array(types.number), []),
+    positionsWithIsPlusOneV: types.optional(types.array(types.number), []),
   })
   .actions((self) => ({
     setStyle(style: string) {
@@ -183,6 +218,29 @@ const IntroState = types
       self.introFinished = value;
       this.persistState();
     },
+    async syncRaglanFromSupabase() {
+      const remoteResult = await calculateRaglanRemote({
+        headCircumference: self.headCircumference,
+        neckCircumference: self.neckCircumference,
+        chestCircumference: self.chestCircumference,
+        stitchDensity: self.stitchDensity,
+        rowDensity: self.rowDensity,
+        fitType: self.fitType,
+        ribbingWidth: self.ribbingWidth,
+        ribbingWidthV: self.ribbingWidthV,
+        raglanLineWidth: self.raglanLineWidth,
+        raglanLineWidthV: self.raglanLineWidthV,
+        depthNeckV: self.depthNeckV,
+        measurementSystem: onboardingState.measurementSystem,
+      });
+
+      if (!remoteResult) {
+        return false;
+      }
+
+      this.setRaglanData(remoteResult);
+      return true;
+    },
     async persistState() {
       try {
         const state = {
@@ -244,7 +302,9 @@ const IntroState = types
           PR_1x4_f: self.PR_1x4_f,
           PR_1x4_fV: self.PR_1x4_fV,
           PR_1x2_f: self.PR_1x2_f,
+          PR_1x2_fV: self.PR_1x2_fV,
           PRib_1x4_f: self.PRib_1x4_f,
+          PRib_1x4_fV: self.PRib_1x4_fV,
           PRib_1x3_f: self.PRib_1x3_f,
           PRib_1x3_fV: self.PRib_1x3_fV,
           usedIncreaseType: self.usedIncreaseType,
@@ -252,6 +312,11 @@ const IntroState = types
           usedIncreaseTypeString: self.usedIncreaseTypeString,
           usedIncreaseTypeStringV: self.usedIncreaseTypeStringV,
           fit: self.fit,
+          SFit: self.SFit,
+          SOgr: self.SOgr,
+          SRostok: self.SRostok,
+          SRostokV: self.SRostokV,
+          stitches: self.stitches,
           ribbingWidth: self.ribbingWidth,
           raglanLineWidth: self.raglanLineWidth,
           raglanLineWidthV: self.raglanLineWidthV,
@@ -273,19 +338,50 @@ const IntroState = types
           RowPrib1x1V: self.RowPrib1x1V,
           RowPrib1x1String: self.RowPrib1x1String,
           RowPrib1x1StringV: self.RowPrib1x1StringV,
+          resultString21V: self.resultString21V,
+          resultString23V: self.resultString23V,
+          resultString24V: self.resultString24V,
+          resultString43V: self.resultString43V,
+          resultStringV: self.resultStringV,
           Ls: self.Ls,
+          LsV: self.LsV,
           hs: self.hs,
+          hsV: self.hsV,
+          NRfx: self.NRfx,
+          NRfxV: self.NRfxV,
           SV: self.SV,
           SVfront: self.SVfront,
+          SVO: self.SVO,
           LHV: self.LHV,
+          LKmaxV: self.LKmaxV,
+          KmaxV: self.KmaxV,
+          LHVmin: self.LHVmin,
+          LHVmax: self.LHVmax,
+          NHVmax: self.NHVmax,
+          NHVmin: self.NHVmin,
           NHV: self.NHV,
           LVfront:self.LVfront,
           necklineStyle: self.necklineStyle,
           SOcutV: self.SOcutV,
+          LpribVcorn: self.LpribVcorn,
+          SpribVcorn: self.SpribVcorn,
+          PribRVz: self.PribRVz,
+          PribRV1s: self.PribRV1s,
+          PribRV2s: self.PribRV2s,
+          PribRV3s: self.PribRV3s,
           RowPribRV1: self.RowPribRV1,
           RowPribRVz: self.RowPribRVz,
           RowPribRV2: self.RowPribRV2,
           RowPribRV3: self.RowPribRV3,
+          isV: self.isV,
+          isPlusOneV: self.isPlusOneV,
+          pairsWithIsV: self.pairsWithIsV,
+          pairsWithIsPlusOneV: self.pairsWithIsPlusOneV,
+          rowsWithIsV: self.rowsWithIsV,
+          rowsWithIsPlusOneV: self.rowsWithIsPlusOneV,
+          krV: self.krV,
+          positionsWithIsV: self.positionsWithIsV,
+          positionsWithIsPlusOneV: self.positionsWithIsPlusOneV,
           introFinished: self.introFinished,
         };
         await AsyncStorage.setItem('introState', JSON.stringify(state));
@@ -363,6 +459,11 @@ const IntroState = types
       self.usedIncreaseTypeString = state.usedIncreaseTypeString;
       self.usedIncreaseTypeStringV = state.usedIncreaseTypeStringV;
       self.fit = state.fit;
+      self.SFit = state.SFit;
+      self.SOgr = state.SOgr;
+      self.SRostok = state.SRostok ?? (state.SFrontO + 2 * state.Sfx + 2 * state.SKfront);
+      self.SRostokV = state.SRostokV ?? (state.SFrontV + 2 * state.SfxV + 2 * state.SKfrontV);
+      self.stitches = state.stitches;
       self.ribbingWidth = state.ribbingWidth;
       self.raglanLineWidth = state.raglanLineWidth;
       self.raglanLineWidthV = state.raglanLineWidthV;
@@ -384,19 +485,50 @@ const IntroState = types
       self.RowPrib1x1V = state.RowPrib1x1V;
       self.RowPrib1x1String = state.RowPrib1x1String;
       self.RowPrib1x1StringV = state.RowPrib1x1StringV;
+      self.resultString21V = state.resultString21V;
+      self.resultString23V = state.resultString23V;
+      self.resultString24V = state.resultString24V;
+      self.resultString43V = state.resultString43V;
+      self.resultStringV = state.resultStringV;
       self.Ls = state.Ls;
+      self.LsV = state.LsV;
       self.hs = state.hs;
+      self.hsV = state.hsV;
+      self.NRfx = state.NRfx;
+      self.NRfxV = state.NRfxV;
       self.necklineStyle = state.necklineStyle;
       self.SOcutV = state.SOcutV;
+      self.LpribVcorn = state.LpribVcorn;
+      self.SpribVcorn = state.SpribVcorn;
+      self.PribRVz = state.PribRVz;
+      self.PribRV1s = state.PribRV1s;
+      self.PribRV2s = state.PribRV2s;
+      self.PribRV3s = state.PribRV3s;
       self.RowPribRV1=state.RowPribRV1;
       self.RowPribRVz=state.RowPribRVz;
       self.RowPribRV2=state.RowPribRV2;
       self.RowPribRV3=state.RowPribRV3;
       self.SV=state.SV;
       self.SVfront=state.SVfront;
+      self.SVO=state.SVO;
       self.LHV=state.LHV;
+      self.LKmaxV=state.LKmaxV;
+      self.KmaxV=state.KmaxV;
+      self.LHVmin=state.LHVmin;
+      self.LHVmax=state.LHVmax;
+      self.NHVmax=state.NHVmax;
+      self.NHVmin=state.NHVmin;
       self.LVfront=state.LVfront;
       self.NHV=state.NHV;
+      self.isV=state.isV;
+      self.isPlusOneV=state.isPlusOneV;
+      self.pairsWithIsV=state.pairsWithIsV;
+      self.pairsWithIsPlusOneV=state.pairsWithIsPlusOneV;
+      self.rowsWithIsV=state.rowsWithIsV;
+      self.rowsWithIsPlusOneV=state.rowsWithIsPlusOneV;
+      self.krV=state.krV;
+      self.positionsWithIsV=state.positionsWithIsV ?? [];
+      self.positionsWithIsPlusOneV=state.positionsWithIsPlusOneV ?? [];
       self.RowPribRV3=state.RowPribRV3;
       self.introFinished=state.introFinished;
     },
@@ -421,62 +553,18 @@ const IntroState = types
   }))
   .views((self) => ({
     calculateRaglan() {
-      const result = calculateRaglan({
-        headCircumference: self.headCircumference,
-        neckCircumference: self.neckCircumference,
-        chestCircumference: self.chestCircumference,
-        stitchDensity: self.stitchDensity,
-        rowDensity: self.rowDensity,
-        fitType: self.fitType,
-        ribbingWidth: self.ribbingWidth,
-        ribbingWidthV: self.ribbingWidthV,
-        raglanLineWidthV: self.raglanLineWidthV,
-        RowPrib1x4: self.RowPrib1x4,  
-        RowPrib1x4V: self.RowPrib1x4V,
-        RowPrib1x4String: self.RowPrib1x4String,
-        RowPrib1x4StringV: self.RowPrib1x4StringV,
-        RowPrib1x3: self.RowPrib1x3,
-        RowPrib1x3V: self.RowPrib1x3V,
-        RowPrib1x3String: self.RowPrib1x3String,
-        RowPrib1x3StringV: self.RowPrib1x3StringV,
-        RowPrib1x2: self.RowPrib1x2,
-        RowPrib1x2V: self.RowPrib1x2V,
-        RowPrib1x2String: self.RowPrib1x2String,
-        RowPrib1x2StringV: self.RowPrib1x2StringV,
-        RowPrib1x1: self.RowPrib1x1,
-        RowPrib1x1V: self.RowPrib1x1V,
-        RowPrib1x1String: self.RowPrib1x1String,
-        RowPrib1x1StringV: self.RowPrib1x1StringV,
-        Ls: self.Ls,
-        hs: self.hs,
-        SFrontO: self.SFrontO,
-        
-        SFrontV: self.SFrontV,
-        K: self.K,
-        KV: self.KV,
-        NRrez: self.NRrez,
-        NRrezV: self.NRrezV,
-        SOcutV: self.SOcutV,
-        Sfx: self.Sfx,
-        SfxV: self.SfxV,
-        NHFront: self.NHFront,
-        NHFrontV: self.NHFrontV,
-        usedIncreaseType: self.usedIncreaseType,
-        usedIncreaseTypeV: self.usedIncreaseTypeV,
-        SV: self.SV,
-        SaV: self.SaV,
-        SVfront: self.SVfront,
-        LHV:self.LHV,
-        LVfront:self.LVfront,
-        measurementSystem: onboardingState.measurementSystem,
-      });
-
-      if (typeof result === 'string') {
-        return result;
-      }
-
-        setTimeout(() => self.setRaglanData(result), 0);
-      return result;
+      const snapshot = getSnapshot(self) as any;
+      return {
+        ...snapshot,
+        SRostok:
+          snapshot.SRostok && snapshot.SRostok > 0
+            ? snapshot.SRostok
+            : snapshot.SFrontO + 2 * snapshot.Sfx + 2 * snapshot.SKfront,
+        SRostokV:
+          snapshot.SRostokV && snapshot.SRostokV > 0
+            ? snapshot.SRostokV
+            : snapshot.SFrontV + 2 * snapshot.SfxV + 2 * snapshot.SKfrontV,
+      } as any;
     },
     getNHV() {
       if (self.depthNeckV === undefined) {
@@ -488,11 +576,8 @@ const IntroState = types
     },
   }))
   .actions((self) => ({
-    updateRaglanData() {
-      const result = self.calculateRaglan();
-      if (typeof result !== 'string') {
-        self.setRaglanData(result);
-      }
+    async updateRaglanData() {
+      await self.syncRaglanFromSupabase();
     },
   }));
 

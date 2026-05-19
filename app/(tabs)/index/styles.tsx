@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -39,6 +40,7 @@ export default observer(() => {
 
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]}>
+      <StatusBar style="dark" />
       <Text style={styles.title}>{i18n.t('chooseStyle')}</Text>
       
       {raglanStyles.map((style) => (

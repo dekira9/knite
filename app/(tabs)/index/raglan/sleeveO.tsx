@@ -4,7 +4,7 @@ import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
-import { calculateRaglan, RaglanOutput } from '@/utils/calculateRaglan';
+import type { RaglanOutput } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';

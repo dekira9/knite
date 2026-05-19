@@ -44,6 +44,21 @@ export default observer(() => {
   const insets = useSafeAreaInsets();
   const currentLanguage = onboardingState.language;
   const tabBarHeight = useBottomTabBarHeight();
+
+  useEffect(() => {
+    void introState.syncRaglanFromSupabase();
+  }, [
+    introState.headCircumference,
+    introState.neckCircumference,
+    introState.chestCircumference,
+    introState.stitchDensity,
+    introState.rowDensity,
+    introState.fitType,
+    introState.ribbingWidth,
+    introState.ribbingWidthV,
+    introState.raglanLineWidth,
+    introState.raglanLineWidthV,
+  ]);
   
   // Получаем значение ribbingWidthV из introState
   const ribbingWidthV = introState.ribbingWidthV;

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
+import { StatusBar } from 'expo-status-bar';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
@@ -23,6 +24,21 @@ export default observer(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
+
+  useEffect(() => {
+    void introState.syncRaglanFromSupabase();
+  }, [
+    introState.headCircumference,
+    introState.neckCircumference,
+    introState.chestCircumference,
+    introState.stitchDensity,
+    introState.rowDensity,
+    introState.fitType,
+    introState.ribbingWidth,
+    introState.ribbingWidthV,
+    introState.raglanLineWidth,
+    introState.raglanLineWidthV,
+  ]);
 
 
 
@@ -119,6 +135,7 @@ export default observer(() => {
 
   return (
     <View style={[styles.mainContainer]}>
+    <StatusBar style="dark" />
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}

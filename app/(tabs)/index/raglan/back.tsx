@@ -107,9 +107,6 @@ const BackScreen = observer(() => {
     return calculations;
   }, [pribMode, PR_1x2_f, PR_1x4_f, prib_1x2_f, prib_1x3_f, NHFront]);
 
-  console.log('currentSection', currentSection);
-  console.log('highlightedRows', highlightedRows);
-
   const highlightNextRow = () => {
     if (currentSection === 'elastic') {
       if (highlightedRows >= thickness) {

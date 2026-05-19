@@ -15,10 +15,8 @@ const LineraglanV = () => {
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   const Kmin = 0;
-  const [KmaxV] = useState(() => {
-    const result = introState.calculateRaglan();
-    return typeof result === 'string' ? 5 : result.KmaxV || 5;
-  });
+  const result = introState.calculateRaglan();
+  const KmaxV = typeof result === 'string' ? 5 : Math.max(1, Math.floor(result.KmaxV || 5));
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
 
   // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)

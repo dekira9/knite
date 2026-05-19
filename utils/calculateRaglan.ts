@@ -1,5 +1,3 @@
-import introState from "@/state/introState";
-
 const INCH_TO_CM = 2.54;
 const CM_ROUNDING_STEP = 0.5;
 
@@ -31,6 +29,7 @@ interface RaglanInput {
   ribbingWidth: number | string;
   ribbingWidthV: number | string;
   resultString24?: string;
+  raglanLineWidth?: number;
   raglanLineWidthV?: number;
   depthNeckV?: number;
   measurementSystem?: string;
@@ -160,7 +159,6 @@ export interface RaglanOutput {
   LsV: number;
 }
 
-
 export function calculateRaglan({
   headCircumference,
   neckCircumference,
@@ -170,7 +168,9 @@ export function calculateRaglan({
   fitType,
   ribbingWidth,
   ribbingWidthV,
+  raglanLineWidth,
   raglanLineWidthV,
+  depthNeckV,
   measurementSystem,
 }: RaglanInput): RaglanOutput | string {
   const head = parseNumericInput(headCircumference);
@@ -186,7 +186,7 @@ export function calculateRaglan({
     return 'Please enter all values correctly.';
   }
 
-  const K = introState.raglanLineWidth;
+  const K = raglanLineWidth ?? 0;
   const KVInput = raglanLineWidthV !== undefined ? raglanLineWidthV : 2;
   const KV = KVInput;
   const Hrez = ribbing; // ширина резинки в см
@@ -435,7 +435,7 @@ export function calculateRaglan({
   }
 
   // Получаем значение depthNeckV из параметров или из introState
-  const LHVInput = introState.depthNeckV !== undefined ? introState.depthNeckV : LHVmin;
+  const LHVInput = depthNeckV !== undefined ? depthNeckV : LHVmin;
   const LHV = LHVInput;
   
   // Рассчитываем NHV на основе LHV

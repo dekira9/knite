@@ -13,6 +13,8 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
+const CM_STEP = 0.1;
+const IN_STEP = 0.1;
 
 const DepthNeckV = () => {
   const colorScheme = useColorScheme();
@@ -146,7 +148,7 @@ const DepthNeckV = () => {
         maximumValue={maxDisplay}
         value={parseFloat(sliderValue) || minDisplay}
         onValueChange={handleSliderChange}
-        step={0.03937}
+        step={isMetric ? CM_STEP : IN_STEP * CM_PER_INCH}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#CCCCCC"
         thumbTintColor="#000000"

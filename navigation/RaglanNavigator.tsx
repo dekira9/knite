@@ -28,11 +28,12 @@ const Stack = createStackNavigator();
 
 export default function RaglanNavigator() {
   const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'light';
 
   return (
     <View style={{ flex: 1, paddingTop: 0 }}>
       <Stack.Navigator
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
           // headerStyle: {
           //   backgroundColor: Colors[colorScheme ?? 'light'].background,
           //   height: 40,
@@ -51,26 +52,26 @@ export default function RaglanNavigator() {
           //   justifyContent: 'center',
           // },
           // headerStatusBarHeight: 0,
-          headerTintColor: Colors[colorScheme ?? 'light'].text,
+          headerTintColor: Colors[theme].text,
           // presentation: 'card',
-          // headerLeft: ({ navigation }) => (
-          //   <TouchableOpacity 
-          //     onPress={() => navigation.goBack()} 
-          //     style={{ 
-          //       marginLeft: 10,
-          //       width: 40,
-          //       height: 40,
-          //       justifyContent: 'center',
-          //     }}
-          //   >
-          //     <Ionicons 
-          //       name="arrow-back" 
-          //       size={20}
-          //       color={Colors[colorScheme ?? 'light'].tint} 
-          //     />
-          //   </TouchableOpacity>
-          // ),
-        }}
+          headerLeft: () => (
+            <TouchableOpacity 
+              onPress={() => navigation.goBack()} 
+              style={{ 
+                marginLeft: 10,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+              }}
+            >
+              <Ionicons 
+                name="arrow-back" 
+                size={20}
+                color={Colors[theme].tint} 
+              />
+            </TouchableOpacity>
+          ),
+        })}
       >
         {/* Основные экраны */}
         <Stack.Screen

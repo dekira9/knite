@@ -9,13 +9,32 @@ import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { calculateRaglan } from '@/utils/calculateRaglan';
+import onboardingState from '@/state/onboardingState';
 
 const LineraglanWidth = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   const Kmin = 0;
-  const Kmax = Math.floor((introState.Sgor - 16) / 4);
+  const liveResult = calculateRaglan({
+    headCircumference: introState.headCircumference,
+    neckCircumference: introState.neckCircumference,
+    chestCircumference: introState.chestCircumference,
+    stitchDensity: introState.stitchDensity,
+    rowDensity: introState.rowDensity,
+    fitType: introState.fitType,
+    ribbingWidth: introState.ribbingWidth,
+    ribbingWidthV: introState.ribbingWidthV,
+    raglanLineWidth: introState.raglanLineWidth,
+    raglanLineWidthV: introState.raglanLineWidthV,
+    depthNeckV: introState.depthNeckV,
+    measurementSystem: onboardingState.measurementSystem,
+  });
+  const Kmax = Math.max(
+    1,
+    typeof liveResult === 'string' ? 5 : Math.floor((liveResult.Sgor - 16) / 4)
+  );
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidth.toString());
 
   // Функция для обработки изменений в Slider
@@ -53,7 +72,7 @@ const LineraglanWidth = () => {
       />
       <Text style={styles.title}>{i18n.t('RaglanLineWidth')}</Text>
       <View style={styles.inputContainer}>
-      <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) - 1).toString())}>
+      <TouchableOpacity onPress={() => handleTextInputChange(((parseInt(sliderValue, 10) || Kmin) - 1).toString())}>
         <Text style={styles.arrow}>-</Text>
       </TouchableOpacity>
         <TextInput
@@ -63,7 +82,7 @@ const LineraglanWidth = () => {
           //placeholder="Введите значение"
           onChangeText={handleTextInputChange}  
         />
-        <TouchableOpacity onPress={() => handleTextInputChange((parseInt(sliderValue) + 1).toString())}>
+        <TouchableOpacity onPress={() => handleTextInputChange(((parseInt(sliderValue, 10) || Kmin) + 1).toString())}>
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('stitches')}</Text>

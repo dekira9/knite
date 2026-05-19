@@ -2,7 +2,7 @@
   "expo": {
     "name": "Knitting Guide",
     "slug": "knite",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/iconKnitting.png",
     "scheme": "myapp",
@@ -13,8 +13,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/android-adaptive-foreground.png",
         "backgroundColor": "#ffffff"
+      },
+      "statusBar": {
+        "barStyle": "light-content"
       },
       "package": "com.ilyadylko.knitapp"
     },
@@ -28,7 +31,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/iconKnitting2.png",
+          "image": "./assets/android-adaptive-foreground.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

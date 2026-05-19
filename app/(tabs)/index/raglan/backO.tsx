@@ -4,10 +4,9 @@ import introState from '@/state/introState';
 import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
-import { calculateRaglan } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
 import { useNavigation } from '@react-navigation/native';
-import { RaglanOutput } from '@/utils/calculateRaglan';
+import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 
 

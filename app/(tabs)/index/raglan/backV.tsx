@@ -9,7 +9,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
 import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/resultV';
-import { RaglanOutput } from '@/utils/calculateRaglan';
+import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { useColorScheme } from 'react-native';
 import { Colors } from '@/constants/Colors';
 
