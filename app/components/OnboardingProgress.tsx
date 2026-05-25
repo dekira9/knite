@@ -7,7 +7,6 @@ const ONBOARDING_STEPS = [
   '/onboarding/welcome',
   '/onboarding/language',
   '/onboarding/measurement',
-  '/onboarding/subscription',
 ];
 
 export default function OnboardingProgress() {

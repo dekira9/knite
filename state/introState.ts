@@ -4,6 +4,13 @@ import { calculateRaglanRemote } from "@/utils/calculateRaglanCoreRemote";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeAutoObservable } from 'mobx';
 import onboardingState from "@/state/onboardingState";
+import { SAMPLE_MEASUREMENTS, type RaglanStyleId } from "@/constants/samplePresets";
+
+const SavedProject = types.model({
+  id: types.identifier,
+  savedAt: types.number,
+  state: types.frozen(),
+});
 
 const IntroState = types
   .model({
@@ -126,6 +133,10 @@ const IntroState = types
     
 
     introFinished: types.optional(types.boolean, false),
+    usesSampleMeasurements: types.optional(types.boolean, false),
+    hasCustomMeasurements: types.optional(types.boolean, false),
+    savedProjects: types.optional(types.array(SavedProject), []),
+    awaitingStyleChoice: types.optional(types.boolean, false),
     necklineStyle: types.optional(types.enumeration(['round', 'v-neck']), 'round'),
     SOcutV: types.optional(types.number, 0),
     SpribVcorn: types.optional(types.number, 0),
@@ -216,6 +227,91 @@ const IntroState = types
     },
     setIntroFinished(value: boolean) {
       self.introFinished = value;
+      this.persistState();
+    },
+    setUsesSampleMeasurements(value: boolean) {
+      self.usesSampleMeasurements = value;
+      this.persistState();
+    },
+    setHasCustomMeasurements(value: boolean) {
+      self.hasCustomMeasurements = value;
+      this.persistState();
+    },
+    setAwaitingStyleChoice(value: boolean) {
+      self.awaitingStyleChoice = value;
+    },
+    applySamplePreset(styleId: RaglanStyleId) {
+      const s = SAMPLE_MEASUREMENTS;
+      self.headCircumference = s.headCircumference;
+      self.neckCircumference = s.neckCircumference;
+      self.chestCircumference = s.chestCircumference;
+      self.stitchDensity = s.stitchDensity;
+      self.rowDensity = s.rowDensity;
+      self.fitType = s.fitType;
+      self.ribbingWidth = s.ribbingWidth;
+      self.ribbingWidthV = s.ribbingWidthV;
+      self.raglanLineWidth = s.raglanLineWidth;
+      self.raglanLineWidthV = s.raglanLineWidthV;
+      self.K = s.raglanLineWidth;
+      self.KV = s.raglanLineWidthV;
+      self.depthNeckV = s.depthNeckV;
+      self.style = styleId;
+      self.styleChosen = true;
+      this.persistState();
+    },
+    beginCustomMeasurements() {
+      self.introFinished = false;
+      this.persistState();
+    },
+    markMeasurementsCustom() {
+      self.hasCustomMeasurements = true;
+      self.usesSampleMeasurements = false;
+      this.persistState();
+    },
+    archiveCurrentProject() {
+      if (!self.introFinished || !self.style) {
+        return;
+      }
+      const full = getSnapshot(self) as Record<string, unknown> & {
+        savedProjects?: unknown;
+      };
+      const { savedProjects: _saved, ...snapshot } = full;
+      const last = self.savedProjects[0];
+      if (
+        last &&
+        (last.state as { style?: string; chestCircumference?: string }).style ===
+          snapshot.style &&
+        (last.state as { chestCircumference?: string }).chestCircumference ===
+          snapshot.chestCircumference
+      ) {
+        return;
+      }
+      self.savedProjects.unshift({
+        id: String(Date.now()),
+        savedAt: Date.now(),
+        state: snapshot,
+      });
+      if (self.savedProjects.length > 10) {
+        self.savedProjects.splice(10, self.savedProjects.length - 10);
+      }
+      void this.persistSavedProjects();
+    },
+    startNewProject() {
+      this.archiveCurrentProject();
+      self.introFinished = false;
+      self.styleChosen = false;
+      self.awaitingStyleChoice = true;
+      this.persistState();
+    },
+    restoreProject(id: string) {
+      const project = self.savedProjects.find((p) => p.id === id);
+      if (!project) {
+        return;
+      }
+      const raw = project.state as Record<string, unknown> & { savedProjects?: unknown };
+      const { savedProjects: _saved, ...projectState } = raw;
+      this.setPersistedState(projectState);
+      self.awaitingStyleChoice = false;
       this.persistState();
     },
     async syncRaglanFromSupabase() {
@@ -383,10 +479,23 @@ const IntroState = types
           positionsWithIsV: self.positionsWithIsV,
           positionsWithIsPlusOneV: self.positionsWithIsPlusOneV,
           introFinished: self.introFinished,
+          usesSampleMeasurements: self.usesSampleMeasurements,
+          hasCustomMeasurements: self.hasCustomMeasurements,
         };
         await AsyncStorage.setItem('introState', JSON.stringify(state));
+        await this.persistSavedProjects();
       } catch (error) {
         console.error('Failed to save intro state:', error);
+      }
+    },
+    async persistSavedProjects() {
+      try {
+        await AsyncStorage.setItem(
+          'introSavedProjects',
+          JSON.stringify(getSnapshot(self.savedProjects)),
+        );
+      } catch (error) {
+        console.error('Failed to save projects:', error);
       }
     },
     setPersistedState(state: any) {
@@ -530,19 +639,39 @@ const IntroState = types
       self.positionsWithIsV=state.positionsWithIsV ?? [];
       self.positionsWithIsPlusOneV=state.positionsWithIsPlusOneV ?? [];
       self.RowPribRV3=state.RowPribRV3;
-      self.introFinished=state.introFinished;
+      self.introFinished = state.introFinished;
+      self.usesSampleMeasurements = state.usesSampleMeasurements ?? false;
+      if (state.hasCustomMeasurements === true) {
+        self.hasCustomMeasurements = true;
+        self.usesSampleMeasurements = false;
+      } else if (state.introFinished === true && state.hasCustomMeasurements === undefined) {
+        // Users who completed the funnel before sample mode existed
+        self.hasCustomMeasurements = true;
+        self.usesSampleMeasurements = false;
+      } else {
+        self.hasCustomMeasurements = state.hasCustomMeasurements ?? false;
+      }
     },
     async loadPersistedState() {
       try {
-        const state = await AsyncStorage.getItem('introState');
-        if (state) {
-          const parsedState = JSON.parse(state);
-          console.log('parsedState', parsedState)
-          this.setPersistedState(parsedState);
-          // Object.assign(self, parsedState);
-        }
+        const [state, saved] = await Promise.all([
+          AsyncStorage.getItem('introState'),
+          AsyncStorage.getItem('introSavedProjects'),
+        ]);
+        this.applyLoadedPersistence(state, saved);
       } catch (error) {
         console.error('Failed to load intro state:', error);
+      }
+    },
+    applyLoadedPersistence(stateJson: string | null, savedJson: string | null) {
+      if (stateJson) {
+        this.setPersistedState(JSON.parse(stateJson));
+      }
+      if (savedJson) {
+        const parsed = JSON.parse(savedJson);
+        if (Array.isArray(parsed)) {
+          self.savedProjects.replace(parsed);
+        }
       }
     },
     setDepthNeckVFromRows(nhv: number) {

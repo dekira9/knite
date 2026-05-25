@@ -10,7 +10,6 @@ const MeasurementScreen = observer(() => {
 
   const selectSystem = (system: string) => {
     onboardingState.setMeasurementSystem(system);
-    // navigation.navigate('Subscription');
     handleSkip();
   };
 

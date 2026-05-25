@@ -59,8 +59,9 @@ const LineraglanWidth = () => {
   const handleNext = () => {
     const nextValue = Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin));
     introState.setRaglanLineWidth(nextValue);
+    introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
-    // router.push('/input/result');
+    (navigation as any).navigate('Result', { screen: 'Result' });
   };
 
   return (

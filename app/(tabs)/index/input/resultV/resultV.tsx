@@ -32,6 +32,7 @@ import Step3BackLengtheningV from './Step3BackLengtheningV';
 import Step4SeparatingSleevesV from './Step4SeparatingSleevesV';
 import ResultStepV from './ResultStepV';
 import { Colors } from '@/constants/Colors';
+import SampleMeasurementsBanner from '@/app/components/SampleMeasurementsBanner';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -83,7 +84,7 @@ export default observer(() => {
 
   const handleNewStyle = () => {
     introState.setStyleChosen(false);
-    (navigation as any).navigate('Styles');
+    (navigation as any).navigate('StylesHome');
   };
 
   // Проверяем, что results это RaglanOutput, а не строка с ошибкой
@@ -175,8 +176,8 @@ export default observer(() => {
   };
 
   const handleSelectNewStyle = () => {
-    introState.setIntroFinished(false);
-    (navigation as any).navigate('Styles');
+    introState.startNewProject();
+    (navigation as any).navigate('StylesHome');
   };
  
   return (
@@ -188,6 +189,7 @@ export default observer(() => {
         <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
           <Text style={styles.newStyleButtonText}>{i18n.t('newProject')}</Text>
         </TouchableOpacity>
+        <SampleMeasurementsBanner />
         <ScrollView 
           ref={carouselRef} // Add ref to carousel
           horizontal 

@@ -5,20 +5,25 @@ import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
-import {screenWidth} from '@/utils/Layout';
-import onboardingState from '@/state/onboardingState';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
+import { Colors } from '@/constants/Colors';
+
+function projectLabel(state: { style?: string; chestCircumference?: string }) {
+  const styleLabel =
+    state.style === 'v-neck' ? i18n.t('vNeck') : i18n.t('regularCollar');
+  const chest = state.chestCircumference ?? '';
+  return chest ? `${styleLabel} · ${chest} cm` : styleLabel;
+}
 
 export default observer(() => {
   const navigation = useNavigation();
-  const currentLanguage = onboardingState.language;
   const insets = useSafeAreaInsets();
-  console.log(introState.styleChosen)
+  const showStylePicker = introState.awaitingStyleChoice;
 
-  // Проверяем состояние и перенаправляем если нужно
   useEffect(() => {
     if (introState.introFinished) {
+      introState.setAwaitingStyleChoice(false);
       if (introState.style === 'regular') {
         navigation.navigate('Result', { screen: 'Result' });
       } else if (introState.style === 'v-neck') {
@@ -32,29 +37,89 @@ export default observer(() => {
     { id: 'v-neck', label: i18n.t('vNeck'), image: require('@/assets/images/v-neck.png') },
   ];
 
-  const selectStyle = (styleId: string) => {
-    introState.setStyle(styleId);
-    introState.setIntroFinished(false);
-    navigation.navigate('Input', { screen: 'Head' });
+  const selectStyle = async (styleId: 'regular' | 'v-neck') => {
+    if (!introState.hasCustomMeasurements) {
+      introState.applySamplePreset(styleId);
+      introState.setUsesSampleMeasurements(true);
+    } else {
+      introState.setStyle(styleId);
+      introState.setStyleChosen(true);
+    }
+
+    await introState.syncRaglanFromSupabase();
+    introState.setAwaitingStyleChoice(false);
+    introState.setIntroFinished(true);
+
+    const resultScreen = styleId === 'v-neck' ? 'ResultV' : 'Result';
+    (navigation as any).navigate('Result', { screen: resultScreen });
   };
+
+  const handleNewProject = () => {
+    introState.startNewProject();
+  };
+
+  const handleOpenProject = (id: string) => {
+    introState.restoreProject(id);
+    const resultScreen = introState.style === 'v-neck' ? 'ResultV' : 'Result';
+    (navigation as any).navigate('Result', { screen: resultScreen });
+  };
+
+  const handleBackToProjects = () => {
+    introState.setAwaitingStyleChoice(false);
+  };
+
+  const hasSavedProjects = introState.savedProjects.length > 0;
+
+  if (showStylePicker) {
+    return (
+      <ScrollView style={[styles.container, { paddingTop: insets.top }]}>
+        <StatusBar style="dark" />
+
+        <TouchableOpacity style={styles.backButton} onPress={handleBackToProjects}>
+          <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.title}>{i18n.t('chooseStyle')}</Text>
+        <Text style={styles.hint}>{i18n.t('stylesSampleHint')}</Text>
+
+        {raglanStyles.map((style) => (
+          <TouchableOpacity
+            key={style.id}
+            style={styles.styleButton}
+            onPress={() => void selectStyle(style.id as 'regular' | 'v-neck')}
+          >
+            <Image source={style.image} style={styles.styleImage} />
+            <Text style={styles.buttonTitle}>{style.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    );
+  }
 
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]}>
       <StatusBar style="dark" />
-      <Text style={styles.title}>{i18n.t('chooseStyle')}</Text>
-      
-      {raglanStyles.map((style) => (
-        <TouchableOpacity
-          key={style.id}
-          style={[
-            styles.styleButton,
-          ]}
-          onPress={() => selectStyle(style.id)}
-        >
-          <Image source={style.image} style={styles.styleImage} />
-          <Text style={styles.buttonTitle}>{style.label}</Text>
-        </TouchableOpacity>
-      ))}
+
+      <TouchableOpacity style={styles.newProjectButton} onPress={handleNewProject}>
+        <Text style={styles.newProjectButtonText}>{i18n.t('newProject')}</Text>
+      </TouchableOpacity>
+
+      {hasSavedProjects && (
+        <View style={styles.savedSection}>
+          <Text style={styles.savedSectionTitle}>{i18n.t('recentProjects')}</Text>
+          {introState.savedProjects.map((project) => (
+            <TouchableOpacity
+              key={project.id}
+              style={styles.savedProjectButton}
+              onPress={() => handleOpenProject(project.id)}
+            >
+              <Text style={styles.savedProjectTitle}>
+                {projectLabel(project.state as { style?: string; chestCircumference?: string })}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 });
@@ -65,11 +130,64 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
+  newProjectButton: {
+    backgroundColor: Colors.light.tint,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  newProjectButtonText: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: '600',
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+    paddingVertical: 4,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: Colors.light.tint,
+    fontWeight: '500',
+  },
+  savedSection: {
+    marginBottom: 20,
+  },
+  savedSectionTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#444',
+    marginBottom: 10,
+  },
+  savedProjectButton: {
+    padding: 14,
+    marginBottom: 8,
+    backgroundColor: '#f0f4f8',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#d0dce8',
+  },
+  savedProjectTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#222',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 8,
     textAlign: 'center',
+  },
+  hint: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 8,
+    lineHeight: 20,
   },
   styleButton: {
     padding: 20,
@@ -87,7 +205,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
-  selectedStyle: {
-    backgroundColor: '#e0e0e0',
-  },
-}); 
+});

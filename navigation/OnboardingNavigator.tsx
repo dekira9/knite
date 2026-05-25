@@ -5,7 +5,7 @@ import OnboardingProgress from '../app/components/OnboardingProgress';
 import WelcomeScreen from '../app/onboarding/welcome';
 import LanguageScreen from '../app/onboarding/language';
 import MeasurementScreen from '../app/onboarding/measurement';
-import SubscriptionScreen from '../app/onboarding/subscription';
+// Subscription screen kept in app/onboarding/subscription.tsx — re-add Stack.Screen when IAP is ready.
 
 const Stack = createStackNavigator();
 
@@ -41,13 +41,6 @@ export default function OnboardingNavigator() {
           component={MeasurementScreen}
           options={{
             title: 'Measurement',
-          }}
-        />
-        <Stack.Screen
-          name="Subscription"
-          component={SubscriptionScreen}
-          options={{
-            title: 'Subscription',
           }}
         />
       </Stack.Navigator>

@@ -14,7 +14,7 @@ export default function StylesNavigator() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Styles" component={StylesScreen} />
+      <Stack.Screen name="StylesHome" component={StylesScreen} />
       <Stack.Screen name="Input" component={InputNavigator} />
       <Stack.Screen name="Result" component={ResultNavigator} />
       <Stack.Screen name="Raglan" component={RaglanNavigator} />

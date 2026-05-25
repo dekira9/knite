@@ -92,7 +92,9 @@ const DepthNeckV = () => {
       : Math.min(maxDisplay, Math.max(minDisplay, displayValue));
     const actualValue = parseFloat((safeDisplayValue - HrezV).toFixed(1));
     introState.setDepthNeckV(actualValue);
+    introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
+    (navigation as any).navigate('Result', { screen: 'ResultV' });
   };
 
   return (

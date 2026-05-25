@@ -14,6 +14,7 @@ import Step2AddingStitches from './Step2AddingStitches';
 import Step3BackLengthening from './Step3BackLengthening';
 import Step4SeparatingSleeves from './Step4SeparatingSleeves';
 import { Colors } from '@/constants/Colors';
+import SampleMeasurementsBanner from '@/app/components/SampleMeasurementsBanner';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -129,8 +130,8 @@ export default observer(() => {
   };
 
   const handleSelectNewStyle = () => {
-    introState.setIntroFinished(false);
-    (navigation as any).navigate('Styles');
+    introState.startNewProject();
+    (navigation as any).navigate('StylesHome');
   };
 
   return (
@@ -143,6 +144,7 @@ export default observer(() => {
         <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
           <Text style={styles.newStyleButtonText}>{i18n.t('newProject')}</Text>
         </TouchableOpacity>
+        <SampleMeasurementsBanner />
         <ScrollView
           ref={carouselRef}
           horizontal

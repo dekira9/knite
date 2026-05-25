@@ -1,3 +1,7 @@
+/**
+ * Not registered in OnboardingNavigator until StoreKit/IAP is implemented.
+ * See navigation/OnboardingNavigator.tsx to wire it back in.
+ */
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
