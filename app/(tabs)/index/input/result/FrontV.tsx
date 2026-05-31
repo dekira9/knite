@@ -49,7 +49,7 @@ const FrontV = observer(({
   const navigation = useNavigation();
 
   const navigateToFrontV = () => {
-    (navigation as any).navigate('Raglan', { screen: 'FrontV' });
+    (navigation as any).navigate('Raglan', { screen: 'Front' });
   };
 
   // Определяем isRaglanOutput здесь

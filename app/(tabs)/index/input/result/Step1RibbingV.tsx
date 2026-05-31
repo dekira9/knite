@@ -31,7 +31,7 @@ const Step1RibbingV = observer(({
   const navigation = useNavigation();
 
   const navigateToRibbingCopyV = () => {
-    (navigation as any).navigate('Raglan', { screen: 'RibbingV' });
+    (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
   };
 
   return (

@@ -94,7 +94,7 @@ const DepthNeckV = () => {
     introState.setDepthNeckV(actualValue);
     introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
-    (navigation as any).navigate('Result', { screen: 'ResultV' });
+    (navigation as any).navigate('Result', { screen: 'Result' });
   };
 
   return (

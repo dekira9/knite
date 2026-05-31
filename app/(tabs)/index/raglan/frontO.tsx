@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text, Dimensions, useColorScheme   } from 'react-native';
 import introState from '@/state/introState';
-import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
 import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/index/input/result';
@@ -15,7 +13,6 @@ const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
   const colorScheme = useColorScheme();
   const [highlightedRow, setHighlightedRow] = useState(0);
-  const router = useRouter();
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   const screenWidth = Dimensions.get('window').width;

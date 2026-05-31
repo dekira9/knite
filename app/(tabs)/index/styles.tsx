@@ -24,10 +24,8 @@ export default observer(() => {
   useEffect(() => {
     if (introState.introFinished) {
       introState.setAwaitingStyleChoice(false);
-      if (introState.style === 'regular') {
+      if (introState.style === 'regular' || introState.style === 'v-neck') {
         navigation.navigate('Result', { screen: 'Result' });
-      } else if (introState.style === 'v-neck') {
-        navigation.navigate('Result', { screen: 'ResultV' });
       }
     }
   }, [introState.introFinished, introState.style]);
@@ -50,8 +48,7 @@ export default observer(() => {
     introState.setAwaitingStyleChoice(false);
     introState.setIntroFinished(true);
 
-    const resultScreen = styleId === 'v-neck' ? 'ResultV' : 'Result';
-    (navigation as any).navigate('Result', { screen: resultScreen });
+    (navigation as any).navigate('Result', { screen: 'Result' });
   };
 
   const handleNewProject = () => {
@@ -60,8 +57,7 @@ export default observer(() => {
 
   const handleOpenProject = (id: string) => {
     introState.restoreProject(id);
-    const resultScreen = introState.style === 'v-neck' ? 'ResultV' : 'Result';
-    (navigation as any).navigate('Result', { screen: resultScreen });
+    (navigation as any).navigate('Result', { screen: 'Result' });
   };
 
   const handleBackToProjects = () => {

@@ -117,15 +117,15 @@ const Step2AddingStitchesV = observer(({
   const navigation = useNavigation();
 
   const navigateToBackV = () => {
-    (navigation as any).navigate('Raglan', { screen: 'BackV' });
+    (navigation as any).navigate('Raglan', { screen: 'Back' });
   };
 
   const navigateToFrontV = () => {
-    (navigation as any).navigate('Raglan', { screen: 'FrontV' });
+    (navigation as any).navigate('Raglan', { screen: 'Front' });
   };
 
   const navigateToSleeveV = () => {
-    (navigation as any).navigate('Raglan', { screen: 'SleeveV' });
+    (navigation as any).navigate('Raglan', { screen: 'Sleeve' });
   };
 
   return (

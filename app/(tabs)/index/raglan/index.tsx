@@ -8,12 +8,8 @@ import i18n from '@/utils/translations';
 const RaglanIndex = observer(() => {
   const navigation = useNavigation();
 
-  const navigateToChart = (chartType: string) => {
-    if (introState.style === 'regular') {
-      navigation.navigate('Raglan', { screen: chartType + 'O' });
-    } else {
-      navigation.navigate('Raglan', { screen: chartType + 'V' });
-    }
+  const navigateToChart = (chartType: 'Ribbing' | 'Back' | 'Front' | 'Sleeve') => {
+    (navigation as any).navigate('Raglan', { screen: chartType });
   };
 
   return (

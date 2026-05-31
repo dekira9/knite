@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -7,11 +7,7 @@ import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import onboardingState from '@/state/onboardingState';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { screenWidth } from '@/utils/Layout';
-
-import { number } from 'mobx-state-tree/dist/internal';
 
 import {
   calculateVNeckIncreases01,
@@ -43,7 +39,6 @@ export default observer(() => {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const insets = useSafeAreaInsets();
-  const currentLanguage = onboardingState.language;
   const tabBarHeight = useBottomTabBarHeight();
 
   useEffect(() => {
@@ -79,7 +74,7 @@ export default observer(() => {
   console.log('rows:', rows);
   
   const handleStartKnitting = () => {
-    (navigation as any).navigate('Raglan', { screen: 'RibbingV' });
+    (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
   };
 
   const handleNewStyle = () => {

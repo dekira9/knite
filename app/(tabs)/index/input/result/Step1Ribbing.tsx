@@ -15,7 +15,7 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
   const navigation = useNavigation();
 
   const navigateToRibbingO = () => {
-    (navigation as any).navigate('Raglan', { screen: 'RibbingO' });
+    (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
   };
 
   return (

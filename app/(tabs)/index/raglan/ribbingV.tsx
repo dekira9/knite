@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
 import introState from '@/state/introState';
-import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import i18n from '@/utils/translations';
 
 import { 
@@ -13,7 +11,7 @@ import {
   calculateVNeckIncreases12,
   calculateVNeckIncreases22,
   calculateVNeckIncreases23
-} from '@/app/(tabs)/index/input/resultV/helpers';
+} from '@/app/(tabs)/index/input/result/helpers';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;
@@ -35,7 +33,6 @@ const App = observer(() => {
 
   const [highlightedRow, setHighlightedRow] = useState(-1);
   
-  const router = useRouter();
   //rotate v
   const angleInRadians = Math.acos(((SFrontV)*LsV/2)/((SVfront+1)*LsV)); 
   console.log('NHV',NHV)

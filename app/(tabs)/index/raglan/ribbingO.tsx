@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
 import introState from '@/state/introState';
-import raglanState from '@/state/raglanState';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';

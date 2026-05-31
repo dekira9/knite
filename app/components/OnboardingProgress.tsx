@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { usePathname } from 'expo-router';
+import { useNavigationState } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const ONBOARDING_STEPS = [
-  '/onboarding/welcome',
-  '/onboarding/language',
-  '/onboarding/measurement',
-];
+const ONBOARDING_STEP_ROUTES = ['Language', 'Measurement'];
 
 export default function OnboardingProgress() {
-  const pathname = usePathname();
   const insets = useSafeAreaInsets();
-  const currentStep = ONBOARDING_STEPS.indexOf(pathname);
-  const progress = (currentStep + 1) / ONBOARDING_STEPS.length;
+  const routeName = useNavigationState((state) => {
+    const route = state?.routes[state?.index ?? 0];
+    return route?.name ?? '';
+  });
+  const currentStep = ONBOARDING_STEP_ROUTES.indexOf(routeName);
+  const progress =
+    currentStep >= 0 ? (currentStep + 1) / ONBOARDING_STEP_ROUTES.length : 0;
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#007AFF',
     borderRadius: 2,
   },
-}); 
+});

@@ -3,12 +3,11 @@ import { View, StyleSheet , ScrollView,TouchableOpacity,Text,Dimensions   } from
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
-import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
-import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/resultV';
+import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/result';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { useColorScheme } from 'react-native';
 import { Colors } from '@/constants/Colors';
@@ -27,7 +26,6 @@ const App = observer(() => {
   const { SFrontV, SaV, KV, NRrezV, NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseTypeV} = introState;
   const colorScheme = useColorScheme();
   const [highlightedRow, setHighlightedRow] = useState(0);
-  const router = useRouter();
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseTypeV?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   
