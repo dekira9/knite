@@ -6,11 +6,11 @@ import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import i18n from '../utils/translations';
 
-import RaglanIndexScreen from '../app/(tabs)/index/raglan/index';
-import RibbingScreen from '../app/(tabs)/index/raglan/ribbing';
-import BackScreen from '../app/(tabs)/index/raglan/back';
-import FrontScreen from '../app/(tabs)/index/raglan/front';
-import SleeveScreen from '../app/(tabs)/index/raglan/sleeve';
+import RaglanIndexScreen from '@/screens/styles/raglan/index';
+import RibbingScreen from '@/screens/styles/raglan/ribbing';
+import BackScreen from '@/screens/styles/raglan/back';
+import FrontScreen from '@/screens/styles/raglan/front';
+import SleeveScreen from '@/screens/styles/raglan/sleeve';
 
 const Stack = createStackNavigator();
 

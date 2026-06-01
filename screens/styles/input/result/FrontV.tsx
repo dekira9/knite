@@ -115,7 +115,7 @@ const FrontV = observer(({
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
               <Image
-                source={require('../../../../../assets/images/frontVan.png')}
+                source={require('@/assets/images/frontVan.png')}
                 style={styles.frontImage}
               />
             </View>

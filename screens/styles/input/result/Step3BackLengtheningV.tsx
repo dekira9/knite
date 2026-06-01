@@ -126,7 +126,7 @@ const Step3BackLengtheningV = observer(({
             style={styles.planButton}
           >
             <Image
-              source={require('../../../../../assets/images/planVaz44.png')}
+              source={require('@/assets/images/planVaz44.png')}
               style={styles.planImage}
               contentFit="contain"
             />

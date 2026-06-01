@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
-import OnboardingProgress from '../app/components/OnboardingProgress';
-import WelcomeScreen from '../app/onboarding/welcome';
-import LanguageScreen from '../app/onboarding/language';
-import MeasurementScreen from '../app/onboarding/measurement';
-// Subscription screen kept in app/onboarding/subscription.tsx — re-add Stack.Screen when IAP is ready.
+import OnboardingProgress from '@/components/OnboardingProgress';
+import WelcomeScreen from '@/screens/onboarding/welcome';
+import LanguageScreen from '@/screens/onboarding/language';
+import MeasurementScreen from '@/screens/onboarding/measurement';
+// Subscription screen kept in screens/onboarding/subscription.tsx — re-add Stack.Screen when IAP is ready.
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export default function OnboardingNavigator() {
         screenOptions={{
           headerShown: false,
           gestureEnabled: false,
-          contentStyle: {
+          cardStyle: {
             backgroundColor: '#fff',
           },
         }}

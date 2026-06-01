@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
-import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/app/(tabs)/index/input/result';
+import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/screens/styles/input/result';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 

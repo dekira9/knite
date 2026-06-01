@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ResultScreen from '../app/(tabs)/index/input/result/result';
+import ResultScreen from '@/screens/styles/input/result/result';
 
 const Stack = createStackNavigator();
 

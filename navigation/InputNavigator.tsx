@@ -4,21 +4,21 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
-import IntroProgress from '../app/components/IntroProgress';
+import IntroProgress from '@/components/IntroProgress';
 
 // Import all input screens
-import InputIndexScreen from '../app/(tabs)/index/input/index';
-import HeadScreen from '../app/(tabs)/index/input/head';
-import NeckScreen from '../app/(tabs)/index/input/neck';
-import ChestScreen from '../app/(tabs)/index/input/chest';
-import StitchDensityScreen from '../app/(tabs)/index/input/stitch-density';
-import RowDensityScreen from '../app/(tabs)/index/input/row-density';
-import RibbingWidthScreen from '../app/(tabs)/index/input/ribbing-width';
-import RibbingWidthVScreen from '../app/(tabs)/index/input/ribbing-widthV';
-import FitScreen from '../app/(tabs)/index/input/fit';
-import DepthNeckVScreen from '../app/(tabs)/index/input/depthneckV';
-import LineraglanWidthScreen from '../app/(tabs)/index/input/lineraglan-width';
-import LineraglanVScreen from '../app/(tabs)/index/input/lineraglanV';
+import InputIndexScreen from '@/screens/styles/input/index';
+import HeadScreen from '@/screens/styles/input/head';
+import NeckScreen from '@/screens/styles/input/neck';
+import ChestScreen from '@/screens/styles/input/chest';
+import StitchDensityScreen from '@/screens/styles/input/stitch-density';
+import RowDensityScreen from '@/screens/styles/input/row-density';
+import RibbingWidthScreen from '@/screens/styles/input/ribbing-width';
+import RibbingWidthVScreen from '@/screens/styles/input/ribbing-widthV';
+import FitScreen from '@/screens/styles/input/fit';
+import DepthNeckVScreen from '@/screens/styles/input/depthneckV';
+import LineraglanWidthScreen from '@/screens/styles/input/lineraglan-width';
+import LineraglanVScreen from '@/screens/styles/input/lineraglanV';
 import i18n from '@/utils/translations';
 // Result screens moved to ResultNavigator
 

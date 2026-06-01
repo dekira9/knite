@@ -8,7 +8,7 @@ import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import StylesNavigator from './StylesNavigator';
-import SettingsScreen from '../app/(tabs)/settings';
+import SettingsScreen from '@/screens/settings';
 import i18n from '@/utils/translations';
 
 const Tab = createBottomTabNavigator();

@@ -40,7 +40,7 @@ const ResultStepV = observer(({
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.resultContainer}>
             <Image
-              source={require('../../../../../assets/images/sleevebodyV2.png')}
+              source={require('@/assets/images/sleevebodyV2.png')}
               style={styles.resultImage}
             />
           </View>

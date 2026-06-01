@@ -11,7 +11,7 @@ import {
   calculateVNeckIncreases12,
   calculateVNeckIncreases22,
   calculateVNeckIncreases23
-} from '@/app/(tabs)/index/input/result/helpers';
+} from '@/screens/styles/input/result/helpers';
 const { stitchDensity, rowDensity } = introState;
 const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
 const rows = parseFloat(rowDensity.replace(',', '.'))/10;

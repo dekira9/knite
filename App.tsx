@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, ActivityIndicator } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from './state/onboardingState';
 import introState from './state/introState';
@@ -33,16 +35,24 @@ const App = observer(() => {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator 
-        screenOptions={{ headerShown: false }}
-        initialRouteName={onboardingState.hasCompletedOnboarding ? 'Main' : 'Onboarding'}
-      >
-        <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
-        <Stack.Screen name="Main" component={MainNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={onboardingState.hasCompletedOnboarding ? 'Main' : 'Onboarding'}
+          >
+            <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+            <Stack.Screen name="Main" component={MainNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
+});
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
 });
 
 export default App;

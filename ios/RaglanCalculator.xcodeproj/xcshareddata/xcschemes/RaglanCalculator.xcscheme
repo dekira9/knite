@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "KnittingGuide.app"
-               BlueprintName = "KnittingGuide"
-               ReferencedContainer = "container:KnittingGuide.xcodeproj">
+               BuildableName = "RaglanCalculator.app"
+               BlueprintName = "RaglanCalculator"
+               ReferencedContainer = "container:RaglanCalculator.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "KnittingGuideTests.xctest"
-               BlueprintName = "KnittingGuideTests"
-               ReferencedContainer = "container:KnittingGuide.xcodeproj">
+               BuildableName = "RaglanCalculatorTests.xctest"
+               BlueprintName = "RaglanCalculatorTests"
+               ReferencedContainer = "container:RaglanCalculator.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "KnittingGuide.app"
-            BlueprintName = "KnittingGuide"
-            ReferencedContainer = "container:KnittingGuide.xcodeproj">
+            BuildableName = "RaglanCalculator.app"
+            BlueprintName = "RaglanCalculator"
+            ReferencedContainer = "container:RaglanCalculator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "KnittingGuide.app"
-            BlueprintName = "KnittingGuide"
-            ReferencedContainer = "container:KnittingGuide.xcodeproj">
+            BuildableName = "RaglanCalculator.app"
+            BlueprintName = "RaglanCalculator"
+            ReferencedContainer = "container:RaglanCalculator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

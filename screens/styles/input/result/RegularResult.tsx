@@ -14,7 +14,7 @@ import Step2AddingStitches from './Step2AddingStitches';
 import Step3BackLengthening from './Step3BackLengthening';
 import Step4SeparatingSleeves from './Step4SeparatingSleeves';
 import { Colors } from '@/constants/Colors';
-import SampleMeasurementsBanner from '@/app/components/SampleMeasurementsBanner';
+import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -160,7 +160,7 @@ export default observer(() => {
         >
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../../assets/images/planOaz1.png')}
+              source={require('@/assets/images/planOaz1.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -172,7 +172,7 @@ export default observer(() => {
             activeOpacity={1}
           >
             <Image
-              source={require('../../../../../assets/images/planOaz3.png')}
+              source={require('@/assets/images/planOaz3.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -180,7 +180,7 @@ export default observer(() => {
 
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../../assets/images/regular-collar.png')}
+              source={require('@/assets/images/regular-collar.png')}
               style={styles.slideImage}
               contentFit="contain"
             />
@@ -228,7 +228,7 @@ export default observer(() => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <View style={styles.resultContainer}>
               <Image
-                source={require('../../../../../assets/images/sleevebodyO2.png')}
+                source={require('@/assets/images/sleevebodyO2.png')}
                 style={styles.resultImage}
               />
             </View>

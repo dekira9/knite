@@ -18,11 +18,6 @@
       },
       "package": "com.ilyadylko.knitapp"
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
     "plugins": [
       [
         "expo-splash-screen",
@@ -37,7 +32,6 @@
       "expo-localization",
       "expo-web-browser",
       "expo-image",
-      "expo-router",
       "expo-status-bar"
     ],
     "extra": {

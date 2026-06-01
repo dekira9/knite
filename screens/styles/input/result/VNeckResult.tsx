@@ -28,7 +28,7 @@ import Step3BackLengtheningV from './Step3BackLengtheningV';
 import Step4SeparatingSleevesV from './Step4SeparatingSleevesV';
 import ResultStepV from './ResultStepV';
 import { Colors } from '@/constants/Colors';
-import SampleMeasurementsBanner from '@/app/components/SampleMeasurementsBanner';
+import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -201,7 +201,7 @@ export default observer(() => {
           <View style={styles.slideContainer}>
           
           <Image
-              source={require('../../../../../assets/images/planVaz111.png')}
+              source={require('@/assets/images/planVaz111.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
@@ -212,14 +212,14 @@ export default observer(() => {
             activeOpacity={1}
           >
           <Image
-              source={require('../../../../../assets/images/planVaz44.png')}
+              source={require('@/assets/images/planVaz44.png')}
               style={styles.slideImage}
               contentFit="contain"
              />
           </TouchableOpacity>
           <View style={styles.slideContainer}>
             <Image
-              source={require('../../../../../assets/images/v-neck.png')}
+              source={require('@/assets/images/v-neck.png')}
               style={styles.slideImage}
               contentFit="contain"
             />

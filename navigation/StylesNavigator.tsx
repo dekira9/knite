@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import StylesScreen from '../app/(tabs)/index/styles';
+import StylesScreen from '@/screens/styles/styles';
 import InputNavigator from './InputNavigator';
 import ResultNavigator from './ResultNavigator';
 import RaglanNavigator from './RaglanNavigator';

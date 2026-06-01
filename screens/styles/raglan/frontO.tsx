@@ -7,7 +7,7 @@ import type { RaglanOutput } from '@/utils/calculateRaglan';
 import i18n from '@/utils/translations';
 import { Colors } from '@/constants/Colors';
 
-import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/app/(tabs)/index/input/result';
+import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/screens/styles/input/result';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
