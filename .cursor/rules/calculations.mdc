@@ -1,0 +1,25 @@
+---
+description: Raglan math — Supabase, helpers, types
+globs: "{utils/calculateRaglan*.ts,utils/raglanCharts.ts,screens/styles/input/result/helpers.ts,supabase/**/*}"
+alwaysApply: false
+---
+
+# Calculations
+
+## Remote (source of truth for full raglan output)
+
+- Client: `utils/calculateRaglanCoreRemote.ts` → `supabase.functions.invoke('calculate-raglan')`.
+- Types: `RaglanOutput` from `utils/calculateRaglan.ts`.
+- Setup: `SUPABASE_SETUP.md`, edge `supabase/functions/calculate-raglan/`, SQL migration in `supabase/migrations/`.
+
+## Local helpers (`result/helpers.ts`)
+
+- Increase-row placement algorithms (`calculateIncreaseRows*`, `calculateVNeckIncreases*`).
+- `*V` suffix functions mirror v-neck; consider merging with a variant param only when adding tests.
+- Re-exported from `screens/styles/input/result/index.tsx` for screens.
+
+## introState
+
+- Populated from remote response in `syncRaglanFromSupabase` — UI reads `introState` fields, not raw API in screens.
+
+Changing formulas: verify both regular and v-neck result/chart screens still match expected numbers.

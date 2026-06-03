@@ -1,50 +1,31 @@
-# Welcome to your Expo app 👋
+# Knite — Raglan knitting calculator
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo React Native app for raglan sweater measurements, step-by-step results, and knitting charts (regular and v-neck).
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Setup
 
 ```bash
-npm run reset-project
+yarn install
+cp .env.example .env   # if present; set Supabase keys (see SUPABASE_SETUP.md)
+yarn start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Docs for contributors & AI
 
-## Learn more
+- [AGENTS.md](./AGENTS.md) — project map, conventions, what to avoid
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) — navigation and module diagram
+- [docs/TEST_PLAN.md](./docs/TEST_PLAN.md) — manual regression checklist
+- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) — edge function for raglan calculations
 
-To learn more about developing your project with Expo, look at the following resources:
+## Scripts
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+| Command | Description |
+|---------|-------------|
+| `yarn start` | Expo dev server |
+| `yarn ios` / `yarn android` | Native run |
+| `yarn test` | Jest |
+| `yarn lint` | ESLint |
 
-## Join the community
+## Stack
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+React Navigation · MobX / MST (`state/`) · i18n-js · Supabase edge function `calculate-raglan`

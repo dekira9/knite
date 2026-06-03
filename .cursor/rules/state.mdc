@@ -1,0 +1,26 @@
+---
+description: MobX-State-Tree stores and persistence
+globs: state/**/*
+alwaysApply: false
+---
+
+# State
+
+## introState (`introState.ts`)
+
+- MST model: measurement strings + many computed numeric fields.
+- **Paired fields** for regular vs v-neck (e.g. `Sgor` / `SgorV`) — update both sides when changing shared logic, or document variant-only change.
+- Persistence: AsyncStorage projects; `loadPersistedState()` on app start.
+- Remote sync: `syncRaglanFromSupabase()` uses `calculateRaglanRemote()`.
+- Style: `setStyle`, `setNecklineStyle('round' | 'v-neck')`.
+
+## onboardingState
+
+- `language`, `measurementSystem`, `hasCompletedOnboarding`, `hasSubscription`.
+- Keys AsyncStorage `onboardingState`.
+
+## reset
+
+- `state/reset.ts` — use when adding global reset behavior; keep in sync with both stores.
+
+Do not rename persisted fields without a migration plan.

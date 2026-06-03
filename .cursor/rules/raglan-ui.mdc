@@ -1,0 +1,26 @@
+---
+description: Style screens, facades, and chart implementations
+globs: screens/styles/**/*
+alwaysApply: false
+---
+
+# Raglan UI
+
+## Facades (edit for routing only)
+
+- `screens/styles/input/result/result.tsx` → `RegularResult` | `VNeckResult`
+- `screens/styles/raglan/{ribbing,front,back,sleeve}.tsx` → `*O.tsx` | `*V.tsx`
+
+## When fixing a bug
+
+1. Identify `regular` vs `v-neck` from `introState.style`.
+2. Open the matching `*O` or `*V` file (or shared step under `result/`).
+3. Extract shared UI to `components/` only when both variants need the same change.
+
+## Large screens
+
+`frontV.tsx`, `ribbingV.tsx`, `RegularResult.tsx`, `VNeckResult.tsx` — change the smallest sub-section; avoid full-file rewrites.
+
+## Input screens
+
+Shared: `head`, `neck`, `chest`, `stitch-density`, `row-density`, `fit`. V-neck-only: `ribbing-widthV`, `lineraglanV`, `depthneckV`.

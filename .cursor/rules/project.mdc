@@ -1,0 +1,15 @@
+---
+description: Knite app conventions and token-saving habits
+alwaysApply: true
+---
+
+# Knite (raglan calculator)
+
+Read `AGENTS.md` and `docs/ARCHITECTURE.md` before broad exploration.
+
+- React Navigation (not Expo Router). Entry: `App.tsx`, navigators in `navigation/`.
+- Styles: `introState.style` is `'regular'` or `'v-neck'`. Facades (`result.tsx`, `raglan/*.tsx` 8-line routers) delegate to `*O` / `*V` implementations.
+- Prefer minimal diffs. Do not read whole `utils/translations.ts` — grep the key and edit all locale blocks for that key only.
+- Avoid `ios/`, `android/`, `assets/` unless the task requires them.
+- Calculations: Supabase `calculate-raglan` via `calculateRaglanCoreRemote.ts`; UI helpers in `screens/styles/input/result/helpers.ts`.
+- After state/nav/calc changes, see `docs/TEST_PLAN.md`.
