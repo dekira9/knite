@@ -9,7 +9,17 @@ alwaysApply: false
 ## introState (`introState.ts`)
 
 - MST model: measurement strings + many computed numeric fields.
-- **Paired fields** for regular vs v-neck (e.g. `Sgor` / `SgorV`) — update both sides when changing shared logic, or document variant-only change.
+- **Paired fields** for regular vs v-neck — update both when changing shared logic:
+
+  | Regular | V-neck |
+  |---------|--------|
+  | `Sgor`, `NRrez`, `SFrontO` | `SgorV`, `NRrezV`, `SFrontV` |
+  | `Sa`, `K`, `NHFront`, `Sfx` | `SaV`, `KV`, `NHFrontV`, `SfxV` |
+  | `usedIncreaseType` | `usedIncreaseTypeV` |
+  | `ribbingWidth`, `raglanLineWidth` | `ribbingWidthV`, `raglanLineWidthV` |
+  | `RowPrib1x4`, `RowPrib1x4String` | `RowPrib1x4V`, `RowPrib1x4StringV` (same for 1x3/1x2/1x1) |
+
+  Full list: `docs/RAGLAN_GLOSSARY.md`.
 - Persistence: AsyncStorage projects; `loadPersistedState()` on app start.
 - Remote sync: `syncRaglanFromSupabase()` uses `calculateRaglanRemote()`.
 - Style: `setStyle`, `setNecklineStyle('round' | 'v-neck')`.
@@ -23,4 +33,6 @@ alwaysApply: false
 
 - `state/reset.ts` — use when adding global reset behavior; keep in sync with both stores.
 
-Do not rename persisted fields without a migration plan.
+Persisted AsyncStorage keys: `state/introStatePersistedKeys.ts` (`INTRO_STATE_PERSISTED_KEYS`). New field → model + one entry in that list.
+
+Do not rename persisted keys without a migration plan.

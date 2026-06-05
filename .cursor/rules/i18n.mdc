@@ -1,15 +1,16 @@
 ---
 description: Translations and locale keys
-globs: utils/translations.ts
+globs: utils/i18n/**/*
 alwaysApply: false
 ---
 
-# i18n (`utils/translations.ts`)
+# i18n
 
-- Pattern: `const keyName = { en: "...", ru: "...", ... }` then registered on `i18n` instance.
-- **Never read the full file** — search for an existing key or `const newKey =` pattern.
-- New UI strings: add a new const with **all** locales used elsewhere in the file (en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt).
-- Language at runtime from `onboardingState.language`.
-- Screens import `i18n from '@/utils/translations'` and call `i18n.t('key')`.
-
-Future refactor may split into `locales/*.ts` — keep `i18n.t` API stable.
+- Entry: `utils/translations.ts` (I18n instance only).
+- Strings live in `utils/i18n/strings/` by domain:
+  - `onboarding.ts`, `input.ts`, `result.ts`, `charts.ts`
+- Keys list: `utils/i18n/translationKeys.ts` — add new keys there and in merge.
+- Pattern per key: `export const keyName = { en: "...", ru: "...", ... }`.
+- **Open only the domain file** that matches your screen; grep the key name across `strings/`.
+- New keys need all 17 locales (en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt).
+- Runtime locale: `onboardingState.language`. Screens: `import i18n from '@/utils/translations'`.

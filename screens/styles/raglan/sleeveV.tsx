@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useRaglanChartState } from './useRaglanChartState';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text, Dimensions, useColorScheme   } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,209 +8,64 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
-import { calculateIncreaseRows1x2_1x4V, calculateIncreaseRows1x2_1x3V, calculateIncreaseRows1x2_1x1V, calculateIncreaseRows1x4_1x3V } from '@/screens/styles/input/result';
+import {
+  buildVNeckIncreaseRowStrings,
+  getIncreaseRowsFromType,
+  countSideArrayCells,
+} from './increaseRowSelection';
+import {
+  renderLeftIncreaseArray,
+  renderRightIncreaseArray,
+  renderBodyGrid,
+} from './increaseArrayRenderers';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
+import { computeStitchMetrics } from '@/utils/stitchMetrics';
+import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
 
-
-const { stitchDensity, rowDensity } = introState;
-const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
-const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   {/*см ширина петли*/}
-const hsV = 1 / rows; {/* см высота петли или ряда */}
-const Hc=hsV*25;
-const Lc=LsV*25
+const { heightPer25RowsCm: Hc, widthPer25StitchesCm: Lc } = computeStitchMetrics(
+  introState.stitchDensity,
+  introState.rowDensity
+);
 
 
 const App = observer(() => {
   const { SFrontV, SaV, KV, NRrezV, NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x1_fV, prib_1x2_fV, prib_1x3_fV, PRib_1x3_fV, PRib_1x4_fV, usedIncreaseTypeV} = introState;
   const colorScheme = useColorScheme();
-  const [highlightedRow, setHighlightedRow] = useState(0);
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseTypeV?.[0] || '');
-  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+  const {
+    highlightedRow,
+    selectedIncreaseType,
+    isDetailsExpanded,
+    currentIndex,
+    highlightNextRow,
+    highlightPreviousRow,
+    handleIncreaseTypePress,
+  } = useRaglanChartState(NHFrontV, usedIncreaseTypeV);
   
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
   
-  const currentIndex = usedIncreaseTypeV ? usedIncreaseTypeV.indexOf(selectedIncreaseType) : -1;
   const isRaglanOutput = (value: any): value is RaglanOutput => {
     return value !== null && typeof value === 'object' && 'PR_1x2_fV' in value;
   };
 
-  const { resultString24V } = calculateIncreaseRows1x2_1x4V(NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV) ;
-  const { resultString23V } = calculateIncreaseRows1x2_1x3V(NHFrontV, SfxV, prib_1x3_fV, prib_1x2_fV) ;
-  const { resultString21V } = calculateIncreaseRows1x2_1x1V(NHFrontV, SfxV, prib_1x1_fV, prib_1x2_fV) ;
-  const { resultString43V } = calculateIncreaseRows1x4_1x3V(NHFrontV, SfxV, PRib_1x4_fV, PRib_1x3_fV) ;
-  const RowPrib1x4V = Array.from({ length: SfxV }, (_, index) => 1 + index * 4);
-  const RowPrib1x4StringV = RowPrib1x4V.join(', ');
-  const RowPrib1x3V = Array.from({ length: SfxV }, (_, index) => 1 + index * 3);
-  const RowPrib1x3StringV = RowPrib1x3V.join(', ');
-  const RowPrib1x2V = Array.from({ length: SfxV }, (_, index) => 1 + index * 2);
-  const RowPrib1x2StringV = RowPrib1x2V.join(', ');
-  const RowPrib1x1V = Array.from({ length: SfxV }, (_, index) => 1 + index * 1);
-  const RowPrib1x1StringV = RowPrib1x1V.join(', ');
+  const increaseStrings = buildVNeckIncreaseRowStrings({
+    nhFront: NHFrontV,
+    sfx: SfxV,
+    pr1x4_f: PR_1x4_fV,
+    pr1x2_f: PR_1x2_fV,
+    prib1x1_f: prib_1x1_fV,
+    prib1x2_f: prib_1x2_fV,
+    prib1x3_f: prib_1x3_fV,
+    prib1x4_f: PRib_1x4_fV,
+    prib1x3_rib_f: PRib_1x3_fV,
+  });
+  const increaseRows = getIncreaseRowsFromType(selectedIncreaseType, increaseStrings, {
+    nullable: true,
+  });
 
-   const getIncreaseRowsV = () => {
-    if (!selectedIncreaseType) return [];
-    
-    switch (selectedIncreaseType) {
-      case '1x2, 1x4':
-        return resultString24V ? resultString24V.split(', ').map(Number) : [];
-      case '1x2, 1x3':
-        return resultString23V ? resultString23V.split(', ').map(Number) : [];
-      case '1x2, 1x1':
-        return resultString21V ? resultString21V.split(', ').map(Number) : [];
-      case '1x3, 1x4':
-        return resultString43V ? resultString43V.split(', ').map(Number) : [];
-      case '1x3':
-        return RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
-      case '1x4':
-        return RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
-      case '1x2':
-        return RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
-      case '1x1':
-        return RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
-      default:
-        return [];
-    }
-  };
-
-  const renderLeftIncreaseArrayV = () => {
-    const increaseRowsV = getIncreaseRowsV();
-    const cells = [];
-    let additionalCells = 0;
-  
-    for (let i = 0; i < NHFrontV; i++) {
-      if (increaseRowsV.includes(i + 1)) {
-        additionalCells++;
-      }
-      const row = [];
-      for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
-      const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
-        const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-         {/* Добавляем ячейки в конец для левого массива*/} 
-        row.push(<View key={`${i}-${j}`} style={[cellStyle,
-            i === highlightedRow && styles.highlightedCell]} />);
-      }
-      cells.push(
-        <View key={`left-${i}`} style={[styles.row, styles.leftRow]}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-  
-  const renderRightIncreaseArrayV = () => {
-    const increaseRowsV = getIncreaseRowsV();
-    const cells = [];
-    let additionalCells = 0;
-  
-    for (let i = 0; i < NHFrontV; i++) {
-      if (increaseRowsV.includes(i + 1)) {
-        additionalCells++;
-      }
-      const row = [];
-      for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRowsV.includes(i + 1);
-      const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
-
-        const cell = <View key={`right-${i}-${j}`} style={cellStyle} />;
-        {/* Добавляем ячейки в конец для правого массива*/}
-        row.push(
-          <View key={`${i}-${j}`} style={[cellStyle,
-            i === highlightedRow && styles.highlightedCell]} />
-        );
-      }
-      cells.push(
-        <View key={`right-${i}`} style={styles.row}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-
-  const renderSleeveV = () => {
-    const cells = [];
-    for (let i = -1; i < NHFrontV; i++) {
-      const row = [];
-      for (let j = 0; j < SaV; j++) {
-        row.push(
-          <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
-        );
-      }
-      cells.push(
-        <View key={i} style={styles.row}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-
-  const highlightNextRow = () => {
-    setHighlightedRow((prev) => (prev + 1) % NHFrontV);
-  };
-
-  const highlightPreviousRow = () => {
-    setHighlightedRow((prev) => (prev - 1 + NHFrontV) % NHFrontV);
-  };
-{/* счетчик ячеек левого и правого массива */}
-  const getLeftArrayCellCount = () => {
-    const increaseRowsV = getIncreaseRowsV();
-    let additionalCells = 0;
-    if (highlightedRow < NHFrontV) {
-      for (let i = 0; i <= highlightedRow; i++) {
-        if (increaseRowsV.includes(i + 1)) {
-          additionalCells++;
-        }
-      }
-    }
-    return additionalCells;
-  };
-
-  const getRightArrayCellCount = () => {
-    const increaseRowsV = getIncreaseRowsV();
-    let additionalCells = 0;
-        if (highlightedRow < NHFrontV) {
-            for (let i = 0; i <= highlightedRow; i++) {
-                if (increaseRowsV.includes(i + 1)) {
-                    additionalCells++;
-                }
-            }
-        }
-    return additionalCells;
-  };
-  const leftCellCount = getLeftArrayCellCount();
-    const rightCellCount = getRightArrayCellCount();
-
-  useEffect(() => {
-    console.log('Debug values:', {
-      NHFrontV,
-      SfxV,
-      PR_1x4_fV,
-      PR_1x2_fV,
-      prib_1x3_fV,
-      prib_1x2_fV,
-      prib_1x1_fV,
-      PRib_1x3_fV,
-      PRib_1x4_fV
-    });
-
-    const result24 = calculateIncreaseRows1x2_1x4V(NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x4V result:', result24);
-
-    const result23 = calculateIncreaseRows1x2_1x3V(NHFrontV, SfxV, prib_1x3_fV, prib_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x3V result:', result23);
-
-    const result21 = calculateIncreaseRows1x2_1x1V(NHFrontV, SfxV, prib_1x1_fV, prib_1x2_fV);
-    console.log('calculateIncreaseRows1x2_1x1V result:', result21);
-
-    const result43 = calculateIncreaseRows1x4_1x3V(NHFrontV, SfxV, PRib_1x4_fV, PRib_1x3_fV);
-    console.log('calculateIncreaseRows1x4_1x3V result:', result43);
-  }, [NHFrontV, SfxV, PR_1x4_fV, PR_1x2_fV, prib_1x3_fV, prib_1x2_fV, prib_1x1_fV, PRib_1x3_fV, PRib_1x4_fV]);
+  const leftCellCount = countSideArrayCells(increaseRows, NHFrontV, highlightedRow);
+  const rightCellCount = countSideArrayCells(increaseRows, NHFrontV, highlightedRow);
 
   return (
 
@@ -225,14 +81,7 @@ const App = observer(() => {
         usedIncreaseTypeV.map((type: string) => (
           <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
             <TouchableOpacity 
-              onPress={() => {
-                setSelectedIncreaseType(type);
-                if (selectedIncreaseType === type) {
-                  setIsDetailsExpanded(!isDetailsExpanded);
-                } else {
-                  setIsDetailsExpanded(false);
-                }
-              }}
+              onPress={() => handleIncreaseTypePress(type)}
               style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}
             >
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}>
@@ -255,7 +104,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString24V}</Text>
+                <Text style={styles.resultText}>{increaseStrings.resultString24}</Text>
                
               </>
             )}
@@ -265,7 +114,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString23V}</Text>
+                <Text style={styles.resultText}>{increaseStrings.resultString23}</Text>
               </>
             )}
             {type === '1x2, 1x1' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
@@ -273,7 +122,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString21V}</Text>
+                <Text style={styles.resultText}>{increaseStrings.resultString21}</Text>
               </>
             )}
             {type === '1x3, 1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
@@ -281,7 +130,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_fV}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_fV}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.resultText}>{resultString43V}</Text>
+                <Text style={styles.resultText}>{increaseStrings.resultString43}</Text>
               </>
             )}
             {type === '1x4' && isRaglanOutput(results) && selectedIncreaseType === type && isDetailsExpanded && (
@@ -347,13 +196,13 @@ const App = observer(() => {
       
       <View style={[styles.horContainer]}>
       <View style={styles.increaseArrayLeft}>
-          {renderLeftIncreaseArrayV()}
+          {renderLeftIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
         </View>
         <View style={styles.Front}>
-          {renderSleeveV()}
+          {renderBodyGrid(SaV, NHFrontV, highlightedRow, styles)}
         </View>
         <View style={styles.increaseArrayRight}>
-          {renderRightIncreaseArrayV()}
+          {renderRightIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
         </View>
       </View>
       </ScrollView>
@@ -384,28 +233,12 @@ const App = observer(() => {
 });
 
 const styles = StyleSheet.create({
+  ...raglanChartChromeStyleDefs,
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-  },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 0,
-    backgroundColor: '#FFFFFF',
-  },
-  horContainerTop: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    marginRight: 5,
-    marginTop: 5,
-    backgroundColor: '#FFFFFF',
-    width: 'auto',
-    paddingHorizontal: 1,
-    gap: 2,
   },
   horContainer: {
     flexDirection: 'row',
@@ -448,82 +281,13 @@ const styles = StyleSheet.create({
     margin: 0,
   },
  
-  navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    padding: 5,
-    gap: 15,
-    backgroundColor: '#fff',
-  },
-  navButton: {
-    padding: 5,
-  },
-  highlightedCell: {
-    backgroundColor: 'red',
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  controlsInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    flexDirection: 'column',
-    width: '100%',
-    backgroundColor: '#fff',
-  },
-  
-  infoText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  section: {
-    marginBottom: 0,
-    marginHorizontal: 0,
-    padding: 0,
-    backgroundColor: '#F1F1F2',
-    borderRadius: 8,
-    minWidth: '45%',
-    alignSelf: 'flex-start',
-  },
-  resultText: {
-    fontSize: 12,
-    marginBottom: 1,
-
-    textAlign: 'center' as const,
-  },  
-  scrollContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  
-  },
-  optionButton: {
-    marginBottom: 5,
-    padding: 5,
-    backgroundColor: '#C6C6C6',
-    borderRadius: 5,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  chevronIcon: {
-    marginLeft: 8,
-  },
+    
   selectedOptionButton: {
     backgroundColor: '#007AFF', 
   },
   optionText: {
     fontSize: 14,
     color: 'red',
-  },
-  selectedOptionText: {
-    color: 'white',
   },  
   increaseCell: {
     width: Lc,
@@ -569,23 +333,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
-  },
-  paginationContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 5,
-    backgroundColor: '#FFFFFF',
-    marginTop: 0,
-   
-    },
-  paginationDot: {
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-    backgroundColor: '#C6C6C6',
-    marginHorizontal: 4,
   },
   // Additional styles for inline replacements
   indicatorRow: {

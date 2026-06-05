@@ -1,20 +1,11 @@
 import { supabase } from "@/lib/supabase";
-import type { RaglanOutput } from "@/utils/calculateRaglan";
+import type { RaglanInput, RaglanOutput } from "@/utils/calculateRaglan";
 
-export interface RaglanRemoteInput {
-  headCircumference: string;
-  neckCircumference: string;
-  chestCircumference: string;
-  stitchDensity: string;
-  rowDensity: string;
-  fitType: string;
-  ribbingWidth: number | string;
-  ribbingWidthV: number | string;
+/** Remote body matches `calculateRaglan` input (required raglan widths). */
+export type RaglanRemoteInput = RaglanInput & {
   raglanLineWidth: number;
   raglanLineWidthV: number;
-  depthNeckV?: number;
-  measurementSystem?: string;
-}
+};
 
 export async function calculateRaglanRemote(
   input: RaglanRemoteInput

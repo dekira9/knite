@@ -11,12 +11,13 @@ Expo React Native app: knit raglan sweater measurements, step-by-step results, a
 | Measurements + charts UI | `screens/styles/`, `screens/onboarding/` |
 | Global knitting state | `state/introState.ts` (MST + persistence) |
 | Locale / units onboarding | `state/onboardingState.ts` |
-| i18n | `utils/translations.ts` (large — grep keys, don’t read whole file) |
+| i18n | `utils/translations.ts` + `utils/i18n/strings/{onboarding,input,result,charts}.ts` |
 | Remote raglan math | `utils/calculateRaglanCoreRemote.ts` → Supabase `calculate-raglan` |
+| Raglan core (shared with edge) | `utils/raglan/` — `calculateRaglan.ts` re-exports; see `docs/RAGLAN_GLOSSARY.md` |
 | Local increase-row helpers | `screens/styles/input/result/helpers.ts` |
-| Legacy local calc types | `utils/calculateRaglan.ts` (`RaglanOutput` type) |
+| Raglan output types | `utils/raglan/types.ts` (`RaglanOutput`) |
 
-See `docs/ARCHITECTURE.md` for flow diagram and file-size hotspots.
+See `docs/ARCHITECTURE.md` for flow diagram; `docs/TASK_ROUTER.md` for task→file lookup; `docs/HOTSPOTS.md` for line-level edit map; `docs/SYMBOLS.md` for grep index.
 
 ## Navigation flow
 
@@ -56,12 +57,14 @@ App
 
 ## i18n
 
-- `utils/translations.ts` — one object per key, all locales inline. Add the same key to every language block. Use `i18n.t('key')` in screens.
+- `utils/i18n/strings/*.ts` — one `export const keyName` per UI string, all locales in that object.
+- Register new keys in `utils/i18n/translationKeys.ts`. Use `i18n.t('key')` in screens.
+- Result-step math split: `screens/styles/input/result/{increaseRowsRegular,vNeckCornerIncreases,increaseRowsVNeck}.ts` (re-exported from `helpers.ts`).
 
 ## What to avoid without explicit request
 
 - Editing `ios/`, `android/`, EAS config, or bulk `assets/`.
-- Reading entire `translations.ts` or monolith screens (`frontV.tsx`, `ribbingV.tsx`, `RegularResult.tsx`) — open the smallest file that owns the change.
+- Reading entire monolith screens (`frontV.tsx`, `ribbingV.tsx`, `RegularResult.tsx`) — use `docs/HOTSPOTS.md` or shared `screens/styles/raglan/increaseRowSelection.ts`.
 - Merging `*O`/`*V` screens or collapsing `introState` fields in one PR (persistence risk).
 
 ## Regression checklist
@@ -74,6 +77,7 @@ App
 yarn install
 yarn start          # expo start
 yarn ios / yarn android
-yarn test
+yarn test          # unit tests (incl. utils/raglan)
+yarn test:raglan   # golden compare + raglan tests
 yarn lint
 ```

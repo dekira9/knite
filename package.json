@@ -8,14 +8,13 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --watchAll",
+    "test": "jest --watchAll=false",
+    "test:watch": "jest --watchAll",
+    "test:raglan": "tsx scripts/compareRaglanCalc.mts && jest --watchAll=false utils/raglan/__tests__/calculateRaglan.test.ts",
     "lint": "expo lint",
     "ba": "eas build --platform android --local",
     "bi": "eas build --platform ios --local",
     "si": "eas submit -p ios"
-  },
-  "jest": {
-    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "15.1.1",
@@ -61,11 +60,15 @@
     "@types/jest": "^29.5.12",
     "@types/react": "~19.2.10",
     "@types/react-test-renderer": "^18.3.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~56.0.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
     "javascript-obfuscator": "^4.2.0",
+    "@react-native/jest-preset": "^0.85.0",
     "jest": "^29.2.1",
     "jest-expo": "~56.0.4",
+    "tsx": "^4.19.4",
     "prettier": "^3.5.3",
     "react-test-renderer": "18.3.1",
     "typescript": "~6.0.3"

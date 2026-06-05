@@ -1,6 +1,6 @@
 ---
 description: Raglan math — Supabase, helpers, types
-globs: "{utils/calculateRaglan*.ts,utils/raglanCharts.ts,screens/styles/input/result/helpers.ts,supabase/**/*}"
+globs: "{utils/calculateRaglan*.ts,utils/raglanCharts.ts,screens/styles/input/result/**/increase*.ts,screens/styles/input/result/**/vNeck*.ts,screens/styles/input/result/helpers.ts,supabase/**/*}"
 alwaysApply: false
 ---
 
@@ -9,17 +9,24 @@ alwaysApply: false
 ## Remote (source of truth for full raglan output)
 
 - Client: `utils/calculateRaglanCoreRemote.ts` → `supabase.functions.invoke('calculate-raglan')`.
-- Types: `RaglanOutput` from `utils/calculateRaglan.ts`.
+- Core: `utils/raglan/` (entry `utils/calculateRaglan.ts`). Types: `utils/raglan/types.ts`.
 - Setup: `SUPABASE_SETUP.md`, edge `supabase/functions/calculate-raglan/`, SQL migration in `supabase/migrations/`.
 
-## Local helpers (`result/helpers.ts`)
+## Local helpers (`result/`)
 
-- Increase-row placement algorithms (`calculateIncreaseRows*`, `calculateVNeckIncreases*`).
-- `*V` suffix functions mirror v-neck; consider merging with a variant param only when adding tests.
-- Re-exported from `screens/styles/input/result/index.tsx` for screens.
+- `increaseRowsRegular.ts` — regular increase-row placement + `determineIncreaseType`
+- `vNeckCornerIncreases.ts` — `calculateVNeckIncreases*`
+- `increaseRowsVNeck.ts` — `*V` suffixed row helpers (distinct return field names)
+- Barrel: `helpers.ts` → re-exported from `index.tsx`
+- Regular result precompute: `useRegularIncreasePrecompute.ts`
 
 ## introState
 
 - Populated from remote response in `syncRaglanFromSupabase` — UI reads `introState` fields, not raw API in screens.
+
+## Chart increase rows (`screens/styles/raglan/`)
+
+- `increaseRowSelection.ts` — build strings + type switch + side cell counts
+- `increaseArrayRenderers.tsx` — left/right/body grid JSX
 
 Changing formulas: verify both regular and v-neck result/chart screens still match expected numbers.

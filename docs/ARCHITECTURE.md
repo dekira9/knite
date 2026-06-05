@@ -77,16 +77,26 @@ Shared math exports: `helpers.ts` (re-exported from `index.tsx`).
 | front | `frontO.tsx` | `frontV.tsx` |
 | sleeve | `sleeveO.tsx` | `sleeveV.tsx` |
 
+Shared chart logic (increase rows + grid renderers): `screens/styles/raglan/increaseRowSelection.ts`, `increaseArrayRenderers.tsx`. Stitch cm helpers: `utils/stitchMetrics.ts`.
+
+Line-level edit map: `docs/HOTSPOTS.md`.
+
 ## Large files (prefer surgical edits)
 
 | File | ~lines | Role |
 |------|--------|------|
-| `utils/translations.ts` | 2300+ | All locales |
+| `utils/i18n/strings/*.ts` | ~350–720 per domain | Per-locale UI copy |
+| `utils/translations.ts` | ~15 | I18n bootstrap |
 | `state/introState.ts` | 700+ | MST model + actions |
-| `screens/styles/raglan/frontV.tsx` | 1200+ | V-neck front chart |
-| `screens/styles/raglan/ribbingV.tsx` | 900+ | V-neck collar chart |
-| `screens/styles/input/result/RegularResult.tsx` | 800+ | Regular result wizard |
-| `screens/styles/input/result/helpers.ts` | 600+ | Increase-row algorithms |
+| `screens/styles/raglan/vNeckFrontGrid.tsx` | ~430 | V-neck front chart shaping (extracted from `frontV.tsx`) |
+| `screens/styles/raglan/frontV.tsx` | ~590 | V-neck front chart layout + carousel |
+| `screens/styles/raglan/ribbingV.tsx` | ~810 | V-neck collar chart layout |
+| `screens/styles/raglan/ribbingVCollarGrid.ts` | ~95 | V-neck collar increase dispatch |
+| `screens/styles/input/result/RegularResult.tsx` | ~160 | Regular result orchestrator |
+| `screens/styles/input/result/RegularResultSummary.tsx` | ~320 | Final corpus/sleeve summary |
+| `state/introStatePersistedKeys.ts` | ~160 | AsyncStorage field whitelist |
+| `screens/styles/input/result/increaseRows*.ts` | ~550 total | Increase-row algorithms |
+| `utils/raglan/` | modular | Calc core + types (see `docs/RAGLAN_GLOSSARY.md`) |
 
 ## Path alias
 

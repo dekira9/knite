@@ -14,8 +14,12 @@ alwaysApply: false
 ## When fixing a bug
 
 1. Identify `regular` vs `v-neck` from `introState.style`.
-2. Open the matching `*O` or `*V` file (or shared step under `result/`).
-3. Extract shared UI to `components/` only when both variants need the same change.
+2. **Raglan increase rows** on back/front/sleeve charts → `increaseRowSelection.ts` + `increaseArrayRenderers.tsx` first.
+3. **V-neck front shaping** on front chart → `vNeckFrontGrid.tsx`.
+4. **V-neck collar chart** increases → `ribbingVCollarGrid.ts`.
+5. Chart row/type picker state → `useRaglanChartState.ts`.
+6. Open the matching `*O` or `*V` file for layout-only changes.
+7. See `docs/HOTSPOTS.md` + `docs/TASK_ROUTER.md`.
 
 ## Large screens
 

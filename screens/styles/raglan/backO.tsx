@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useRaglanChartState } from './useRaglanChartState';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Text, Dimensions, useColorScheme } from 'react-native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -9,20 +10,34 @@ import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 
 
-import { calculateIncreaseRows1x2_1x4, calculateIncreaseRows1x2_1x3, calculateIncreaseRows1x2_1x1, calculateIncreaseRows1x4_1x3 } from '@/screens/styles/input/result';
+import {
+  buildRegularIncreaseRowStrings,
+  getIncreaseRowsFromType,
+  countSideArrayCells,
+} from './increaseRowSelection';
+import {
+  renderLeftIncreaseArray,
+  renderRightIncreaseArray,
+  renderBodyGrid,
+} from './increaseArrayRenderers';
+import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
   const colorScheme = useColorScheme();
-  const [highlightedRow, setHighlightedRow] = useState(0);
   const navigation = useNavigation();
-  const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseType?.[0] || '');
-  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
-  
+  const {
+    highlightedRow,
+    selectedIncreaseType,
+    isDetailsExpanded,
+    currentIndex,
+    highlightNextRow,
+    highlightPreviousRow,
+    handleIncreaseTypePress,
+  } = useRaglanChartState(NHFront, usedIncreaseType);
+
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
-  
-  const currentIndex = usedIncreaseType ? usedIncreaseType.indexOf(selectedIncreaseType) : -1;
 
   // Type guard to check if results is RaglanOutput
   const isRaglanOutput = (value: any): value is RaglanOutput => {
@@ -38,153 +53,21 @@ const App = observer(() => {
     );
   }
   
-  const { resultString24 } = calculateIncreaseRows1x2_1x4(NHFront, Sfx, PR_1x4_f, PR_1x2_f);
-  const {  resultString23 } = calculateIncreaseRows1x2_1x3(NHFront, Sfx, prib_1x3_f, prib_1x2_f);
-  const {  resultString21 } = calculateIncreaseRows1x2_1x1(NHFront, Sfx, prib_1x1_f,prib_1x2_f);
-  const {  resultString43 } = calculateIncreaseRows1x4_1x3(NHFront, Sfx, PRib_1x4_f, PRib_1x3_f);  
-  const RowPrib1x4 = Array.from({ length: Sfx }, (_, index) => 1 + index * 4);
-  const RowPrib1x4String = RowPrib1x4.join(', ');
-  const RowPrib1x3 = Array.from({ length: Sfx }, (_, index) => 1 + index * 3);
-  const RowPrib1x3String = RowPrib1x3.join(', ');
-  const RowPrib1x2 = Array.from({ length: Sfx }, (_, index) => 1 + index * 2);
-  const RowPrib1x2String = RowPrib1x2.join(', ');
-  const RowPrib1x1 = Array.from({ length: Sfx }, (_, index) => 1 + index * 1);
-  const RowPrib1x1String = RowPrib1x1.join(', ');
+  const increaseStrings = buildRegularIncreaseRowStrings({
+    nhFront: NHFront,
+    sfx: Sfx,
+    pr1x4_f: PR_1x4_f,
+    pr1x2_f: PR_1x2_f,
+    prib1x1_f: prib_1x1_f,
+    prib1x2_f: prib_1x2_f,
+    prib1x3_f: prib_1x3_f,
+    prib1x4_f: PRib_1x4_f,
+    prib1x3_rib_f: PRib_1x3_f,
+  });
+  const increaseRows = getIncreaseRowsFromType(selectedIncreaseType, increaseStrings);
 
-   const getIncreaseRows = () => {
-    switch (selectedIncreaseType) {
-      case '1x2, 1x4':
-        return resultString24.split(', ').map(Number);
-      case '1x2, 1x3':
-        return resultString23.split(', ').map(Number);
-      case '1x2, 1x1':
-        return resultString21.split(', ').map(Number);
-      case '1x3, 1x4':
-        return resultString43.split(', ').map(Number);
-        case '1x3':
-        return RowPrib1x3String.split(', ').map(Number);
-      case '1x4':
-        return RowPrib1x4String.split(', ').map(Number);
-      case '1x2':
-        return RowPrib1x2String.split(', ').map(Number);
-      case '1x1':
-        return RowPrib1x1String.split(', ').map(Number);
-     
-      default:
-        return [];
-    }
-  };
-
-  const renderLeftIncreaseArray = () => {
-    const increaseRows = getIncreaseRows();
-    const cells = [];
-    let additionalCells = 0;
-  
-    for (let i = 0; i < NHFront; i++) {
-      if (increaseRows.includes(i + 1)) {
-        additionalCells++;
-      }
-      const row = [];
-      for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRows.includes(i + 1);
-      const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
-        const cell = <View key={`left-${i}-${j}`} style={cellStyle} />;
-        {/* Добавляем ячейки в конец для левого массива*/}
-        row.push(<View key={`${i}-${j}`} style={[cellStyle,
-            i === highlightedRow && styles.highlightedCell]} />);
-      }
-      cells.push(
-        <View key={`left-${i}`} style={[styles.row, styles.leftRow]}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-  
-  const renderRightIncreaseArray = () => {
-    const increaseRows = getIncreaseRows();
-    const cells = [];
-    let additionalCells = 0;
-  
-    for (let i = 0; i < NHFront; i++) {
-      if (increaseRows.includes(i + 1)) {
-        additionalCells++;
-      }
-      const row = [];
-      for (let j = 0; j < additionalCells; j++) {
-        const isCurrentRowIncrease = increaseRows.includes(i + 1);
-      const cellStyle = isCurrentRowIncrease ? styles.increaseCell : styles.defaultCell;
-
-        const cell = <View key={`right-${i}-${j}`} style={cellStyle} />;
-        {/* Добавляем ячейки в конец для правого массива*/}
-        row.push(
-          <View key={`${i}-${j}`} style={[cellStyle,
-            i === highlightedRow && styles.highlightedCell]} />
-        );
-      }
-      cells.push(
-        <View key={`right-${i}`} style={styles.row}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-
-  const renderFront = () => {
-    const cells = [];
-    for (let i = -1; i < NHFront; i++) {
-      const row = [];
-      for (let j = 0; j < SFrontO; j++) {
-        row.push(
-          <View key={`${i}-${j}`} style={[i === -1 ? styles.ribbingCell : styles.cell, i === highlightedRow && styles.highlightedCell]} />
-        );
-      }
-      cells.push(
-        <View key={i} style={styles.row}>
-          {row}
-        </View>
-      );
-    }
-    return cells;
-  };
-
-  const highlightNextRow = () => {
-    setHighlightedRow((prev) => (prev + 1) % NHFront);
-  };
-
-  const highlightPreviousRow = () => {
-    setHighlightedRow((prev) => (prev - 1 + NHFront) % NHFront);
-  };
-
-  const getLeftArrayCellCount = () => {
-    const increaseRows = getIncreaseRows();
-    let additionalCells = 0;
-    if (highlightedRow < NHFront) {
-      for (let i = 0; i <= highlightedRow; i++) {
-        if (increaseRows.includes(i + 1)) {
-          additionalCells++;
-        }
-      }
-    }
-    return additionalCells;
-  };
-
-  const getRightArrayCellCount = () => {
-    const increaseRows = getIncreaseRows();
-    let additionalCells = 0;
-        if (highlightedRow < NHFront) {
-            for (let i = 0; i <= highlightedRow; i++) {
-                if (increaseRows.includes(i + 1)) {
-                    additionalCells++;
-                }
-            }
-        }
-    return additionalCells;
-  };
-  const leftCellCount = getLeftArrayCellCount();
-    const rightCellCount = getRightArrayCellCount();
+  const leftCellCount = countSideArrayCells(increaseRows, NHFront, highlightedRow);
+  const rightCellCount = countSideArrayCells(increaseRows, NHFront, highlightedRow);
 
 
   
@@ -204,14 +87,7 @@ const App = observer(() => {
         usedIncreaseType.map(type  => (
           <View key={type} style={[styles.section, { marginRight: 10, width: screenWidth * 0.70 }]}>
             <TouchableOpacity 
-              onPress={() => {
-                setSelectedIncreaseType(type);
-                if (selectedIncreaseType === type) {
-                  setIsDetailsExpanded(!isDetailsExpanded);
-                } else {
-                  setIsDetailsExpanded(false);
-                }
-              }}
+              onPress={() => handleIncreaseTypePress(type)}
               style={[styles.optionButton, selectedIncreaseType === type ? { backgroundColor: Colors[colorScheme ?? 'light'].tint } : null]}
             >
               <Text style={[styles.resultText, selectedIncreaseType === type ? styles.selectedOptionText : null, { fontWeight: 'bold', marginTop: 0 }]}>
@@ -234,7 +110,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{resultString24}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.resultString24}</Text>
               </>
             )}
             {type === '1x2, 1x3' && selectedIncreaseType === type && isDetailsExpanded && (
@@ -242,7 +118,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{resultString23}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.resultString23}</Text>
               </>
             )}
             {type === '1x2, 1x1' && selectedIncreaseType === type && isDetailsExpanded && (
@@ -250,7 +126,7 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.PR_1x2_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{resultString21}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.resultString21}</Text>
               </>
             )}
             {type === '1x3, 1x4' && selectedIncreaseType === type && isDetailsExpanded && (
@@ -258,35 +134,35 @@ const App = observer(() => {
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.PRib_1x3_f}</Text>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PRib_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{resultString43}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.resultString43}</Text>
               </>
             )}
             {type === '1x4' && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 4 ' + i18n.t('rows') + ': ' + results.PR_1x4_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{RowPrib1x4String}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.rowPrib1x4String}</Text>
               </>
             )}
              {type === '1x3' && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 3 ' + i18n.t('rows') + ': ' + results.prib_1x3_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{RowPrib1x3String}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.rowPrib1x3String}</Text>
               </>
             )}
             {type === '1x2' && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 2 ' + i18n.t('rows') + ': ' + results.prib_1x2_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{RowPrib1x2String}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.rowPrib1x2String}</Text>
               </>
             )}
             {type === '1x1' && selectedIncreaseType === type && isDetailsExpanded && (
               <>
                 <Text style={styles.resultText}>{'1 ' + i18n.t('stitches') + ' x 1 ' + i18n.t('rows') + ': ' + results.prib_1x1_f}</Text>
                 <Text style={[styles.resultText, { fontWeight: 'bold' }]}>{i18n.t('AdditionRows')}:</Text>
-                <Text style={styles.rowNumbersText}>{RowPrib1x1String}</Text>
+                <Text style={styles.rowNumbersText}>{increaseStrings.rowPrib1x1String}</Text>
               </>
             )}  
           </View>
@@ -323,13 +199,13 @@ const App = observer(() => {
       
       <View style={[styles.horContainer]}>
       <View style={styles.increaseArrayLeft}>
-          {renderLeftIncreaseArray()}
+          {renderLeftIncreaseArray(NHFront, highlightedRow, increaseRows, styles)}
         </View>
         <View style={styles.Front}>
-          {renderFront()}
+          {renderBodyGrid(SFrontO, NHFront, highlightedRow, styles)}
         </View>
         <View style={styles.increaseArrayRight}>
-          {renderRightIncreaseArray()}
+          {renderRightIncreaseArray(NHFront, highlightedRow, increaseRows, styles)}
         </View>
       </View>
       </ScrollView>
@@ -360,32 +236,14 @@ const App = observer(() => {
 });
 
 const styles = StyleSheet.create({
+  ...raglanChartChromeStyleDefs,
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
   },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 0,
-    backgroundColor: '#FFFFFF',
-
-  },
  
-  horContainerTop: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    marginRight: 5,
-    marginTop: 5,
-    backgroundColor: '#FFFFFF',
-    width: 'auto',
-    paddingHorizontal: 1,
-    gap: 2,
-     
-  },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -427,88 +285,12 @@ const styles = StyleSheet.create({
     margin: 0,
   },
  
-  navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    padding: 5,
-    gap: 15,
-    backgroundColor: '#fff',
-  },
-  navButton: {
-    padding: 5,
-  },
-  highlightedCell: {
-    backgroundColor: 'red',
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  controlsInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    flexDirection: 'column',
-    width: '100%',
-    backgroundColor: '#fff',
-  },
-  infoText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   infoTextRed: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'red',
   },
-  section: {
-    marginBottom: 0,
-    marginHorizontal: 0,
-    padding: 0,
-    backgroundColor: '#F1F1F2',
-    borderRadius: 8,
-    minWidth: '45%',
-    alignSelf: 'flex-start',
-  },
-  resultText: {
-    fontSize: 12,
-    marginBottom: 1,
-    textAlign: 'center' as const,
-    
-  },
-  rowNumbersText: {
-    fontSize: 12,
-    marginBottom: 1,
-    textAlign: 'center' as const,
-    lineHeight: 16,
-   // flexWrap: 'wrap',
-
-  },
-  scrollContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
- 
-  optionButton: {
-    marginBottom: 5,
-    padding: 5,
-    backgroundColor: '#C6C6C6',
-    borderRadius: 5,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  chevronIcon: {
-    marginLeft: 8,
-  },
-  selectedOptionText: {
-    color: 'white',
-  },  
+   
   increaseCell: {
     width: 10,
     height: 10,
@@ -542,23 +324,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-  },
-  paginationContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 5,
-    backgroundColor: '#FFFFFF',
-    marginTop: 0,
-   
-    },
-  paginationDot: {
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-    backgroundColor: '#C6C6C6',
-    marginHorizontal: 4,
   },
   
   

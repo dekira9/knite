@@ -70,8 +70,6 @@ export default observer(() => {
   const RowPribRV2 = introState.RowPribRV2;
   const RowPribRV3 = introState.RowPribRV3;
   
-  console.log('ribbingWidthV:', ribbingWidthV);
-  console.log('rows:', rows);
   
   const handleStartKnitting = () => {
     (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
@@ -104,10 +102,6 @@ export default observer(() => {
   const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
   // Исправляем вызов функции - убираем лишний параметр SVfront
   const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
-  console.log('resultStringV11', resultStringV11);
-  console.log('DEBUG: results object keys:', Object.keys(results));
-  console.log('DEBUG: results.usedIncreaseTypeV:', results.usedIncreaseTypeV);
-  console.log('DEBUG: results.usedIncreaseTypeStringV:', results.usedIncreaseTypeStringV);
  
   const { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V } = calculateIncreaseRows1x2_1x4V(
     results.NHFrontV, results.SfxV, results.PR_1x4_fV, results.PR_1x2_fV
@@ -134,10 +128,6 @@ export default observer(() => {
 
   // Определяем тип прибавок для отладки
   const increaseType = determineIncreaseType(results.NHFrontV, results.SfxV);
-  console.log('Тип прибавок:', increaseType);
-  console.log('NHFrontV:', results.NHFrontV);
-  console.log('SfxV:', results.SfxV);
-  console.log('usedIncreaseType:', results.usedIncreaseType);
   
   const handleScrollToTop = () => {
     {/*// Scroll to top*/ }

@@ -6,6 +6,10 @@ import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
+import {
+  getIncreaseRowsFromType,
+  mapPrecomputedVStrings,
+} from '@/screens/styles/raglan/increaseRowSelection';
 
 // Color constants
 const COLORS = {
@@ -51,6 +55,17 @@ const FrontV = observer(({
   const navigateToFrontV = () => {
     (navigation as any).navigate('Raglan', { screen: 'Front' });
   };
+
+  const increaseStrings = mapPrecomputedVStrings({
+    resultString24V,
+    resultString23V,
+    resultString21V,
+    resultString43V,
+    RowPrib1x4StringV,
+    RowPrib1x3StringV,
+    RowPrib1x2StringV,
+    RowPrib1x1StringV,
+  });
 
   // Определяем isRaglanOutput здесь
   const isRaglanOutput = (value: any): value is RaglanOutput => {
@@ -138,40 +153,11 @@ const FrontV = observer(({
               <Text style={styles.resultText}>
                 {i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
                   (() => {
-                    // Получаем выбранный тип прибавок
                     const selectedType = results.usedIncreaseTypeV?.[0] || '';
-                    let increaseRows: number[] = [];
-                    
-                    // Определяем массив рядов с прибавками в зависимости от типа
-                    switch (selectedType) {
-                      case '1x2, 1x4':
-                        increaseRows = resultString24V ? resultString24V.split(', ').map(Number) : [];
-                        break;
-                      case '1x2, 1x3':
-                        increaseRows = resultString23V ? resultString23V.split(', ').map(Number) : [];
-                        break;
-                      case '1x2, 1x1':
-                        increaseRows = resultString21V ? resultString21V.split(', ').map(Number) : [];
-                        break;
-                      case '1x3, 1x4':
-                        increaseRows = resultString43V ? resultString43V.split(', ').map(Number) : [];
-                        break;
-                      case '1x3':
-                        increaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x4':
-                        increaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x2':
-                        increaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x1':
-                        increaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
-                        break;
-                      default:
-                        increaseRows = [];
-                    }
-                    
+                    const increaseRows = getIncreaseRowsFromType(selectedType, increaseStrings, {
+                      nullable: true,
+                    });
+
                     // Проверяем, есть ли прибавка в первом ряду (ряд номер 1)
                     const firstRowIncreaseCount = increaseRows.filter(rowNum => rowNum === 1).length;
                     
@@ -223,20 +209,10 @@ const FrontV = observer(({
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
                   (() => {
-                    // --- Расчет 1: Прибавка реглана в 1 ряду (1 или 0) ---
                     const selectedType = results.usedIncreaseTypeV?.[0] || '';
-                    let raglanIncreaseRows: number[] = [];
-                    switch (selectedType) {
-                      case '1x2, 1x4': raglanIncreaseRows = resultString24V ? resultString24V.split(', ').map(Number) : []; break;
-                      case '1x2, 1x3': raglanIncreaseRows = resultString23V ? resultString23V.split(', ').map(Number) : []; break;
-                      case '1x2, 1x1': raglanIncreaseRows = resultString21V ? resultString21V.split(', ').map(Number) : []; break;
-                      case '1x3, 1x4': raglanIncreaseRows = resultString43V ? resultString43V.split(', ').map(Number) : []; break;
-                      case '1x3': raglanIncreaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : []; break;
-                      case '1x4': raglanIncreaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : []; break;
-                      case '1x2': raglanIncreaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : []; break;
-                      case '1x1': raglanIncreaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : []; break;
-                      default: raglanIncreaseRows = [];
-                    }
+                    const raglanIncreaseRows = getIncreaseRowsFromType(selectedType, increaseStrings, {
+                      nullable: true,
+                    });
                     const raglanFirstRowIncrease = raglanIncreaseRows.filter(rowNum => rowNum === 1).length > 0 ? 1 : 0;
 
                     // --- Расчет 2: Желтые ячейки V-выреза в 1 ряду ---
@@ -266,40 +242,11 @@ const FrontV = observer(({
               <Text style={styles.resultText}>
                 {i18n.t('create')}{'\n'}<Text >{i18n.t('stitches')}</Text>: {isRaglanOutput(results) ? (
                   (() => {
-                    // Получаем выбранный тип прибавок
                     const selectedType = results.usedIncreaseTypeV?.[0] || '';
-                    let increaseRows: number[] = [];
-                    
-                    // Определяем массив рядов с прибавками в зависимости от типа
-                    switch (selectedType) {
-                      case '1x2, 1x4':
-                        increaseRows = resultString24V ? resultString24V.split(', ').map(Number) : [];
-                        break;
-                      case '1x2, 1x3':
-                        increaseRows = resultString23V ? resultString23V.split(', ').map(Number) : [];
-                        break;
-                      case '1x2, 1x1':
-                        increaseRows = resultString21V ? resultString21V.split(', ').map(Number) : [];
-                        break;
-                      case '1x3, 1x4':
-                        increaseRows = resultString43V ? resultString43V.split(', ').map(Number) : [];
-                        break;
-                      case '1x3':
-                        increaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x4':
-                        increaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x2':
-                        increaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : [];
-                        break;
-                      case '1x1':
-                        increaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : [];
-                        break;
-                      default:
-                        increaseRows = [];
-                    }
-                    
+                    const increaseRows = getIncreaseRowsFromType(selectedType, increaseStrings, {
+                      nullable: true,
+                    });
+
                     // Проверяем, есть ли прибавка в первом ряду (ряд номер 1)
                     const firstRowIncreaseCount = increaseRows.filter(rowNum => rowNum === 1).length;
                     
@@ -351,20 +298,10 @@ const FrontV = observer(({
               <Text style={styles.resultText}>
                 {i18n.t('stitches')}: {isRaglanOutput(results) ? (
                   (() => {
-                    // --- Расчет 1: Прибавка реглана в 1 ряду (1 или 0) ---
                     const selectedType = results.usedIncreaseTypeV?.[0] || '';
-                    let raglanIncreaseRows: number[] = [];
-                    switch (selectedType) {
-                      case '1x2, 1x4': raglanIncreaseRows = resultString24V ? resultString24V.split(', ').map(Number) : []; break;
-                      case '1x2, 1x3': raglanIncreaseRows = resultString23V ? resultString23V.split(', ').map(Number) : []; break;
-                      case '1x2, 1x1': raglanIncreaseRows = resultString21V ? resultString21V.split(', ').map(Number) : []; break;
-                      case '1x3, 1x4': raglanIncreaseRows = resultString43V ? resultString43V.split(', ').map(Number) : []; break;
-                      case '1x3': raglanIncreaseRows = RowPrib1x3StringV ? RowPrib1x3StringV.split(', ').map(Number) : []; break;
-                      case '1x4': raglanIncreaseRows = RowPrib1x4StringV ? RowPrib1x4StringV.split(', ').map(Number) : []; break;
-                      case '1x2': raglanIncreaseRows = RowPrib1x2StringV ? RowPrib1x2StringV.split(', ').map(Number) : []; break;
-                      case '1x1': raglanIncreaseRows = RowPrib1x1StringV ? RowPrib1x1StringV.split(', ').map(Number) : []; break;
-                      default: raglanIncreaseRows = [];
-                    }
+                    const raglanIncreaseRows = getIncreaseRowsFromType(selectedType, increaseStrings, {
+                      nullable: true,
+                    });
                     const raglanFirstRowIncrease = raglanIncreaseRows.filter(rowNum => rowNum === 1).length > 0 ? 1 : 0;
 
                     // --- Расчет 2: Желтые ячейки V-выреза в 1 ряду ---

@@ -5,11 +5,11 @@ alwaysApply: true
 
 # Knite (raglan calculator)
 
-Read `AGENTS.md` and `docs/ARCHITECTURE.md` before broad exploration.
+Read `AGENTS.md` and `docs/TASK_ROUTER.md` before broad exploration; `docs/HOTSPOTS.md` for line ranges.
 
 - React Navigation (not Expo Router). Entry: `App.tsx`, navigators in `navigation/`.
 - Styles: `introState.style` is `'regular'` or `'v-neck'`. Facades (`result.tsx`, `raglan/*.tsx` 8-line routers) delegate to `*O` / `*V` implementations.
-- Prefer minimal diffs. Do not read whole `utils/translations.ts` — grep the key and edit all locale blocks for that key only.
+- Prefer minimal diffs. i18n: grep key → edit one `export const` in `utils/i18n/strings/<domain>.ts`. Charts: see `docs/HOTSPOTS.md`.
 - Avoid `ios/`, `android/`, `assets/` unless the task requires them.
 - Calculations: Supabase `calculate-raglan` via `calculateRaglanCoreRemote.ts`; UI helpers in `screens/styles/input/result/helpers.ts`.
 - After state/nav/calc changes, see `docs/TEST_PLAN.md`.

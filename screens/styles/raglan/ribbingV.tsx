@@ -5,20 +5,13 @@ import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
 
-import { 
-  calculateVNeckIncreases01,
-  calculateVNeckIncreases11,
-  calculateVNeckIncreases12,
-  calculateVNeckIncreases22,
-  calculateVNeckIncreases23
-} from '@/screens/styles/input/result/helpers';
-const { stitchDensity, rowDensity } = introState;
-const stitches = parseFloat(stitchDensity.replace(',', '.'))/10;
-const rows = parseFloat(rowDensity.replace(',', '.'))/10;
-const LsV = 1 / stitches;   //см ширина петли
-const hsV = 1 / rows; //см высота петли или ряда
-const Hc=hsV*25;
-const Lc=LsV*25;
+import { computeStitchMetrics } from '@/utils/stitchMetrics';
+import { computeRibbingVCellCounts, selectVNeckCollarIncreases } from './ribbingVCollarGrid';
+
+const { heightPer25RowsCm: Hc, widthPer25StitchesCm: Lc } = computeStitchMetrics(
+  introState.stitchDensity,
+  introState.rowDensity
+);
 
 const App = observer(() => {
   const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRV3, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
@@ -35,60 +28,19 @@ const App = observer(() => {
   
   //rotate v
   const angleInRadians = Math.acos(((SFrontV)*LsV/2)/((SVfront+1)*LsV)); 
-  console.log('NHV',NHV)
-  console.log('SVfront',SVfront)
-  console.log('LVfront',LVfront)
-  console.log('SV',SV)
-  console.log('NRrezV',NRrezV)
-  const angleInDegrees = (angleInRadians * (180 / Math.PI)+3); // Преобразование радиан в градусы
+  const angleInDegrees = (angleInRadians * (180 / Math.PI)+3);
 
-  console.log('angleInDegrees',angleInDegrees)
-
-  const calculateRowCellCounts = (highlightedRow: number) => {
-    const totalRows = NRrezV + 1;
-    
-    if (!NRrezV || !SpribVcorn || !SV || totalRows <= 1) {
-      return [];
-    }
-  
-    let increases: Array<number> = [];
-  
-    // Выбор функции на основе условий (аналогично renderRows)
-    if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
-      increases = increases12;
-    } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
-      const { increases01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
-      increases = increases01?.map(val => val === null ? 0 : val) || [];
-    } else if (SpribVcorn === NRrezV) {
-      const { increases11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
-      increases = increases11;
-    } else if (SpribVcorn === (2 * NRrezV)) {
-      const { increases22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
-      increases = increases22;
-    }
-    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
-      const { increases23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
-      increases = increases23;
-    }
-  
-    // Расчет количества ячеек для каждого ряда
-    const cellCounts: number[] = [];
-    let currentSquares = SV;
-  
-    // Первый ряд (i=-1)
-    cellCounts.push(currentSquares);
-    
-    // Последующие ряды
-    for (let i = 0; i < increases.length; i++) {
-      currentSquares += increases[i];
-      cellCounts.push(currentSquares);
-    }
-  
-    // Возвращаем общее количество ячеек для выделенного ряда
-    return cellCounts[highlightedRow + 1];
+  const collarIncreaseInput = {
+    nrRezV: NRrezV,
+    spribVcorn: SpribVcorn,
+    rowPribRV1: RowPribRV1,
+    rowPribRV2: RowPribRV2,
+    rowPribRV3: RowPribRV3,
+    rowPribRVz: RowPribRVz,
+    sv: SV,
   };
-  const currentRowStitches = calculateRowCellCounts(highlightedRow);
+
+  const currentRowStitches = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
 
   const LeftSleeveTransform = [
   { translateY:-(KV * Lc) * Math.sin(angleInRadians) },
@@ -118,7 +70,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);  //Get cell counts for all rows
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);  //Get cell counts for all rows
     
     for (let i = -1; i < numRows; i++) {
       const row = [];
@@ -149,7 +101,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -174,7 +126,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -199,7 +151,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = KV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -226,7 +178,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = SFrontV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -251,7 +203,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = SaV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -278,7 +230,7 @@ const App = observer(() => {
     const numRows = NRrezV;
     const numCols = SaV;
     const cells = [];
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
     for (let i = -1; i < numRows; i++) {
       const row = [];
       for (let j = 0; j < numCols; j++) {
@@ -306,43 +258,14 @@ const App = observer(() => {
     const rows = [];
     const numRows = NRrezV;
     const numCols = SV;
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
   
     if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
       return <Text>Загрузка данных...</Text>;
     }
   
-    let increases: Array<number> = [];
-    let resultString = '';
-  
-    // Выбор функции на основе условий
-    if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
-      increases = increases12;
-      resultString = resultStringV12 || '';
-      
-    } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
-      const { increases01, resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
-      increases = increases01?.map(val => val === null ? 0 : val) || [];
-      resultString = resultStringV01 || '';
-     
-    } else if (SpribVcorn === NRrezV) {
-      const { increases11, resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
-      increases = increases11;
-      resultString = resultStringV11 || '';
-      
-    } else if (SpribVcorn === (2 * NRrezV)) {
-      const { increases22, resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
-      increases = increases22;
-      resultString = resultStringV22 || '';
-     
-    }
-    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn >2 * NRrezV) {
-      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
-      increases = increases23;
-      resultString = resultStringV23 || '';
-    }
-  
+    const { increases, resultString } = selectVNeckCollarIncreases(collarIncreaseInput);
+
     let currentSquares = SV;
   
     // Используем ту же логику цикла что и в renderBack, renderLine1 и т.д.
@@ -394,49 +317,17 @@ const App = observer(() => {
   const renderRowsRight = () => {
     const rows = [];
     const numRows = NRrezV;
-    const cellCounts = calculateRowCellCounts(highlightedRow);
+    const cellCounts = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
   
     if (!NRrezV || !SpribVcorn || !SV || numRows <= 0) {
       return <Text>Загрузка данных...</Text>;
     }
   
-    let increases: Array<number> = [];
-    let resultString = '';
-  
-    // Выбор функции на основе условий
-    if (Math.floor(SpribVcorn / NRrezV) === 1 && SpribVcorn > NRrezV) {
-      const { increases12, resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
-      increases = increases12;
-      resultString = resultStringV12 || '';
-      
-    } else if (Math.floor(SpribVcorn / NRrezV) === 0) {
-      const { increases01, resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
-      increases = increases01?.map(val => val === null ? 0 : val) || [];
-      resultString = resultStringV01 || '';
-     
-    } else if (SpribVcorn === NRrezV) {
-      const { increases11, resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
-      increases = increases11;
-      resultString = resultStringV11 || '';
-      
-    } else if (SpribVcorn === (2 * NRrezV)) {
-      const { increases22, resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
-      increases = increases22;
-      resultString = resultStringV22 || '';
-     
-    }
-    if (Math.floor(SpribVcorn / NRrezV) === 2 && SpribVcorn > NRrezV) {
-      const { increases23, resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
-      increases = increases23;
-      resultString = resultStringV23 || '';
-    }
-  
+    const { increases, resultString } = selectVNeckCollarIncreases(collarIncreaseInput);
+
     let currentSquares = SV;
-  
-    // Используем ту же логику цикла что и в renderBack, renderLine1 и т.д.
+
     for (let i = -1; i < numRows; i++) {
-      // Прибавки применяются ДО отрисовки ряда, начиная с ряда i=0
-      // (ряд i=-1 наборный)
       if (i >= 0) {
         currentSquares += increases[i];
       }
