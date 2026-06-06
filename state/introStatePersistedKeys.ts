@@ -140,6 +140,7 @@ export const INTRO_STATE_PERSISTED_KEYS = [
   'introFinished',
   'usesSampleMeasurements',
   'hasCustomMeasurements',
+  'chartHighlightedRows',
 ] as const;
 
 export type IntroStatePersistedKey = (typeof INTRO_STATE_PERSISTED_KEYS)[number];

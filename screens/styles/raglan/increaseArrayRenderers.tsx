@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, type ViewStyle } from 'react-native';
+import { Text, View, type ViewStyle } from 'react-native';
 
 export type IncreaseArrayStyles = {
   row: ViewStyle;
@@ -9,6 +9,20 @@ export type IncreaseArrayStyles = {
   highlightedCell: ViewStyle;
   cell: ViewStyle;
   ribbingCell: ViewStyle;
+};
+
+const INCREASE_SYMBOL_LEFT = '↗';
+const INCREASE_SYMBOL_RIGHT = '↖';
+
+function IncreaseCellSymbol({ symbol }: { symbol: string }) {
+  return <Text style={cellSymbolStyle}>{symbol}</Text>;
+}
+
+const cellSymbolStyle = {
+  fontSize: 7,
+  fontWeight: '700' as const,
+  color: '#003366',
+  lineHeight: 8,
 };
 
 export function renderLeftIncreaseArray(
@@ -31,8 +45,12 @@ export function renderLeftIncreaseArray(
       row.push(
         <View
           key={`${i}-${j}`}
-          style={[cellStyle, i === highlightedRow && styles.highlightedCell]}
-        />
+          style={[cellStyle, cellContentStyle, i === highlightedRow && styles.highlightedCell]}
+        >
+          {isCurrentRowIncrease && j === additionalCells - 1 ? (
+            <IncreaseCellSymbol symbol={INCREASE_SYMBOL_LEFT} />
+          ) : null}
+        </View>
       );
     }
     cells.push(
@@ -64,8 +82,12 @@ export function renderRightIncreaseArray(
       row.push(
         <View
           key={`${i}-${j}`}
-          style={[cellStyle, i === highlightedRow && styles.highlightedCell]}
-        />
+          style={[cellStyle, cellContentStyle, i === highlightedRow && styles.highlightedCell]}
+        >
+          {isCurrentRowIncrease && j === 0 ? (
+            <IncreaseCellSymbol symbol={INCREASE_SYMBOL_RIGHT} />
+          ) : null}
+        </View>
       );
     }
     cells.push(
@@ -105,3 +127,8 @@ export function renderBodyGrid(
   }
   return cells;
 }
+
+const cellContentStyle = {
+  alignItems: 'center' as const,
+  justifyContent: 'center' as const,
+};

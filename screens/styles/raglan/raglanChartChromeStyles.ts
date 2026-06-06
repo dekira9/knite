@@ -108,4 +108,9 @@ export const raglanChartChromeStyleDefs: Record<string, ViewStyle | TextStyle> =
     fontSize: 16,
     fontWeight: 'bold',
   },
+  chartArea: {
+    flex: 1,
+    minHeight: 200,
+    width: '100%',
+  },
 };

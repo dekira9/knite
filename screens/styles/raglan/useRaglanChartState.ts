@@ -1,18 +1,24 @@
 import { useState } from 'react';
+import introState from '@/state/introState';
+import type { RaglanChartId } from './chartIds';
 
-export function useRaglanChartState(nhFront: number, usedIncreaseTypes: string[] | undefined) {
-  const [highlightedRow, setHighlightedRow] = useState(0);
+export function useRaglanChartState(
+  chartId: RaglanChartId,
+  nhFront: number,
+  usedIncreaseTypes: string[] | undefined,
+) {
   const [selectedIncreaseType, setSelectedIncreaseType] = useState(usedIncreaseTypes?.[0] || '');
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
 
+  const highlightedRow = introState.getChartHighlightedRow(chartId, nhFront);
   const currentIndex = usedIncreaseTypes ? usedIncreaseTypes.indexOf(selectedIncreaseType) : -1;
 
   const highlightNextRow = () => {
-    setHighlightedRow((prev) => (prev + 1) % nhFront);
+    introState.setChartHighlightedRow(chartId, (highlightedRow + 1) % nhFront);
   };
 
   const highlightPreviousRow = () => {
-    setHighlightedRow((prev) => (prev - 1 + nhFront) % nhFront);
+    introState.setChartHighlightedRow(chartId, (highlightedRow - 1 + nhFront) % nhFront);
   };
 
   const handleIncreaseTypePress = (type: string) => {

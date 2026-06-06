@@ -162,6 +162,7 @@ const IntroState = types
     krV: types.optional(types.number, 0),
     positionsWithIsV: types.optional(types.array(types.number), []),
     positionsWithIsPlusOneV: types.optional(types.array(types.number), []),
+    chartHighlightedRows: types.optional(types.frozen<Record<string, number>>(), {}),
   })
   .actions((self) => ({
     setStyle(style: string) {
@@ -390,8 +391,22 @@ const IntroState = types
       self.depthNeckV = nhv / rowDensity;
       this.persistState();
     },
+    setChartHighlightedRow(chartId: string, row: number) {
+      const rows = { ...(self.chartHighlightedRows as Record<string, number> | undefined) };
+      rows[chartId] = row;
+      self.chartHighlightedRows = rows;
+      this.persistState();
+    },
   }))
   .views((self) => ({
+    getChartHighlightedRow(chartId: string, rowCount: number, defaultRow = 0) {
+      const saved = (self.chartHighlightedRows as Record<string, number> | undefined)?.[chartId];
+      const row = saved ?? defaultRow;
+      if (rowCount <= 0) {
+        return defaultRow;
+      }
+      return Math.min(Math.max(row, 0), rowCount - 1);
+    },
     calculateRaglan() {
       const snapshot = getSnapshot(self) as any;
       return {

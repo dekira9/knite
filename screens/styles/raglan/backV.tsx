@@ -13,11 +13,9 @@ import {
   getIncreaseRowsFromType,
   countSideArrayCells,
 } from './increaseRowSelection';
-import {
-  renderLeftIncreaseArray,
-  renderRightIncreaseArray,
-  renderBodyGrid,
-} from './increaseArrayRenderers';
+import { RAGLAN_CHART_IDS } from './chartIds';
+import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanFlatChartGrid } from './RaglanFlatChartGrid';
 import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
@@ -42,7 +40,7 @@ const App = observer(() => {
     highlightNextRow,
     highlightPreviousRow,
     handleIncreaseTypePress,
-  } = useRaglanChartState(NHFrontV, usedIncreaseTypeV);
+  } = useRaglanChartState(RAGLAN_CHART_IDS.backV, NHFrontV, usedIncreaseTypeV);
 
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
@@ -183,31 +181,16 @@ const App = observer(() => {
         ))}
       </View>
       
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
-       <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SFrontV : ''} {i18n.t('stitches')}</Text>
-      </View>
-
-      <ScrollView 
-          horizontal 
-          contentContainerStyle={styles.scrollContainer}
-          showsHorizontalScrollIndicator={false}
-        >
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 0}}>
-      
-      <View style={[styles.horContainer]}>
-      <View style={styles.increaseArrayLeft}>
-          {renderLeftIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
-        </View>
-        <View style={styles.Front}>
-          {renderBodyGrid(SFrontV, NHFrontV, highlightedRow, styles)}
-        </View>
-        <View style={styles.increaseArrayRight}>
-          {renderRightIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
-        </View>
-      </View>
-      </ScrollView>
-      </ScrollView>
+      <Text style={[styles.resultText, { marginTop: 6, marginBottom: 2 }]}>
+        {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SFrontV : ''} {i18n.t('stitches')}
+      </Text>
+      <RaglanChartLegend variant="regular" />
+      <RaglanFlatChartGrid
+        nhFront={NHFrontV}
+        stitchCount={SFrontV}
+        highlightedRow={highlightedRow}
+        increaseRows={increaseRows}
+      />
 
      <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>

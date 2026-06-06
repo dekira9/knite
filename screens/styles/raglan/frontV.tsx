@@ -18,6 +18,10 @@ import {
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
 import { useRaglanChartState } from './useRaglanChartState';
 import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
+import { RAGLAN_CHART_IDS } from './chartIds';
+import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanRowAxis } from './RaglanGridAxes';
+import { RaglanZoomableView } from './RaglanZoomableView';
 import {
   computeVNeckData,
   getVNeckLeftStitchCount,
@@ -43,7 +47,7 @@ const App = observer(() => {
     highlightNextRow,
     highlightPreviousRow,
     handleIncreaseTypePress,
-  } = useRaglanChartState(NHFrontV, usedIncreaseTypeV);
+  } = useRaglanChartState(RAGLAN_CHART_IDS.frontV, NHFrontV, usedIncreaseTypeV);
   const colorScheme = useColorScheme();
   const screenWidth = Dimensions.get('window').width;
 
@@ -227,53 +231,30 @@ const App = observer(() => {
             />
         ))}
       </View>
-      <View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: '#fb93bc', marginLeft: 10, borderTopWidth: 3, borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderTopColor: 'yellow', borderBottomColor: '#715604', borderLeftColor: '#715604', borderRightColor: '#715604'}}></View>
-       <Text style={styles.resultText}> {i18n.t('knitTheStitchesFromTheCollar')} </Text>
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'black', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('decreaseTheStitches')} </Text>
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: 'grey', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('thereAreNoStitches')} </Text>
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-       <View style={{width: 17, height: 17, backgroundColor: '#00ADF2', marginLeft: 10, borderWidth: 1}}></View>
-       <Text style={styles.resultText}> {i18n.t('addingStitchesAlongTheRaglanLine')} </Text>
-      </View>
-      </View>
-      <ScrollView 
-          horizontal 
-          contentContainerStyle={styles.scrollContainer}
-          showsHorizontalScrollIndicator={false}
-        >
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 0}}>
-     
-      <View style={[styles.horContainer]}>
-        
-          <View style={styles.increaseArrayLeft}>
-            {renderLeftIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
+      <RaglanChartLegend variant="v-neck" />
+      <View style={styles.chartArea}>
+        <RaglanZoomableView>
+          <View style={[styles.horContainer]}>
+            <RaglanRowAxis
+              rowCount={NHFrontV + 1}
+              highlightedRow={highlightedRow}
+              hasCollarRow
+            />
+            <View style={styles.increaseArrayLeft}>
+              {renderLeftIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
+            </View>
+            <View style={styles.vNeckRightArray}>
+              {renderVNeckRightArray(vNeckGridParams)}
+            </View>
+            <View style={styles.vNeckLeftArray}>
+              {renderVNeckLeftArray(vNeckGridParams)}
+            </View>
+            <View style={styles.increaseArrayRight}>
+              {renderRightIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
+            </View>
           </View>
-          <View style={styles.vNeckRightArray}>
-            {renderVNeckRightArray(vNeckGridParams)}
-          </View>
-          <View style={styles.vNeckLeftArray}>
-            {renderVNeckLeftArray(vNeckGridParams)}
-          </View>
-       
-         
-       
-          <View style={styles.increaseArrayRight}>
-            {renderRightIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
-          </View>
-          
-        
+        </RaglanZoomableView>
       </View>
-      </ScrollView>
-      </ScrollView>
 
 <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>

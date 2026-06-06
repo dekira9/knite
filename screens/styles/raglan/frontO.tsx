@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text, Dimensions, useColorScheme   } from 'react-native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -12,13 +12,11 @@ import {
   getIncreaseRowsFromType,
   countSideArrayCells,
 } from './increaseRowSelection';
-import {
-  renderLeftIncreaseArray,
-  renderRightIncreaseArray,
-  renderBodyGrid,
-} from './increaseArrayRenderers';
 import { useRaglanChartState } from './useRaglanChartState';
 import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
+import { RAGLAN_CHART_IDS } from './chartIds';
+import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanFlatChartGrid } from './RaglanFlatChartGrid';
 
 const App = observer(() => {
   const { SFrontO, Sa, K, NRrez, NHFront, Sfx, PR_1x4_f, PR_1x2_f,prib_1x1_f,prib_1x2_f, prib_1x3_f, PRib_1x3_f,  PRib_1x4_f, usedIncreaseType} = introState;
@@ -31,7 +29,7 @@ const App = observer(() => {
     highlightNextRow,
     highlightPreviousRow,
     handleIncreaseTypePress,
-  } = useRaglanChartState(NHFront, usedIncreaseType);
+  } = useRaglanChartState(RAGLAN_CHART_IDS.frontO, NHFront, usedIncreaseType);
   const screenWidth = Dimensions.get('window').width;
 
   const results = introState.calculateRaglan();
@@ -181,29 +179,16 @@ const App = observer(() => {
             ))}
         </View>
       
-        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 0}}>
-            <View style={{width: 17, height: 17, backgroundColor: 'yellow', marginLeft: 10, borderWidth: 1, marginTop: 10, marginBottom: 10}}></View>
-            <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')} : {results.SFrontO} {i18n.t('stitches')}</Text>
-        </View>
-        <ScrollView 
-            horizontal 
-            contentContainerStyle={styles.scrollContainer}
-            showsHorizontalScrollIndicator={false}
-            >
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 0}}>
-                <View style={[styles.horContainer]}>
-                    <View style={styles.increaseArrayLeft}>
-                        {renderLeftIncreaseArray(NHFront, highlightedRow, increaseRows, styles)}
-                    </View>
-                    <View style={styles.Front}>
-                        {renderBodyGrid(SFrontO, NHFront, highlightedRow, styles)}
-                    </View>
-                    <View style={styles.increaseArrayRight}>
-                        {renderRightIncreaseArray(NHFront, highlightedRow, increaseRows, styles)}
-                    </View>
-                </View>
-            </ScrollView>
-        </ScrollView>
+        <Text style={[styles.resultText, { marginTop: 6, marginBottom: 2 }]}>
+          {i18n.t('lastRowOfCollar')} : {results.SFrontO} {i18n.t('stitches')}
+        </Text>
+        <RaglanChartLegend variant="regular" />
+        <RaglanFlatChartGrid
+          nhFront={NHFront}
+          stitchCount={SFrontO}
+          highlightedRow={highlightedRow}
+          increaseRows={increaseRows}
+        />
 
         <View style={styles.controlsInfoContainer}>
             <View style={styles.infoContainer}>
@@ -231,85 +216,8 @@ const styles = StyleSheet.create({
   ...raglanChartChromeStyleDefs,
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-  },
-  horContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginBottom: 110,
-    borderWidth: 1,
-    borderColor: '#C6C6C6',
-    paddingHorizontal: 20,
-  },
-  verticalContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  cell: {
-    width: 10,
-    height: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#FDCFE1',
-  },
-  firstCell: {
-    width: 10,
-    height: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#DAEDBD',
-  },
-  Front: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 0,
-  },
-  infoTextRed: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'red',
-  },    
-  increaseCell: {
-    width: 10,
-    height: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#00ADF2',
-  },
-  leftRow: {
-    justifyContent: 'flex-end',
-  },
-  defaultCell: {
-    width: 10,
-    height: 10,
-    borderWidth: 1,
-    borderColor: 'black', // Без фона для обычных ячеек
-    backgroundColor: '#ffe9f1', 
-  },
-  ribbingCell: {
-    width: 10,
-    height: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'yellow',
-  },
-  increaseArrayLeft: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-  },  
-  increaseArrayRight: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
   },
 });
 

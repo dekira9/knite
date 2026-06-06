@@ -13,11 +13,9 @@ import {
   getIncreaseRowsFromType,
   countSideArrayCells,
 } from './increaseRowSelection';
-import {
-  renderLeftIncreaseArray,
-  renderRightIncreaseArray,
-  renderBodyGrid,
-} from './increaseArrayRenderers';
+import { RAGLAN_CHART_IDS } from './chartIds';
+import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanFlatChartGrid } from './RaglanFlatChartGrid';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
@@ -40,7 +38,7 @@ const App = observer(() => {
     highlightNextRow,
     highlightPreviousRow,
     handleIncreaseTypePress,
-  } = useRaglanChartState(NHFrontV, usedIncreaseTypeV);
+  } = useRaglanChartState(RAGLAN_CHART_IDS.sleeveV, NHFrontV, usedIncreaseTypeV);
   
   const results = introState.calculateRaglan();
   const screenWidth = Dimensions.get('window').width;
@@ -187,26 +185,13 @@ const App = observer(() => {
        <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}</Text>
       </View>
 
-      <ScrollView 
-          horizontal 
-          contentContainerStyle={styles.scrollContainer}
-          showsHorizontalScrollIndicator={false}
-        >
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 0}}>
-      
-      <View style={[styles.horContainer]}>
-      <View style={styles.increaseArrayLeft}>
-          {renderLeftIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
-        </View>
-        <View style={styles.Front}>
-          {renderBodyGrid(SaV, NHFrontV, highlightedRow, styles)}
-        </View>
-        <View style={styles.increaseArrayRight}>
-          {renderRightIncreaseArray(NHFrontV, highlightedRow, increaseRows, styles)}
-        </View>
-      </View>
-      </ScrollView>
-      </ScrollView>
+      <RaglanChartLegend variant="regular" />
+      <RaglanFlatChartGrid
+        nhFront={NHFrontV}
+        stitchCount={SaV}
+        highlightedRow={highlightedRow}
+        increaseRows={increaseRows}
+      />
 
       <View style={styles.controlsInfoContainer}>
       <View style={styles.infoContainer}>
