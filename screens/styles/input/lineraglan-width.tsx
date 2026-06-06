@@ -48,7 +48,7 @@ const LineraglanWidth = () => {
     introState.setRaglanLineWidth(nextValue);
     introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
-    (navigation as any).navigate('Result', { screen: 'Result' });
+    (navigation as any).navigate('Result');
   };
 
   return (

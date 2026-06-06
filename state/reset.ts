@@ -9,6 +9,7 @@ export async function resetAllState(): Promise<void> {
     await Promise.all([
       AsyncStorage.removeItem('onboardingState'),
       AsyncStorage.removeItem('introState'),
+      AsyncStorage.removeItem('introSavedProjects'),
     ]);
 
     applySnapshot(onboardingState, {} as any);

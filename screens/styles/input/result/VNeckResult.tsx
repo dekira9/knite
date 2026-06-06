@@ -75,8 +75,9 @@ export default observer(() => {
     (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
   };
 
-  const handleNewStyle = () => {
-    introState.setStyleChosen(false);
+  const handleBackToHome = () => {
+    introState.setAwaitingStyleChoice(false);
+    introState.setStyleChoiceMode(null);
     (navigation as any).navigate('StylesHome');
   };
 
@@ -87,7 +88,7 @@ export default observer(() => {
         <Text style={styles.error}>{results}</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.goBack()}
+          onPress={handleBackToHome}
         >
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
@@ -160,21 +161,16 @@ export default observer(() => {
     }, 100);
   };
 
-  const handleSelectNewStyle = () => {
-    introState.startNewProject();
-    (navigation as any).navigate('StylesHome');
-  };
- 
   return (
     <View style={styles.mainContainer}>
       <ScrollView 
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
       >
-        <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
-          <Text style={styles.newStyleButtonText}>{i18n.t('newProject')}</Text>
+        <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
+          <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
         </TouchableOpacity>
-        <SampleMeasurementsBanner />
+        <SampleMeasurementsBanner collapsible />
         <ScrollView 
           ref={carouselRef} // Add ref to carousel
           horizontal 
@@ -335,18 +331,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  newStyleButton: {
-    backgroundColor: Colors['light'].tint,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+    paddingVertical: 4,
   },
-  newStyleButtonText: {
-    color: '#FFFFFF',
+  backButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    color: Colors.light.tint,
+    fontWeight: '500',
   },
   
   // === TEXT STYLES ===

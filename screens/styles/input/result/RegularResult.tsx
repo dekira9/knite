@@ -47,11 +47,17 @@ export default observer(() => {
     introState.raglanLineWidthV,
   ]);
 
+  const handleBackToHome = () => {
+    introState.setAwaitingStyleChoice(false);
+    introState.setStyleChoiceMode(null);
+    (navigation as any).navigate('StylesHome');
+  };
+
   if (typeof results === 'string') {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.button} onPress={handleBackToHome}>
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
       </View>
@@ -61,11 +67,6 @@ export default observer(() => {
   const { resultString24, resultString23, resultString21, resultString43 } =
     computeRegularIncreasePrecompute(results);
 
-  const handleSelectNewStyle = () => {
-    introState.startNewProject();
-    (navigation as any).navigate('StylesHome');
-  };
-
   return (
     <View style={styles.mainContainer}>
       <StatusBar style="dark" />
@@ -73,10 +74,10 @@ export default observer(() => {
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
       >
-        <TouchableOpacity style={styles.newStyleButton} onPress={handleSelectNewStyle}>
-          <Text style={styles.newStyleButtonText}>{i18n.t('newProject')}</Text>
+        <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
+          <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
         </TouchableOpacity>
-        <SampleMeasurementsBanner />
+        <SampleMeasurementsBanner collapsible />
 
         <RegularResultCarousel
           carouselRef={carouselRef}
@@ -145,17 +146,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  newStyleButton: {
-    backgroundColor: Colors['light'].tint,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+    paddingVertical: 4,
   },
-  newStyleButtonText: {
-    color: '#FFFFFF',
+  backButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    color: Colors.light.tint,
+    fontWeight: '500',
   },
 });

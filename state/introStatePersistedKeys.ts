@@ -1,3 +1,5 @@
+import { SAMPLE_MEASUREMENTS } from '@/constants/samplePresets';
+
 /** Fields written to AsyncStorage `introState`. Add new persisted fields here only. */
 export const INTRO_STATE_PERSISTED_KEYS = [
   'styleChosen',
@@ -144,6 +146,57 @@ export const INTRO_STATE_PERSISTED_KEYS = [
 ] as const;
 
 export type IntroStatePersistedKey = (typeof INTRO_STATE_PERSISTED_KEYS)[number];
+
+/** UI-only fields excluded when matching recent projects. */
+const PROJECT_DEDUP_EXCLUDED_KEYS = new Set<IntroStatePersistedKey>([
+  'chartHighlightedRows',
+  'introFinished',
+]);
+
+export function pickProjectDedupState(self: Record<string, unknown>): Record<string, unknown> {
+  const state: Record<string, unknown> = {};
+  for (const key of INTRO_STATE_PERSISTED_KEYS) {
+    if (PROJECT_DEDUP_EXCLUDED_KEYS.has(key)) {
+      continue;
+    }
+    state[key] = self[key];
+  }
+  return state;
+}
+
+export function projectStatesEqual(
+  a: Record<string, unknown>,
+  b: Record<string, unknown>,
+): boolean {
+  return (
+    JSON.stringify(pickProjectDedupState(a)) === JSON.stringify(pickProjectDedupState(b))
+  );
+}
+
+export function matchesSamplePreset(state: Record<string, unknown>): boolean {
+  return (
+    state.headCircumference === SAMPLE_MEASUREMENTS.headCircumference &&
+    state.neckCircumference === SAMPLE_MEASUREMENTS.neckCircumference &&
+    state.chestCircumference === SAMPLE_MEASUREMENTS.chestCircumference &&
+    state.stitchDensity === SAMPLE_MEASUREMENTS.stitchDensity &&
+    state.rowDensity === SAMPLE_MEASUREMENTS.rowDensity &&
+    state.fitType === SAMPLE_MEASUREMENTS.fitType
+  );
+}
+
+/** Saved projects list: custom measurements only; excludes example/sample flows. */
+export function isUserSavedProject(state: Record<string, unknown>): boolean {
+  if (state.usesSampleMeasurements === true) {
+    return false;
+  }
+  if (state.hasCustomMeasurements === true) {
+    return true;
+  }
+  if (state.introFinished === true && state.hasCustomMeasurements === undefined) {
+    return !matchesSamplePreset(state);
+  }
+  return false;
+}
 
 export function pickPersistedIntroState(self: Record<string, unknown>): Record<string, unknown> {
   const state: Record<string, unknown> = {};

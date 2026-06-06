@@ -1,14 +1,60 @@
 import { types } from "mobx-state-tree";
 import { getSnapshot } from "mobx-state-tree";
-import { calculateRaglanRemote } from "@/utils/calculateRaglanCoreRemote";
+import { InteractionManager } from "react-native";
+import { calculateRaglan } from "@/utils/calculateRaglan";
+import {
+  calculateRaglanRemote,
+  type RaglanRemoteInput,
+} from "@/utils/calculateRaglanCoreRemote";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { makeAutoObservable } from 'mobx';
 import onboardingState from "@/state/onboardingState";
 import { SAMPLE_MEASUREMENTS, type RaglanStyleId } from "@/constants/samplePresets";
 import {
   applyPersistedIntroState,
   pickPersistedIntroState,
 } from "@/state/introStatePersistedKeys";
+
+function runAfterInteractions(task: () => void) {
+  InteractionManager.runAfterInteractions(task);
+}
+
+function captureProjectSnapshot(
+  self: Record<string, unknown>,
+): Record<string, unknown> {
+  return pickPersistedIntroState(getSnapshot(self) as Record<string, unknown>);
+}
+
+function buildRaglanSyncInput(
+  self: {
+    headCircumference: string;
+    neckCircumference: string;
+    chestCircumference: string;
+    stitchDensity: string;
+    rowDensity: string;
+    fitType: string;
+    ribbingWidth: number;
+    ribbingWidthV: number;
+    raglanLineWidth: number;
+    raglanLineWidthV: number;
+    depthNeckV: number | undefined;
+  },
+  measurementSystem: string,
+): RaglanRemoteInput {
+  return {
+    headCircumference: self.headCircumference,
+    neckCircumference: self.neckCircumference,
+    chestCircumference: self.chestCircumference,
+    stitchDensity: self.stitchDensity,
+    rowDensity: self.rowDensity,
+    fitType: self.fitType,
+    ribbingWidth: self.ribbingWidth,
+    ribbingWidthV: self.ribbingWidthV,
+    raglanLineWidth: self.raglanLineWidth,
+    raglanLineWidthV: self.raglanLineWidthV,
+    depthNeckV: self.depthNeckV,
+    measurementSystem,
+  };
+}
 
 const SavedProject = types.model({
   id: types.identifier,
@@ -139,8 +185,13 @@ const IntroState = types
     introFinished: types.optional(types.boolean, false),
     usesSampleMeasurements: types.optional(types.boolean, false),
     hasCustomMeasurements: types.optional(types.boolean, false),
+    activeProjectId: types.optional(types.maybeNull(types.string), null),
     savedProjects: types.optional(types.array(SavedProject), []),
     awaitingStyleChoice: types.optional(types.boolean, false),
+    styleChoiceMode: types.optional(
+      types.maybeNull(types.enumeration(['sample', 'custom'])),
+      null,
+    ),
     necklineStyle: types.optional(types.enumeration(['round', 'v-neck']), 'round'),
     SOcutV: types.optional(types.number, 0),
     SpribVcorn: types.optional(types.number, 0),
@@ -245,6 +296,61 @@ const IntroState = types
     setAwaitingStyleChoice(value: boolean) {
       self.awaitingStyleChoice = value;
     },
+    setStyleChoiceMode(mode: 'sample' | 'custom' | null) {
+      self.styleChoiceMode = mode;
+    },
+    prepareStyleChoice(mode: 'sample' | 'custom') {
+      if (mode === 'custom') {
+        this.syncActiveProject();
+        self.activeProjectId = null;
+      }
+      self.introFinished = false;
+      self.styleChosen = false;
+      self.awaitingStyleChoice = true;
+      self.styleChoiceMode = mode;
+      self.usesSampleMeasurements = false;
+      if (mode === 'sample') {
+        self.activeProjectId = null;
+      }
+      runAfterInteractions(() => {
+        void this.persistState();
+      });
+    },
+    async beginSampleFlow(styleId: RaglanStyleId) {
+      const s = SAMPLE_MEASUREMENTS;
+      self.headCircumference = s.headCircumference;
+      self.neckCircumference = s.neckCircumference;
+      self.chestCircumference = s.chestCircumference;
+      self.stitchDensity = s.stitchDensity;
+      self.rowDensity = s.rowDensity;
+      self.fitType = s.fitType;
+      self.ribbingWidth = s.ribbingWidth;
+      self.ribbingWidthV = s.ribbingWidthV;
+      self.raglanLineWidth = s.raglanLineWidth;
+      self.raglanLineWidthV = s.raglanLineWidthV;
+      self.K = s.raglanLineWidth;
+      self.KV = s.raglanLineWidthV;
+      self.depthNeckV = s.depthNeckV;
+      self.style = styleId;
+      self.styleChosen = true;
+      self.usesSampleMeasurements = true;
+      self.activeProjectId = null;
+      self.awaitingStyleChoice = false;
+      self.styleChoiceMode = null;
+      self.introFinished = true;
+      await this.syncRaglanFromSupabase();
+      runAfterInteractions(() => {
+        void this.persistState();
+      });
+    },
+    beginCustomFlow(styleId: RaglanStyleId) {
+      this.createCustomProject(styleId);
+      self.awaitingStyleChoice = false;
+      self.styleChoiceMode = null;
+      runAfterInteractions(() => {
+        void this.persistState();
+      });
+    },
     applySamplePreset(styleId: RaglanStyleId) {
       const s = SAMPLE_MEASUREMENTS;
       self.headCircumference = s.headCircumference;
@@ -273,40 +379,61 @@ const IntroState = types
       self.usesSampleMeasurements = false;
       this.persistState();
     },
-    archiveCurrentProject() {
-      if (!self.introFinished || !self.style) {
+    syncActiveProject() {
+      if (!self.activeProjectId) {
         return;
       }
-      const full = getSnapshot(self) as Record<string, unknown> & {
-        savedProjects?: unknown;
-      };
-      const { savedProjects: _saved, ...snapshot } = full;
-      const last = self.savedProjects[0];
-      if (
-        last &&
-        (last.state as { style?: string; chestCircumference?: string }).style ===
-          snapshot.style &&
-        (last.state as { chestCircumference?: string }).chestCircumference ===
-          snapshot.chestCircumference
-      ) {
+      const index = self.savedProjects.findIndex((p) => p.id === self.activeProjectId);
+      if (index < 0) {
         return;
       }
-      self.savedProjects.unshift({
-        id: String(Date.now()),
+      const snapshot = captureProjectSnapshot(self as unknown as Record<string, unknown>);
+      self.savedProjects.splice(index, 1, {
+        id: self.activeProjectId,
         savedAt: Date.now(),
         state: snapshot,
       });
-      if (self.savedProjects.length > 10) {
-        self.savedProjects.splice(10, self.savedProjects.length - 10);
+    },
+    createCustomProject(styleId: RaglanStyleId) {
+      const defaults = freshCustomDefaults();
+      defaults.style = styleId;
+      defaults.styleChosen = true;
+      applyPersistedIntroState(self as unknown as Record<string, unknown>, defaults);
+      self.style = styleId;
+      self.styleChosen = true;
+      self.hasCustomMeasurements = true;
+      self.usesSampleMeasurements = false;
+      self.introFinished = false;
+
+      const id = String(Date.now());
+      self.activeProjectId = id;
+      self.savedProjects.unshift({
+        id,
+        savedAt: Date.now(),
+        state: captureProjectSnapshot(self as unknown as Record<string, unknown>),
+      });
+    },
+    deleteProject(id: string) {
+      const index = self.savedProjects.findIndex((p) => p.id === id);
+      if (index < 0) {
+        return;
+      }
+      self.savedProjects.splice(index, 1);
+      if (self.activeProjectId === id) {
+        self.activeProjectId = null;
+        applyPersistedIntroState(
+          self as unknown as Record<string, unknown>,
+          freshCustomDefaults(),
+        );
+        self.styleChosen = false;
+        self.style = '';
+        self.hasCustomMeasurements = false;
+        self.introFinished = false;
+        self.awaitingStyleChoice = false;
+        self.styleChoiceMode = null;
       }
       void this.persistSavedProjects();
-    },
-    startNewProject() {
-      this.archiveCurrentProject();
-      self.introFinished = false;
-      self.styleChosen = false;
-      self.awaitingStyleChoice = true;
-      this.persistState();
+      void this.persistState();
     },
     restoreProject(id: string) {
       const project = self.savedProjects.find((p) => p.id === id);
@@ -316,35 +443,29 @@ const IntroState = types
       const raw = project.state as Record<string, unknown> & { savedProjects?: unknown };
       const { savedProjects: _saved, ...projectState } = raw;
       this.setPersistedState(projectState);
+      self.activeProjectId = id;
       self.awaitingStyleChoice = false;
-      this.persistState();
+      runAfterInteractions(() => {
+        void this.persistState();
+      });
     },
     async syncRaglanFromSupabase() {
-      const remoteResult = await calculateRaglanRemote({
-        headCircumference: self.headCircumference,
-        neckCircumference: self.neckCircumference,
-        chestCircumference: self.chestCircumference,
-        stitchDensity: self.stitchDensity,
-        rowDensity: self.rowDensity,
-        fitType: self.fitType,
-        ribbingWidth: self.ribbingWidth,
-        ribbingWidthV: self.ribbingWidthV,
-        raglanLineWidth: self.raglanLineWidth,
-        raglanLineWidthV: self.raglanLineWidthV,
-        depthNeckV: self.depthNeckV,
-        measurementSystem: onboardingState.measurementSystem,
-      });
+      const input = buildRaglanSyncInput(self, onboardingState.measurementSystem);
+      const remoteResult = await calculateRaglanRemote(input);
+      const result = remoteResult ?? calculateRaglan(input);
 
-      if (!remoteResult) {
+      if (typeof result === 'string') {
         return false;
       }
 
-      this.setRaglanData(remoteResult);
+      this.setRaglanData(result);
       return true;
     },
     async persistState() {
+      this.syncActiveProject();
       try {
         const state = pickPersistedIntroState(getSnapshot(self) as Record<string, unknown>);
+        state.activeProjectId = self.activeProjectId;
         await AsyncStorage.setItem('introState', JSON.stringify(state));
         await this.persistSavedProjects();
       } catch (error) {
@@ -363,6 +484,9 @@ const IntroState = types
     },
     setPersistedState(state: any) {
       applyPersistedIntroState(self as unknown as Record<string, unknown>, state);
+      if (state.activeProjectId !== undefined) {
+        self.activeProjectId = state.activeProjectId;
+      }
     },
     async loadPersistedState() {
       try {
@@ -435,6 +559,16 @@ const IntroState = types
       await self.syncRaglanFromSupabase();
     },
   }));
+
+function freshCustomDefaults(): Record<string, unknown> {
+  const defaults = pickPersistedIntroState(
+    getSnapshot(IntroState.create({})) as Record<string, unknown>,
+  );
+  defaults.hasCustomMeasurements = true;
+  defaults.usesSampleMeasurements = false;
+  defaults.introFinished = false;
+  return defaults;
+}
 
 const introState = IntroState.create({});
 export default introState; 

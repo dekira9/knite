@@ -700,6 +700,46 @@ export const created = {
   lt: "Sukurtas",
 };
 
+export const expandMeasurements = {
+  en: "Expand",
+  ru: "Развернуть",
+  sv: "Expand",
+  no: "Expand",
+  fi: "Expand",
+  de: "Expand",
+  fr: "Expand",
+  es: "Expand",
+  ja: "Expand",
+  cs: "Expand",
+  bg: "Expand",
+  sk: "Expand",
+  ko: "Expand",
+  tr: "Expand",
+  ar: "Expand",
+  pt: "Expand",
+  lt: "Expand",
+};
+
+export const collapseMeasurements = {
+  en: "Collapse",
+  ru: "Свернуть",
+  sv: "Collapse",
+  no: "Collapse",
+  fi: "Collapse",
+  de: "Collapse",
+  fr: "Collapse",
+  es: "Collapse",
+  ja: "Collapse",
+  cs: "Collapse",
+  bg: "Collapse",
+  sk: "Collapse",
+  ko: "Collapse",
+  tr: "Collapse",
+  ar: "Collapse",
+  pt: "Collapse",
+  lt: "Collapse",
+};
+
 export const additionsOnOneSide = {
   en: "Additions on one side",
   ru: "Прибавки на одну сторону",
