@@ -1,25 +1,26 @@
 import React, { RefObject } from 'react';
-import { View, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { Image } from 'expo-image';
+import { View, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import ZoomableImage from './ZoomableImage';
 
 type Props = {
   carouselRef: RefObject<ScrollView>;
   currentIndex: number;
   onCarouselScroll: (offsetX: number) => void;
-  onStep3Press: () => void;
 };
 
+const SLIDE_WIDTH = Dimensions.get('window').width - 32;
+const SLIDE_HEIGHT = 300;
+
 const SLIDES = [
-  { key: 'plan1', source: require('@/assets/images/planOaz1.png'), onPress: undefined },
-  { key: 'plan3', source: require('@/assets/images/planOaz3.png'), onPress: 'step3' as const },
-  { key: 'collar', source: require('@/assets/images/regular-collar.png'), onPress: undefined },
+  { key: 'plan1', source: require('@/assets/images/planOaz1.png') },
+  { key: 'plan3', source: require('@/assets/images/planOaz3.png') },
+  { key: 'collar', source: require('@/assets/images/regular-collar.png') },
 ];
 
 export default function RegularResultCarousel({
   carouselRef,
   currentIndex,
   onCarouselScroll,
-  onStep3Press,
 }: Props) {
   return (
     <>
@@ -32,28 +33,11 @@ export default function RegularResultCarousel({
         onScroll={(event) => onCarouselScroll(event.nativeEvent.contentOffset.x)}
         scrollEventThrottle={16}
       >
-        {SLIDES.map((slide) => {
-          const content = (
-            <Image source={slide.source} style={styles.slideImage} contentFit="contain" />
-          );
-          if (slide.onPress === 'step3') {
-            return (
-              <TouchableOpacity
-                key={slide.key}
-                style={styles.slideContainer}
-                onPress={onStep3Press}
-                activeOpacity={1}
-              >
-                {content}
-              </TouchableOpacity>
-            );
-          }
-          return (
-            <View key={slide.key} style={styles.slideContainer}>
-              {content}
-            </View>
-          );
-        })}
+        {SLIDES.map((slide) => (
+          <View key={slide.key} style={styles.slideContainer}>
+            <ZoomableImage source={slide.source} style={styles.slideImage} contentFit="contain" />
+          </View>
+        ))}
       </ScrollView>
 
       <View style={styles.pagination}>
@@ -74,14 +58,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   slideContainer: {
-    width: Dimensions.get('window').width - 32,
-    height: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: SLIDE_WIDTH,
+    height: SLIDE_HEIGHT,
   },
   slideImage: {
-    width: '100%',
-    height: '100%',
+    width: SLIDE_WIDTH,
+    height: SLIDE_HEIGHT,
   },
   pagination: {
     flexDirection: 'row',

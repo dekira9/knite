@@ -24,11 +24,9 @@ export default observer(() => {
   const {
     scrollViewRef,
     carouselRef,
-    step3Y,
     currentIndex,
     handleScrollToTop,
     handleScrollToTop1,
-    handleScrollToStep3,
     handleCarouselScroll,
   } = useRegularResultScroll();
 
@@ -83,7 +81,6 @@ export default observer(() => {
           carouselRef={carouselRef}
           currentIndex={currentIndex}
           onCarouselScroll={handleCarouselScroll}
-          onStep3Press={handleScrollToStep3}
         />
 
         <Step1Ribbing results={results} />
@@ -95,18 +92,11 @@ export default observer(() => {
           resultString43={resultString43}
         />
 
-        <View
-          onLayout={(e) => {
-            step3Y.current = e.nativeEvent.layout.y;
-          }}
-          collapsable={false}
-        >
-          <Step3BackLengthening
-            results={results}
-            handleScrollToTop1={handleScrollToTop1}
-            handleScrollToTop={handleScrollToTop}
-          />
-        </View>
+        <Step3BackLengthening
+          results={results}
+          handleScrollToTop1={handleScrollToTop1}
+          handleScrollToTop={handleScrollToTop}
+        />
 
         <Step4SeparatingSleeves results={results} handleScrollToTop1={handleScrollToTop1} />
 

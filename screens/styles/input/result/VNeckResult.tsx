@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { Image } from 'expo-image';
+import ZoomableImage from './ZoomableImage';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -35,7 +35,6 @@ export default observer(() => {
   const results = introState.calculateRaglan();
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
-  const step3Y = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const insets = useSafeAreaInsets();
@@ -96,14 +95,30 @@ export default observer(() => {
     );
   }
 
-  // Теперь results точно RaglanOutput
-  const { resultStringV22 } = calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn);
-  const { resultStringV11 } = calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn);
-  const { resultStringV12 } = calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2,SpribVcorn);
-  const { resultStringV23 } = calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3);
-  // Исправляем вызов функции - убираем лишний параметр SVfront
-  const { resultStringV01 } = calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz);
- 
+  const collarReady = NRrezV > 0 && SpribVcorn > 0;
+  const spribRatio = collarReady ? Math.floor(SpribVcorn / NRrezV) : -1;
+
+  const resultStringV01 =
+    collarReady && spribRatio === 0
+      ? calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz).resultStringV01
+      : '';
+  const resultStringV11 =
+    collarReady && SpribVcorn === NRrezV
+      ? calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn).resultStringV11
+      : '';
+  const resultStringV12 =
+    collarReady && spribRatio === 1 && SpribVcorn > NRrezV && RowPribRV1 > 0
+      ? calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2, SpribVcorn).resultStringV12
+      : '';
+  const resultStringV22 =
+    collarReady && SpribVcorn === 2 * NRrezV
+      ? calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn).resultStringV22
+      : '';
+  const resultStringV23 =
+    collarReady && spribRatio === 2 && SpribVcorn > 2 * NRrezV && RowPribRV2 > 0
+      ? calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3).resultStringV23
+      : '';
+
   const { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V } = calculateIncreaseRows1x2_1x4V(
     results.NHFrontV, results.SfxV, results.PR_1x4_fV, results.PR_1x2_fV
   );
@@ -152,15 +167,6 @@ export default observer(() => {
     }, 100); {/* Small delay to ensure vertical scroll completes first*/}
   };
 
-  const handleScrollToStep3 = () => {
-    scrollViewRef.current?.scrollTo({ y: step3Y.current, animated: true });
-    setTimeout(() => {
-      const slideSize = Dimensions.get('window').width - 32;
-      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
-      setCurrentIndex(1);
-    }, 100);
-  };
-
   return (
     <View style={styles.mainContainer}>
       <ScrollView 
@@ -185,26 +191,21 @@ export default observer(() => {
           scrollEventThrottle={16}
         >
           <View style={styles.slideContainer}>
-          
-          <Image
+            <ZoomableImage
               source={require('@/assets/images/planVaz111.png')}
               style={styles.slideImage}
               contentFit="contain"
-             />
+            />
           </View>
-          <TouchableOpacity 
-            style={styles.slideContainer} 
-            onPress={handleScrollToStep3}
-            activeOpacity={1}
-          >
-          <Image
+          <View style={styles.slideContainer}>
+            <ZoomableImage
               source={require('@/assets/images/planVaz44.png')}
               style={styles.slideImage}
               contentFit="contain"
-             />
-          </TouchableOpacity>
+            />
+          </View>
           <View style={styles.slideContainer}>
-            <Image
+            <ZoomableImage
               source={require('@/assets/images/v-neck.png')}
               style={styles.slideImage}
               contentFit="contain"
@@ -262,16 +263,11 @@ export default observer(() => {
           handleScrollToTop1={handleScrollToTop1}
         />
         
-        <View 
-          onLayout={(e) => { step3Y.current = e.nativeEvent.layout.y; }}
-          collapsable={false}
-        >
         <Step3BackLengtheningV 
           results={results}
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
         />
-        </View>
 
         <Step4SeparatingSleevesV 
           results={results}
@@ -379,8 +375,8 @@ const styles = StyleSheet.create({
   
   // === IMAGE STYLES ===
   slideImage: {
-    width: '100%',
-    height: '100%',
+    width: Dimensions.get('window').width - 32,
+    height: 300,
   },
   viewImage: {
     width: 30,
@@ -435,8 +431,6 @@ const styles = StyleSheet.create({
   slideContainer: {
     width: Dimensions.get('window').width - 32,
     height: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   pagination: {
     flexDirection: 'row',

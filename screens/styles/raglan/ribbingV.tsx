@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet , ScrollView,TouchableOpacity,Text   } from 'react-native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
@@ -14,15 +14,7 @@ const { heightPer25RowsCm: Hc, widthPer25StitchesCm: Lc } = computeStitchMetrics
 );
 
 const App = observer(() => {
-  const {SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRV3, RowPribRVz, SV, SVfront, LHV, LVfront } = introState;
- 
- 
- 
- 
-  const ribbingWidthV = introState.ribbingWidthV;
-
-    const NHV = Math.round(LHV * rows/2)*2;
-
+  const { SFrontV, SaV, KV, NRrezV, SpribVcorn, RowPribRV1, RowPribRV2, RowPribRV3, RowPribRVz, SV, SVfront, LsV } = introState;
 
   const [highlightedRow, setHighlightedRow] = useState(-1);
   

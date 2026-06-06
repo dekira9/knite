@@ -6,7 +6,6 @@ const SLIDE_SIZE = () => Dimensions.get('window').width - 32;
 export function useRegularResultScroll() {
   const scrollViewRef = useRef<ScrollView>(null);
   const carouselRef = useRef<ScrollView>(null);
-  const step3Y = useRef(0);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const scrollCarouselTo = (index: number) => {
@@ -24,11 +23,6 @@ export function useRegularResultScroll() {
     setTimeout(() => scrollCarouselTo(0), 100);
   };
 
-  const handleScrollToStep3 = () => {
-    scrollViewRef.current?.scrollTo({ y: step3Y.current, animated: true });
-    setTimeout(() => scrollCarouselTo(1), 100);
-  };
-
   const handleCarouselScroll = (x: number) => {
     setCurrentIndex(Math.round(x / SLIDE_SIZE()));
   };
@@ -36,12 +30,10 @@ export function useRegularResultScroll() {
   return {
     scrollViewRef,
     carouselRef,
-    step3Y,
     currentIndex,
     slideSize: SLIDE_SIZE(),
     handleScrollToTop,
     handleScrollToTop1,
-    handleScrollToStep3,
     handleCarouselScroll,
   };
 }
