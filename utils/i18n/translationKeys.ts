@@ -130,5 +130,8 @@ export const TRANSLATION_KEYS = [
   "viewChart",
   "expandMeasurements",
   "collapseMeasurements",
+  "resultLegendTitle",
+  "resultHelpIncreaseTitle",
+  "resultHelpIncreaseBody",
 ] as const;
 export type TranslationKey = (typeof TRANSLATION_KEYS)[number];

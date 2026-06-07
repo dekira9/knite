@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
+import ResultStepTitle from './ResultStepTitle';
 
 interface Step1RibbingProps {
   results: any;
@@ -21,7 +22,7 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
   return (
     <View style={styles.container}>
       
-      <Text style={styles.stepTitle}>{i18n.t('step')} 1</Text>
+      <ResultStepTitle step={1} titleKey="collarKnitting" />
       
       <View style={styles.resultCard}>
         <View style={styles.ribbingHeader}>
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
   },
   boldNumber: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
     color: '#1A1A1A',
   },
   stitchBreakdown: {

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import ResultStepTitle from './ResultStepTitle';
 
 // Color constants (aligned with other steps)
 const COLORS = {
@@ -27,7 +28,7 @@ const Step4SeparatingSleevesV = observer(({
 }: Step4SeparatingSleevesVProps) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.stepTitle}>{i18n.t('step')} 4</Text>
+      <ResultStepTitle step={4} titleKey="separatingBodyAndSleeves" />
       
       <View style={styles.resultCard}>
         <View style={styles.separatingHeader}>

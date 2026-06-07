@@ -740,6 +740,66 @@ export const collapseMeasurements = {
   lt: "Collapse",
 };
 
+export const resultLegendTitle = {
+  en: "Symbols",
+  ru: "Обозначения",
+  sv: "Symboler",
+  no: "Symboler",
+  fi: "Symbolit",
+  de: "Symbole",
+  fr: "Symboles",
+  es: "Símbolos",
+  ja: "記号",
+  cs: "Značky",
+  bg: "Обозначения",
+  sk: "Značky",
+  ko: "기호",
+  tr: "Semboller",
+  ar: "الرموز",
+  pt: "Símbolos",
+  lt: "Ženklai",
+};
+
+export const resultHelpIncreaseTitle = {
+  en: "Increase rhythm",
+  ru: "Ритм прибавок",
+  sv: "Ökningsrytm",
+  no: "Økerytme",
+  fi: "Lisäysrytmi",
+  de: "Zunahmerhythmus",
+  fr: "Rythme d'augmentations",
+  es: "Ritmo de aumentos",
+  ja: "増やし目のリズム",
+  cs: "Rytmus přidávání",
+  bg: "Ритъм на прибавки",
+  sk: "Rytmus pridávania",
+  ko: "늘리기 리듬",
+  tr: "Artırma ritmi",
+  ar: "إيقاع الزيادات",
+  pt: "Ritmo de aumentos",
+  lt: "Prieauglių ritmas",
+};
+
+export const resultHelpIncreaseBody = {
+  en: "1×2 means add 1 stitch every 2nd row. The number after the colon is how many times that rhythm is used. The chips below are the row numbers where you add stitches.",
+  ru: "1×2 — прибавить 1 петлю каждый 2-й ряд. Число после двоеточия — сколько раз повторить этот ритм. Ниже — номера рядов с прибавками.",
+  sv: "1×2 betyder 1 maska varannan rad. Talet efter kolon är hur många gånger rytmen upprepas. Rutorna nedan visar radnummer med ökningar.",
+  no: "1×2 betyr 1 maske annenhver rad. Tallet etter kolon er hvor mange ganger rytmen gjentas. Brikkene nedenfor er radnumrene med økninger.",
+  fi: "1×2 tarkoittaa 1 silmukka joka toinen rivi. Luvun jälkeen kaksoispiste kertoo, montako kertaa rytmi toistuu. Alla olevat merkit ovat lisäysrivien numerot.",
+  de: "1×2 bedeutet: in jeder 2. Reihe 1 Masche zunehmen. Die Zahl nach dem Doppelpunkt gibt an, wie oft dieser Rhythmus verwendet wird. Die Markierungen unten sind die Reihennummern mit Zunahmen.",
+  fr: "1×2 signifie ajouter 1 maille tous les 2 rangs. Le nombre après les deux points indique combien de fois ce rythme est utilisé. Les pastilles ci-dessous sont les numéros de rangs avec augmentations.",
+  es: "1×2 significa añadir 1 punto cada 2 filas. El número después de los dos puntos indica cuántas veces se repite ese ritmo. Las fichas de abajo son los números de filas con aumentos.",
+  ja: "1×2は2段ごとに1目増やす意味です。コロンの後の数字はそのリズムを何回使うかです。下のチップは増やし目の段番号です。",
+  cs: "1×2 znamená přidat 1 oko každý 2. řádek. Číslo za dvojtečkou udává, kolikrát se rytmus opakuje. Značky níže jsou čísla řádků s přidáváním.",
+  bg: "1×2 означава 1 петля на всеки 2-ри ред. Числото след двоеточието показва колко пъти се повтаря ритъмът. Чиповете по-долу са номерата на редовете с прибавки.",
+  sk: "1×2 znamená pridať 1 oko každý 2. rad. Číslo za dvojbodkou udáva, koľkokrát sa rytmus opakuje. Značky nižšie sú čísla riadkov s pridávaním.",
+  ko: "1×2는 2단마다 1코를 늘리는 뜻입니다. 콜론 뒤 숫자는 그 리듬을 몇 번 쓰는지입니다. 아래 칩은 늘림이 있는 단 번호입니다.",
+  tr: "1×2, her 2. sırada 1 ilmek artırmak demektir. İki noktadan sonraki sayı bu ritmin kaç kez kullanıldığını gösterir. Alttaki işaretler artırma yapılan sıra numaralarıdır.",
+  ar: "1×2 يعني إضافة غرزة واحدة كل صف ثانٍ. الرقم بعد النقطتين هو عدد مرات استخدام هذا الإيقاع. الرموز أدناه هي أرقام الصفوف التي فيها زيادات.",
+  pt: "1×2 significa adicionar 1 ponto a cada 2ª carreira. O número após os dois pontos indica quantas vezes esse ritmo é usado. As fichas abaixo são os números das carreiras com aumentos.",
+  lt: "1×2 reiškia pridėti 1 akį kas 2 eilutę. Skaičius po dvitaškio rodo, kiek kartų kartojamas ritmas. Žemiau esantys ženklai – eilučių numeriai su prieaugliu.",
+};
+
 export const additionsOnOneSide = {
   en: "Additions on one side",
   ru: "Прибавки на одну сторону",

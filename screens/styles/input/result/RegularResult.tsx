@@ -10,6 +10,7 @@ import { computeRegularIncreasePrecompute } from './useRegularIncreasePrecompute
 import { useRegularResultScroll } from './useRegularResultScroll';
 import RegularResultCarousel from './RegularResultCarousel';
 import RegularResultSummary from './RegularResultSummary';
+import ResultColorLegend from './ResultColorLegend';
 import Step1Ribbing from './Step1Ribbing';
 import Step2AddingStitches from './Step2AddingStitches';
 import Step3BackLengthening from './Step3BackLengthening';
@@ -82,6 +83,8 @@ export default observer(() => {
           currentIndex={currentIndex}
           onCarouselScroll={handleCarouselScroll}
         />
+
+        <ResultColorLegend variant="regular" />
 
         <Step1Ribbing results={results} />
         <Step2AddingStitches

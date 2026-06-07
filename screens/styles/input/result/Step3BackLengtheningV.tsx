@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import ResultStepTitle from './ResultStepTitle';
 import { Colors } from '@/constants/Colors';
 
 // Color constants
@@ -35,7 +36,7 @@ const Step3BackLengtheningV = observer(({
 }: Step3BackLengtheningVProps) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.stepTitle}>{i18n.t('step')} 3</Text>
+      <ResultStepTitle step={3} titleKey="backLengthening" />
       
       {/* УДЛИНЕНИЕ СПИНКИ */}
       <View style={styles.resultCard}>

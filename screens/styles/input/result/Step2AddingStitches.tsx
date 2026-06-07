@@ -5,6 +5,8 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
+import ResultStepTitle from './ResultStepTitle';
+import IncreaseOptionSection from './IncreaseOptionSection';
 
 // Color constants
 const COLORS = {
@@ -51,21 +53,6 @@ const Arrow: React.FC<ArrowProps> = ({ color, direction, text, marginSide }) => 
     <Text style={[styles.resultText, styles.arrowText, { [marginSide]: 10 }]}>
       {text}
     </Text>
-  </View>
-);
-
-// Reusable Section Component
-interface SectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-const Section: React.FC<SectionProps> = ({ title, children }) => (
-  <View style={styles.section}>
-    <Text style={[styles.resultText, styles.sectionTitle]}>
-      {title}
-    </Text>
-    {children}
   </View>
 );
 
@@ -121,7 +108,7 @@ const Step2AddingStitches = observer(({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.stepTitle}>{i18n.t('step')} 2</Text>
+      <ResultStepTitle step={2} titleKey="increases" />
       
       <View style={styles.resultCard}>
         <View style={styles.stepHeader}>
@@ -270,129 +257,85 @@ const Step2AddingStitches = observer(({
       <View style={styles.divider}></View>
 
       {results.usedIncreaseType.includes('1x2, 1x4') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{resultString24}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 2, count: results.PR_1x2_f },
+            { rowsPerStitch: 4, count: results.PR_1x4_f },
+          ]}
+          rowsString={resultString24}
+        />
       )}
 
       {results.usedIncreaseType.includes('1x3, 1x4') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.PRib_1x3_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PRib_1x4_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{resultString43}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 3, count: results.PRib_1x3_f },
+            { rowsPerStitch: 4, count: results.PRib_1x4_f },
+          ]}
+          rowsString={resultString43}
+        />
       )}
 
       {results.usedIncreaseType.includes('1x2, 1x1') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.PR_1x2_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{resultString21}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 2, count: results.PR_1x2_f },
+            { rowsPerStitch: 1, count: results.prib_1x1_f },
+          ]}
+          rowsString={resultString21}
+        />
       )}
       {results.usedIncreaseType.includes('1x4, 1x1') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-          </Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 4, count: results.PR_1x4_f },
+            { rowsPerStitch: 1, count: results.prib_1x1_f },
+          ]}
+        />
       )}
       {results.usedIncreaseType.includes('1x2, 1x3') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{resultString23}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 2, count: results.prib_1x2_f },
+            { rowsPerStitch: 3, count: results.prib_1x3_f },
+          ]}
+          rowsString={resultString23}
+        />
       )}
 
       {results.usedIncreaseType.includes('1x3, 1x1') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-          </Text>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-          </Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[
+            { rowsPerStitch: 3, count: results.prib_1x3_f },
+            { rowsPerStitch: 1, count: results.prib_1x1_f },
+          ]}
+        />
       )}
       {results.usedIncreaseType.includes('1x4') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x4({i18n.t('rows')}): {results.PR_1x4_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{results.RowPrib1x4String}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[{ rowsPerStitch: 4, count: results.PR_1x4_f }]}
+          rowsString={results.RowPrib1x4String}
+        />
       )}
 
       {results.usedIncreaseType.includes('1x1') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x1({i18n.t('rows')}): {results.prib_1x1_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{results.RowPrib1x1String}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[{ rowsPerStitch: 1, count: results.prib_1x1_f }]}
+          rowsString={results.RowPrib1x1String}
+        />
       )}
 
       {results.usedIncreaseType.includes('1x2') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x2({i18n.t('rows')}): {results.prib_1x2_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{results.RowPrib1x2String}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[{ rowsPerStitch: 2, count: results.prib_1x2_f }]}
+          rowsString={results.RowPrib1x2String}
+        />
       )}
       {results.usedIncreaseType.includes('1x3') && (
-        <Section title={i18n.t('option')}>
-          <Text style={styles.resultText}>
-            1({i18n.t('stitches')})x3({i18n.t('rows')}): {results.prib_1x3_f}
-          </Text>
-          <Text style={[styles.resultText, styles.boldText]}>
-            {i18n.t('RowsWithAdding')}:
-          </Text>
-          <Text style={styles.resultText}>{results.RowPrib1x3String}</Text>
-        </Section>
+        <IncreaseOptionSection
+          rhythms={[{ rowsPerStitch: 3, count: results.prib_1x3_f }]}
+          rowsString={results.RowPrib1x3String}
+        />
       )}
       </View>
     </View>
@@ -437,7 +380,7 @@ const styles = StyleSheet.create({
   },
   boldNumber: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
     color: COLORS.TEXT_PRIMARY,
   },
   viewChartButton: {

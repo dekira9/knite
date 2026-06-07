@@ -27,6 +27,7 @@ import FrontV from './FrontV';
 import Step3BackLengtheningV from './Step3BackLengtheningV';
 import Step4SeparatingSleevesV from './Step4SeparatingSleevesV';
 import ResultStepV from './ResultStepV';
+import ResultColorLegend from './ResultColorLegend';
 import { Colors } from '@/constants/Colors';
 import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
 
@@ -226,6 +227,8 @@ export default observer(() => {
             />
           ))}
         </View>
+
+        <ResultColorLegend variant="v-neck" />
 
         <Step1RibbingV 
           results={results}
