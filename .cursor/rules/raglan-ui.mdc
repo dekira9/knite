@@ -21,9 +21,16 @@ alwaysApply: false
 6. Open the matching `*O` or `*V` file for layout-only changes.
 7. See `docs/HOTSPOTS.md` + `docs/TASK_ROUTER.md`.
 
+## Result wizard (orchestrators are thin)
+
+- `result.tsx` (~8 lines) — routing only.
+- `RegularResult.tsx`, `VNeckResult.tsx` (~150–190 lines) — wiring only; edit `Step*.tsx` / `FrontV.tsx` for UI.
+- V-neck precompute: `useVNeckIncreasePrecompute.ts`. Carousel: `VNeckResultCarousel.tsx` / `RegularResultCarousel.tsx`.
+- Scroll handlers: `useRegularResultScroll.ts`.
+
 ## Large screens
 
-`frontV.tsx`, `ribbingV.tsx`, `RegularResult.tsx`, `VNeckResult.tsx` — change the smallest sub-section; avoid full-file rewrites.
+`frontV.tsx`, `ribbingV.tsx`, `Step2AddingStitches*.tsx` — change the smallest sub-section; avoid full-file rewrites.
 
 ## Input screens
 

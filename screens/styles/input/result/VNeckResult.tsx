@@ -1,26 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import ZoomableImage from './ZoomableImage';
-
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-
-import {
-  calculateVNeckIncreases01,
-  calculateVNeckIncreases12,
-  calculateVNeckIncreases11,
-  calculateVNeckIncreases22,
-  calculateIncreaseRows1x2_1x4V,
-  calculateIncreaseRows1x2_1x3V,
-  calculateIncreaseRows1x2_1x1V,
-  calculateIncreaseRows1x4_1x3V,
-  determineIncreaseType,
-  calculateVNeckIncreases23
-} from './helpers';
+import { computeVNeckIncreasePrecompute } from './useVNeckIncreasePrecompute';
+import { useRegularResultScroll } from './useRegularResultScroll';
+import VNeckResultCarousel from './VNeckResultCarousel';
 import Step1RibbingV from './Step1RibbingV';
 import Step2AddingStitchesV from './Step2AddingStitchesV';
 import FrontV from './FrontV';
@@ -31,15 +18,18 @@ import ResultColorLegend from './ResultColorLegend';
 import { Colors } from '@/constants/Colors';
 import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
 
-export default observer(() => {
+export default observer(function VNeckResult() {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
-  const scrollViewRef = useRef<ScrollView>(null);
-  const carouselRef = useRef<ScrollView>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
+  const {
+    scrollViewRef,
+    carouselRef,
+    currentIndex,
+    handleScrollToTop,
+    handleScrollToTop1,
+    handleCarouselScroll,
+  } = useRegularResultScroll();
 
   useEffect(() => {
     void introState.syncRaglanFromSupabase();
@@ -55,25 +45,6 @@ export default observer(() => {
     introState.raglanLineWidth,
     introState.raglanLineWidthV,
   ]);
-  
-  // Получаем значение ribbingWidthV из introState
-  const ribbingWidthV = introState.ribbingWidthV;
-  // Получаем плотность рядов
-  const rows = parseFloat(introState.rowDensity.replace(',', '.')) / 10;
-  // Рассчитываем NRrezV
-  const NRrezV = introState.NRrezV;
-
-  // Используем SpribVcorn из introState
-  const SpribVcorn = introState.SpribVcorn;
-  const RowPribRV1 = introState.RowPribRV1;
-  const RowPribRVz = introState.RowPribRVz;
-  const RowPribRV2 = introState.RowPribRV2;
-  const RowPribRV3 = introState.RowPribRV3;
-  
-  
-  const handleStartKnitting = () => {
-    (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
-  };
 
   const handleBackToHome = () => {
     introState.setAwaitingStyleChoice(false);
@@ -81,96 +52,29 @@ export default observer(() => {
     (navigation as any).navigate('StylesHome');
   };
 
-  // Проверяем, что results это RaglanOutput, а не строка с ошибкой
   if (typeof results === 'string') {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleBackToHome}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleBackToHome}>
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  const collarReady = NRrezV > 0 && SpribVcorn > 0;
-  const spribRatio = collarReady ? Math.floor(SpribVcorn / NRrezV) : -1;
-
-  const resultStringV01 =
-    collarReady && spribRatio === 0
-      ? calculateVNeckIncreases01(NRrezV, SpribVcorn, RowPribRV1, RowPribRVz).resultStringV01
-      : '';
-  const resultStringV11 =
-    collarReady && SpribVcorn === NRrezV
-      ? calculateVNeckIncreases11(NRrezV, RowPribRV1, SpribVcorn).resultStringV11
-      : '';
-  const resultStringV12 =
-    collarReady && spribRatio === 1 && SpribVcorn > NRrezV && RowPribRV1 > 0
-      ? calculateVNeckIncreases12(NRrezV, RowPribRV1, RowPribRV2, SpribVcorn).resultStringV12
-      : '';
-  const resultStringV22 =
-    collarReady && SpribVcorn === 2 * NRrezV
-      ? calculateVNeckIncreases22(NRrezV, RowPribRV2, SpribVcorn).resultStringV22
-      : '';
-  const resultStringV23 =
-    collarReady && spribRatio === 2 && SpribVcorn > 2 * NRrezV && RowPribRV2 > 0
-      ? calculateVNeckIncreases23(NRrezV, RowPribRV2, RowPribRV3).resultStringV23
-      : '';
-
-  const { PozBv, RowBv, RowNv, RowAv, RowPrib1x2_1x4V, resultString24V } = calculateIncreaseRows1x2_1x4V(
-    results.NHFrontV, results.SfxV, results.PR_1x4_fV, results.PR_1x2_fV
-  );
-  const { PozDv, RowDv, RowN23v, RowA23v, RowPrib1x2_1x3V, resultString23V } = calculateIncreaseRows1x2_1x3V(
-    results.NHFrontV, results.SfxV, results.prib_1x3_fV, results.prib_1x2_fV
-  );
-  const { PozCv, RowCv, RowN21v, RowA21v, RowPrib1x2_1x1V, resultString21V } = calculateIncreaseRows1x2_1x1V(
-    results.NHFrontV, results.SfxV, results.prib_1x1_fV, results.prib_1x2_fV
-  );
-  const { PozMv, RowMv, RowN43v, RowA43v, RowPRib1x4_1x3V, resultString43V } = calculateIncreaseRows1x4_1x3V(
-    results.NHFrontV, results.SfxV, results.PRib_1x4_fV, results.PRib_1x3_fV
-  );
-
-  // Добавляем вычисление простых строк рядов прибавок
-  const RowPrib1x4V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 4);
-  const RowPrib1x4StringV = RowPrib1x4V.join(', ');
-  const RowPrib1x3V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 3);
-  const RowPrib1x3StringV = RowPrib1x3V.join(', ');
-  const RowPrib1x2V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 2);
-  const RowPrib1x2StringV = RowPrib1x2V.join(', ');
-  const RowPrib1x1V = Array.from({ length: results.SfxV || 0 }, (_, index) => 1 + index * 1);
-  const RowPrib1x1StringV = RowPrib1x1V.join(', ');
-
-  // Определяем тип прибавок для отладки
-  const increaseType = determineIncreaseType(results.NHFrontV, results.SfxV);
-  
-  const handleScrollToTop = () => {
-    {/*// Scroll to top*/ }
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-    
-   {/* Scroll carousel to planVaz44.png (index 1)*/}
-    setTimeout(() => {
-      const slideSize = Dimensions.get('window').width - 32;
-      carouselRef.current?.scrollTo({ x: slideSize * 1, animated: true });
-      setCurrentIndex(1);   {/* Update current index to match*/}
-    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
-  };
-  const handleScrollToTop1 = () => {
-    {/*// Scroll to top*/ }
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-    {/* Scroll carousel to planVaz111.png (index 0)*/}
-    setTimeout(() => {
-      const slideSize = Dimensions.get('window').width - 32;
-      carouselRef.current?.scrollTo({ x: slideSize * 0, animated: true });
-      setCurrentIndex(0);   {/* Update current index to match*/}
-    }, 100); {/* Small delay to ensure vertical scroll completes first*/}
-  };
+  const precompute = computeVNeckIncreasePrecompute(results, {
+    NRrezV: introState.NRrezV,
+    SpribVcorn: introState.SpribVcorn,
+    RowPribRV1: introState.RowPribRV1,
+    RowPribRVz: introState.RowPribRVz,
+    RowPribRV2: introState.RowPribRV2,
+    RowPribRV3: introState.RowPribRV3,
+  });
 
   return (
     <View style={styles.mainContainer}>
-      <ScrollView 
+      <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
       >
@@ -178,120 +82,69 @@ export default observer(() => {
           <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
         </TouchableOpacity>
         <SampleMeasurementsBanner collapsible />
-        <ScrollView 
-          ref={carouselRef} // Add ref to carousel
-          horizontal 
-          pagingEnabled 
-          showsHorizontalScrollIndicator={false}
-          style={styles.carousel}
-          onScroll={(event) => {
-            const slideSize = Dimensions.get('window').width - 32;
-            const x = event.nativeEvent.contentOffset.x;
-            setCurrentIndex(Math.round(x / slideSize));
-          }}
-          scrollEventThrottle={16}
-        >
-          <View style={styles.slideContainer}>
-            <ZoomableImage
-              source={require('@/assets/images/planVaz111.png')}
-              style={styles.slideImage}
-              contentFit="contain"
-            />
-          </View>
-          <View style={styles.slideContainer}>
-            <ZoomableImage
-              source={require('@/assets/images/planVaz44.png')}
-              style={styles.slideImage}
-              contentFit="contain"
-            />
-          </View>
-          <View style={styles.slideContainer}>
-            <ZoomableImage
-              source={require('@/assets/images/v-neck.png')}
-              style={styles.slideImage}
-              contentFit="contain"
-            />
-          </View>
-         
-         
-        </ScrollView>
 
-        <View style={styles.pagination}>
-          {[0, 1, 2].map((index) => (
-            <View
-              key={index}
-              style={[
-                styles.paginationDot,
-                currentIndex === index && styles.paginationDotActive
-              ]}
-            />
-          ))}
-        </View>
+        <VNeckResultCarousel
+          carouselRef={carouselRef}
+          currentIndex={currentIndex}
+          onCarouselScroll={handleCarouselScroll}
+        />
 
         <ResultColorLegend variant="v-neck" />
 
-        <Step1RibbingV 
+        <Step1RibbingV
           results={results}
-          NRrezV={NRrezV}
-          SpribVcorn={SpribVcorn}
-          resultStringV01={resultStringV01}
-          resultStringV11={resultStringV11}
-          resultStringV12={resultStringV12}
-          resultStringV22={resultStringV22}
-          resultStringV23={resultStringV23}
-        />
-        
-        <Step2AddingStitchesV 
-          results={results}
-          resultString24V={resultString24V}
-          resultString23V={resultString23V}
-          resultString21V={resultString21V}
-          resultString43V={resultString43V}
-          RowPrib1x4StringV={RowPrib1x4StringV}
-          RowPrib1x3StringV={RowPrib1x3StringV}
-          RowPrib1x2StringV={RowPrib1x2StringV}
-          RowPrib1x1StringV={RowPrib1x1StringV}
+          NRrezV={introState.NRrezV}
+          SpribVcorn={introState.SpribVcorn}
+          resultStringV01={precompute.resultStringV01}
+          resultStringV11={precompute.resultStringV11}
+          resultStringV12={precompute.resultStringV12}
+          resultStringV22={precompute.resultStringV22}
+          resultStringV23={precompute.resultStringV23}
         />
 
-        <FrontV 
+        <Step2AddingStitchesV
           results={results}
-          resultString24V={resultString24V}
-          resultString23V={resultString23V}
-          resultString21V={resultString21V}
-          resultString43V={resultString43V}
-          RowPrib1x4StringV={RowPrib1x4StringV}
-          RowPrib1x3StringV={RowPrib1x3StringV}
-          RowPrib1x2StringV={RowPrib1x2StringV}
-          RowPrib1x1StringV={RowPrib1x1StringV}
+          resultString24V={precompute.resultString24V}
+          resultString23V={precompute.resultString23V}
+          resultString21V={precompute.resultString21V}
+          resultString43V={precompute.resultString43V}
+          RowPrib1x4StringV={precompute.RowPrib1x4StringV}
+          RowPrib1x3StringV={precompute.RowPrib1x3StringV}
+          RowPrib1x2StringV={precompute.RowPrib1x2StringV}
+          RowPrib1x1StringV={precompute.RowPrib1x1StringV}
+        />
+
+        <FrontV
+          results={results}
+          resultString24V={precompute.resultString24V}
+          resultString23V={precompute.resultString23V}
+          resultString21V={precompute.resultString21V}
+          resultString43V={precompute.resultString43V}
+          RowPrib1x4StringV={precompute.RowPrib1x4StringV}
+          RowPrib1x3StringV={precompute.RowPrib1x3StringV}
+          RowPrib1x2StringV={precompute.RowPrib1x2StringV}
+          RowPrib1x1StringV={precompute.RowPrib1x1StringV}
           handleScrollToTop1={handleScrollToTop1}
         />
-        
-        <Step3BackLengtheningV 
+
+        <Step3BackLengtheningV
           results={results}
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
         />
 
-        <Step4SeparatingSleevesV 
-          results={results}
-          handleScrollToTop1={handleScrollToTop1}
-        />
+        <Step4SeparatingSleevesV results={results} handleScrollToTop1={handleScrollToTop1} />
 
-        <ResultStepV 
-          results={results}
-        />
-
+        <ResultStepV results={results} />
       </ScrollView>
-     
     </View>
   );
 });
+
 const styles = StyleSheet.create({
-  // === CONTAINER STYLES ===
   mainContainer: {
     flex: 1,
     backgroundColor: '#F8F9FA',
-    paddingTop: 0,
   },
   scrollContent: {
     padding: 16,
@@ -299,36 +152,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
-  // === BUTTON STYLES ===
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: Colors['light'].tint,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#ffffff',
     fontSize: 16,
     fontWeight: '500',
-  },
-  startButton: {
-    flex: 1,
-    backgroundColor: '#34C759',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  startButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   backButton: {
     alignSelf: 'flex-start',
@@ -340,178 +177,10 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     fontWeight: '500',
   },
-  
-  // === TEXT STYLES ===
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  resultText: {
-    fontSize: 14,
-    color: '#000',
-    marginBottom: 5,
-  },
   error: {
     fontSize: 18,
-    color: 'red',
+    color: '#FF4444',
     textAlign: 'center',
     marginBottom: 20,
-  },
-  createText: {
-    fontSize: 12,
-    color: '#000',
-    textAlign: 'center',
-  },
-  textStep: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
-    color: '#1A1A1A',
-  },
-  
-  // === IMAGE STYLES ===
-  slideImage: {
-    width: Dimensions.get('window').width - 32,
-    height: 300,
-  },
-  viewImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  startvImage: {
-    width: 30,
-    height: 20,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  styleKnitCircleImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  frontImage: {
-    width: '100%',
-    aspectRatio: 2,
-    height: undefined,
-    resizeMode: 'contain',
-    padding: 300,
-  },
-  resultImage: {
-    width: '100%',
-    aspectRatio: 2,
-    height: undefined,
-    resizeMode: 'contain',
-    padding: 150,
-  },
-  styleZntsImage: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  styleznsfImage: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  
-  // === CAROUSEL STYLES ===
-  carousel: {
-    marginBottom: 20,
-    marginTop: 15,
-  },
-  slideContainer: {
-    width: Dimensions.get('window').width - 32,
-    height: 300,
-  },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#D1D1D6',
-    marginHorizontal: 4,
-  },
-  paginationDotActive: {
-    backgroundColor: '#007AFF',
-  },
-  
-  // === CARD STYLES ===
-  resultCard: {
-    backgroundColor: '#f1f1f1',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  textBox: {
-    borderWidth: 1,
-    borderColor: '#000',
-    padding: 3,
-    borderRadius: 5,
-    marginBottom: 3,
-  },
-  textBoxParts: {
-    borderWidth: 0,
-    borderColor: '#000',
-    padding: 5,
-    borderRadius: 5,
-    marginBottom: 3,
-    backgroundColor: '#E6E6E6',
-  },
-  textInsideBox: {
-    fontSize: 12,
-    color: '#000',
-  },
-  resultContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginVertical: 5,
-  },
-  scrollView1: {
-    flexGrow: 0,
-    width: '100%',
-    backgroundColor: '#f0f0f0',
-    padding: 2,
-  },
-  textContainer: {
-    marginBottom: 10,
-  },
-  sequenceText: {
-    marginTop: 5,
-    fontWeight: '500',
-    letterSpacing: 0.5,
-  },
-  sequenceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  numbersText: {
-    marginLeft: 5,
-    fontWeight: '500',
-    letterSpacing: 0.5,
-  },
-  styleZnkr: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginRight: 10,
   },
 });
-

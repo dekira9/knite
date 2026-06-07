@@ -8,9 +8,10 @@ alwaysApply: false
 
 - Entry: `utils/translations.ts` (I18n instance only).
 - Strings live in `utils/i18n/strings/` by domain:
-  - `onboarding.ts`, `input.ts`, `result.ts`, `charts.ts`
+  - `onboarding.ts`, `input.ts`, `charts.ts`
+  - `result/` — split: `shared.ts`, `steps.ts`, `legend.ts`, `help.ts` (see `docs/i18n/RESULT_KEY_INDEX.md`)
 - Keys list: `utils/i18n/translationKeys.ts` — add new keys there and in merge.
 - Pattern per key: `export const keyName = { en: "...", ru: "...", ... }`.
-- **Open only the domain file** that matches your screen; grep the key name across `strings/`.
+- **Never read the whole result strings tree.** Grep `export const <keyName>` → edit one block in the matching sub-file.
 - New keys need all 17 locales (en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt).
 - Runtime locale: `onboardingState.language`. Screens: `import i18n from '@/utils/translations'`.

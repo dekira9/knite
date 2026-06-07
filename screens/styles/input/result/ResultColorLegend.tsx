@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -34,7 +32,6 @@ function LegendSwatch({ item }: { item: ResultLegendItem }) {
 
 export default function ResultColorLegend({ variant }: Props) {
   const items = getResultLegendItems(variant);
-  const [expanded, setExpanded] = useState(false);
   const [helpItem, setHelpItem] = useState<ResultLegendItem | null>(null);
   const [generalHelpVisible, setGeneralHelpVisible] = useState(false);
 
@@ -48,64 +45,49 @@ export default function ResultColorLegend({ variant }: Props) {
     <View style={styles.wrapper}>
       <View style={styles.headerRow}>
         <Text style={resultTypography.legendTitle}>{i18n.t('resultLegendTitle')}</Text>
-        <View style={styles.headerActions}>
-          <TouchableOpacity
-            onPress={() => setGeneralHelpVisible(true)}
-            hitSlop={8}
-            style={styles.helpButton}
-            accessibilityRole="button"
-            accessibilityLabel={i18n.t('resultHelpLegendTitle')}
-          >
-            <Text style={styles.helpButtonText}>?</Text>
-          </TouchableOpacity>
-          <Pressable onPress={() => setExpanded((value) => !value)} hitSlop={8}>
-            <Text style={styles.toggleText}>
-              {expanded ? i18n.t('resultLegendCollapse') : i18n.t('resultLegendExpand')}
-            </Text>
-          </Pressable>
-        </View>
+        <TouchableOpacity
+          onPress={() => setGeneralHelpVisible(true)}
+          hitSlop={8}
+          style={styles.helpButton}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t('resultHelpLegendTitle')}
+        >
+          <Text style={styles.helpButtonText}>?</Text>
+        </TouchableOpacity>
       </View>
 
-      {!expanded ? (
-        <Pressable style={styles.collapsedRow} onPress={() => setExpanded(true)}>
-          {items.map((item) => (
-            <LegendSwatch key={item.id} item={item} />
-          ))}
-        </Pressable>
-      ) : (
-        <View style={styles.expandedGrid}>
-          {items.map((item) => {
-            const hasHelp = Boolean(item.helpTitleKey && item.helpBodyKey);
-            const content = (
-              <>
-                <LegendSwatch item={item} />
-                <Text style={resultTypography.legendLabel} numberOfLines={2}>
-                  {i18n.t(item.labelKey)}
-                </Text>
-              </>
-            );
+      <View style={styles.legendGrid}>
+        {items.map((item) => {
+          const hasHelp = Boolean(item.helpTitleKey && item.helpBodyKey);
+          const content = (
+            <>
+              <LegendSwatch item={item} />
+              <Text style={resultTypography.legendLabel} numberOfLines={2}>
+                {i18n.t(item.labelKey)}
+              </Text>
+            </>
+          );
 
-            if (hasHelp) {
-              return (
-                <TouchableOpacity
-                  key={item.id}
-                  style={styles.chip}
-                  onPress={() => openItemHelp(item)}
-                  activeOpacity={0.7}
-                >
-                  {content}
-                </TouchableOpacity>
-              );
-            }
-
+          if (hasHelp) {
             return (
-              <View key={item.id} style={styles.chip}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.chip}
+                onPress={() => openItemHelp(item)}
+                activeOpacity={0.7}
+              >
                 {content}
-              </View>
+              </TouchableOpacity>
             );
-          })}
-        </View>
-      )}
+          }
+
+          return (
+            <View key={item.id} style={styles.chip}>
+              {content}
+            </View>
+          );
+        })}
+      </View>
 
       <ResultHelpModal
         visible={generalHelpVisible}
@@ -141,11 +123,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 8,
   },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
   helpButton: {
     width: 22,
     height: 22,
@@ -161,18 +138,7 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     lineHeight: 16,
   },
-  toggleText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: Colors.light.tint,
-  },
-  collapsedRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    alignItems: 'center',
-  },
-  expandedGrid: {
+  legendGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,

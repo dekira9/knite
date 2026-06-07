@@ -50,7 +50,9 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 | Carousel + scroll handlers | `RegularResultCarousel.tsx`, `useRegularResultScroll.ts` |
 | Final summary card | `RegularResultSummary.tsx` |
 | Regular increase precompute | `useRegularIncreasePrecompute.ts` (`computeRegularIncreasePrecompute`) |
-| V-neck orchestrator | `screens/styles/input/result/VNeckResult.tsx` |
+| V-neck orchestrator | `screens/styles/input/result/VNeckResult.tsx` (~190 lines) |
+| V-neck precompute | `useVNeckIncreasePrecompute.ts` |
+| V-neck carousel | `VNeckResultCarousel.tsx` |
 | Step UI (regular) | `Step1Ribbing.tsx` … `Step4SeparatingSleeves.tsx` |
 | Step UI (v-neck) | `Step*V.tsx`, `ResultStepV.tsx`, `FrontV.tsx` |
 
@@ -73,10 +75,10 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 |-------------|---------------------------|
 | Onboarding, settings | `onboarding.ts` |
 | Measurement wizard | `input.ts` |
-| Result steps | `result.ts` |
+| Result shared / steps / legend / help | `result/{shared,steps,legend,help}.ts` — see `docs/i18n/RESULT_KEY_INDEX.md` |
 | Raglan charts | `charts.ts` |
 
-Workflow: grep key in `translationKeys.ts` → edit one `export const` in the domain file.
+Workflow: grep key in `translationKeys.ts` → edit one `export const` in the matching sub-file.
 
 ## Navigation
 

@@ -12,12 +12,12 @@ const SLIDE_WIDTH = Dimensions.get('window').width - 32;
 const SLIDE_HEIGHT = 300;
 
 const SLIDES = [
-  { key: 'plan1', source: require('@/assets/images/planOaz1.png') },
-  { key: 'plan3', source: require('@/assets/images/planOaz3.png') },
-  { key: 'collar', source: require('@/assets/images/regular-collar.png') },
+  { key: 'plan111', source: require('@/assets/images/planVaz111.png') },
+  { key: 'plan44', source: require('@/assets/images/planVaz44.png') },
+  { key: 'v-neck', source: require('@/assets/images/v-neck.png') },
 ];
 
-export default function RegularResultCarousel({
+export default function VNeckResultCarousel({
   carouselRef,
   currentIndex,
   onCarouselScroll,
@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#CCCCCC',
+    backgroundColor: '#D1D1D6',
     marginHorizontal: 4,
   },
   paginationDotActive: {
-    backgroundColor: '#009FE3',
+    backgroundColor: '#007AFF',
   },
 });

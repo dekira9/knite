@@ -54,6 +54,15 @@ Uses `mapPrecomputedVStrings` + `getIncreaseRowsFromType` from `increaseRowSelec
 | Step 1–4 UI | `Step1Ribbing.tsx` … `Step4SeparatingSleeves.tsx` |
 | Core increase math | `increaseRowsRegular.ts` |
 
+## `VNeckResult.tsx` (~190 lines) — v-neck result orchestrator
+
+| Area | File |
+|------|------|
+| Scroll refs + carousel handlers | `useRegularResultScroll.ts` |
+| Plan images carousel | `VNeckResultCarousel.tsx` |
+| Increase precompute (collar + 4 schemes) | `useVNeckIncreasePrecompute.ts` |
+| Step 1–4 UI | `Step1RibbingV.tsx` … `Step4SeparatingSleevesV.tsx`, `FrontV.tsx`, `ResultStepV.tsx` |
+
 ## Result steps (large)
 
 | File | ~lines | Notes |
@@ -62,7 +71,6 @@ Uses `mapPrecomputedVStrings` + `getIncreaseRowsFromType` from `increaseRowSelec
 | `Step2AddingStitchesV.tsx` | 589 | V-neck step 2 |
 | `Step1RibbingV.tsx` | 492 | V-neck step 1 |
 | `Step3BackLengthening.tsx` / `*V.tsx` | 465 | Back lengthening |
-| `VNeckResult.tsx` | 508 | V-neck orchestrator |
 | `ResultStepV.tsx` | 492 | Shared v-neck result step shell |
 
 ## `introState.ts` (~425 lines)
@@ -86,10 +94,13 @@ Paired regular/V fields: `.cursor/rules/state.mdc`. Do not rename persisted keys
 |-------------|-------|---------|
 | `utils/i18n/strings/onboarding.ts` | 18 | Onboarding, settings |
 | `utils/i18n/strings/input.ts` | 25 | Measurement wizard |
-| `utils/i18n/strings/result.ts` | 36 | Result steps |
+| `utils/i18n/strings/result/shared.ts` | ~300 | Nav, step chrome |
+| `utils/i18n/strings/result/steps.ts` | ~460 | Step copy |
+| `utils/i18n/strings/result/legend.ts` | ~220 | Color legend |
+| `utils/i18n/strings/result/help.ts` | ~280 | Help modals |
 | `utils/i18n/strings/charts.ts` | 31 | Raglan charts |
 
-Grep the key in `translationKeys.ts`, edit **one** `export const` in the matching domain file.
+Grep the key in `translationKeys.ts`, edit **one** `export const` in the matching domain file. Result keys: `docs/i18n/RESULT_KEY_INDEX.md`.
 
 ## Raglan calculation core
 

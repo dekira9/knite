@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import ResultStepTitle from './ResultStepTitle';
-import StitchPartChip from './StitchPartChip';
+import BreakdownRow from './BreakdownRow';
+import CollarSequenceStrip, { type CollarSegment } from './CollarSequenceStrip';
 import {
   RESULT_COLORS,
   resultCardStyles,
@@ -18,26 +18,6 @@ interface Step1RibbingProps {
   results: any;
 }
 
-function BreakdownRow({
-  color,
-  label,
-  value,
-}: {
-  color: string;
-  label: string;
-  value: number | string;
-}) {
-  return (
-    <View style={styles.breakdownRow}>
-      <View style={styles.breakdownLabel}>
-        <View style={[styles.breakdownSwatch, { backgroundColor: color }]} />
-        <Text style={resultTypography.body}>{label}</Text>
-      </View>
-      <Text style={resultTypography.value}>{value}</Text>
-    </View>
-  );
-}
-
 const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
   const navigation = useNavigation();
 
@@ -45,16 +25,16 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
     (navigation as any).navigate('Raglan', { screen: 'Ribbing' });
   };
 
-  const collarSegments = [
-    { top: RESULT_COLORS.raglan, bottom: RESULT_COLORS.lastRowCollar, value: results.SKfront },
-    { top: RESULT_COLORS.back, bottom: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
-    { top: RESULT_COLORS.raglan, bottom: RESULT_COLORS.lastRowCollar, value: results.K },
-    { top: RESULT_COLORS.sleeve, bottom: RESULT_COLORS.lastRowCollar, value: results.Sa },
-    { top: RESULT_COLORS.raglan, bottom: RESULT_COLORS.lastRowCollar, value: results.K },
-    { top: RESULT_COLORS.front, bottom: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
-    { top: RESULT_COLORS.raglan, bottom: RESULT_COLORS.lastRowCollar, value: results.K },
-    { top: RESULT_COLORS.sleeve, bottom: RESULT_COLORS.lastRowCollar, value: results.Sa },
-    { top: RESULT_COLORS.raglan, bottom: RESULT_COLORS.lastRowCollar, value: results.SKa },
+  const collarSegments: CollarSegment[] = [
+    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKfront },
+    { kind: 'stitch', topColor: RESULT_COLORS.back, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
+    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
+    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
+    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
+    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKa },
   ];
 
   return (
@@ -104,46 +84,13 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
           <View style={styles.redIndicator} />
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator>
-          <View style={styles.horizontalRow}>
-            {collarSegments.map((segment, index) => (
-              <React.Fragment key={`${segment.top}-${segment.value}-${index}`}>
-                {index > 0 ? (
-                  <View style={styles.roundIndicator}>
-                    <View style={styles.roundDot} />
-                  </View>
-                ) : null}
-                <StitchPartChip
-                  topColor={segment.top}
-                  bottomColor={segment.bottom}
-                  value={segment.value}
-                />
-              </React.Fragment>
-            ))}
-          </View>
-        </ScrollView>
+        <CollarSequenceStrip segments={collarSegments} />
 
         <View style={styles.stitchBreakdown}>
-          <BreakdownRow
-            color={RESULT_COLORS.back}
-            label={i18n.t('back')}
-            value={results.SFrontO}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.front}
-            label={i18n.t('front')}
-            value={results.SFrontO}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.sleeve}
-            label={i18n.t('sleeve')}
-            value={results.Sa}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.raglan}
-            label={i18n.t('raglan')}
-            value={results.K}
-          />
+          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontO} />
+          <BreakdownRow color={RESULT_COLORS.front} label={i18n.t('front')} value={results.SFrontO} />
+          <BreakdownRow color={RESULT_COLORS.sleeve} label={i18n.t('sleeve')} value={results.Sa} />
+          <BreakdownRow color={RESULT_COLORS.raglan} label={i18n.t('raglan')} value={results.K} />
         </View>
       </View>
     </View>
@@ -198,45 +145,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: RESULT_COLORS.start,
   },
-  roundIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 4,
-  },
-  roundDot: {
-    width: 17,
-    height: 17,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#CCCCCC',
-  },
-  horizontalRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
   stitchBreakdown: {
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: RESULT_COLORS.divider,
-  },
-  breakdownRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  breakdownLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  breakdownSwatch: {
-    width: 14,
-    height: 14,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#000',
   },
 });
 

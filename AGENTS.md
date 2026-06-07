@@ -11,7 +11,7 @@ Expo React Native app: knit raglan sweater measurements, step-by-step results, a
 | Measurements + charts UI | `screens/styles/`, `screens/onboarding/` |
 | Global knitting state | `state/introState.ts` (MST + persistence) |
 | Locale / units onboarding | `state/onboardingState.ts` |
-| i18n | `utils/translations.ts` + `utils/i18n/strings/{onboarding,input,result,charts}.ts` |
+| i18n | `utils/translations.ts` + `utils/i18n/strings/{onboarding,input,result/,charts}.ts` |
 | Remote raglan math | `utils/calculateRaglanCoreRemote.ts` → Supabase `calculate-raglan` |
 | Raglan core (shared with edge) | `utils/raglan/` — `calculateRaglan.ts` re-exports; see `docs/RAGLAN_GLOSSARY.md` |
 | Local increase-row helpers | `screens/styles/input/result/helpers.ts` |
@@ -59,7 +59,7 @@ App
 
 ## i18n
 
-- `utils/i18n/strings/*.ts` — one `export const keyName` per UI string, all locales in that object.
+- `utils/i18n/strings/` — one `export const keyName` per UI string, all locales in that object. Result domain split: `strings/result/{shared,steps,legend,help}.ts` — see `docs/i18n/RESULT_KEY_INDEX.md`.
 - Register new keys in `utils/i18n/translationKeys.ts`. Use `i18n.t('key')` in screens.
 - Result-step math split: `screens/styles/input/result/{increaseRowsRegular,vNeckCornerIncreases,increaseRowsVNeck}.ts` (re-exported from `helpers.ts`).
 
