@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import ResultStepTitle from './ResultStepTitle';
+import { resultTypography } from './resultSharedStyles';
 
 // Color constants (aligned with other steps)
 const COLORS = {
@@ -151,41 +152,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.BACKGROUND,
   },
-  stepTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 10,
-    color: COLORS.TEXT_PRIMARY,
-  },
   resultCard: {
     backgroundColor: COLORS.CARD,
-    padding: 20,
+    padding: 16,
     borderRadius: 12,
     marginBottom: 10,
     shadowColor: COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.sectionTitle,
   },
   leftLabel: {
-    fontSize: 16,
-    color: COLORS.TEXT_SECONDARY,
+    ...resultTypography.label,
   },
   boldNumber: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.value,
   },
   resultText: {
     fontSize: 12,

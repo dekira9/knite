@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
+import { resultTypography } from './resultSharedStyles';
 
 // Color constants
 const COLORS = {
@@ -473,13 +474,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   leftLabel: {
-    fontSize: 16,
-    color: COLORS.TEXT_SECONDARY,
+    ...resultTypography.label,
   },
   boldNumber: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.value,
   },
   chartRow: {
     flexDirection: 'row',

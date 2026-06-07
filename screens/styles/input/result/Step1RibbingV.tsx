@@ -7,6 +7,7 @@ import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import ResultStepTitle from './ResultStepTitle';
+import { resultTypography } from './resultSharedStyles';
 
 interface Step1RibbingVProps {
   results: any;
@@ -316,31 +317,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FA',
   },
-  stepTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    color: '#1A1A1A',
-  },
   resultCard: {
     backgroundColor: '#ffffff',
-    padding: 20,
+    padding: 16,
     borderRadius: 12,
     marginBottom: 10,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1A1A1A',
+    ...resultTypography.sectionTitle,
   },
   viewChartButton: {
     flexDirection: 'row',
@@ -357,23 +346,15 @@ const styles = StyleSheet.create({
     marginRight: 6,
     tintColor: '#ffffff',
   },
-  viewChartText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '500',
-  },
   knitIcon: {
     width: 25,
     height: 25,
   },
   leftLabel: {
-    fontSize: 16,
-    color: '#6b7280',
+    ...resultTypography.label,
   },
   boldNumber: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#1A1A1A',
+    ...resultTypography.value,
   },
   stitchBreakdown: {
     marginTop: 20,

@@ -9,6 +9,8 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 | Full raglan output formula | `utils/raglan/calculateRaglanCore.ts` → submodules in `utils/raglan/` |
 | Input/output types | `utils/raglan/types.ts` |
 | Field meaning (Sgor, Sfx, …) | `docs/RAGLAN_GLOSSARY.md` |
+| Typed introState raglan fields | `state/raglanSelectors.ts` — `pickRaglanVariant`, `RAGLAN_VARIANT_FIELDS` |
+| Persistence rename (future) | `state/introStateMigration.ts` |
 | Remote sync to device | `utils/calculateRaglanCoreRemote.ts`, `state/introState.ts` → `syncRaglanFromSupabase` |
 | Golden regression | `utils/raglan/__tests__/goldenSample.json`, `yarn test:raglan` |
 

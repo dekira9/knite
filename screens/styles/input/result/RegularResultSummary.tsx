@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import i18n from '@/utils/translations';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
+import { resultTypography } from './resultSharedStyles';
 
 type Props = {
   results: RaglanOutput;
@@ -269,13 +270,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   leftLabel: {
-    fontSize: 16,
-    color: COLORS.TEXT_SECONDARY,
+    ...resultTypography.label,
   },
   boldNumber: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.value,
   },
   separatingLayout: {
     flexDirection: 'row',

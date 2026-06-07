@@ -16,6 +16,8 @@ Expo React Native app: knit raglan sweater measurements, step-by-step results, a
 | Raglan core (shared with edge) | `utils/raglan/` — `calculateRaglan.ts` re-exports; see `docs/RAGLAN_GLOSSARY.md` |
 | Local increase-row helpers | `screens/styles/input/result/helpers.ts` |
 | Raglan output types | `utils/raglan/types.ts` (`RaglanOutput`) |
+| Legacy field meanings | `docs/RAGLAN_GLOSSARY.md` — **grep before reading `introState.ts`** |
+| Typed raglan state access | `state/raglanSelectors.ts` — `pickRaglanVariant`, `pickActiveRaglanVariant` |
 
 See `docs/ARCHITECTURE.md` for flow diagram; `docs/TASK_ROUTER.md` for task→file lookup; `docs/HOTSPOTS.md` for line-level edit map; `docs/SYMBOLS.md` for grep index.
 
@@ -40,7 +42,7 @@ App
   - `screens/styles/input/result/result.tsx` → `RegularResult` | `VNeckResult`
   - `screens/styles/raglan/{ribbing,front,back,sleeve}.tsx` → `*O.tsx` (regular) | `*V.tsx` (v-neck)
 - Input steps differ: `components/IntroProgress.tsx` lists `INTRO_STEPS_REGULAR` vs `INTRO_STEPS_V_NECK` (extra `DepthNeckV`, `RibbingWidthV`, `LineraglanV`).
-- State fields are often duplicated (`Sgor` / `SgorV`, etc.) — when changing one variant, check the paired field in `introState.ts`.
+- State fields are often duplicated (`Sgor` / `SgorV`, etc.) — use `state/raglanSelectors.ts` or `RAGLAN_VARIANT_FIELDS` instead of memorizing pairs; when changing shared logic, update both variants.
 
 ## State rules
 

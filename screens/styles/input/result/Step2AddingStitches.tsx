@@ -7,6 +7,7 @@ import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import ResultStepTitle from './ResultStepTitle';
 import IncreaseOptionSection from './IncreaseOptionSection';
+import { resultTypography } from './resultSharedStyles';
 
 // Color constants
 const COLORS = {
@@ -347,14 +348,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.BACKGROUND,
   },
-  stepTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 10,
-    color: COLORS.TEXT_PRIMARY,
-  },
   resultCard: {
     backgroundColor: COLORS.WHITE,
     padding: 20,
@@ -370,18 +363,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.sectionTitle,
   },
   leftLabel: {
-    fontSize: 16,
-    color: COLORS.TEXT_SECONDARY,
+    ...resultTypography.label,
   },
   boldNumber: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: COLORS.TEXT_PRIMARY,
+    ...resultTypography.value,
   },
   viewChartButton: {
     flexDirection: 'row',

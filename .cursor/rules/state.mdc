@@ -19,7 +19,7 @@ alwaysApply: false
   | `ribbingWidth`, `raglanLineWidth` | `ribbingWidthV`, `raglanLineWidthV` |
   | `RowPrib1x4`, `RowPrib1x4String` | `RowPrib1x4V`, `RowPrib1x4StringV` (same for 1x3/1x2/1x1) |
 
-  Full list: `docs/RAGLAN_GLOSSARY.md`.
+  Full list: `docs/RAGLAN_GLOSSARY.md`. Typed access: `state/raglanSelectors.ts` (`pickRaglanVariant`).
 - Persistence: AsyncStorage projects; `loadPersistedState()` on app start.
 - Remote sync: `syncRaglanFromSupabase()` uses `calculateRaglanRemote()`.
 - Style: `setStyle`, `setNecklineStyle('round' | 'v-neck')`.
