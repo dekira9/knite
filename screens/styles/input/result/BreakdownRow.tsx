@@ -15,11 +15,11 @@ export default function BreakdownRow({ color, label, value, detail }: Props) {
       <View style={styles.labelWrap}>
         <View style={[styles.swatch, { backgroundColor: color }]} />
         <View>
-          <Text style={resultTypography.body}>{label}</Text>
+          <Text style={resultTypography.label}>{label}</Text>
           {detail ? <Text style={styles.detail}>{detail}</Text> : null}
         </View>
       </View>
-      <Text style={resultTypography.value}>{value}</Text>
+      <Text style={resultTypography.chipValue}>{value}</Text>
     </View>
   );
 }

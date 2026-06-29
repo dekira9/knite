@@ -4,8 +4,6 @@ import { View, StyleSheet , ScrollView,TouchableOpacity,Text, Dimensions, useCol
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
 import {
@@ -15,7 +13,9 @@ import {
 } from './increaseRowSelection';
 import { RAGLAN_CHART_IDS } from './chartIds';
 import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanChartRowToolbar } from './RaglanChartRowToolbar';
 import { RaglanFlatChartGrid } from './RaglanFlatChartGrid';
+import { raglanChartPageStyles } from './raglanChartPageStyles';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { Colors } from '@/constants/Colors';
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
@@ -67,7 +67,7 @@ const App = observer(() => {
 
   return (
 
-    <View style={styles.container}>
+    <View style={[styles.container, raglanChartPageStyles.page]}>
       <View style={styles.optionsContainer}>
       <ScrollView 
           horizontal 
@@ -180,38 +180,31 @@ const App = observer(() => {
         ))}
       </View>
 
-      <View style={styles.indicatorRow}>
-       <View style={styles.yellowIndicator}></View>
-       <Text style={styles.resultText}> {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}</Text>
+      <Text style={raglanChartPageStyles.metaText}>
+        {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SaV : ''} {i18n.t('stitches')}
+      </Text>
+
+      <View style={raglanChartPageStyles.legendStrip}>
+        <RaglanChartLegend variant="regular" layout="compact" />
       </View>
 
-      <RaglanChartLegend variant="regular" />
-      <RaglanFlatChartGrid
-        nhFront={NHFrontV}
-        stitchCount={SaV}
-        highlightedRow={highlightedRow}
-        increaseRows={increaseRows}
+      <View style={raglanChartPageStyles.chartArea}>
+        <RaglanFlatChartGrid
+          nhFront={NHFrontV}
+          stitchCount={SaV}
+          highlightedRow={highlightedRow}
+          increaseRows={increaseRows}
+        />
+      </View>
+
+      <RaglanChartRowToolbar
+        variant="slim"
+        currentRow={highlightedRow}
+        totalRows={NHFrontV}
+        stitchCount={SaV + leftCellCount + rightCellCount}
+        onPreviousRow={highlightPreviousRow}
+        onNextRow={highlightNextRow}
       />
-
-      <View style={styles.controlsInfoContainer}>
-      <View style={styles.infoContainer}>
-       <View style={styles.bottomRow}>
-       <View style={styles.redIndicator}></View>
-        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
-         </View>
-        <Text style={styles.infoText}>{i18n.t('stitches')}: {SaV + leftCellCount + rightCellCount}</Text>
-        
-      </View>
-      <View style={styles.navigationButtons}>
-      
-        <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-          <Ionicons name="chevron-up" size={24} color='red' />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-          <Ionicons name="chevron-down" size={24} color='red' />
-        </TouchableOpacity>
-      </View>
-      </View>
     </View>
   
   );
@@ -220,15 +213,11 @@ const App = observer(() => {
 const styles = StyleSheet.create({
   ...raglanChartChromeStyleDefs,
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column',
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 110,
     borderWidth: 1,
     borderColor: '#C6C6C6',
     paddingHorizontal: 20,

@@ -4,8 +4,6 @@ import { View, StyleSheet , ScrollView,TouchableOpacity,Text,Dimensions   } from
 import { observer } from 'mobx-react-lite';
 import { Ionicons } from '@expo/vector-icons';
 import i18n from '@/utils/translations';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import introState from '@/state/introState';
 import onboardingState from '@/state/onboardingState';
 import {
@@ -15,7 +13,9 @@ import {
 } from './increaseRowSelection';
 import { RAGLAN_CHART_IDS } from './chartIds';
 import { RaglanChartLegend } from './RaglanChartLegend';
+import { RaglanChartRowToolbar } from './RaglanChartRowToolbar';
 import { RaglanFlatChartGrid } from './RaglanFlatChartGrid';
+import { raglanChartPageStyles } from './raglanChartPageStyles';
 import { raglanChartChromeStyleDefs } from './raglanChartChromeStyles';
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
@@ -68,7 +68,7 @@ const App = observer(() => {
   const rightCellCount = countSideArrayCells(increaseRows, NHFrontV, highlightedRow);
   return (
 
-    <View style={styles.container}>
+    <View style={[styles.container, raglanChartPageStyles.page]}>
       <View style={styles.optionsContainer}>
       <ScrollView 
           horizontal 
@@ -181,36 +181,31 @@ const App = observer(() => {
         ))}
       </View>
       
-      <Text style={[styles.resultText, { marginTop: 6, marginBottom: 2 }]}>
+      <Text style={raglanChartPageStyles.metaText}>
         {i18n.t('lastRowOfCollar')}: {isRaglanOutput(results) ? results.SFrontV : ''} {i18n.t('stitches')}
       </Text>
-      <RaglanChartLegend variant="regular" />
-      <RaglanFlatChartGrid
-        nhFront={NHFrontV}
-        stitchCount={SFrontV}
-        highlightedRow={highlightedRow}
-        increaseRows={increaseRows}
-      />
 
-     <View style={styles.controlsInfoContainer}>
-      <View style={styles.infoContainer}>
-      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-      <View style={{width: 17, height: 17, backgroundColor: 'red', borderWidth: 1}}></View>
-        <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
-        </View>
-        <Text style={styles.infoText}>{i18n.t('stitches')}: {SFrontV + leftCellCount + rightCellCount}</Text>
-        
+      <View style={raglanChartPageStyles.legendStrip}>
+        <RaglanChartLegend variant="regular" layout="compact" />
       </View>
-      <View style={styles.navigationButtons}>
-     
-        <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-          <Ionicons name="chevron-up" size={24} color='red' />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-          <Ionicons name="chevron-down" size={24} color='red' />
-        </TouchableOpacity>
+
+      <View style={raglanChartPageStyles.chartArea}>
+        <RaglanFlatChartGrid
+          nhFront={NHFrontV}
+          stitchCount={SFrontV}
+          highlightedRow={highlightedRow}
+          increaseRows={increaseRows}
+        />
       </View>
-      </View>
+
+      <RaglanChartRowToolbar
+        variant="slim"
+        currentRow={highlightedRow}
+        totalRows={NHFrontV}
+        stitchCount={SFrontV + leftCellCount + rightCellCount}
+        onPreviousRow={highlightPreviousRow}
+        onNextRow={highlightNextRow}
+      />
     </View>
   
   );
@@ -219,17 +214,13 @@ const App = observer(() => {
 const styles = StyleSheet.create({
   ...raglanChartChromeStyleDefs,
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column',
   },
   horContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 110,
     paddingHorizontal: 20,
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: '#C6C6C6'
   },
   verticalContainer: {

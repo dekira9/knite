@@ -7,6 +7,7 @@ import i18n from '@/utils/translations';
 
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
 import { computeRibbingVCellCounts, selectVNeckCollarIncreases } from './ribbingVCollarGrid';
+import { RaglanChartRowToolbar } from './RaglanChartRowToolbar';
 
 const { heightPer25RowsCm: Hc, widthPer25StitchesCm: Lc } = computeStitchMetrics(
   introState.stitchDensity,
@@ -463,23 +464,14 @@ const App = observer(() => {
           </View>
         </ScrollView>
       </View>
-      <View style={styles.controlsInfoContainer}>
-      <View style={styles.infoContainer}>
-      <View style={styles.bottomRow}>
-      <View style={styles.redIndicator}></View>
-      <Text style={styles.infoText}>{i18n.t('currentRow')}: {highlightedRow + 1}</Text>
-      </View>
-          <Text style={styles.infoText}>{i18n.t('stitches')}: {KV*4 + SFrontV + 2 * SaV + 2*(currentRowStitches as number)}</Text>
-        </View>
-        <View style={styles.navigationButtons}>
-          <TouchableOpacity onPress={highlightPreviousRow} style={styles.navButton}>
-            <Ionicons name="chevron-up" size={24} color='red' />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={highlightNextRow} style={styles.navButton}>
-            <Ionicons name="chevron-down" size={24} color='red' />
-          </TouchableOpacity>
-        </View>
-        </View>
+      <RaglanChartRowToolbar
+        variant="slim"
+        currentRow={highlightedRow}
+        totalRows={NRrezV}
+        stitchCount={KV * 4 + SFrontV + 2 * SaV + 2 * (currentRowStitches as number)}
+        onPreviousRow={highlightPreviousRow}
+        onNextRow={highlightNextRow}
+      />
     </View>
   );
 });

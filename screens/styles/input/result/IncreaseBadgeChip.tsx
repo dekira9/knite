@@ -4,12 +4,18 @@ import { RESULT_COLORS, resultTypography } from './resultSharedStyles';
 
 type Props = {
   value: number | string;
+  label?: string;
 };
 
-export default function IncreaseBadgeChip({ value }: Props) {
+export default function IncreaseBadgeChip({ value, label }: Props) {
   return (
     <View style={styles.chip}>
       <View style={styles.yellowBar} />
+      {label ? (
+        <Text style={styles.label} numberOfLines={1}>
+          {label}
+        </Text>
+      ) : null}
       <Text style={styles.value}>+{value}</Text>
     </View>
   );
@@ -31,6 +37,13 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#000',
     marginBottom: 4,
+  },
+  label: {
+    fontSize: 10,
+    color: RESULT_COLORS.textSecondary,
+    textAlign: 'center',
+    marginBottom: 2,
+    maxWidth: 72,
   },
   value: {
     ...resultTypography.chipValue,

@@ -155,5 +155,11 @@ export const TRANSLATION_KEYS = [
   "resultHelpDecreaseBody",
   "resultHelpIncreaseTitle",
   "resultHelpIncreaseBody",
+  "step1CollarIntro",
+  "step1StitchBreakdown",
+  "step1RoundOrder",
+  "step1RoundOrderHint",
+  "step1PerSleeve",
+  "step1PerRaglanLine",
 ] as const;
 export type TranslationKey = (typeof TRANSLATION_KEYS)[number];

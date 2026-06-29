@@ -1,22 +1,27 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import type { TranslationKey } from '@/utils/i18n/translationKeys';
+import i18n from '@/utils/translations';
 import StitchPartChip from './StitchPartChip';
 import IncreaseBadgeChip from './IncreaseBadgeChip';
+import { RESULT_COLORS } from './resultSharedStyles';
 
 export type CollarSegment =
-  | { kind: 'stitch'; topColor: string; bottomColor?: string; value: number | string }
-  | { kind: 'increase'; value: number | string };
+  | {
+      kind: 'stitch';
+      labelKey: TranslationKey;
+      topColor: string;
+      bottomColor?: string;
+      value: number | string;
+    }
+  | { kind: 'increase'; labelKey: TranslationKey; value: number | string };
 
 type Props = {
   segments: CollarSegment[];
 };
 
-function RoundSeparator() {
-  return (
-    <View style={styles.roundIndicator}>
-      <View style={styles.roundDot} />
-    </View>
-  );
+function SegmentArrow() {
+  return <Text style={styles.arrow}>→</Text>;
 }
 
 export default function CollarSequenceStrip({ segments }: Props) {
@@ -25,15 +30,20 @@ export default function CollarSequenceStrip({ segments }: Props) {
       <View style={styles.row}>
         {segments.map((segment, index) => (
           <React.Fragment key={`${segment.kind}-${index}`}>
-            {index > 0 ? <RoundSeparator /> : null}
+            {index > 0 ? <SegmentArrow /> : null}
             {segment.kind === 'stitch' ? (
               <StitchPartChip
                 topColor={segment.topColor}
                 bottomColor={segment.bottomColor}
                 value={segment.value}
+                label={i18n.t(segment.labelKey)}
+                isStart={index === 0}
               />
             ) : (
-              <IncreaseBadgeChip value={segment.value} />
+              <IncreaseBadgeChip
+                value={segment.value}
+                label={i18n.t(segment.labelKey)}
+              />
             )}
           </React.Fragment>
         ))}
@@ -48,14 +58,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 4,
   },
-  roundIndicator: {
-    marginHorizontal: 4,
-  },
-  roundDot: {
-    width: 17,
-    height: 17,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#CCCCCC',
+  arrow: {
+    fontSize: 16,
+    color: RESULT_COLORS.textSecondary,
+    marginHorizontal: 2,
+    marginTop: 8,
   },
 });

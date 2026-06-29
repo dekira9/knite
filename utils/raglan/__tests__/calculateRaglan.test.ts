@@ -3,6 +3,8 @@ import {
   calculateRaglan,
   computeRegularRaglanLineMax,
   computeRegularRaglanLineMaxFromMeasurements,
+  computeVNeckDepthBoundsFromMeasurements,
+  computeVNeckRaglanLineMaxFromMeasurements,
 } from '@/utils/calculateRaglan';
 import type { RaglanOutput } from '@/utils/raglan/types';
 import goldenSample from './goldenSample.json';
@@ -62,6 +64,21 @@ describe('calculateRaglan', () => {
       computeRegularRaglanLineMaxFromMeasurements(sampleInput)
     );
     expect(computeRegularRaglanLineMax(result.Sgor)).toBe(27);
+  });
+
+  it('v-neck depth slider bounds match full calc', () => {
+    const result = calculateRaglan(sampleInput);
+    assertOutput(result);
+    expect(computeVNeckDepthBoundsFromMeasurements(sampleInput)).toEqual({
+      min: parseFloat(result.LHVmin.toFixed(1)),
+      max: parseFloat(result.LHVmax.toFixed(1)),
+    });
+  });
+
+  it('v-neck raglan line slider max matches full calc', () => {
+    const result = calculateRaglan(sampleInput);
+    assertOutput(result);
+    expect(computeVNeckRaglanLineMaxFromMeasurements(sampleInput)).toBe(result.KmaxV);
   });
 
   it('semi-fitted adds ease to SFit', () => {

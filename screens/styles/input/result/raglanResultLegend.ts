@@ -43,21 +43,7 @@ const REGULAR_ITEMS: ResultLegendItem[] = [
 ];
 
 const V_NECK_EXTRA: ResultLegendItem[] = [
-  {
-    id: 'knitFromCollar',
-    color: RESULT_COLORS.knitFromCollar,
-    labelKey: 'knitTheStitchesFromTheCollar',
-    helpTitleKey: 'resultHelpKnitCollarTitle',
-    helpBodyKey: 'resultHelpKnitCollarBody',
-    borderColor: '#715604',
-  },
-  {
-    id: 'decrease',
-    color: RESULT_COLORS.decrease,
-    labelKey: 'decreaseTheStitches',
-    helpTitleKey: 'resultHelpDecreaseTitle',
-    helpBodyKey: 'resultHelpDecreaseBody',
-  },
+
 ];
 
 export function getResultLegendItems(variant: 'regular' | 'v-neck'): ResultLegendItem[] {

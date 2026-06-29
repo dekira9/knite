@@ -26,15 +26,15 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
   };
 
   const collarSegments: CollarSegment[] = [
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKfront },
-    { kind: 'stitch', topColor: RESULT_COLORS.back, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
-    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
-    { kind: 'stitch', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
-    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKa },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKfront },
+    { kind: 'stitch', labelKey: 'back', topColor: RESULT_COLORS.back, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', labelKey: 'sleeve', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', labelKey: 'front', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontO },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.K },
+    { kind: 'stitch', labelKey: 'sleeve', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.Sa },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SKa },
   ];
 
   return (
@@ -65,12 +65,21 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
           <Text style={resultTypography.value}>{results.Sgor}</Text>
         </View>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('knitting')}:</Text>
-          <Image
-            source={require('@/assets/images/knitcircle.svg')}
-            style={styles.knitIcon}
-            contentFit="contain"
+        <View style={styles.stitchBreakdown}>
+          {/* <Text style={styles.breakdownTitle}>{i18n.t('step1StitchBreakdown')}</Text> */}
+          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontO} />
+          <BreakdownRow color={RESULT_COLORS.front} label={i18n.t('front')} value={results.SFrontO} />
+          <BreakdownRow
+            color={RESULT_COLORS.sleeve}
+            label={i18n.t('sleeve')}
+            value={results.Sa}
+            detail={i18n.t('step1PerSleeve')}
+          />
+          <BreakdownRow
+            color={RESULT_COLORS.raglan}
+            label={i18n.t('raglan')}
+            value={results.K}
+            detail={i18n.t('step1PerRaglanLine')}
           />
         </View>
 
@@ -79,18 +88,10 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
           <Text style={resultTypography.value}>{results.NRrez}</Text>
         </View>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('start')}:</Text>
-          <View style={styles.redIndicator} />
-        </View>
-
-        <CollarSequenceStrip segments={collarSegments} />
-
-        <View style={styles.stitchBreakdown}>
-          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontO} />
-          <BreakdownRow color={RESULT_COLORS.front} label={i18n.t('front')} value={results.SFrontO} />
-          <BreakdownRow color={RESULT_COLORS.sleeve} label={i18n.t('sleeve')} value={results.Sa} />
-          <BreakdownRow color={RESULT_COLORS.raglan} label={i18n.t('raglan')} value={results.K} />
+        <View style={styles.roundOrderSection}>
+          <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
+          <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
+          <CollarSequenceStrip segments={collarSegments} />
         </View>
       </View>
     </View>
@@ -128,10 +129,6 @@ const styles = StyleSheet.create({
     height: 25,
     tintColor: '#ffffff',
   },
-  knitIcon: {
-    width: 25,
-    height: 25,
-  },
   yellowIndicator: {
     width: 17,
     height: 17,
@@ -139,17 +136,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
   },
-  redIndicator: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: RESULT_COLORS.start,
-  },
   stitchBreakdown: {
+    marginTop: -4,
+    marginBottom: 12,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    backgroundColor: '#F9FAFB',
+    borderRadius: 8,
+    gap: 2,
+  },
+  breakdownTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: RESULT_COLORS.textSecondary,
+    marginBottom: 6,
+  },
+  roundOrderSection: {
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: RESULT_COLORS.divider,
+    gap: 4,
+  },
+  roundOrderHint: {
+    fontSize: 12,
+    color: RESULT_COLORS.textSecondary,
+    lineHeight: 16,
+    marginBottom: 4,
   },
 });
 

@@ -42,17 +42,17 @@ const Step1RibbingV = observer(({
   };
 
   const collarSegments: CollarSegment[] = [
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
-    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SaV },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
-    { kind: 'stitch', topColor: RESULT_COLORS.back, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontV },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
-    { kind: 'stitch', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SaV },
-    { kind: 'stitch', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
-    { kind: 'stitch', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SV },
-    { kind: 'increase', value: results.SpribVcorn },
-    { kind: 'increase', value: results.SpribVcorn },
-    { kind: 'stitch', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SV },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
+    { kind: 'stitch', labelKey: 'sleeve', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SaV },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
+    { kind: 'stitch', labelKey: 'back', topColor: RESULT_COLORS.back, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SFrontV },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
+    { kind: 'stitch', labelKey: 'sleeve', topColor: RESULT_COLORS.sleeve, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SaV },
+    { kind: 'stitch', labelKey: 'raglan', topColor: RESULT_COLORS.raglan, bottomColor: RESULT_COLORS.lastRowCollar, value: results.KV },
+    { kind: 'stitch', labelKey: 'front', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SV },
+    { kind: 'increase', labelKey: 'adding', value: results.SpribVcorn },
+    { kind: 'increase', labelKey: 'adding', value: results.SpribVcorn },
+    { kind: 'stitch', labelKey: 'front', topColor: RESULT_COLORS.front, bottomColor: RESULT_COLORS.lastRowCollar, value: results.SV },
   ];
 
   const spribRatio = Math.floor(SpribVcorn / NRrezV);
@@ -92,12 +92,31 @@ const Step1RibbingV = observer(({
           </View>
         </View>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('knitting')}:</Text>
-          <Image
-            source={require('@/assets/images/knitcircle.svg')}
-            style={styles.knitIcon}
-            contentFit="contain"
+        <View style={styles.stitchBreakdown}>
+          <Text style={styles.breakdownTitle}>{i18n.t('step1StitchBreakdown')}</Text>
+          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontV} />
+          <BreakdownRow
+            color={RESULT_COLORS.front}
+            label={i18n.t('front')}
+            value={results.SVfront * 2}
+            detail={`${i18n.t('start')}: ${results.SVO}`}
+          />
+          <BreakdownRow
+            color={RESULT_COLORS.sleeve}
+            label={i18n.t('sleeve')}
+            value={results.SaV}
+            detail={i18n.t('step1PerSleeve')}
+          />
+          <BreakdownRow
+            color={RESULT_COLORS.raglan}
+            label={i18n.t('raglan')}
+            value={results.KV}
+            detail={i18n.t('step1PerRaglanLine')}
+          />
+          <BreakdownRow
+            color={RESULT_COLORS.lastRowCollar}
+            label={i18n.t('additionsOnOneSide')}
+            value={results.SpribVcorn}
           />
         </View>
 
@@ -106,28 +125,10 @@ const Step1RibbingV = observer(({
           <Text style={resultTypography.value}>{results.NRrezV}</Text>
         </View>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('start')}:</Text>
-          <View style={styles.redIndicator} />
-        </View>
-
-        <CollarSequenceStrip segments={collarSegments} />
-
-        <View style={styles.stitchBreakdown}>
-          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontV} />
-          <BreakdownRow
-            color={RESULT_COLORS.front}
-            label={i18n.t('front')}
-            value={results.SVfront * 2}
-            detail={`${i18n.t('start')}: ${results.SVO}`}
-          />
-          <BreakdownRow color={RESULT_COLORS.sleeve} label={i18n.t('sleeve')} value={results.SaV} />
-          <BreakdownRow color={RESULT_COLORS.raglan} label={i18n.t('raglan')} value={results.KV} />
-          <BreakdownRow
-            color={RESULT_COLORS.lastRowCollar}
-            label={i18n.t('additionsOnOneSide')}
-            value={results.SpribVcorn}
-          />
+        <View style={styles.roundOrderSection}>
+          <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
+          <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
+          <CollarSequenceStrip segments={collarSegments} />
         </View>
 
         {(spribRatio === 0 ||
@@ -187,10 +188,6 @@ const styles = StyleSheet.create({
     height: 25,
     tintColor: '#ffffff',
   },
-  knitIcon: {
-    width: 25,
-    height: 25,
-  },
   stitchRange: {
     alignItems: 'flex-end',
     gap: 4,
@@ -202,17 +199,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
   },
-  redIndicator: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: RESULT_COLORS.start,
-  },
   stitchBreakdown: {
+    marginTop: -4,
+    marginBottom: 12,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    backgroundColor: '#F9FAFB',
+    borderRadius: 8,
+    gap: 2,
+  },
+  breakdownTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: RESULT_COLORS.textSecondary,
+    marginBottom: 6,
+  },
+  roundOrderSection: {
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: RESULT_COLORS.divider,
+    gap: 4,
+  },
+  roundOrderHint: {
+    fontSize: 12,
+    color: RESULT_COLORS.textSecondary,
+    lineHeight: 16,
+    marginBottom: 4,
   },
   sequenceCard: {
     marginTop: 12,

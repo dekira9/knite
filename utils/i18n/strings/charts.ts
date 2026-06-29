@@ -600,6 +600,26 @@ export const currentRow = {
   lt: "Dabartinė eilutė",
 };
 
+export const chartLegendTitle = {
+  en: "Legend",
+  ru: "Обозначения",
+};
+
+export const chartZoomHint = {
+  en: "Pinch to zoom · Double tap to reset",
+  ru: "Сожмите для масштаба · Дважды нажмите для сброса",
+};
+
+export const chartPreviousRow = {
+  en: "Previous row",
+  ru: "Предыдущий ряд",
+};
+
+export const chartNextRow = {
+  en: "Next row",
+  ru: "Следующий ряд",
+};
+
 export const viewChart = {
   en: "View Chart",
   ru: "Смотреть график",

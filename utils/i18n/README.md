@@ -12,6 +12,6 @@
 
 ## Add a new string
 
-1. Add `export const myKey = { en: "...", ru: "...", ... }` to the right `strings/*.ts` file.
+1. Add `export const myKey = { en: "...", ru: "..." }` to the right `strings/*.ts` file (`en` + `ru` only for new keys; other locales backfilled later).
 2. Append `"myKey"` to `TRANSLATION_KEYS` in `translationKeys.ts`.
 3. Use `i18n.t('myKey')` in UI.

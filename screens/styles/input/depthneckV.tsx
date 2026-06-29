@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { computeVNeckDepthBoundsFromMeasurements } from '@/utils/calculateRaglan';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
@@ -22,14 +23,19 @@ const DepthNeckV = () => {
   const navigation = useNavigation();
   const isMetric = onboardingState.measurementSystem === 'metric';
   const HrezV = introState.ribbingWidthV;
-  const [limits] = useState(() => {
-    const results = introState.calculateRaglan();
-    const min = typeof results === 'string' ? 1 : parseFloat((results.LHVmin || 1).toFixed(1));
-    const max = typeof results === 'string' ? 5 : parseFloat((results.LHVmax || 5).toFixed(1));
-    return { min, max };
+  const { min: LHVmin, max: LHVmax } = computeVNeckDepthBoundsFromMeasurements({
+    headCircumference: introState.headCircumference,
+    neckCircumference: introState.neckCircumference,
+    chestCircumference: introState.chestCircumference,
+    stitchDensity: introState.stitchDensity,
+    rowDensity: introState.rowDensity,
+    fitType: introState.fitType,
+    ribbingWidth: introState.ribbingWidth,
+    ribbingWidthV: introState.ribbingWidthV,
+    raglanLineWidth: introState.raglanLineWidth,
+    raglanLineWidthV: introState.raglanLineWidthV,
+    depthNeckV: introState.depthNeckV,
   });
-  const LHVmin = limits.min;
-  const LHVmax = limits.max;
   const minDisplay = LHVmin + HrezV;
   const maxDisplay = LHVmax + HrezV;
 

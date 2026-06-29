@@ -13,5 +13,7 @@ alwaysApply: false
 - Keys list: `utils/i18n/translationKeys.ts` — add new keys there and in merge.
 - Pattern per key: `export const keyName = { en: "...", ru: "...", ... }`.
 - **Never read the whole result strings tree.** Grep `export const <keyName>` → edit one block in the matching sub-file.
-- New keys need all 17 locales (en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt).
+- **New keys — only `en` and `ru` for now.** Do not add sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt unless the user explicitly asks. Other locales fall back to English via i18n-js until backfilled.
+- **Editing existing keys:** keep locales already present; when changing copy, update at least `en` + `ru`.
+- Full 17-locale set (when backfilling): en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt.
 - Runtime locale: `onboardingState.language`. Screens: `import i18n from '@/utils/translations'`.

@@ -11,6 +11,6 @@ Grep the key name — edit **one** `export const` in the file below. Do not read
 
 Barrel: `utils/i18n/strings/result/index.ts` — re-exports all; `mergeTranslations.ts` unchanged.
 
-**New key workflow:** add to `translationKeys.ts` → add `export const` in the matching sub-file above → all 17 locales.
+**New key workflow:** add to `translationKeys.ts` → add `export const` in the matching sub-file above → **`en` + `ru` only** (other locales later).
 
 **Prompt tip:** cite the key name and sub-file, not `@strings/result/`.

@@ -9,14 +9,26 @@ import { useNavigation } from '@react-navigation/native';
 import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { computeVNeckRaglanLineMaxFromMeasurements } from '@/utils/calculateRaglan';
 
 const LineraglanV = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
   const navigation = useNavigation();
   const Kmin = 0;
-  const result = introState.calculateRaglan();
-  const KmaxV = typeof result === 'string' ? 5 : Math.max(1, Math.floor(result.KmaxV || 5));
+  const KmaxV = computeVNeckRaglanLineMaxFromMeasurements({
+    headCircumference: introState.headCircumference,
+    neckCircumference: introState.neckCircumference,
+    chestCircumference: introState.chestCircumference,
+    stitchDensity: introState.stitchDensity,
+    rowDensity: introState.rowDensity,
+    fitType: introState.fitType,
+    ribbingWidth: introState.ribbingWidth,
+    ribbingWidthV: introState.ribbingWidthV,
+    raglanLineWidth: introState.raglanLineWidth,
+    raglanLineWidthV: introState.raglanLineWidthV,
+    depthNeckV: introState.depthNeckV,
+  });
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidthV.toString());
 
   // Функция для обработки изменений в Slider (отложено, чтобы избежать setState во время рендера)

@@ -59,7 +59,7 @@ App
 
 ## i18n
 
-- `utils/i18n/strings/` — one `export const keyName` per UI string, all locales in that object. Result domain split: `strings/result/{shared,steps,legend,help}.ts` — see `docs/i18n/RESULT_KEY_INDEX.md`.
+- `utils/i18n/strings/` — one `export const keyName` per UI string. **New keys: `en` + `ru` only** (other locales backfilled later). Result domain split: `strings/result/{shared,steps,legend,help}.ts` — see `docs/i18n/RESULT_KEY_INDEX.md`.
 - Register new keys in `utils/i18n/translationKeys.ts`. Use `i18n.t('key')` in screens.
 - Result-step math split: `screens/styles/input/result/{increaseRowsRegular,vNeckCornerIncreases,increaseRowsVNeck}.ts` (re-exported from `helpers.ts`).
 
