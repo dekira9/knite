@@ -1,14 +1,12 @@
 import React from 'react';
 import {
   Alert,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { observer } from 'mobx-react-lite';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -34,11 +32,8 @@ export const RaglanChartRowToolbar = observer(function RaglanChartRowToolbar({
   onStop,
   variant = 'default',
 }: Props) {
-  const tabBarHeight = useBottomTabBarHeight();
   const colorScheme = useColorScheme();
   const tint = Colors[colorScheme ?? 'light'].tint;
-  // iOS tab bar is absolute and overlays content; Android already insets the scene.
-  const tabBarInset = Platform.OS === 'ios' ? tabBarHeight : 0;
 
   const handleStop = () => {
     if (!onStop) return;
@@ -52,65 +47,62 @@ export const RaglanChartRowToolbar = observer(function RaglanChartRowToolbar({
 
   if (variant === 'slim') {
     return (
-      <View style={{ marginBottom: tabBarInset }}>
-        <View style={styles.slimToolbar}>
-          <View style={styles.slimTopRow}>
-            <TouchableOpacity
-              onPress={onPreviousRow}
-              style={styles.slimNavButton}
-              accessibilityRole="button"
-              accessibilityLabel={i18n.t('chartPreviousRow')}
-            >
-              <Ionicons name="chevron-up" size={20} color={tint} />
-            </TouchableOpacity>
+      <View style={styles.slimToolbar}>
+        <View style={styles.slimTopRow}>
+          <TouchableOpacity
+            onPress={onPreviousRow}
+            style={styles.slimNavButton}
+            accessibilityRole="button"
+            accessibilityLabel={i18n.t('chartPreviousRow')}
+          >
+            <Ionicons name="chevron-up" size={20} color={tint} />
+          </TouchableOpacity>
 
-            <View style={styles.slimStat}>
-              <Text style={styles.slimStatLabel}>{i18n.t('currentRow')}</Text>
-              <Text style={styles.slimStatValue}>
-                {currentRow + 1}
-                <Text style={styles.slimStatMuted}> / {totalRows}</Text>
-              </Text>
-            </View>
-
-            <View style={styles.slimStat}>
-              <Text style={styles.slimStatLabel}>{i18n.t('stitches')}</Text>
-              <Text style={styles.slimStatValue}>{stitchCount}</Text>
-            </View>
-
-            <TouchableOpacity
-              onPress={onNextRow}
-              style={styles.slimNavButton}
-              accessibilityRole="button"
-              accessibilityLabel={i18n.t('chartNextRow')}
-            >
-              <Ionicons name="chevron-down" size={20} color={tint} />
-            </TouchableOpacity>
-
-            {onStop && (
-              <TouchableOpacity
-                onPress={handleStop}
-                style={[styles.slimStopButton, { borderColor: tint }]}
-                hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
-                accessibilityRole="button"
-                accessibilityLabel={i18n.t('stop')}
-                accessibilityHint={i18n.t('chartStopSavedMessage', {
-                  row: currentRow + 1,
-                })}
-              >
-                <Text style={[styles.slimStopText, { color: tint }]}>
-                  {i18n.t('stop')}
-                </Text>
-              </TouchableOpacity>
-            )}
+          <View style={styles.slimStat}>
+            <Text style={styles.slimStatLabel}>{i18n.t('currentRow')}</Text>
+            <Text style={styles.slimStatValue}>
+              {currentRow + 1}
+              <Text style={styles.slimStatMuted}> / {totalRows}</Text>
+            </Text>
           </View>
+
+          <View style={styles.slimStat}>
+            <Text style={styles.slimStatLabel}>{i18n.t('stitches')}</Text>
+            <Text style={styles.slimStatValue}>{stitchCount}</Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={onNextRow}
+            style={styles.slimNavButton}
+            accessibilityRole="button"
+            accessibilityLabel={i18n.t('chartNextRow')}
+          >
+            <Ionicons name="chevron-down" size={20} color={tint} />
+          </TouchableOpacity>
+
+          {onStop && (
+            <TouchableOpacity
+              onPress={handleStop}
+              style={[styles.slimStopButton, { borderColor: tint }]}
+              hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
+              accessibilityRole="button"
+              accessibilityLabel={i18n.t('stop')}
+              accessibilityHint={i18n.t('chartStopSavedMessage', {
+                row: currentRow + 1,
+              })}
+            >
+              <Text style={[styles.slimStopText, { color: tint }]}>
+                {i18n.t('stop')}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     );
   }
 
   return (
-    <View style={{ marginBottom: tabBarInset }}>
-      <View style={styles.toolbar}>
+    <View style={styles.toolbar}>
         <View style={styles.statsRow}>
           <View style={styles.statChip}>
             <Text style={styles.statLabel}>{i18n.t('currentRow')}</Text>
@@ -158,7 +150,6 @@ export const RaglanChartRowToolbar = observer(function RaglanChartRowToolbar({
             <Ionicons name="chevron-down" size={22} color={tint} />
           </TouchableOpacity>
         </View>
-      </View>
     </View>
   );
 });

@@ -53,7 +53,10 @@ export default observer(function ChooseStyle() {
   };
 
   return (
-    <ScrollView style={[styles.container, { paddingTop: insets.top }]}>
+    <ScrollView
+      style={[styles.container, { paddingTop: insets.top }]}
+      contentContainerStyle={styles.content}
+    >
       <StatusBar style="dark" />
 
       <Text style={styles.title}>{i18n.t('chooseStyle')}</Text>
@@ -78,8 +81,12 @@ export default observer(function ChooseStyle() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
     backgroundColor: '#fff',
+  },
+  content: {
+    paddingBottom: 24,
   },
   title: {
     fontSize: 24,

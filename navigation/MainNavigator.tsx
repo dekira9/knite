@@ -2,11 +2,10 @@ import React, { useRef, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
 import type { NavigationProp, ParamListBase } from '@react-navigation/native';
-import { Platform, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
 import { observer } from 'mobx-react-lite';
 import { HapticTab } from '../components/HapticTab';
-import TabBarBackground from '../components/ui/TabBarBackground';
 import KnittingChartsPickerModal, {
   type KnittingChartScreen,
 } from '../components/KnittingChartsPickerModal';
@@ -221,7 +220,6 @@ export default observer(function MainNavigator() {
           tabBarInactiveTintColor: Colors[theme].tabIconDefault,
           headerShown: false,
           tabBarButton: HapticTab,
-          tabBarBackground: TabBarBackground,
           tabBarIconStyle: {
             marginTop: 4,
             marginBottom: 4,
@@ -230,7 +228,9 @@ export default observer(function MainNavigator() {
             ...tabLabelTextStyle,
           },
           tabBarStyle: {
-            ...(Platform.OS === 'ios' ? { position: 'absolute' as const } : null),
+            backgroundColor: Colors[theme].background,
+            borderTopColor: '#E5E7EB',
+            borderTopWidth: 1,
             height: 56 + tabBarBottomPad + 10,
             paddingTop: 6,
             paddingBottom: tabBarBottomPad,

@@ -5,7 +5,6 @@ import introState from '@/state/introState';
 import { StatusBar } from 'expo-status-bar';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { computeRegularIncreasePrecompute } from './useRegularIncreasePrecompute';
 import { useRegularResultScroll } from './useRegularResultScroll';
 import RegularResultCarousel from './RegularResultCarousel';
@@ -20,7 +19,6 @@ import { Colors } from '@/constants/Colors';
 export default observer(() => {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
-  const tabBarHeight = useBottomTabBarHeight();
   const {
     scrollViewRef,
     carouselRef,
@@ -80,7 +78,7 @@ export default observer(() => {
       <StatusBar style="dark" />
       <ScrollView
         ref={scrollViewRef}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+        contentContainerStyle={styles.scrollContent}
         onScroll={onMainScroll}
         scrollEventThrottle={16}
       >
@@ -130,6 +128,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 16,
     paddingTop: 0,
+    paddingBottom: 40,
   },
   container: {
     flex: 1,

@@ -5,8 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
@@ -14,13 +16,15 @@ import { observer } from 'mobx-react-lite';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
-import { screenWidth } from '@/utils/Layout';
 
 const HOME_BG_TOP = '#F5F0ED';
 const HOME_BG_BOTTOM = '#F4F0ED';
 const HOME_GOLD = '#B8956A';
 const HOME_INK = '#2A2A2A';
 const HOME_HERO_ASPECT = 853 / 763;
+
+/** Approximate chrome below the hero (CTAs + features), excluding tab bar. */
+const HOME_BOTTOM_CHROME = 210;
 
 const HOME_FEATURES = [
   {
@@ -43,9 +47,22 @@ const HOME_FEATURES = [
 export default observer(() => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const tabBarHeight = useBottomTabBarHeight();
+  const isCompact = windowHeight < 740;
   const [activeFeatureKey, setActiveFeatureKey] = React.useState<string | null>(
     null,
   );
+
+  const topPad = insets.top + (isCompact ? 8 : 12);
+  const brandBlockApprox = isCompact ? 150 : 192;
+  const heroMaxHeight = Math.max(
+    180,
+    windowHeight - topPad - brandBlockApprox - HOME_BOTTOM_CHROME - tabBarHeight,
+  );
+  const heroFullWidthHeight = windowWidth / HOME_HERO_ASPECT;
+  const heroHeight = Math.min(heroFullWidthHeight, heroMaxHeight);
+  const heroWidth = heroHeight * HOME_HERO_ASPECT;
 
   const beginFlow = (mode: 'sample' | 'custom') => {
     introState.prepareStyleChoice(mode);
@@ -54,8 +71,12 @@ export default observer(() => {
 
   return (
     <ScrollView
-      style={[styles.homeContainer, { paddingTop: insets.top + 12 }]}
-      contentContainerStyle={styles.homeContent}
+      style={[styles.homeContainer, { paddingTop: topPad }]}
+      contentContainerStyle={[
+        styles.homeContent,
+        { paddingBottom: 24 },
+      ]}
+      bounces
     >
       <StatusBar style="dark" />
 
@@ -63,18 +84,27 @@ export default observer(() => {
         <View style={styles.homePadded}>
           <Image
             source={require('@/assets/images/zn.svg')}
-            style={styles.brandMark}
+            style={[
+              styles.brandMark,
+              isCompact && styles.brandMarkCompact,
+            ]}
             contentFit="contain"
           />
 
           <Text style={styles.brandLine1}>{i18n.t('homeBrandLine1')}</Text>
-          <Text style={styles.brandLine2}>{i18n.t('homeBrandLine2')}</Text>
-          <Text style={styles.tagline}>{i18n.t('homeTagline')}</Text>
+          <Text
+            style={[styles.brandLine2, isCompact && styles.brandLine2Compact]}
+          >
+            {i18n.t('homeBrandLine2')}
+          </Text>
+          <Text style={[styles.tagline, isCompact && styles.taglineCompact]}>
+            {i18n.t('homeTagline')}
+          </Text>
         </View>
 
         <Image
           source={require('@/assets/images/home1.svg')}
-          style={styles.heroImage}
+          style={{ width: heroWidth, height: heroHeight }}
           contentFit="contain"
         />
       </View>
@@ -135,7 +165,6 @@ const styles = StyleSheet.create({
   },
   homeContent: {
     alignItems: 'center',
-    paddingBottom: 40,
   },
   homeTop: {
     width: '100%',
@@ -159,6 +188,11 @@ const styles = StyleSheet.create({
     height: 72,
     marginBottom: 18,
   },
+  brandMarkCompact: {
+    width: 56,
+    height: 56,
+    marginBottom: 10,
+  },
   brandLine1: {
     fontSize: 18,
     fontWeight: '500',
@@ -174,6 +208,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 2,
   },
+  brandLine2Compact: {
+    fontSize: 24,
+  },
   tagline: {
     marginTop: 14,
     marginBottom: 16,
@@ -183,9 +220,9 @@ const styles = StyleSheet.create({
     color: HOME_GOLD,
     textAlign: 'center',
   },
-  heroImage: {
-    width: screenWidth,
-    aspectRatio: HOME_HERO_ASPECT,
+  taglineCompact: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   featuresRow: {
     flexDirection: 'row',

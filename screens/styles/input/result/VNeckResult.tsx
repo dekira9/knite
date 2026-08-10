@@ -4,7 +4,6 @@ import { CommonActions, useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { computeVNeckIncreasePrecompute } from './useVNeckIncreasePrecompute';
 import { useRegularResultScroll } from './useRegularResultScroll';
 import VNeckResultCarousel from './VNeckResultCarousel';
@@ -19,7 +18,6 @@ import { Colors } from '@/constants/Colors';
 export default observer(function VNeckResult() {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
-  const tabBarHeight = useBottomTabBarHeight();
   const {
     scrollViewRef,
     carouselRef,
@@ -85,7 +83,7 @@ export default observer(function VNeckResult() {
     <View style={styles.mainContainer}>
       <ScrollView
         ref={scrollViewRef}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+        contentContainerStyle={styles.scrollContent}
         onScroll={onMainScroll}
         scrollEventThrottle={16}
       >
@@ -150,6 +148,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 16,
     paddingTop: 0,
+    paddingBottom: 40,
   },
   container: {
     flex: 1,
