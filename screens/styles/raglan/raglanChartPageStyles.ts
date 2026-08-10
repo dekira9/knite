@@ -8,8 +8,7 @@ export const raglanChartPageStyles = StyleSheet.create({
     width: '100%',
   },
   legendStrip: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E5E7EB',
+    paddingBottom: 2,
   },
   chartArea: {
     flex: 1,

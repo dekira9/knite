@@ -6,6 +6,7 @@ import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import ResultStepTitle from './ResultStepTitle';
+import Step1CollarExpandable from './Step1CollarExpandable';
 import BreakdownRow from './BreakdownRow';
 import CollarSequenceStrip, { type CollarSegment } from './CollarSequenceStrip';
 import {
@@ -61,101 +62,118 @@ const Step1RibbingV = observer(({
     <View style={styles.container}>
       <ResultStepTitle step={1} titleKey="collarKnitting" />
 
-      <View style={resultCardStyles.card}>
-        <View style={styles.ribbingHeader}>
-          <Text style={resultTypography.sectionTitle}>{i18n.t('lastRowOfCollar')}</Text>
-          <View style={styles.yellowIndicator} />
-        </View>
+      <Step1CollarExpandable variant="v-neck">
+        <View style={resultCardStyles.card}>
+          <View style={styles.ribbingHeader}>
+            <Text style={[resultTypography.sectionTitle, styles.castOnInstruction]}>
+              {i18n.t('step1CastOnInstruction')}
+            </Text>
+            <View style={styles.yellowIndicator} />
+          </View>
 
-        <View style={styles.chartRow}>
-          <Text style={resultTypography.label}>{i18n.t('knittingChart')}:</Text>
-          <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingCopyV}>
+          <View style={styles.chartRow}>
+            <Text style={resultTypography.label}>{i18n.t('knittingChart')}:</Text>
+            <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingCopyV}>
+              <Image
+                source={require('@/assets/images/view1.png')}
+                style={styles.viewIcon}
+                contentFit="contain"
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={resultCardStyles.divider} />
+
+          <Text style={[resultTypography.body, styles.vNeckHint]}>
+            {i18n.t('step1FormVNeckHint')}
+          </Text>
+
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('stitches')}:</Text>
+            <View style={styles.stitchRange}>
+              <Text style={resultTypography.value}>
+                {i18n.t('start')}: {results.SOcutV}
+              </Text>
+              <Text style={resultTypography.value}>
+                {i18n.t('end')}: {results.SOcutV + results.SpribVcorn * 2}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.stitchBreakdown}>
+            <Text style={styles.breakdownTitle}>{i18n.t('step1StitchBreakdown')}</Text>
+            <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontV} />
+            <BreakdownRow
+              color={RESULT_COLORS.front}
+              label={i18n.t('front')}
+              value={results.SVfront * 2}
+              detail={`${i18n.t('start')}: ${results.SVO}`}
+            />
+            <BreakdownRow
+              color={RESULT_COLORS.sleeve}
+              label={i18n.t('sleeve')}
+              value={results.SaV}
+              detail={i18n.t('step1PerSleeve')}
+            />
+            <BreakdownRow
+              color={RESULT_COLORS.raglan}
+              label={i18n.t('raglan')}
+              value={results.KV}
+              detail={i18n.t('step1PerRaglanLine')}
+            />
+            <BreakdownRow
+              color={RESULT_COLORS.lastRowCollar}
+              label={i18n.t('additionsOnOneSide')}
+              value={results.SpribVcorn}
+            />
+          </View>
+
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('knitting')}:</Text>
             <Image
-              source={require('@/assets/images/view1.png')}
-              style={styles.viewIcon}
+              source={require('@/assets/images/knitcircle.svg')}
+              style={styles.knitIcon}
               contentFit="contain"
             />
-          </TouchableOpacity>
-        </View>
-
-        <View style={resultCardStyles.divider} />
-
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('stitches')}:</Text>
-          <View style={styles.stitchRange}>
-            <Text style={resultTypography.value}>
-              {i18n.t('start')}: {results.SOcutV}
-            </Text>
-            <Text style={resultTypography.value}>
-              {i18n.t('end')}: {results.SOcutV + results.SpribVcorn * 2}
-            </Text>
           </View>
-        </View>
 
-        <View style={styles.stitchBreakdown}>
-          <Text style={styles.breakdownTitle}>{i18n.t('step1StitchBreakdown')}</Text>
-          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontV} />
-          <BreakdownRow
-            color={RESULT_COLORS.front}
-            label={i18n.t('front')}
-            value={results.SVfront * 2}
-            detail={`${i18n.t('start')}: ${results.SVO}`}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.sleeve}
-            label={i18n.t('sleeve')}
-            value={results.SaV}
-            detail={i18n.t('step1PerSleeve')}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.raglan}
-            label={i18n.t('raglan')}
-            value={results.KV}
-            detail={i18n.t('step1PerRaglanLine')}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.lastRowCollar}
-            label={i18n.t('additionsOnOneSide')}
-            value={results.SpribVcorn}
-          />
-        </View>
-
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('rows')}:</Text>
-          <Text style={resultTypography.value}>{results.NRrezV}</Text>
-        </View>
-
-        <View style={styles.roundOrderSection}>
-          <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
-          <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
-          <CollarSequenceStrip segments={collarSegments} />
-        </View>
-
-        {(spribRatio === 0 ||
-          (spribRatio === 1 && SpribVcorn > NRrezV) ||
-          (spribRatio === 2 && SpribVcorn > 2 * NRrezV) ||
-          SpribVcorn === NRrezV ||
-          SpribVcorn === 2 * NRrezV) && (
-          <View style={styles.sequenceCard}>
-            <Text style={resultTypography.sectionTitle}>{i18n.t('sequenceOfAdditions')}</Text>
-            {spribRatio === 0 ? (
-              <Text style={resultTypography.body}>{resultStringV01}</Text>
-            ) : null}
-            {SpribVcorn === NRrezV ? (
-              <Text style={resultTypography.body}>{resultStringV11}</Text>
-            ) : null}
-            {spribRatio === 1 && SpribVcorn > NRrezV ? (
-              <Text style={resultTypography.body}>{resultStringV12}</Text>
-            ) : null}
-            {SpribVcorn === 2 * NRrezV ? (
-              <Text style={resultTypography.body}>{resultStringV22}</Text>
-            ) : null}
-            {spribRatio === 2 && SpribVcorn > 2 * NRrezV ? (
-              <Text style={resultTypography.body}>{resultStringV23}</Text>
-            ) : null}
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('rows')}:</Text>
+            <Text style={resultTypography.value}>{results.NRrezV}</Text>
           </View>
-        )}
-      </View>
+
+          <View style={styles.roundOrderSection}>
+            <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
+            <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
+            <CollarSequenceStrip segments={collarSegments} />
+          </View>
+
+          {(spribRatio === 0 ||
+            (spribRatio === 1 && SpribVcorn > NRrezV) ||
+            (spribRatio === 2 && SpribVcorn > 2 * NRrezV) ||
+            SpribVcorn === NRrezV ||
+            SpribVcorn === 2 * NRrezV) && (
+            <View style={styles.sequenceCard}>
+              <Text style={resultTypography.sectionTitle}>{i18n.t('sequenceOfAdditions')}</Text>
+              {spribRatio === 0 ? (
+                <Text style={resultTypography.body}>{resultStringV01}</Text>
+              ) : null}
+              {SpribVcorn === NRrezV ? (
+                <Text style={resultTypography.body}>{resultStringV11}</Text>
+              ) : null}
+              {spribRatio === 1 && SpribVcorn > NRrezV ? (
+                <Text style={resultTypography.body}>{resultStringV12}</Text>
+              ) : null}
+              {SpribVcorn === 2 * NRrezV ? (
+                <Text style={resultTypography.body}>{resultStringV22}</Text>
+              ) : null}
+              {spribRatio === 2 && SpribVcorn > 2 * NRrezV ? (
+                <Text style={resultTypography.body}>{resultStringV23}</Text>
+              ) : null}
+            </View>
+          )}
+        </View>
+      </Step1CollarExpandable>
     </View>
   );
 });
@@ -167,9 +185,18 @@ const styles = StyleSheet.create({
   },
   ribbingHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 12,
     justifyContent: 'space-between',
+    gap: 10,
+  },
+  castOnInstruction: {
+    flex: 1,
+    fontWeight: '600',
+    lineHeight: 20,
+  },
+  vNeckHint: {
+    marginBottom: 12,
   },
   chartRow: {
     flexDirection: 'row',
@@ -226,6 +253,10 @@ const styles = StyleSheet.create({
     color: RESULT_COLORS.textSecondary,
     lineHeight: 16,
     marginBottom: 4,
+  },
+  knitIcon: {
+    width: 25,
+    height: 25,
   },
   sequenceCard: {
     marginTop: 12,

@@ -88,4 +88,13 @@ describe('calculateRaglan', () => {
     assertOutput(semi);
     expect(semi.SFit).toBeGreaterThan(slim.SFit);
   });
+
+  it('men garmentFitFor increases NHFront by armhole ease', () => {
+    const women = calculateRaglan({ ...sampleInput, garmentFitFor: 'women' });
+    const men = calculateRaglan({ ...sampleInput, garmentFitFor: 'men' });
+    assertOutput(women);
+    assertOutput(men);
+    expect(men.NHFront).toBeGreaterThan(women.NHFront);
+    expect(men.NHFrontV).toBeGreaterThan(women.NHFrontV);
+  });
 });

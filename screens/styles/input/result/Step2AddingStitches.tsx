@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import ResultStepTitle from './ResultStepTitle';
+import ResultStepExpandable from './ResultStepExpandable';
 import IncreaseOptionSection from './IncreaseOptionSection';
 import RaglanPartRow from './RaglanPartRow';
 import ResultChartRow from './ResultChartRow';
@@ -43,17 +44,21 @@ const Step2AddingStitches = observer(({
     <View style={styles.container}>
       <ResultStepTitle step={2} titleKey="increases" />
 
-      <View style={resultCardStyles.card}>
-        <View style={styles.stepHeader}>
-          <Text style={resultTypography.sectionTitle}>
-            {i18n.t('back')}, {i18n.t('front')}, {i18n.t('sleeve')}
-          </Text>
-          <View style={styles.indicatorsRow}>
-            <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.back }]} />
-            <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.front }]} />
-            <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.sleeve }]} />
+      <ResultStepExpandable
+        previewSource={require('@/assets/images/increasesO.png')}
+        accessibilityLabel={i18n.t('increases')}
+      >
+        <View style={resultCardStyles.card}>
+          <View style={styles.stepHeader}>
+            <Text style={resultTypography.sectionTitle}>
+              {i18n.t('back')}, {i18n.t('front')}, {i18n.t('sleeve')}
+            </Text>
+            <View style={styles.indicatorsRow}>
+              <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.back }]} />
+              <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.front }]} />
+              <View style={[styles.indicator, { backgroundColor: RESULT_COLORS.sleeve }]} />
+            </View>
           </View>
-        </View>
 
         <View style={resultCardStyles.divider} />
 
@@ -178,7 +183,8 @@ const Step2AddingStitches = observer(({
             rowsString={results.RowPrib1x3String}
           />
         )}
-      </View>
+        </View>
+      </ResultStepExpandable>
     </View>
   );
 });

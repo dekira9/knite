@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import {
   CHART_HIGHLIGHT_FILL,
@@ -43,22 +44,33 @@ function LegendChip({ item, compact }: { item: LegendItem; compact?: boolean }) 
       <View
         style={[
           styles.swatch,
+          compact && styles.swatchCompact,
           {
             backgroundColor: item.color,
             borderColor: '#000',
           },
         ]}
       >
-        {item.symbol ? <Text style={styles.symbol}>{item.symbol}</Text> : null}
+        {item.symbol ? (
+          <Text style={[styles.symbol, compact && styles.symbolCompact]}>
+            {item.symbol}
+          </Text>
+        ) : null}
       </View>
-      <Text style={styles.label} numberOfLines={2}>
+      <Text
+        style={[styles.label, compact && styles.labelCompact]}
+        numberOfLines={compact ? 1 : 2}
+      >
         {i18n.t(item.labelKey)}
       </Text>
     </View>
   );
 }
 
-export function RaglanChartLegend({ variant = 'regular', layout }: Props) {
+export const RaglanChartLegend = observer(function RaglanChartLegend({
+  variant = 'regular',
+  layout,
+}: Props) {
   const resolvedLayout = layout ?? (variant === 'ribbing' ? 'compact' : 'card');
 
   const items =
@@ -90,17 +102,19 @@ export function RaglanChartLegend({ variant = 'regular', layout }: Props) {
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   compactWrapper: {
     paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingVertical: 4,
   },
   compactRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    alignItems: 'center',
+    gap: 6,
+    rowGap: 4,
   },
   cardWrapper: {
     marginHorizontal: 16,
@@ -141,6 +155,11 @@ const styles = StyleSheet.create({
     maxWidth: undefined,
     flexBasis: 'auto',
     flexGrow: 0,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   swatch: {
     width: 14,
@@ -150,15 +169,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  swatchCompact: {
+    width: 11,
+    height: 11,
+    marginRight: 4,
+  },
   symbol: {
     fontSize: 10,
     fontWeight: '700',
     color: '#003366',
+  },
+  symbolCompact: {
+    fontSize: 8,
   },
   label: {
     fontSize: 11,
     color: '#374151',
     lineHeight: 14,
     flexShrink: 1,
+  },
+  labelCompact: {
+    fontSize: 10,
+    lineHeight: 12,
+    color: '#4B5563',
   },
 });

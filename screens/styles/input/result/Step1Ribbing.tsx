@@ -6,6 +6,7 @@ import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import ResultStepTitle from './ResultStepTitle';
+import Step1CollarExpandable from './Step1CollarExpandable';
 import BreakdownRow from './BreakdownRow';
 import CollarSequenceStrip, { type CollarSegment } from './CollarSequenceStrip';
 import {
@@ -41,59 +42,71 @@ const Step1Ribbing = observer(({ results }: Step1RibbingProps) => {
     <View style={styles.container}>
       <ResultStepTitle step={1} titleKey="collarKnitting" />
 
-      <View style={resultCardStyles.card}>
-        <View style={styles.ribbingHeader}>
-          <Text style={resultTypography.sectionTitle}>{i18n.t('lastRowOfCollar')}</Text>
-          <View style={styles.yellowIndicator} />
-        </View>
+      <Step1CollarExpandable variant="regular">
+        <View style={resultCardStyles.card}>
+          <View style={styles.ribbingHeader}>
+            <Text style={[resultTypography.sectionTitle, styles.castOnInstruction]}>
+              {i18n.t('step1CastOnInstruction')}
+            </Text>
+            <View style={styles.yellowIndicator} />
+          </View>
 
-        <View style={styles.chartRow}>
-          <Text style={resultTypography.label}>{i18n.t('knittingChart')}:</Text>
-          <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingO}>
+          <View style={styles.chartRow}>
+            <Text style={resultTypography.label}>{i18n.t('knittingChart')}:</Text>
+            <TouchableOpacity style={styles.viewChartButton} onPress={navigateToRibbingO}>
+              <Image
+                source={require('@/assets/images/view1.png')}
+                style={styles.viewIcon}
+                contentFit="contain"
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={resultCardStyles.divider} />
+
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('stitches')}:</Text>
+            <Text style={resultTypography.value}>{results.Sgor}</Text>
+          </View>
+
+          <View style={styles.stitchBreakdown}>
+            <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontO} />
+            <BreakdownRow color={RESULT_COLORS.front} label={i18n.t('front')} value={results.SFrontO} />
+            <BreakdownRow
+              color={RESULT_COLORS.sleeve}
+              label={i18n.t('sleeve')}
+              value={results.Sa}
+              detail={i18n.t('step1PerSleeve')}
+            />
+            <BreakdownRow
+              color={RESULT_COLORS.raglan}
+              label={i18n.t('raglan')}
+              value={results.K}
+              detail={i18n.t('step1PerRaglanLine')}
+            />
+          </View>
+
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('knitting')}:</Text>
             <Image
-              source={require('@/assets/images/view1.png')}
-              style={styles.viewIcon}
+              source={require('@/assets/images/knitcircle.svg')}
+              style={styles.knitIcon}
               contentFit="contain"
             />
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <View style={resultCardStyles.divider} />
+          <View style={resultCardStyles.infoRow}>
+            <Text style={resultTypography.label}>{i18n.t('rows')}:</Text>
+            <Text style={resultTypography.value}>{results.NRrez}</Text>
+          </View>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('stitches')}:</Text>
-          <Text style={resultTypography.value}>{results.Sgor}</Text>
+          <View style={styles.roundOrderSection}>
+            <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
+            <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
+            <CollarSequenceStrip segments={collarSegments} />
+          </View>
         </View>
-
-        <View style={styles.stitchBreakdown}>
-          {/* <Text style={styles.breakdownTitle}>{i18n.t('step1StitchBreakdown')}</Text> */}
-          <BreakdownRow color={RESULT_COLORS.back} label={i18n.t('back')} value={results.SFrontO} />
-          <BreakdownRow color={RESULT_COLORS.front} label={i18n.t('front')} value={results.SFrontO} />
-          <BreakdownRow
-            color={RESULT_COLORS.sleeve}
-            label={i18n.t('sleeve')}
-            value={results.Sa}
-            detail={i18n.t('step1PerSleeve')}
-          />
-          <BreakdownRow
-            color={RESULT_COLORS.raglan}
-            label={i18n.t('raglan')}
-            value={results.K}
-            detail={i18n.t('step1PerRaglanLine')}
-          />
-        </View>
-
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('rows')}:</Text>
-          <Text style={resultTypography.value}>{results.NRrez}</Text>
-        </View>
-
-        <View style={styles.roundOrderSection}>
-          <Text style={resultTypography.sectionTitle}>{i18n.t('step1RoundOrder')}</Text>
-          <Text style={styles.roundOrderHint}>{i18n.t('step1RoundOrderHint')}</Text>
-          <CollarSequenceStrip segments={collarSegments} />
-        </View>
-      </View>
+      </Step1CollarExpandable>
     </View>
   );
 });
@@ -105,9 +118,15 @@ const styles = StyleSheet.create({
   },
   ribbingHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 12,
     justifyContent: 'space-between',
+    gap: 10,
+  },
+  castOnInstruction: {
+    flex: 1,
+    fontWeight: '600',
+    lineHeight: 20,
   },
   chartRow: {
     flexDirection: 'row',
@@ -163,6 +182,10 @@ const styles = StyleSheet.create({
     color: RESULT_COLORS.textSecondary,
     lineHeight: 16,
     marginBottom: 4,
+  },
+  knitIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

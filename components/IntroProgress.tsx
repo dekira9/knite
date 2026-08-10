@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { observer } from 'mobx-react-lite';
 import Animated, {
@@ -11,6 +11,7 @@ import Animated, {
 import introState from '@/state/introState';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import i18n from '@/utils/translations';
 
 const INTRO_STEPS_REGULAR = [
   'Head',
@@ -48,7 +49,9 @@ function IntroProgress({ currentRouteName }: IntroProgressProps) {
 
   const insets = useSafeAreaInsets();
   const currentStep = steps.indexOf(currentRouteName ?? '');
-  const progress = currentStep >= 0 ? (currentStep + 1) / steps.length : 0;
+  const stepNumber = currentStep + 1;
+  const showStepLabel = currentStep >= 0;
+  const progress = showStepLabel ? stepNumber / steps.length : 0;
   const progressValue = useSharedValue(progress);
   const trackBackgroundColor = isDark
     ? 'rgba(255,255,255,0.14)'
@@ -56,6 +59,7 @@ function IntroProgress({ currentRouteName }: IntroProgressProps) {
   const trackBorderColor = isDark
     ? 'rgba(255,255,255,0.2)'
     : 'rgba(255,255,255,0.6)';
+  const labelColor = isDark ? 'rgba(255,255,255,0.55)' : '#888';
 
   useEffect(() => {
     progressValue.value = withTiming(progress, {
@@ -75,6 +79,14 @@ function IntroProgress({ currentRouteName }: IntroProgressProps) {
         { paddingTop: insets.top },
       ]}
     >
+      {showStepLabel && (
+        <Text style={[styles.stepLabel, { color: labelColor }]}>
+          {i18n.t('wizardStepOf', {
+            current: stepNumber,
+            total: steps.length,
+          })}
+        </Text>
+      )}
       <View
         style={[
           styles.track,
@@ -101,6 +113,13 @@ function IntroProgress({ currentRouteName }: IntroProgressProps) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingBottom: 8,
+  },
+  stepLabel: {
+    fontSize: 13,
+    fontWeight: '500',
+    textAlign: 'center',
+    marginBottom: 6,
   },
   track: {
     width: '100%',
@@ -113,6 +132,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 999,
   },
-}); 
+});
 
 export default observer(IntroProgress);

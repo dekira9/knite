@@ -32,6 +32,7 @@ function buildRaglanSyncInput(
     stitchDensity: string;
     rowDensity: string;
     fitType: string;
+    garmentFitFor: string;
     ribbingWidth: number;
     ribbingWidthV: number;
     raglanLineWidth: number;
@@ -47,6 +48,7 @@ function buildRaglanSyncInput(
     stitchDensity: self.stitchDensity,
     rowDensity: self.rowDensity,
     fitType: self.fitType,
+    garmentFitFor: self.garmentFitFor,
     ribbingWidth: self.ribbingWidth,
     ribbingWidthV: self.ribbingWidthV,
     raglanLineWidth: self.raglanLineWidth,
@@ -66,12 +68,14 @@ const IntroState = types
   .model({
     styleChosen: types.optional(types.boolean, false),
     style: types.optional(types.string, ''),
+    projectName: types.optional(types.string, ''),
     headCircumference: types.optional(types.string, '58'),
     neckCircumference: types.optional(types.string, '36'),
     chestCircumference: types.optional(types.string, '92'),
     stitchDensity: types.optional(types.string, '24'),
     rowDensity: types.optional(types.string, '32'),
     fitType: types.optional(types.string, 'fitted'),
+    garmentFitFor: types.optional(types.enumeration(['women', 'men']), 'women'),
     Sgor: types.optional(types.number, 0),
     NRrez: types.optional(types.number, 0),
     SgorV: types.optional(types.number, 0),
@@ -214,10 +218,19 @@ const IntroState = types
     positionsWithIsV: types.optional(types.array(types.number), []),
     positionsWithIsPlusOneV: types.optional(types.array(types.number), []),
     chartHighlightedRows: types.optional(types.frozen<Record<string, number>>(), {}),
+    chartStoppedRows: types.optional(types.frozen<Record<string, number>>(), {}),
+    chartStoppedStitches: types.optional(types.frozen<Record<string, number>>(), {}),
+    lastChartStoppedId: types.optional(types.maybeNull(types.string), null),
+    lastChartStoppedRow: types.optional(types.number, 0),
+    lastChartStoppedStitches: types.optional(types.number, 0),
   })
   .actions((self) => ({
     setStyle(style: string) {
       self.style = style;
+      this.persistState();
+    },
+    setProjectName(value: string) {
+      self.projectName = value;
       this.persistState();
     },
     setHeadCircumference(value: string) {
@@ -242,6 +255,10 @@ const IntroState = types
     },
     setFitType(value: string) {
       self.fitType = value;
+      this.persistState();
+    },
+    setGarmentFitFor(value: 'women' | 'men') {
+      self.garmentFitFor = value;
       this.persistState();
     },
     setRaglanData(data: any) {
@@ -324,6 +341,7 @@ const IntroState = types
       self.stitchDensity = s.stitchDensity;
       self.rowDensity = s.rowDensity;
       self.fitType = s.fitType;
+      self.garmentFitFor = 'women';
       self.ribbingWidth = s.ribbingWidth;
       self.ribbingWidthV = s.ribbingWidthV;
       self.raglanLineWidth = s.raglanLineWidth;
@@ -359,6 +377,7 @@ const IntroState = types
       self.stitchDensity = s.stitchDensity;
       self.rowDensity = s.rowDensity;
       self.fitType = s.fitType;
+      self.garmentFitFor = 'women';
       self.ribbingWidth = s.ribbingWidth;
       self.ribbingWidthV = s.ribbingWidthV;
       self.raglanLineWidth = s.raglanLineWidth;
@@ -449,6 +468,31 @@ const IntroState = types
         void this.persistState();
       });
     },
+    renameProject(id: string, name: string) {
+      const index = self.savedProjects.findIndex((p) => p.id === id);
+      if (index < 0) {
+        return;
+      }
+
+      const project = self.savedProjects[index];
+      const nextState = {
+        ...(project.state as Record<string, unknown>),
+        projectName: name,
+      };
+
+      self.savedProjects.splice(index, 1, {
+        id: project.id,
+        savedAt: project.savedAt,
+        state: nextState,
+      });
+
+      if (self.activeProjectId === id) {
+        self.projectName = name;
+        void this.persistState();
+      } else {
+        void this.persistSavedProjects();
+      }
+    },
     async syncRaglanFromSupabase() {
       const input = buildRaglanSyncInput(self, onboardingState.measurementSystem);
       const remoteResult = await calculateRaglanRemote(input);
@@ -521,6 +565,26 @@ const IntroState = types
       self.chartHighlightedRows = rows;
       this.persistState();
     },
+    setChartStoppedRow(chartId: string, row: number, stitchCount: number) {
+      const safeRow = Number.isFinite(row) ? Math.max(0, Math.floor(row)) : 0;
+      const safeStitches = Number.isFinite(stitchCount) ? Math.max(0, Math.floor(stitchCount)) : 0;
+
+      const rows = { ...(self.chartStoppedRows as Record<string, number> | undefined) };
+      rows[chartId] = safeRow;
+      self.chartStoppedRows = rows;
+
+      const stitches = {
+        ...(self.chartStoppedStitches as Record<string, number> | undefined),
+      };
+      stitches[chartId] = safeStitches;
+      self.chartStoppedStitches = stitches;
+
+      self.lastChartStoppedId = chartId;
+      self.lastChartStoppedRow = safeRow;
+      self.lastChartStoppedStitches = safeStitches;
+
+      void this.persistState();
+    },
   }))
   .views((self) => ({
     getChartHighlightedRow(chartId: string, rowCount: number, defaultRow = 0) {
@@ -530,6 +594,19 @@ const IntroState = types
         return defaultRow;
       }
       return Math.min(Math.max(row, 0), rowCount - 1);
+    },
+    getChartStoppedRow(chartId: string) {
+      return (self.chartStoppedRows as Record<string, number> | undefined)?.[chartId];
+    },
+    getChartStoppedStitches(chartId: string) {
+      return (self.chartStoppedStitches as Record<string, number> | undefined)?.[chartId];
+    },
+    getLastChartStopped() {
+      return {
+        chartId: self.lastChartStoppedId,
+        row: self.lastChartStoppedRow,
+        stitches: self.lastChartStoppedStitches,
+      };
     },
     calculateRaglan() {
       const snapshot = getSnapshot(self) as any;

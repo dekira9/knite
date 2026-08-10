@@ -2,38 +2,25 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
+import { Ionicons } from '@expo/vector-icons';
 import onboardingState from '@/state/onboardingState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import i18n from '@/utils/translations';
 import { resetAllState } from '@/state/reset';
 import { CommonActions } from '@react-navigation/native';
-
-const languages = [
-  { code: 'en', name: 'English', nativeName: 'English' },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-  { code: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-  { code: 'no', name: 'Norwegian', nativeName: 'Norsk' },
-  { code: 'fi', name: 'Finnish', nativeName: 'Suomi' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch' },
-  { code: 'fr', name: 'French', nativeName: 'Français' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español' },
-  { code: 'ja', name: 'Japanese', nativeName: '日本語' },
-  { code: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
-  { code: 'sk', name: 'Slovak', nativeName: 'Slovenčina' },
-  { code: 'ko', name: 'Korean', nativeName: '한국어' },
-  { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
-  { code: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
-];
+import { findLanguage } from '@/utils/i18n/supportedLanguages';
+import { Colors } from '@/constants/Colors';
 
 const Settings = observer(() => {
   const navigation = useNavigation();
   const currentLanguage = onboardingState.language;
   const insets = useSafeAreaInsets();
 
-  const currentLanguageInfo = languages.find(lang => lang.code === currentLanguage);
+  const currentLanguageInfo = findLanguage(currentLanguage);
+
+  const handleClose = () => {
+    navigation.navigate('Styles' as never);
+  };
 
   const handleLanguagePress = () => {
     const rootNavigation = navigation.getParent()?.getParent() || navigation.getParent() || navigation;
@@ -42,6 +29,9 @@ const Settings = observer(() => {
         name: 'Onboarding',
         params: {
           screen: 'Language',
+          params: {
+            from: 'settings',
+          },
         },
       })
     );
@@ -107,14 +97,25 @@ const Settings = observer(() => {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Text style={styles.title}>{i18n.t('settings')}</Text>
+      <View style={styles.headerRow}>
+        <Text style={styles.title}>{i18n.t('settings')}</Text>
+        <TouchableOpacity
+          onPress={handleClose}
+          style={styles.closeButton}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t('cancel')}
+        >
+          <Ionicons name="close" size={28} color={Colors.light.tint} />
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.settingButton} onPress={handleLanguagePress}>
         <Text style={styles.settingTitle}>
           {i18n.t('language')}
         </Text>
         <Text style={styles.settingValue}>
-          {currentLanguageInfo?.nativeName}
+          {currentLanguageInfo?.nativeName ?? currentLanguage}
         </Text>
       </TouchableOpacity>
 
@@ -166,10 +167,26 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f5f5f5',
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    marginBottom: 30,
+    minHeight: 40,
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    textAlign: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 0,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   settingButton: {
     backgroundColor: '#fff',

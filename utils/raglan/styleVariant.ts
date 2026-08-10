@@ -18,6 +18,8 @@ export interface StyleVariantParams {
   SFit: number;
   SOgr: number;
   SPodr: number;
+  /** Extra cm for men's armhole depth (typically 0 or 3). */
+  armholeEaseExtra?: number;
   /** V-neck ribbing row count is rounded to an even number */
   evenRibbingRows?: boolean;
 }
@@ -113,7 +115,7 @@ export function computeStyleVariant(params: StyleVariantParams): StyleVariantRes
   const SKa = K - SKfront;
   const Sa = (Sgor - 2 * SFront - 4 * K) / 2;
 
-  const Projma = (chest + fit) / 6 + 5;
+  const Projma = (chest + fit) / 6 + 5 + (params.armholeEaseExtra ?? 0);
   const HFront_sm = Projma - Hrez;
   const NHFront = Math.round((HFront_sm * rows) / 2) * 2;
 

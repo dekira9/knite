@@ -5,6 +5,8 @@ export interface RaglanInput {
   stitchDensity: string;
   rowDensity: string;
   fitType: string;
+  /** 'women' (default) | 'men' — men add 3 cm to armhole depth */
+  garmentFitFor?: string;
   ribbingWidth: number | string;
   ribbingWidthV: number | string;
   resultString24?: string;

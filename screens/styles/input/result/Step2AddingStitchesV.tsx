@@ -5,9 +5,11 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import ResultStepTitle from './ResultStepTitle';
+import ResultStepExpandable from './ResultStepExpandable';
 import IncreaseOptionSection from './IncreaseOptionSection';
 import RaglanPartRow from './RaglanPartRow';
 import ResultChartRow from './ResultChartRow';
+import FrontV from './FrontV';
 import { RESULT_COLORS, resultCardStyles, resultTypography } from './resultSharedStyles';
 
 interface Step2AddingStitchesVProps {
@@ -20,6 +22,7 @@ interface Step2AddingStitchesVProps {
   RowPrib1x3StringV: string;
   RowPrib1x2StringV: string;
   RowPrib1x1StringV: string;
+  handleScrollToTop1: () => void;
 }
 
 const Step2AddingStitchesV = observer(({
@@ -32,6 +35,7 @@ const Step2AddingStitchesV = observer(({
   RowPrib1x3StringV,
   RowPrib1x2StringV,
   RowPrib1x1StringV,
+  handleScrollToTop1,
 }: Step2AddingStitchesVProps) => {
   const navigation = useNavigation();
 
@@ -51,8 +55,12 @@ const Step2AddingStitchesV = observer(({
     <View style={styles.container}>
       <ResultStepTitle step={2} titleKey="increases" />
 
-      <View style={resultCardStyles.card}>
-        <View style={styles.stepHeader}>
+      <ResultStepExpandable
+        previewSource={require('@/assets/images/increasesV.png')}
+        accessibilityLabel={i18n.t('increases')}
+      >
+        <View style={resultCardStyles.card}>
+          <View style={styles.stepHeader}>
           <Text style={resultTypography.sectionTitle}>
             {i18n.t('back')}, {i18n.t('front')}, {i18n.t('sleeve')}
           </Text>
@@ -200,7 +208,21 @@ const Step2AddingStitchesV = observer(({
             rowsString={RowPrib1x3StringV}
           />
         )}
-      </View>
+        </View>
+
+        <FrontV
+          results={results}
+          resultString24V={resultString24V}
+          resultString23V={resultString23V}
+          resultString21V={resultString21V}
+          resultString43V={resultString43V}
+          RowPrib1x4StringV={RowPrib1x4StringV}
+          RowPrib1x3StringV={RowPrib1x3StringV}
+          RowPrib1x2StringV={RowPrib1x2StringV}
+          RowPrib1x1StringV={RowPrib1x1StringV}
+          handleScrollToTop1={handleScrollToTop1}
+        />
+      </ResultStepExpandable>
     </View>
   );
 });

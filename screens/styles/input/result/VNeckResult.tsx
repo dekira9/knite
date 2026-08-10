@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
@@ -10,14 +10,12 @@ import { useRegularResultScroll } from './useRegularResultScroll';
 import VNeckResultCarousel from './VNeckResultCarousel';
 import Step1RibbingV from './Step1RibbingV';
 import Step2AddingStitchesV from './Step2AddingStitchesV';
-import FrontV from './FrontV';
 import Step3BackLengtheningV from './Step3BackLengtheningV';
 import Step4SeparatingSleevesV from './Step4SeparatingSleevesV';
 import ResultStepV from './ResultStepV';
-import ResultColorLegend from './ResultColorLegend';
+import ResultParamsLegendPanel from './ResultParamsLegendPanel';
+import ResultClosingBanner from './ResultClosingBanner';
 import { Colors } from '@/constants/Colors';
-import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
-
 export default observer(function VNeckResult() {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
@@ -25,9 +23,13 @@ export default observer(function VNeckResult() {
   const {
     scrollViewRef,
     carouselRef,
+    partsAnchorRef,
     currentIndex,
+    onCarouselAnchorLayout,
+    onMainScroll,
     handleScrollToTop,
     handleScrollToTop1,
+    handleScrollToParts,
     handleCarouselScroll,
   } = useRegularResultScroll();
 
@@ -40,23 +42,30 @@ export default observer(function VNeckResult() {
     introState.stitchDensity,
     introState.rowDensity,
     introState.fitType,
+    introState.garmentFitFor,
     introState.ribbingWidth,
     introState.ribbingWidthV,
     introState.raglanLineWidth,
     introState.raglanLineWidthV,
+    introState.depthNeckV,
   ]);
 
-  const handleBackToHome = () => {
+  const handleBackToProjects = () => {
     introState.setAwaitingStyleChoice(false);
     introState.setStyleChoiceMode(null);
-    (navigation as any).navigate('StylesHome');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: 'StylesHome' }, { name: 'MyProjects' }],
+      }),
+    );
   };
 
   if (typeof results === 'string') {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleBackToHome}>
+        <TouchableOpacity style={styles.button} onPress={handleBackToProjects}>
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
       </View>
@@ -77,19 +86,20 @@ export default observer(function VNeckResult() {
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+        onScroll={onMainScroll}
+        scrollEventThrottle={16}
       >
-        <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
-          <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
-        </TouchableOpacity>
-        <SampleMeasurementsBanner collapsible />
+        <Text style={styles.planTitle}>{i18n.t('knittingPlan')}</Text>
+        <ResultParamsLegendPanel variant="v-neck" />
 
-        <VNeckResultCarousel
-          carouselRef={carouselRef}
-          currentIndex={currentIndex}
-          onCarouselScroll={handleCarouselScroll}
-        />
-
-        <ResultColorLegend variant="v-neck" />
+        <View onLayout={onCarouselAnchorLayout}>
+          <VNeckResultCarousel
+            carouselRef={carouselRef}
+            currentIndex={currentIndex}
+            onCarouselScroll={handleCarouselScroll}
+            onPlanImagePress={handleScrollToParts}
+          />
+        </View>
 
         <Step1RibbingV
           results={results}
@@ -112,18 +122,6 @@ export default observer(function VNeckResult() {
           RowPrib1x3StringV={precompute.RowPrib1x3StringV}
           RowPrib1x2StringV={precompute.RowPrib1x2StringV}
           RowPrib1x1StringV={precompute.RowPrib1x1StringV}
-        />
-
-        <FrontV
-          results={results}
-          resultString24V={precompute.resultString24V}
-          resultString23V={precompute.resultString23V}
-          resultString21V={precompute.resultString21V}
-          resultString43V={precompute.resultString43V}
-          RowPrib1x4StringV={precompute.RowPrib1x4StringV}
-          RowPrib1x3StringV={precompute.RowPrib1x3StringV}
-          RowPrib1x2StringV={precompute.RowPrib1x2StringV}
-          RowPrib1x1StringV={precompute.RowPrib1x1StringV}
           handleScrollToTop1={handleScrollToTop1}
         />
 
@@ -131,11 +129,14 @@ export default observer(function VNeckResult() {
           results={results}
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
+          partsAnchorRef={partsAnchorRef}
         />
 
         <Step4SeparatingSleevesV results={results} handleScrollToTop1={handleScrollToTop1} />
 
         <ResultStepV results={results} />
+
+        <ResultClosingBanner />
       </ScrollView>
     </View>
   );
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   scrollContent: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 0,
   },
   container: {
     flex: 1,
@@ -167,15 +169,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 16,
-    paddingVertical: 4,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: Colors.light.tint,
-    fontWeight: '500',
+  planTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 12,
+    color: '#222',
   },
   error: {
     fontSize: 18,

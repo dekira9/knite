@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
 import { StatusBar } from 'expo-status-bar';
 import { observer } from 'mobx-react-lite';
@@ -10,14 +10,13 @@ import { computeRegularIncreasePrecompute } from './useRegularIncreasePrecompute
 import { useRegularResultScroll } from './useRegularResultScroll';
 import RegularResultCarousel from './RegularResultCarousel';
 import RegularResultSummary from './RegularResultSummary';
-import ResultColorLegend from './ResultColorLegend';
+import ResultParamsLegendPanel from './ResultParamsLegendPanel';
 import Step1Ribbing from './Step1Ribbing';
 import Step2AddingStitches from './Step2AddingStitches';
 import Step3BackLengthening from './Step3BackLengthening';
 import Step4SeparatingSleeves from './Step4SeparatingSleeves';
+import ResultClosingBanner from './ResultClosingBanner';
 import { Colors } from '@/constants/Colors';
-import SampleMeasurementsBanner from '@/components/SampleMeasurementsBanner';
-
 export default observer(() => {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
@@ -25,9 +24,13 @@ export default observer(() => {
   const {
     scrollViewRef,
     carouselRef,
+    partsAnchorRef,
     currentIndex,
+    onCarouselAnchorLayout,
+    onMainScroll,
     handleScrollToTop,
     handleScrollToTop1,
+    handleScrollToParts,
     handleCarouselScroll,
   } = useRegularResultScroll();
 
@@ -40,23 +43,29 @@ export default observer(() => {
     introState.stitchDensity,
     introState.rowDensity,
     introState.fitType,
+    introState.garmentFitFor,
     introState.ribbingWidth,
     introState.ribbingWidthV,
     introState.raglanLineWidth,
     introState.raglanLineWidthV,
   ]);
 
-  const handleBackToHome = () => {
+  const handleBackToProjects = () => {
     introState.setAwaitingStyleChoice(false);
     introState.setStyleChoiceMode(null);
-    (navigation as any).navigate('StylesHome');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: 'StylesHome' }, { name: 'MyProjects' }],
+      }),
+    );
   };
 
   if (typeof results === 'string') {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{results}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleBackToHome}>
+        <TouchableOpacity style={styles.button} onPress={handleBackToProjects}>
           <Text style={styles.buttonText}>{i18n.t('goBack')}</Text>
         </TouchableOpacity>
       </View>
@@ -72,19 +81,20 @@ export default observer(() => {
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 100 }]}
+        onScroll={onMainScroll}
+        scrollEventThrottle={16}
       >
-        <TouchableOpacity style={styles.backButton} onPress={handleBackToHome}>
-          <Text style={styles.backButtonText}>← {i18n.t('back')}</Text>
-        </TouchableOpacity>
-        <SampleMeasurementsBanner collapsible />
+        <Text style={styles.planTitle}>{i18n.t('knittingPlan')}</Text>
+        <ResultParamsLegendPanel variant="regular" />
 
-        <RegularResultCarousel
-          carouselRef={carouselRef}
-          currentIndex={currentIndex}
-          onCarouselScroll={handleCarouselScroll}
-        />
-
-        <ResultColorLegend variant="regular" />
+        <View onLayout={onCarouselAnchorLayout}>
+          <RegularResultCarousel
+            carouselRef={carouselRef}
+            currentIndex={currentIndex}
+            onCarouselScroll={handleCarouselScroll}
+            onPlanImagePress={handleScrollToParts}
+          />
+        </View>
 
         <Step1Ribbing results={results} />
         <Step2AddingStitches
@@ -99,11 +109,14 @@ export default observer(() => {
           results={results}
           handleScrollToTop1={handleScrollToTop1}
           handleScrollToTop={handleScrollToTop}
+          partsAnchorRef={partsAnchorRef}
         />
 
         <Step4SeparatingSleeves results={results} handleScrollToTop1={handleScrollToTop1} />
 
         <RegularResultSummary results={results} />
+
+        <ResultClosingBanner />
       </ScrollView>
     </View>
   );
@@ -115,7 +128,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   scrollContent: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 0,
   },
   container: {
     flex: 1,
@@ -139,14 +153,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 16,
-    paddingVertical: 4,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: Colors.light.tint,
-    fontWeight: '500',
+  planTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 12,
+    color: '#222',
   },
 });

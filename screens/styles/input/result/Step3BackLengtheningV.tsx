@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import ResultStepTitle from './ResultStepTitle';
+import ResultStepExpandable from './ResultStepExpandable';
 import { resultTypography } from './resultSharedStyles';
 import { Colors } from '@/constants/Colors';
 
@@ -28,17 +29,24 @@ interface Step3BackLengtheningVProps {
   results: any;
   handleScrollToTop1: () => void;
   handleScrollToTop: () => void;
+  partsAnchorRef?: React.RefObject<View | null>;
 }
 
 const Step3BackLengtheningV = observer(({ 
   results,
   handleScrollToTop1,
-  handleScrollToTop
+  handleScrollToTop,
+  partsAnchorRef,
 }: Step3BackLengtheningVProps) => {
   return (
     <View style={styles.container}>
       <ResultStepTitle step={3} titleKey="backLengthening" />
-      
+
+      <ResultStepExpandable
+        previewSource={require('@/assets/images/backLengV.png')}
+        accessibilityLabel={i18n.t('backLengthening')}
+        imageAspectRatio={1647 / 1366}
+      >
       {/* УДЛИНЕНИЕ СПИНКИ */}
       <View style={styles.resultCard}>
         <View style={styles.stepHeader}>
@@ -75,6 +83,10 @@ const Step3BackLengtheningV = observer(({
           </Text>
           <Text style={styles.boldNumber}>{results.NRostok}</Text>
         </View>
+
+        <Text style={[resultTypography.body, styles.slouchHint]}>
+          {i18n.t('backLengtheningSlouchHint')}
+        </Text>
 
         <View style={styles.infoRow}>
           <Text style={styles.leftLabel}>{i18n.t('start')}:</Text>
@@ -120,7 +132,7 @@ const Step3BackLengtheningV = observer(({
       </View>
       
       {/*разделение на части*/}
-      <View style={styles.resultCard}>
+      <View ref={partsAnchorRef} style={styles.resultCard} collapsable={false}>
         <View style={styles.stepHeader}>
           <Text style={styles.subtitle}>{i18n.t('parts')}</Text>
           <TouchableOpacity
@@ -237,6 +249,7 @@ const Step3BackLengtheningV = observer(({
           </View>
         </View>
       </View>
+      </ResultStepExpandable>
     </View>
   );
 });
@@ -259,6 +272,11 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...resultTypography.sectionTitle,
+  },
+  slouchHint: {
+    marginTop: 4,
+    marginBottom: 12,
+    color: COLORS.TEXT_SECONDARY,
   },
   leftLabel: {
     ...resultTypography.label,

@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
+import introState from '@/state/introState';
 import { Image } from 'expo-image';
 import { resultTypography } from './resultSharedStyles';
+import { stitchesFromBack } from './stitchesFromBack';
+import { formatResultLength } from './formatResultLength';
 
 // Color constants
 const COLORS = {
@@ -31,6 +34,23 @@ interface ResultStepVProps {
 const ResultStepV = observer(({ 
   results
 }: ResultStepVProps) => {
+  const corpusTotal = results.SRostok * 2 + results.SPodr * 2;
+  const stitchesPerCm =
+    parseFloat(String(introState.stitchDensity).replace(',', '.')) / 10;
+  const corpusLength = formatResultLength(corpusTotal, stitchesPerCm);
+  const fromBackStitches = stitchesFromBack(
+    results.NRostok,
+    introState.stitchDensity,
+    introState.rowDensity,
+  );
+  const sleeveTotal =
+    results.SaV +
+    2 * results.SfxV +
+    2 * results.SKaV +
+    results.SPodr +
+    fromBackStitches;
+  const sleeveLength = formatResultLength(sleeveTotal, stitchesPerCm);
+
   return (
     <View style={styles.container}>
       {/* ИТОГИ ИТОГИ ИТОГИ*/}
@@ -59,9 +79,19 @@ const ResultStepV = observer(({
             {i18n.t('stitches')}:
           </Text>
           <Text style={styles.boldNumber}>
-            {results.SRostok * 2 + results.SPodr * 2}
+            {corpusTotal}
           </Text>
         </View>
+        {corpusLength !== null && (
+          <View style={[styles.infoRow, { marginTop: -12 }]}>
+            <Text style={styles.leftLabel}>
+              {corpusLength.unitLabel}:
+            </Text>
+            <Text style={styles.boldNumber}>
+              {corpusLength.value}
+            </Text>
+          </View>
+        )}
         
         {/*скролл корпус*/}
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -139,9 +169,19 @@ const ResultStepV = observer(({
             {i18n.t('stitches')}:
           </Text>
           <Text style={styles.boldNumber}>
-           {results.SaV + 2 * results.SfxV + 2 * results.SKaV + results.SPodr + results.NRostok * 0.5}
+           {sleeveTotal}
           </Text>
         </View>
+        {sleeveLength !== null && (
+          <View style={[styles.infoRow, { marginTop: -12 }]}>
+            <Text style={styles.leftLabel}>
+              {sleeveLength.unitLabel}:
+            </Text>
+            <Text style={styles.boldNumber}>
+              {sleeveLength.value}
+            </Text>
+          </View>
+        )}
         
         {/*скролл рукав*/}
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -170,7 +210,7 @@ const ResultStepV = observer(({
                 <View style={styles.greenIndicator}></View>
               </View>
               <Text style={styles.textinBox}>
-                {i18n.t('stitches')}: {results.NRostok * 0.5}
+                {i18n.t('stitches')}: {fromBackStitches}
               </Text>
               <Text style={styles.smallText}>{i18n.t('create') || 'create'}</Text>
               <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
@@ -209,9 +249,19 @@ const ResultStepV = observer(({
             {i18n.t('stitches')}:
           </Text>
           <Text style={styles.boldNumber}>
-           {results.SaV + 2 * results.SfxV + 2 * results.SKaV + results.SPodr + results.NRostok * 0.5}
+           {sleeveTotal}
           </Text>
         </View>
+        {sleeveLength !== null && (
+          <View style={[styles.infoRow, { marginTop: -12 }]}>
+            <Text style={styles.leftLabel}>
+              {sleeveLength.unitLabel}:
+            </Text>
+            <Text style={styles.boldNumber}>
+              {sleeveLength.value}
+            </Text>
+          </View>
+        )}
         
         {/*скролл рукав*/}
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -223,7 +273,7 @@ const ResultStepV = observer(({
                 <View style={styles.greenIndicator}></View>
               </View>
               <Text style={styles.textinBox}>
-                {i18n.t('stitches')}: {results.NRostok * 0.5}
+                {i18n.t('stitches')}: {fromBackStitches}
               </Text>
               <Text style={styles.smallText}>{i18n.t('create') || 'create'}</Text>
               <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>

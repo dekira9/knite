@@ -42,6 +42,13 @@ const App = observer(() => {
         currentRow={highlightedRow}
         totalRows={NRrez}
         stitchCount={stitchCount}
+        onStop={() =>
+          introState.setChartStoppedRow(
+            RAGLAN_CHART_IDS.ribbingO,
+            highlightedRow + 1,
+            stitchCount,
+          )
+        }
         onPreviousRow={highlightPreviousRow}
         onNextRow={highlightNextRow}
       />

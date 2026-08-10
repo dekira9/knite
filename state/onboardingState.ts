@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isSupportedLanguage } from '@/utils/i18n/supportedLanguages';
 
 const OnboardingState = types
   .model({
@@ -11,7 +12,7 @@ const OnboardingState = types
   })
   .actions((self) => ({
     setLanguage(lang: string) {
-      self.language = lang;
+      self.language = isSupportedLanguage(lang) ? lang : 'en';
       this.persistState();
     },
     setMeasurementSystem(system: string) {
@@ -54,7 +55,7 @@ const OnboardingState = types
       hasSubscription: boolean;
       hasSeenHomeIntro?: boolean;
     }) {
-      self.language = state.language;
+      self.language = isSupportedLanguage(state.language) ? state.language : 'en';
       self.measurementSystem = state.measurementSystem;
       self.hasCompletedOnboarding = state.hasCompletedOnboarding;
       self.hasSubscription = state.hasSubscription;

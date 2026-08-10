@@ -2,46 +2,45 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import introState from '@/state/introState';
 import i18n from '@/utils/translations';
 
 const RaglanIndex = observer(() => {
   const navigation = useNavigation();
 
   const navigateToChart = (chartType: 'Ribbing' | 'Back' | 'Front' | 'Sleeve') => {
-    (navigation as any).navigate('Raglan', { screen: chartType });
+    (navigation as any).navigate(chartType);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{i18n.t('knittingCharts')}</Text>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         style={styles.button}
         onPress={() => navigateToChart('Ribbing')}
       >
-        <Text style={styles.buttonText}>{i18n.t('knittingChartRibbing')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('collarKnittingChart')}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.button}
         onPress={() => navigateToChart('Back')}
       >
-        <Text style={styles.buttonText}>{i18n.t('knittingChartBack')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('backKnittingChart')}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.button}
         onPress={() => navigateToChart('Front')}
       >
-        <Text style={styles.buttonText}>{i18n.t('knittingChartFront')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('frontKnittingChart')}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.button}
         onPress={() => navigateToChart('Sleeve')}
       >
-        <Text style={styles.buttonText}>{i18n.t('knittingChartSleeve')}</Text>
+        <Text style={styles.buttonText}>{i18n.t('sleeveKnittingChart')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -73,4 +72,3 @@ const styles = StyleSheet.create({
 });
 
 export default RaglanIndex;
-

@@ -1,19 +1,32 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
+import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
+import introState from '@/state/introState';
 import type { RaglanOutput } from '@/utils/calculateRaglan';
 import { resultTypography } from './resultSharedStyles';
+import { stitchesFromBack } from './stitchesFromBack';
+import { formatResultLength } from './formatResultLength';
 
 type Props = {
   results: RaglanOutput;
 };
 
-export default function RegularResultSummary({ results }: Props) {
+export default observer(function RegularResultSummary({ results }: Props) {
   const corpusTotal = results.SRostok * 2 + results.SPodr * 2;
+  const stitchesPerCm =
+    parseFloat(String(introState.stitchDensity).replace(',', '.')) / 10;
+  const corpusLength = formatResultLength(corpusTotal, stitchesPerCm);
+  const fromBackStitches = stitchesFromBack(
+    results.NRostok,
+    introState.stitchDensity,
+    introState.rowDensity,
+  );
   const sleeveTotal =
-    results.Sa + 2 * results.Sfx + 2 * results.SKa + results.SPodr + results.NRostok * 0.5;
+    results.Sa + 2 * results.Sfx + 2 * results.SKa + results.SPodr + fromBackStitches;
   const sleeveBase = results.Sa + 2 * results.Sfx + 2 * results.SKa;
+  const sleeveLength = formatResultLength(sleeveTotal, stitchesPerCm);
 
   return (
     <View style={styles.resultCard}>
@@ -37,6 +50,12 @@ export default function RegularResultSummary({ results }: Props) {
         <Text style={styles.leftLabel}>{i18n.t('stitches')}:</Text>
         <Text style={styles.boldNumber}>{corpusTotal}</Text>
       </View>
+      {corpusLength !== null && (
+        <View style={[styles.infoRow, { marginTop: -12 }]}>
+          <Text style={styles.leftLabel}>{corpusLength.unitLabel}:</Text>
+          <Text style={styles.boldNumber}>{corpusLength.value}</Text>
+        </View>
+      )}
 
       <ScrollView horizontal showsHorizontalScrollIndicator>
         <View style={styles.separatingLayout}>
@@ -97,6 +116,12 @@ export default function RegularResultSummary({ results }: Props) {
         <Text style={styles.leftLabel}>{i18n.t('stitches')}:</Text>
         <Text style={styles.boldNumber}>{sleeveTotal}</Text>
       </View>
+      {sleeveLength !== null && (
+        <View style={[styles.infoRow, { marginTop: -12 }]}>
+          <Text style={styles.leftLabel}>{sleeveLength.unitLabel}:</Text>
+          <Text style={styles.boldNumber}>{sleeveLength.value}</Text>
+        </View>
+      )}
 
       <ScrollView horizontal showsHorizontalScrollIndicator>
         <View style={styles.separatingLayout}>
@@ -119,7 +144,7 @@ export default function RegularResultSummary({ results }: Props) {
               <View style={styles.smallGreenIndicator} />
             </View>
             <Text style={styles.textinBox}>
-              {i18n.t('stitches')}: {results.NRostok * 0.5}{' '}
+              {i18n.t('stitches')}: {fromBackStitches}{' '}
             </Text>
             <Text style={styles.smallText}>{i18n.t('create')}</Text>
             <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
@@ -154,6 +179,12 @@ export default function RegularResultSummary({ results }: Props) {
         <Text style={styles.leftLabel}>{i18n.t('stitches')}:</Text>
         <Text style={styles.boldNumber}>{sleeveTotal}</Text>
       </View>
+      {sleeveLength !== null && (
+        <View style={[styles.infoRow, { marginTop: -12 }]}>
+          <Text style={styles.leftLabel}>{sleeveLength.unitLabel}:</Text>
+          <Text style={styles.boldNumber}>{sleeveLength.value}</Text>
+        </View>
+      )}
 
       <ScrollView horizontal showsHorizontalScrollIndicator>
         <View style={styles.separatingLayout}>
@@ -164,7 +195,7 @@ export default function RegularResultSummary({ results }: Props) {
               <View style={styles.smallGreenIndicator} />
             </View>
             <Text style={styles.textinBox}>
-              {i18n.t('stitches')}: {results.NRostok * 0.5}{' '}
+              {i18n.t('stitches')}: {fromBackStitches}{' '}
             </Text>
             <Text style={styles.smallText}>{i18n.t('create')}</Text>
             <Text style={styles.smallText}>{i18n.t('fromTheBack') || 'fromTheBack'}</Text>
@@ -199,7 +230,7 @@ export default function RegularResultSummary({ results }: Props) {
       </ScrollView>
     </View>
   );
-}
+});
 
 const COLORS = {
   TEXT_PRIMARY: '#1A1A1A',

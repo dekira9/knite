@@ -3,7 +3,7 @@ description: Knite app conventions and token-saving habits
 alwaysApply: true
 ---
 
-# Knite (raglan calculator)
+# Knite (raglan planner)
 
 Read `AGENTS.md` and `docs/TASK_ROUTER.md` before broad exploration; `docs/HOTSPOTS.md` for line ranges.
 

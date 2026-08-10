@@ -6,14 +6,17 @@ alwaysApply: false
 
 # i18n
 
-- Entry: `utils/translations.ts` (I18n instance only).
+- Entry: `utils/translations.ts` (I18n instance only). `enableFallback` + `defaultLocale = 'en'`.
+- Selectable locales: `utils/i18n/supportedLanguages.ts` (`SUPPORTED_LANGUAGES` — all product languages). Use this list in onboarding/settings; do not duplicate language arrays in screens.
 - Strings live in `utils/i18n/strings/` by domain:
   - `onboarding.ts`, `input.ts`, `charts.ts`
   - `result/` — split: `shared.ts`, `steps.ts`, `legend.ts`, `help.ts` (see `docs/i18n/RESULT_KEY_INDEX.md`)
 - Keys list: `utils/i18n/translationKeys.ts` — add new keys there and in merge.
 - Pattern per key: `export const keyName = { en: "...", ru: "...", ... }`.
 - **Never read the whole result strings tree.** Grep `export const <keyName>` → edit one block in the matching sub-file.
-- **New keys — only `en` and `ru` for now.** Do not add sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt unless the user explicitly asks. Other locales fall back to English via i18n-js until backfilled.
-- **Editing existing keys:** keep locales already present; when changing copy, update at least `en` + `ru`.
-- Full 17-locale set (when backfilling): en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt.
-- Runtime locale: `onboardingState.language`. Screens: `import i18n from '@/utils/translations'`.
+- **New keys — all locales in `SUPPORTED_LANGUAGES`.** Prefer real translations. If a locale is not ready yet, copy `en` temporarily (UI still switches; English is the honest fallback via i18n-js). Always provide at least `en` + `ru`.
+- **Editing existing keys:** keep locales already present; when changing copy, update at least `en` + `ru`, and prefer updating every locale in the block.
+- Full locale set: en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt.
+- Runtime locale: `onboardingState.language`. Screens: `import i18n from '@/utils/translations'`. Never hardcode `isRussian ? … : …` for UI copy.
+- After loading persisted onboarding state, call `updateLocale(language)`.
+- `i18n.t` reads `onboardingState.language` so MobX `observer` components re-render on language change. Navigators and leaf UI that show copy should be `observer` (or a parent that calls `i18n.t` must re-render).

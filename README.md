@@ -1,4 +1,4 @@
-# Knite — Raglan knitting calculator
+# Knite — Raglan knitting planner
 
 Expo React Native app for raglan sweater measurements, step-by-step results, and knitting charts (regular and v-neck).
 

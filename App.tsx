@@ -9,11 +9,15 @@ import onboardingState from './state/onboardingState';
 import introState from './state/introState';
 import OnboardingNavigator from './navigation/OnboardingNavigator';
 import MainNavigator from './navigation/MainNavigator';
+import { updateLocale } from './utils/translations';
+import { isSupportedLanguage } from './utils/i18n/supportedLanguages';
 
 const Stack = createStackNavigator();
 
 const App = observer(() => {
   const [isLoading, setIsLoading] = useState(true);
+  // Keep tree subscribed so locale changes refresh after persistence load.
+  void onboardingState.language;
 
   useEffect(() => {
     const loadState = async () => {
@@ -21,6 +25,13 @@ const App = observer(() => {
         onboardingState.loadPersistedState(),
         introState.loadPersistedState()
       ]);
+      const lang = isSupportedLanguage(onboardingState.language)
+        ? onboardingState.language
+        : 'en';
+      if (lang !== onboardingState.language) {
+        onboardingState.setLanguage(lang);
+      }
+      updateLocale(lang);
       setIsLoading(false);
     };
     loadState();
@@ -56,4 +67,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-

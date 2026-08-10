@@ -9,6 +9,7 @@ import {
   Keyboard 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import onboardingState from '@/state/onboardingState';
 import { Image } from 'expo-image';
@@ -26,7 +27,7 @@ interface MeasurementInputProps {
   onNext?: () => boolean;
 }
 
-export default function MeasurementInput({
+export default observer(function MeasurementInput({
   title,
   value,
   onValueChange,
@@ -100,7 +101,7 @@ export default function MeasurementInput({
       </View>
     </TouchableWithoutFeedback>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

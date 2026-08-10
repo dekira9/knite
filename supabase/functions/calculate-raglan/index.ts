@@ -18,6 +18,7 @@ Deno.serve(async (req: Request) => {
       stitchDensity: body.stitchDensity,
       rowDensity: body.rowDensity,
       fitType: body.fitType,
+      garmentFitFor: body.garmentFitFor,
       ribbingWidth: body.ribbingWidth,
       ribbingWidthV: body.ribbingWidthV,
       raglanLineWidth: body.raglanLineWidth,

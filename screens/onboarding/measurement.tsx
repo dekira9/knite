@@ -3,17 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
+import i18n from '@/utils/translations';
 
 const MeasurementScreen = observer(() => {
   const navigation = useNavigation();
-  const isRussian = onboardingState.language === 'ru';
 
   const selectSystem = (system: string) => {
     onboardingState.setMeasurementSystem(system);
-    handleSkip();
-  };
-
-  const handleSkip = () => {
     onboardingState.completeOnboarding();
     navigation.reset({
       index: 0,
@@ -23,32 +19,22 @@ const MeasurementScreen = observer(() => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        {isRussian ? 'Выберите систему измерения' : 'Choose Measurement System'}
-      </Text>
-      
+      <Text style={styles.title}>{i18n.t('chooseMeasurementSystem')}</Text>
+
       <TouchableOpacity
         style={styles.systemButton}
         onPress={() => selectSystem('metric')}
       >
-        <Text style={styles.buttonTitle}>
-          {isRussian ? 'Метрическая' : 'Metric'}
-        </Text>
-        <Text style={styles.buttonSubtitle}>
-          {isRussian ? 'сантиметры (см)' : 'centimeters (cm)'}
-        </Text>
+        <Text style={styles.buttonTitle}>{i18n.t('metric')}</Text>
+        <Text style={styles.buttonSubtitle}>{i18n.t('metricUnitsHint')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.systemButton}
         onPress={() => selectSystem('imperial')}
       >
-        <Text style={styles.buttonTitle}>
-          {isRussian ? 'Имперская' : 'Imperial'}
-        </Text>
-        <Text style={styles.buttonSubtitle}>
-          {isRussian ? 'дюймы (in)' : 'inches (in)'}
-        </Text>
+        <Text style={styles.buttonTitle}>{i18n.t('imperial')}</Text>
+        <Text style={styles.buttonSubtitle}>{i18n.t('imperialUnitsHint')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MeasurementScreen; 
+export default MeasurementScreen;

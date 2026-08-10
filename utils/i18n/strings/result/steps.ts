@@ -303,22 +303,22 @@ export const raglanline = {
 export const raglan = {
   en: "Raglan",
   ru: "Реглан",
-  sv: "Raglan",
-  no: "Raglan",
-  fi: "Raglan", 
-  de: "Raglan",
-  fr: "Raglan",
-  es: "Raglan",
+  sv: "Raglanärm",
+  no: "Raglanerme",
+  fi: "Raglani",
+  de: "Raglanschnitt",
+  fr: "Manche raglan",
+  es: "Raglán",
   ja: "ラグラン",
-  cs: "Raglan",
-  bg: "Реглан", 
-  sk: "Raglan",
+  cs: "Raglán",
+  bg: "Реглан",
+  sk: "Raglán",
   ko: "래글런",
-  tr: "Raglan",
+  tr: "Raglan kol",
   ar: "راغلان",
-  pt: "Raglan",
+  pt: "Raglã",
   lt: "Raglanas",
-  };
+};
 
 export const line = {
   en: "Line",
@@ -420,6 +420,26 @@ export const backLengthening = {
   lt: "Nugaros ilginimas",  
 };
 
+export const backLengtheningSlouchHint = {
+  en: "For people with a rounded posture, it is recommended to increase the number of lengthening rows.",
+  ru: "Для людей с сутулостью рекомендовано увеличить число рядов удлиннения.",
+  sv: "För personer med rundad hållning rekommenderas fler förlängningsvarv.",
+  no: "For personer med rundet holdning anbefales det å øke antallet forlengelsesrader.",
+  fi: "Pyöreän ryhdin omaaville suositellaan lisättävän pidentäviä kerroksia.",
+  de: "Bei rundem Rücken empfiehlt es sich, die Zahl der Verlängerungsreihen zu erhöhen.",
+  fr: "Pour les personnes au dos voûté, il est recommandé d'augmenter le nombre de rangs d'allongement.",
+  es: "Para personas con postura redondeada, se recomienda aumentar el número de filas de alargamiento.",
+  ja: "猫背の方には、延長段の数を増やすことをおすすめします。",
+  cs: "Pro osoby se zaobleným postojem se doporučuje zvýšit počet prodlužovacích řad.",
+  bg: "За хора със сутулен стоеж се препоръчва да се увеличи броят на удължаващите редове.",
+  sk: "Pre osoby so zaobleným postojom sa odporúča zvýšiť počet predlžovacích radov.",
+  ko: "구부정한 자세인 경우 늘림 행 수를 늘 것을 권장합니다.",
+  tr: "Yuvarlak duruşu olan kişiler için uzatma sırası sayısının artırılması önerilir.",
+  ar: "للأشخاص ذوي القامة المنحنية يُفضّل زيادة عدد صفوف الإطالة.",
+  pt: "Para pessoas com postura arredondada, recomenda-se aumentar o número de carreiras de alongamento.",
+  lt: "Žmonėms su sulinkusia laikysena rekomenduojama padidinti pailginimo eilučių skaičių.",
+};
+
 export const created = {
   en: "Created",
   ru: "Создан",
@@ -458,6 +478,46 @@ export const step1CollarIntro = {
   ar: "ألقِ عدد الغرز أدناه واخلط الياقة لعدد الصفوف المذكور على دائرة. هذه البطاقة تعرض آخر صف من الياقة (أصفر) — نقطة بداية حياكة الراجلان.",
   pt: "Monte o número de pontos abaixo e tricote a barra pelo número de carreiras indicado em circular. Este cartão mostra a última carreira da gola (amarelo) — o ponto de partida do tricô raglan.",
   lt: "Numeskite nurodytą akų skaičių ir megzkite gumą nurodytą eilučių skaičių ratu. Ši kortelė rodo paskutinę apykaklės eilutę (geltona) — reglano mezgimo pradžią.",
+};
+
+export const step1CastOnInstruction = {
+  en: "Cast on stitches: use circular needles. Cast on 1 stitch more than the calculated number to join in the round.",
+  ru: "Наберите петли: используйте круговые спицы. Наберите на 1 петлю больше расчетного количества для замыкания в круг.",
+  sv: "Slå upp maskor: använd rundstickor. Slå upp 1 maska mer än det beräknade antalet för att sluta till en rundstickning.",
+  no: "Legg opp masker: bruk rundpinner. Legg opp 1 maske mer enn det beregnede antallet for å lukke til rundstrikking.",
+  fi: "Luo silmukat: käytä pyöröpuikkoja. Luo 1 silmukka enemmän kuin laskettu määrä, jotta voit yhdistää neuleen ympyräksi.",
+  de: "Maschen anschlagen: Rundstricknadeln verwenden. 1 Masche mehr als berechnet anschlagen, um zur Runde zu schließen.",
+  fr: "Montez les mailles : utilisez des aiguilles circulaires. Montez 1 maille de plus que le nombre calculé pour joindre en rond.",
+  es: "Montar puntos: usa agujas circulares. Monta 1 punto más que el número calculado para unir en redondo.",
+  ja: "キャストオン：輪針を使います。計算した目数より1目多く取り、輪にしてつなぎます。",
+  cs: "Nahodíte očka: použijte kruhové jehlice. Nahodíte o 1 očko více než vypočtený počet, abyste uzavřeli kruh.",
+  bg: "Наберете бримки: използвайте кръгови игли. Наберете с 1 бримка повече от изчисленото, за да затворите в кръг.",
+  sk: "Nahodíte očká: použite kruhové ihlice. Nahodíte o 1 očko viac ako vypočítané množstvo na uzavretie do kruhu.",
+  ko: "코 잡기: 환봉을 사용하세요. 계산된 코수보다 1코 더 잡아 원형으로 이으세요.",
+  tr: "İlmek atın: halka şiş kullanın. Yuvarlak örmek için hesaplanan sayıdan 1 ilmek fazla atın.",
+  ar: "اصنعي الغرز: استخدمي إبرًا دائرية. اصنعي غرزة واحدة أكثر من العدد المحسوب للإغلاق بشكل دائري.",
+  pt: "Monte os pontos: use agulhas circulares. Monte 1 ponto a mais do que o número calculado para fechar em redondo.",
+  lt: "Surinkite akis: naudokite apvalias virbalus. Surinkite 1 akį daugiau nei apskaičiuota, kad uždarytumėte į ratą.",
+};
+
+export const step1FormVNeckHint = {
+  en: "Shape the V-neck by working increases.",
+  ru: "Формируйте V-образный вырез, выполняя прибавки.",
+  sv: "Forma V-halsen genom att göra ökningar.",
+  no: "Form V-halsen ved å gjøre økninger.",
+  fi: "Muotoile V-pääntie tekemällä lisäyksiä.",
+  de: "Forme den V-Ausschnitt durch Zunahmen.",
+  fr: "Formez l'encolure en V en travaillant des augmentations.",
+  es: "Forma el escote en V haciendo aumentos.",
+  ja: "増し目をしてVネックを形作ります。",
+  cs: "Tvarujte výstřih do V pomocí přírůstků.",
+  bg: "Оформете V-образното деколте чрез прибавки.",
+  sk: "Tvarujte výstrih do V pomocou prírastkov.",
+  ko: "증가뜨기로 V넥을 만드세요.",
+  tr: "Artırmalar yaparak V yakayı şekillendirin.",
+  ar: "شكّلي فتحة الرقبة على شكل V بإجراء الزيادات.",
+  pt: "Modele o decote em V fazendo aumentos.",
+  lt: "Formuokite V formos iškirptę darydami prieaugius.",
 };
 
 export const step1StitchBreakdown = {

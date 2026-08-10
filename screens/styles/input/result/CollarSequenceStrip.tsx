@@ -1,9 +1,11 @@
-import React from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+﻿import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import type { TranslationKey } from '@/utils/i18n/translationKeys';
 import i18n from '@/utils/translations';
 import StitchPartChip from './StitchPartChip';
 import IncreaseBadgeChip from './IncreaseBadgeChip';
+import HorizontalScrollWithDots from './HorizontalScrollWithDots';
 import { RESULT_COLORS } from './resultSharedStyles';
 
 export type CollarSegment =
@@ -24,9 +26,9 @@ function SegmentArrow() {
   return <Text style={styles.arrow}>→</Text>;
 }
 
-export default function CollarSequenceStrip({ segments }: Props) {
+export default observer(function CollarSequenceStrip({ segments }: Props) {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator>
+    <HorizontalScrollWithDots>
       <View style={styles.row}>
         {segments.map((segment, index) => (
           <React.Fragment key={`${segment.kind}-${index}`}>
@@ -48,9 +50,9 @@ export default function CollarSequenceStrip({ segments }: Props) {
           </React.Fragment>
         ))}
       </View>
-    </ScrollView>
+    </HorizontalScrollWithDots>
   );
-}
+});
 
 const styles = StyleSheet.create({
   row: {

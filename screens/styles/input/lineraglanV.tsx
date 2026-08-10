@@ -23,6 +23,7 @@ const LineraglanV = () => {
     stitchDensity: introState.stitchDensity,
     rowDensity: introState.rowDensity,
     fitType: introState.fitType,
+    garmentFitFor: introState.garmentFitFor,
     ribbingWidth: introState.ribbingWidth,
     ribbingWidthV: introState.ribbingWidthV,
     raglanLineWidth: introState.raglanLineWidth,
@@ -79,7 +80,7 @@ const LineraglanV = () => {
           style={styles.input}
           value={sliderValue}
           keyboardType="numeric"
-          placeholder="Введите значение"
+          placeholder=""
           onChangeText={handleTextInputChange}  
         />
         <TouchableOpacity onPress={() => {

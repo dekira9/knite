@@ -12,10 +12,12 @@ describe('buildMergedTranslations', () => {
   it('maps keys for English', () => {
     expect(merged.en.next).toBe('Next');
     expect(merged.en.calculate).toBe('Calculate');
-    expect(merged.en.chooseStyle).toBe('Choose Your Style');
+    expect(merged.en.chooseStyle).toBe('Choose neckline type');
   });
 
-  it('maps keys for Russian', () => {
-    expect(merged.ru.next).toBe('Далее');
+  it('maps new onboarding keys for every locale', () => {
+    expect(merged.de.chooseMeasurementSystem).toBe('Maßsystem wählen');
+    expect(merged.ru.metricUnitsHint).toBe('сантиметры (см)');
+    expect(merged.ja.subscribe).toBe('登録する');
   });
 });

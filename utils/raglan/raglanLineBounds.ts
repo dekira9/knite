@@ -10,6 +10,7 @@ export type VNeckSliderInput = Pick<
   | 'stitchDensity'
   | 'rowDensity'
   | 'fitType'
+  | 'garmentFitFor'
   | 'ribbingWidth'
   | 'ribbingWidthV'
   | 'raglanLineWidth'

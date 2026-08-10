@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import ResultHelpModal from './ResultHelpModal';
 
@@ -38,7 +39,7 @@ function RowNumberChips({ rowsString }: { rowsString: string }) {
   );
 }
 
-export default function IncreaseOptionSection({ rhythms, rowsString }: Props) {
+export default observer(function IncreaseOptionSection({ rhythms, rowsString }: Props) {
   const [helpVisible, setHelpVisible] = useState(false);
 
   return (
@@ -79,7 +80,7 @@ export default function IncreaseOptionSection({ rhythms, rowsString }: Props) {
       />
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   section: {

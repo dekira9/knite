@@ -1,4 +1,4 @@
-import { computeBodyBlock, computeFitCm } from './fit';
+import { armholeEaseExtraCm, computeBodyBlock, computeFitCm } from './fit';
 import { parseRaglanInput } from './parseInput';
 import { computeStyleVariant } from './styleVariant';
 import type { RaglanInput, RaglanOutput } from './types';
@@ -13,6 +13,7 @@ export function calculateRaglan(input: RaglanInput): RaglanOutput | string {
   const { head, neck, chest, stitches, rows, ribbing, ribbingV, K, KV } = parsed;
   const fit = computeFitCm(input.fitType, stitches);
   const { SFit, SOgr, SPodr } = computeBodyBlock(chest, fit, stitches);
+  const armholeEaseExtra = armholeEaseExtraCm(input.garmentFitFor);
 
   const sharedVariantParams = {
     head,
@@ -24,6 +25,7 @@ export function calculateRaglan(input: RaglanInput): RaglanOutput | string {
     SFit,
     SOgr,
     SPodr,
+    armholeEaseExtra,
   };
 
   const regular = computeStyleVariant({

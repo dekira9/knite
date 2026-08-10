@@ -1,15 +1,26 @@
 import React, { RefObject } from 'react';
-import { View, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+} from 'react-native';
+import { Image } from 'expo-image';
 import ZoomableImage from './ZoomableImage';
 
 type Props = {
   carouselRef: RefObject<ScrollView | null>;
   currentIndex: number;
   onCarouselScroll: (offsetX: number) => void;
+  /** Tap on the «plan» slide (index 1) returns to Step 3 Parts. */
+  onPlanImagePress?: () => void;
 };
 
 const SLIDE_WIDTH = Dimensions.get('window').width - 32;
 const SLIDE_HEIGHT = 300;
+/** Index of planOaz3 — linked from Step 3 «Parts». */
+const PLAN_SLIDE_INDEX = 1;
 
 const SLIDES = [
   { key: 'plan1', source: require('@/assets/images/planOaz1.png') },
@@ -21,6 +32,7 @@ export default function RegularResultCarousel({
   carouselRef,
   currentIndex,
   onCarouselScroll,
+  onPlanImagePress,
 }: Props) {
   return (
     <>
@@ -33,9 +45,28 @@ export default function RegularResultCarousel({
         onScroll={(event) => onCarouselScroll(event.nativeEvent.contentOffset.x)}
         scrollEventThrottle={16}
       >
-        {SLIDES.map((slide) => (
+        {SLIDES.map((slide, index) => (
           <View key={slide.key} style={styles.slideContainer}>
-            <ZoomableImage source={slide.source} style={styles.slideImage} contentFit="contain" />
+            {index === PLAN_SLIDE_INDEX && onPlanImagePress ? (
+              <Pressable
+                onPress={onPlanImagePress}
+                style={styles.slideImage}
+                accessibilityRole="button"
+                accessibilityLabel="Plan"
+              >
+                <Image
+                  source={slide.source}
+                  style={styles.slideImage}
+                  contentFit="contain"
+                />
+              </Pressable>
+            ) : (
+              <ZoomableImage
+                source={slide.source}
+                style={styles.slideImage}
+                contentFit="contain"
+              />
+            )}
           </View>
         ))}
       </ScrollView>

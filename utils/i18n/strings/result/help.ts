@@ -162,7 +162,7 @@ export const resultHelpStartBody = {
 
 export const resultHelpUnderarmTitle = {
   en: "Underarm stitches",
-  ru: "Подмышечные петли",
+  ru: "Петли подреза",
   sv: "Armhålsmaskor",
   no: "Armhullsmasker",
   fi: "Kainalon silmukat",
@@ -181,23 +181,23 @@ export const resultHelpUnderarmTitle = {
 };
 
 export const resultHelpUnderarmBody = {
-  en: "Magenta marks stitches held or cast off under the arm when separating body and sleeves.",
-  ru: "Пурпурный — подмышечные петли, которые закрывают или оставляют при отделении рукавов.",
-  sv: "Magenta markerar maskor under armen vid avskiljning av kropp och ärmar.",
-  no: "Magenta markerer masker under armen ved skille av kropp og ermer.",
-  fi: "Magenta merkitsee kainalossa pidettävät tai päättävät silmukat.",
-  de: "Magenta markiert Maschen unter dem Arm beim Trennen von Körper und Ärmeln.",
-  fr: "Le magenta marque les mailles sous le bras lors de la séparation.",
-  es: "El magenta marca puntos bajo el brazo al separar cuerpo y mangas.",
-  ja: "マゼンタは脇下で休ませる目です。",
-  cs: "Purpurová označuje oka v podpaží při oddělení rukávů.",
-  bg: "Пурпурното маркира петли под мишницата при отделяне.",
-  sk: "Purpurová označuje oka v podpaží pri oddelení rukávov.",
-  ko: "자홍색은 소매 분리 시 겨드랑이 코입니다.",
-  tr: "Macenta, kol ayrılırken koltukaltı ilmeklerini işaretler.",
-  ar: "الأرجواني يحدد الغرز تحت الإبط عند الفصل.",
-  pt: "Magenta marca pontos na axila ao separar corpo e mangas.",
-  lt: "Purpurinė spalva žymi pažasties akis atskiriant rankoves.",
+  en: "Stitches cast on additionally under the arms when separating the work into body (front/back) and sleeves.",
+  ru: "Петли, которые дополнительно набирают в области подмышек при разделении вязания на тело (перед/спинку) и рукава",
+  sv: "Maskor som slås upp extra under armarna när arbetet delas i kropp (fram/bak) och ärmar.",
+  no: "Masker som legges opp ekstra under armene når arbeidet deles i kropp (forstykke/bakstykke) og ermer.",
+  fi: "Lisäksi luotavat silmukat kainaloihin, kun työ jaetaan vartaloon (etu/taka) ja hihoihin.",
+  de: "Zusätzlich unter den Armen angeschlagene Maschen beim Teilen der Arbeit in Rumpf (Vorder-/Rückenteil) und Ärmel.",
+  fr: "Mailles montées en plus sous les bras lors de la séparation du travail en corps (devant/dos) et manches.",
+  es: "Puntos que se montan además bajo los brazos al separar el trabajo en cuerpo (delantero/espalda) y mangas.",
+  ja: "身頃（前・後）と袖に分けるとき、脇の下に追加でキャストオンする目数。",
+  cs: "Očka, která se navíc nahazují v podpaží při rozdělení práce na tělo (přední/zadní díl) a rukávy.",
+  bg: "Бримки, които се набират допълнително под мишниците при разделяне на плетивото на тяло (пред/гръб) и ръкави.",
+  sk: "Očka, ktoré sa navyše nahadzujú v podpazuší pri rozdelení práce na telo (predný/zadný diel) a rukávy.",
+  ko: "몸판(앞/뒤)과 소매로 나눌 때 겨드랑이에 추가로 코를 잡는 코수.",
+  tr: "İşi gövde (ön/arka) ve kollara ayırırken koltuk altlarına ek olarak atılan ilmekler.",
+  ar: "غرز تُزاد تحت الإبطين عند فصل العمل إلى الجسم (الأمام/الخلف) والأكمام.",
+  pt: "Pontos montados adicionalmente debaixo dos braços ao separar o trabalho em corpo (frente/costas) e mangas.",
+  lt: "Papildomai po pažastimis renkamos akys, kai darbas skiriamas į liemenį (priekį/nugarą) ir rankoves.",
 };
 
 export const resultHelpKnitCollarTitle = {

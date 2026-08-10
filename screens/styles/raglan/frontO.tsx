@@ -203,6 +203,13 @@ const App = observer(() => {
           currentRow={highlightedRow}
           totalRows={NHFront}
           stitchCount={SFrontO + leftCellCount + rightCellCount}
+          onStop={() =>
+            introState.setChartStoppedRow(
+              RAGLAN_CHART_IDS.frontO,
+              highlightedRow + 1,
+              SFrontO + leftCellCount + rightCellCount,
+            )
+          }
           onPreviousRow={highlightPreviousRow}
           onNextRow={highlightNextRow}
         />

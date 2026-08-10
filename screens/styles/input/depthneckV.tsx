@@ -30,6 +30,7 @@ const DepthNeckV = () => {
     stitchDensity: introState.stitchDensity,
     rowDensity: introState.rowDensity,
     fitType: introState.fitType,
+    garmentFitFor: introState.garmentFitFor,
     ribbingWidth: introState.ribbingWidth,
     ribbingWidthV: introState.ribbingWidthV,
     raglanLineWidth: introState.raglanLineWidth,
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20,
     textAlign: 'center',
   },
   image: {

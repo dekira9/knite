@@ -24,8 +24,8 @@ export default function WelcomeScreen() {
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>Welcome to Knitting Calculator</Text>
-      <Text style={styles.subtitle}>Your personal assistant in knitting calculations</Text>
+      <Text style={styles.title}>Welcome to Raglan Planner</Text>
+      <Text style={styles.subtitle}>Your personal assistant for knitting plans</Text>
       
       <TouchableOpacity 
         style={styles.button}

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Raglan Calculator",
+    "name": "Raglan Planner",
     "slug": "knite",
     "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/images/iconKnitting.png",
+    "icon": "./assets/images/icLogo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "ios": {

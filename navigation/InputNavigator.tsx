@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { observer } from 'mobx-react-lite';
 import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import IntroProgress from '@/components/IntroProgress';
+import introState from '@/state/introState';
 
 // Import all input screens
 import InputIndexScreen from '@/screens/styles/input/index';
@@ -25,9 +27,44 @@ import i18n from '@/utils/translations';
 const Stack = createStackNavigator();
 const HEADER_BG = '#f5f5f5';
 
-const CustomHeader = ({ navigation, route, options }: any) => {
+const INPUT_ROUTE_TITLE_KEYS: Record<string, string> = {
+  Index: 'chooseStyle',
+  Head: 'headCircumference',
+  Neck: 'neckCircumference',
+  Chest: 'chestCircumference',
+  StitchDensity: 'stitchDensity',
+  RowDensity: 'rowDensity',
+  RibbingWidth: 'ribbingWidth',
+  RibbingWidthV: 'ribbingWidth',
+  Fit: 'fitType',
+  DepthNeckV: 'depthNeck',
+  LineraglanWidth: 'RaglanLineWidth',
+  LineraglanV: 'RaglanLineWidth',
+};
+
+const CustomHeader = observer(({ navigation, route, options }: any) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
+  const titleKey = INPUT_ROUTE_TITLE_KEYS[route?.name];
+  const title = titleKey ? i18n.t(titleKey) : options.title || route.name;
+
+  const handleBack = () => {
+    if (route?.name === 'Head') {
+      const returnTo =
+        (route.params as { returnTo?: string } | undefined)?.returnTo ??
+        'ChooseStyle';
+      if (returnTo === 'ChooseStyle') {
+        introState.setAwaitingStyleChoice(true);
+        introState.setStyleChoiceMode('custom');
+      } else {
+        introState.setAwaitingStyleChoice(false);
+        introState.setStyleChoiceMode(null);
+      }
+      navigation.getParent?.()?.navigate(returnTo);
+      return;
+    }
+    navigation.goBack();
+  };
 
   return (
     <View 
@@ -42,7 +79,7 @@ const CustomHeader = ({ navigation, route, options }: any) => {
     >
       {navigation.canGoBack() && (
         <TouchableOpacity 
-          onPress={navigation.goBack}
+          onPress={handleBack}
           style={{
             height: 40,
             width: 40,
@@ -66,14 +103,16 @@ const CustomHeader = ({ navigation, route, options }: any) => {
           marginRight: navigation.canGoBack() ? 40 : 0,
         }}
       >
-        {options.title || route.name}
+        {title}
       </Text>
     </View>
   );
-};
+});
 
-export default function InputNavigator() {
+export default observer(function InputNavigator() {
   const [activeRouteName, setActiveRouteName] = useState<string>('Index');
+  // Keep header titles in sync with locale.
+  void i18n.t('chooseStyle');
 
   return (
     <View style={{ flex: 1, backgroundColor: HEADER_BG }}>
@@ -188,5 +227,5 @@ export default function InputNavigator() {
       </Stack.Navigator>
     </View>
   );
-}
+});
 

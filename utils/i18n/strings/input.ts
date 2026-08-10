@@ -20,6 +20,26 @@ export const headCircumference = {
   lt: "Galvos apimtis",
 };
 
+export const wizardStepOf = {
+  en: "Step %{current} of %{total}",
+  ru: "Шаг %{current} из %{total}",
+  sv: "Steg %{current} av %{total}",
+  no: "Steg %{current} av %{total}",
+  fi: "Vaihe %{current} / %{total}",
+  de: "Schritt %{current} von %{total}",
+  fr: "Étape %{current} sur %{total}",
+  es: "Paso %{current} de %{total}",
+  ja: "%{current} / %{total}",
+  cs: "Krok %{current} z %{total}",
+  bg: "Стъпка %{current} от %{total}",
+  sk: "Krok %{current} z %{total}",
+  ko: "%{current} / %{total}",
+  tr: "Adım %{current} / %{total}",
+  ar: "الخطوة %{current} من %{total}",
+  pt: "Passo %{current} de %{total}",
+  lt: "Žingsnis %{current} iš %{total}",
+};
+
 export const neckCircumference = {
   en: "Neck Circumference",
   ru: "Обхват шеи",
@@ -58,6 +78,26 @@ export const chestCircumference = {
   ar: "محيط الصدر",
   pt: "Circunferência do peito",
   lt: "Krūtinės apimtis",
+};
+
+export const finishedChestCircumference = {
+  en: "Finished garment chest circumference",
+  ru: "Обхват груди готового изделия",
+  sv: "Färdig bröstomkrets",
+  no: "Ferdig brystomkrets",
+  fi: "Valmiin neuleen rinnanympärys",
+  de: "Brustumfang des fertigen Teils",
+  fr: "Tour de poitrine du vêtement fini",
+  es: "Circunferencia del pecho de la prenda terminada",
+  ja: "完成品の胸囲",
+  cs: "Obvod hrudníku hotového výrobku",
+  bg: "Обиколка на гърдите на готовото изделие",
+  sk: "Obvod hrudníka hotového výrobku",
+  ko: "완성 제품 가슴 둘레",
+  tr: "Bitmiş ürün göğüs çevresi",
+  ar: "محيط صدر القطعة النهائية",
+  pt: "Circunferência do peito da peça pronta",
+  lt: "Gaminio krūtinės apimtis",
 };
 
 export const rowDensityCM = {
@@ -180,6 +220,66 @@ export const chooseFitType = {
   lt: "Pasirinkite pasformą",
 };
 
+export const garmentFitFor = {
+  en: "Garment for",
+  ru: "Изделие для",
+  sv: "Plagg för",
+  no: "Plagg for",
+  fi: "Neuleelle",
+  de: "Modell für",
+  fr: "Modèle pour",
+  es: "Prenda para",
+  ja: "対象",
+  cs: "Model pro",
+  bg: "Модел за",
+  sk: "Model pre",
+  ko: "대상",
+  tr: "Model için",
+  ar: "الملابس لـ",
+  pt: "Peça para",
+  lt: "Modelis",
+};
+
+export const garmentFitForWomen = {
+  en: "Women",
+  ru: "Женщин",
+  sv: "Dam",
+  no: "Dame",
+  fi: "Naiset",
+  de: "Damen",
+  fr: "Femme",
+  es: "Mujer",
+  ja: "女性",
+  cs: "Ženy",
+  bg: "Жени",
+  sk: "Ženy",
+  ko: "여성",
+  tr: "Kadın",
+  ar: "نساء",
+  pt: "Mulher",
+  lt: "Moterims",
+};
+
+export const garmentFitForMen = {
+  en: "Men",
+  ru: "Мужчин",
+  sv: "Herr",
+  no: "Herre",
+  fi: "Miehet",
+  de: "Herren",
+  fr: "Homme",
+  es: "Hombre",
+  ja: "男性",
+  cs: "Muži",
+  bg: "Мъже",
+  sk: "Muži",
+  ko: "남성",
+  tr: "Erkek",
+  ar: "رجال",
+  pt: "Homem",
+  lt: "Vyrams",
+};
+
 export const fitted = {
   en: "Fitted",
   ru: "Прилегающий",
@@ -198,6 +298,86 @@ export const fitted = {
   ar: "مناسب",
   pt: "Ajustado",
   lt: "Prisitaikantis",
+};
+
+export const fittedDescription = {
+  en: "Hugs the figure. Emphasizes the silhouette. Minimal ease.",
+  ru: "Облегает фигуру. Подчеркивает силуэт. Минимум свободы облегания.",
+  sv: "Följer figuren. Framhäver silhuetten. Minimal vidd.",
+  no: "Følger figuren. Fremhever silhuetten. Minimal vidde.",
+  fi: "Myötäilee vartaloa. Korostaa siluettia. Minimaalinen väljyys.",
+  de: "Betont die Figur. Unterstreicht die Silhouette. Minimale Zugabe.",
+  fr: "Épouse la silhouette. Met en valeur la forme. Aisance minimale.",
+  es: "Abraza la figura. Remarca la silueta. Holgura mínima.",
+  ja: "体に沿う。シルエットを強調。ゆとりは最小限。",
+  cs: "Obepíná postavu. Zdůrazňuje siluetu. Minimální volnost.",
+  bg: "Прилепва към фигурата. Подчертава силуета. Минимална свобода.",
+  sk: "Obopína postavu. Zdôrazňuje siluetu. Minimálna voľnosť.",
+  ko: "몸에 밀착됩니다. 실루엣을 강조합니다. 여유분은 최소.",
+  tr: "Vücuda oturur. Silüeti vurgular. Minimum pay.",
+  ar: "يلتصق بالقوام. يبرز الخطوط. راحة قليلة جدًا.",
+  pt: "Ajusta-se à figura. Destaca a silhueta. Folga mínima.",
+  lt: "Priglunda prie figūros. Pabrėžia siluetą. Minimalus laisvumas.",
+};
+
+export const fittedBullet1 = {
+  en: "hugs the body",
+  ru: "облегает",
+  sv: "följer kroppen",
+  no: "følger kroppen",
+  fi: "myötäilee vartaloa",
+  de: "liegt eng am Körper",
+  fr: "épouse le corps",
+  es: "abraza el cuerpo",
+  ja: "体に沿う",
+  cs: "obepíná tělo",
+  bg: "прилепва",
+  sk: "obopína telo",
+  ko: "몸에 밀착",
+  tr: "vücuda oturur",
+  ar: "يلتصق بالجسم",
+  pt: "ajusta-se ao corpo",
+  lt: "priglunda",
+};
+
+export const fittedBullet2 = {
+  en: "minimal ease",
+  ru: "минимальная свобода",
+  sv: "minimal vidd",
+  no: "minimal vidde",
+  fi: "minimaalinen väljyys",
+  de: "minimale Zugabe",
+  fr: "aisance minimale",
+  es: "holgura mínima",
+  ja: "ゆとりは最小限",
+  cs: "minimální volnost",
+  bg: "минимална свобода",
+  sk: "minimálna voľnosť",
+  ko: "최소 여유분",
+  tr: "minimum pay",
+  ar: "راحة قليلة",
+  pt: "folga mínima",
+  lt: "minimalus laisvumas",
+};
+
+export const fittedBullet3 = {
+  en: "emphasizes the figure",
+  ru: "подчеркивает фигуру",
+  sv: "framhäver figuren",
+  no: "fremhever figuren",
+  fi: "korostaa vartaloa",
+  de: "betont die Figur",
+  fr: "met en valeur la silhouette",
+  es: "remarca la figura",
+  ja: "体型を強調",
+  cs: "zdůrazňuje postavu",
+  bg: "подчертава фигурата",
+  sk: "zdôrazňuje postavu",
+  ko: "체형을 강조",
+  tr: "vücudu vurgular",
+  ar: "يبرز القوام",
+  pt: "destaca a figura",
+  lt: "pabrėžia figūrą",
 };
 
 export const semiFitted = {
@@ -220,6 +400,66 @@ export const semiFitted = {
   lt: "Pusiaukraščiai prisitaikantis",
 };
 
+export const semiFittedDescription = {
+  en: "Doesn't cling.\nA little ease.",
+  ru: "не обтягивает.\nнебольшая свобода облегания",
+  sv: "Sitter inte åt.\nLite vidd.",
+  no: "Sitter ikke stramt.\nLitt vidde.",
+  fi: "Ei kireä.\nHieman väljyyttä.",
+  de: "Nicht eng anliegend.\nEtwas Zugabe.",
+  fr: "Ne serre pas.\nUn peu d'aisance.",
+  es: "No aprieta.\nUn poco de holgura.",
+  ja: "密着しない。\n少しゆとりあり。",
+  cs: "Neobepíná těsně.\nTrochu volnosti.",
+  bg: "Не прилепва плътно.\nМалка свобода.",
+  sk: "Neobopína tesne.\nTrochu voľnosti.",
+  ko: "몸에 딱 붙지 않음.\n약간의 여유.",
+  tr: "Sıkı oturmaz.\nBiraz pay.",
+  ar: "لا يلتصق.\nقليل من الراحة.",
+  pt: "Não aperta.\nUm pouco de folga.",
+  lt: "Nestipriai priglunda.\nŠiek tiek laisvumo.",
+};
+
+export const semiFittedLine1 = {
+  en: "doesn't cling",
+  ru: "не обтягивает",
+  sv: "sitter inte åt",
+  no: "sitter ikke stramt",
+  fi: "ei kireä",
+  de: "nicht eng anliegend",
+  fr: "ne serre pas",
+  es: "no aprieta",
+  ja: "密着しない",
+  cs: "neobepíná těsně",
+  bg: "не прилепва плътно",
+  sk: "neobopína tesne",
+  ko: "몸에 딱 붙지 않음",
+  tr: "sıkı oturmaz",
+  ar: "لا يلتصق",
+  pt: "não aperta",
+  lt: "nestipriai priglunda",
+};
+
+export const semiFittedLine2 = {
+  en: "a little ease",
+  ru: "небольшая свобода облегания",
+  sv: "lite vidd",
+  no: "litt vidde",
+  fi: "hieman väljyyttä",
+  de: "etwas Zugabe",
+  fr: "un peu d'aisance",
+  es: "un poco de holgura",
+  ja: "少しゆとり",
+  cs: "trochu volnosti",
+  bg: "малка свобода",
+  sk: "trochu voľnosti",
+  ko: "약간의 여유",
+  tr: "biraz pay",
+  ar: "قليل من الراحة",
+  pt: "um pouco de folga",
+  lt: "šiek tiek laisvumo",
+};
+
 export const loose = {
   en: "Loose",
   ru: "Свободный",
@@ -240,6 +480,66 @@ export const loose = {
   lt: "Laisvas",
 };
 
+export const looseDescription = {
+  en: "Loose fit. More room in the chest, waist, and hips. Comfort and freedom of movement.",
+  ru: "Свободная посадка. Больше пространства в груди, талии и бедрах. Комфорт и свобода движений.",
+  sv: "Lös passform. Mer utrymme över bröst, midja och höfter. Bekvämt med rörelsefrihet.",
+  no: "Løs passform. Mer plass over bryst, midje og hofter. Komfort og bevegelsesfrihet.",
+  fi: "Löysä istuvuus. Enemmän tilaa rinnassa, vyötäröllä ja lantiolla. Mukavuutta ja liikkumavaraa.",
+  de: "Lockere Passform. Mehr Raum an Brust, Taille und Hüfte. Komfort und Bewegungsfreiheit.",
+  fr: "Coupe ample. Plus d'aisance à la poitrine, à la taille et aux hanches. Confort et liberté de mouvement.",
+  es: "Corte holgado. Más espacio en pecho, cintura y caderas. Comodidad y libertad de movimiento.",
+  ja: "ゆったりめ。胸・ウエスト・ヒップに余裕。動きやすく快適。",
+  cs: "Volný střih. Více prostoru na hrudi, v pase a přes boky. Pohodlí a volnost pohybu.",
+  bg: "Свободна кройка. Повече място в гърдите, талията и ханша. Комфорт и свобода на движение.",
+  sk: "Voľný strih. Viac priestoru na hrudi, v páse a cez boky. Pohodlie a voľnosť pohybu.",
+  ko: "넉넉한 핏. 가슴·허리·엉덩이에 여유. 편안하고 움직임이 자유로움.",
+  tr: "Bol kesim. Göğüs, bel ve kalçada daha fazla pay. Konfor ve hareket özgürlüğü.",
+  ar: "قصة فضفاضة. مساحة أكبر في الصدر والخصر والوركين. راحة وحرية حركة.",
+  pt: "Caimento folgado. Mais espaço no peito, cintura e ancas. Conforto e liberdade de movimento.",
+  lt: "Laisvas kirpimas. Daugiau erdvės krūtinėje, juosmenyje ir klubų srityje. Komfortas ir judėjimo laisvė.",
+};
+
+export const looseLine1 = {
+  en: "more room in the chest",
+  ru: "больше пространства в груди",
+  sv: "mer utrymme över bröstet",
+  no: "mer plass over brystet",
+  fi: "enemmän tilaa rinnassa",
+  de: "mehr Raum an der Brust",
+  fr: "plus d'aisance à la poitrine",
+  es: "más espacio en el pecho",
+  ja: "胸まわりに余裕",
+  cs: "více prostoru na hrudi",
+  bg: "повече място в гърдите",
+  sk: "viac priestoru na hrudi",
+  ko: "가슴에 더 여유",
+  tr: "göğüste daha fazla pay",
+  ar: "مساحة أكبر في الصدر",
+  pt: "mais espaço no peito",
+  lt: "daugiau erdvės krūtinėje",
+};
+
+export const looseLine2 = {
+  en: "ease without extra bulk",
+  ru: "свобода без лишнего объема",
+  sv: "vidd utan onödig volym",
+  no: "vidde uten ekstra volum",
+  fi: "väljyys ilman ylimääräistä runsautta",
+  de: "Zugabe ohne unnötige Fülle",
+  fr: "aisance sans volume excessif",
+  es: "holgura sin volumen extra",
+  ja: "余分な膨らみのないゆとり",
+  cs: "volnost bez zbytečného objemu",
+  bg: "свобода без излишен обем",
+  sk: "voľnosť bez zbytočného objemu",
+  ko: "불필요한 부피 없는 여유",
+  tr: "fazla hacim olmadan pay",
+  ar: "راحة دون حجم زائد",
+  pt: "folga sem volume a mais",
+  lt: "laisvumas be pertekliaus",
+};
+
 export const oversized = {
   en: "Oversized",
   ru: "Слишком свободный",
@@ -258,6 +558,66 @@ export const oversized = {
   ar: "كبير جدا",
   pt: "Muito grande",
   lt: "Perdaugai",
+};
+
+export const oversizedDescription = {
+  en: "Maximum ease. Wide silhouette, oversized style.",
+  ru: "Максимально свободная посадка. Широкий силуэт. Стиль оверсайз.",
+  sv: "Maximal vidd. Bred silhuett, oversized stil.",
+  no: "Maksimal vidde. Bred silhuett, oversized stil.",
+  fi: "Maksimaalinen väljyys. Leveä siluetti, oversized-tyyli.",
+  de: "Maximale Zugabe. Weite Silhouette, Oversized-Stil.",
+  fr: "Aisance maximale. Silhouette large, style oversize.",
+  es: "Holgura máxima. Silueta ancha, estilo oversized.",
+  ja: "最大限のゆとり。ワイドなシルエット、オーバーサイズスタイル。",
+  cs: "Maximální volnost. Široká silueta, styl oversized.",
+  bg: "Максимална свобода. Широк силует, стил овърсайз.",
+  sk: "Maximálna voľnosť. Široká silueta, štýl oversized.",
+  ko: "최대 여유. 넓은 실루엣, 오버사이즈 스타일.",
+  tr: "Maksimum pay. Geniş silüet, oversized stil.",
+  ar: "أقصى راحة. قوام واسع، أسلوب أوفرسايز.",
+  pt: "Folga máxima. Silhueta larga, estilo oversized.",
+  lt: "Maksimalus laisvumas. Platus siluetas, oversize stilius.",
+};
+
+export const oversizedLine1 = {
+  en: "wide silhouette",
+  ru: "широкий силуэт",
+  sv: "bred silhuett",
+  no: "bred silhuett",
+  fi: "leveä siluetti",
+  de: "weite Silhouette",
+  fr: "silhouette large",
+  es: "silueta ancha",
+  ja: "ワイドなシルエット",
+  cs: "široká silueta",
+  bg: "широк силует",
+  sk: "široká silueta",
+  ko: "넓은 실루엣",
+  tr: "geniş silüet",
+  ar: "قوام واسع",
+  pt: "silhueta larga",
+  lt: "platūs siluetas",
+};
+
+export const oversizedLine2 = {
+  en: "intentional volume",
+  ru: "нарочитый объем",
+  sv: "medveten volym",
+  no: "bevisst volum",
+  fi: "tarkoituksellinen runsaus",
+  de: "bewusste Fülle",
+  fr: "volume voulu",
+  es: "volumen intencional",
+  ja: "意図的なボリューム",
+  cs: "záměrný objem",
+  bg: "нарочен обем",
+  sk: "zámerčný objem",
+  ko: "의도된 볼륨",
+  tr: "bilinçli hacim",
+  ar: "حجم مقصود",
+  pt: "volume intencional",
+  lt: "tyčinis tūris",
 };
 
 export const mainMeasurements = {
@@ -500,3 +860,4 @@ export const collarWidth = {
   pt: "Largura da gola",
   lt: "Apykaklės plotis",
 };
+

@@ -4,12 +4,14 @@ import { SAMPLE_MEASUREMENTS } from '@/constants/samplePresets';
 export const INTRO_STATE_PERSISTED_KEYS = [
   'styleChosen',
   'style',
+  'projectName',
   'headCircumference',
   'neckCircumference',
   'chestCircumference',
   'stitchDensity',
   'rowDensity',
   'fitType',
+  'garmentFitFor',
   'Sgor',
   'SgorV',
   'NRrez',
@@ -143,6 +145,11 @@ export const INTRO_STATE_PERSISTED_KEYS = [
   'usesSampleMeasurements',
   'hasCustomMeasurements',
   'chartHighlightedRows',
+  'chartStoppedRows',
+  'chartStoppedStitches',
+  'lastChartStoppedId',
+  'lastChartStoppedRow',
+  'lastChartStoppedStitches',
 ] as const;
 
 export type IntroStatePersistedKey = (typeof INTRO_STATE_PERSISTED_KEYS)[number];

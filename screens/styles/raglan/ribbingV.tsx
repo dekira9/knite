@@ -7,7 +7,10 @@ import i18n from '@/utils/translations';
 
 import { computeStitchMetrics } from '@/utils/stitchMetrics';
 import { computeRibbingVCellCounts, selectVNeckCollarIncreases } from './ribbingVCollarGrid';
+import { RAGLAN_CHART_IDS } from './chartIds';
 import { RaglanChartRowToolbar } from './RaglanChartRowToolbar';
+import { VCollarIncreaseGuide } from './VCollarIncreaseGuide';
+import { raglanChartPageStyles } from './raglanChartPageStyles';
 
 const { heightPer25RowsCm: Hc, widthPer25StitchesCm: Lc } = computeStitchMetrics(
   introState.stitchDensity,
@@ -34,6 +37,13 @@ const App = observer(() => {
   };
 
   const currentRowStitches = computeRibbingVCellCounts(highlightedRow, collarIncreaseInput);
+  const stopStitchCount =
+    KV * 4 +
+    SFrontV +
+    2 * SaV +
+    2 * (typeof currentRowStitches === 'number' ? currentRowStitches : 0);
+  /** Displayed 1-based row; cast-on highlight (-1) maps to row 1 for stop bookmarks. */
+  const stopRowNumber = highlightedRow < 0 ? 1 : highlightedRow + 1;
 
   const LeftSleeveTransform = [
   { translateY:-(KV * Lc) * Math.sin(angleInRadians) },
@@ -388,7 +398,7 @@ const App = observer(() => {
 }
 
   return (
-    <View style={styles.pageContainer}>
+    <View style={[styles.pageContainer, raglanChartPageStyles.page]}>
       <View style={styles.scrollContainer}>
         <ScrollView
           style={styles.scrollView}
@@ -404,6 +414,7 @@ const App = observer(() => {
        <Text style={styles.resultText}> {i18n.t('collar') || 'collar'} </Text>
       </View>
       </View>
+          <VCollarIncreaseGuide />
           <View style={[styles.contentContainer, { paddingTop: 20 }]}>
             <ScrollView
               horizontal
@@ -466,9 +477,16 @@ const App = observer(() => {
       </View>
       <RaglanChartRowToolbar
         variant="slim"
-        currentRow={highlightedRow}
+        currentRow={Math.max(highlightedRow, 0)}
         totalRows={NRrezV}
-        stitchCount={KV * 4 + SFrontV + 2 * SaV + 2 * (currentRowStitches as number)}
+        stitchCount={stopStitchCount}
+        onStop={() =>
+          introState.setChartStoppedRow(
+            RAGLAN_CHART_IDS.ribbingV,
+            stopRowNumber,
+            stopStitchCount,
+          )
+        }
         onPreviousRow={highlightPreviousRow}
         onNextRow={highlightNextRow}
       />

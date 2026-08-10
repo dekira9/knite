@@ -56,8 +56,7 @@ export const resultTypography = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     color: RESULT_COLORS.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
+    letterSpacing: 0.2,
   },
   legendLabel: {
     fontSize: 11,

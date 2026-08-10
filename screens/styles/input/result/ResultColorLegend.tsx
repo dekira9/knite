@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Colors } from '@/constants/Colors';
 import ResultHelpModal from './ResultHelpModal';
@@ -13,6 +14,8 @@ import { resultTypography } from './resultSharedStyles';
 
 type Props = {
   variant: 'regular' | 'v-neck';
+  /** When true, always show legend body (used inside Params/Legend switcher). */
+  embedded?: boolean;
 };
 
 function LegendSwatch({ item }: { item: ResultLegendItem }) {
@@ -30,7 +33,7 @@ function LegendSwatch({ item }: { item: ResultLegendItem }) {
   );
 }
 
-export default function ResultColorLegend({ variant }: Props) {
+export default observer(function ResultColorLegend({ variant, embedded = false }: Props) {
   const items = getResultLegendItems(variant);
   const [helpItem, setHelpItem] = useState<ResultLegendItem | null>(null);
   const [generalHelpVisible, setGeneralHelpVisible] = useState(false);
@@ -42,9 +45,13 @@ export default function ResultColorLegend({ variant }: Props) {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, embedded && styles.wrapperEmbedded]}>
       <View style={styles.headerRow}>
-        <Text style={resultTypography.legendTitle}>{i18n.t('resultLegendTitle')}</Text>
+        {!embedded ? (
+          <Text style={resultTypography.legendTitle}>{i18n.t('resultLegendTitle')}</Text>
+        ) : (
+          <View style={styles.headerSpacer} />
+        )}
         <TouchableOpacity
           onPress={() => setGeneralHelpVisible(true)}
           hitSlop={8}
@@ -59,31 +66,24 @@ export default function ResultColorLegend({ variant }: Props) {
       <View style={styles.legendGrid}>
         {items.map((item) => {
           const hasHelp = Boolean(item.helpTitleKey && item.helpBodyKey);
-          const content = (
-            <>
-              <LegendSwatch item={item} />
-              <Text style={resultTypography.legendLabel} numberOfLines={2}>
-                {i18n.t(item.labelKey)}
-              </Text>
-            </>
-          );
-
-          if (hasHelp) {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.chip}
-                onPress={() => openItemHelp(item)}
-                activeOpacity={0.7}
-              >
-                {content}
-              </TouchableOpacity>
-            );
-          }
 
           return (
-            <View key={item.id} style={styles.chip}>
-              {content}
+            <View key={item.id} style={styles.legendItem}>
+              <LegendSwatch item={item} />
+              <Text style={[resultTypography.legendLabel, styles.legendLabel]}>
+                {i18n.t(item.labelKey)}
+              </Text>
+              {hasHelp ? (
+                <TouchableOpacity
+                  onPress={() => openItemHelp(item)}
+                  hitSlop={8}
+                  style={styles.infoButton}
+                  accessibilityRole="button"
+                  accessibilityLabel={i18n.t(item.helpTitleKey!)}
+                >
+                  <Text style={styles.infoButtonText}>ⓘ</Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
           );
         })}
@@ -106,7 +106,7 @@ export default function ResultColorLegend({ variant }: Props) {
       ) : null}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -117,11 +117,21 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#E5E7EB',
   },
+  wrapperEmbedded: {
+    marginBottom: 0,
+    backgroundColor: '#F4EFEC',
+    borderRadius: 20,
+    borderWidth: 0,
+  },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    gap: 8,
+    marginBottom: 10,
+  },
+  headerSpacer: {
+    flex: 1,
   },
   helpButton: {
     width: 22,
@@ -141,25 +151,37 @@ const styles = StyleSheet.create({
   legendGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    justifyContent: 'space-between',
+    rowGap: 10,
   },
-  chip: {
+  legendItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    maxWidth: '48%',
-    flexGrow: 1,
-    flexBasis: '45%',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#E5E7EB',
+    alignItems: 'flex-start',
+    width: '48%',
+    paddingVertical: 2,
+    paddingRight: 4,
+  },
+  legendLabel: {
+    flex: 1,
+    flexShrink: 1,
+    minWidth: 0,
+  },
+  infoButton: {
+    flexShrink: 0,
+    marginLeft: 4,
+    alignSelf: 'flex-end',
+  },
+  infoButtonText: {
+    fontSize: 13,
+    color: Colors.light.tint,
+    lineHeight: 14,
   },
   swatch: {
     width: 14,
     height: 14,
     borderWidth: 1,
     marginRight: 6,
+    marginTop: 1,
+    flexShrink: 0,
   },
 });

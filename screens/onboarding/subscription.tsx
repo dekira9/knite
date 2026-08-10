@@ -7,10 +7,17 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
+import i18n from '@/utils/translations';
+
+const PREMIUM_FEATURE_KEYS = [
+  'premiumFeatureCalculations',
+  'premiumFeaturePatterns',
+  'premiumFeatureAdFree',
+  'premiumFeatureSupport',
+] as const;
 
 const SubscriptionScreen = observer(() => {
   const navigation = useNavigation();
-  const isRussian = onboardingState.language === 'ru';
 
   const handleSubscribe = () => {
     onboardingState.setSubscription(true);
@@ -31,40 +38,24 @@ const SubscriptionScreen = observer(() => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>
-        {isRussian ? 'Премиум доступ' : 'Premium Access'}
-      </Text>
+      <Text style={styles.title}>{i18n.t('premiumAccess')}</Text>
 
       <View style={styles.featuresContainer}>
-        {(isRussian ? [
-          '✓ Расширенные расчеты',
-          '✓ Сохранение схем',
-          '✓ Без рекламы',
-          '✓ Приоритетная поддержка',
-        ] : [
-          '✓ Advanced calculations',
-          '✓ Pattern storage',
-          '✓ Ad-free experience',
-          '✓ Priority support',
-        ]).map((feature, index) => (
-          <Text key={index} style={styles.featureText}>{feature}</Text>
+        {PREMIUM_FEATURE_KEYS.map((key) => (
+          <Text key={key} style={styles.featureText}>
+            ✓ {i18n.t(key)}
+          </Text>
         ))}
       </View>
 
-      <Text style={styles.priceText}>
-        {isRussian ? '499₽/месяц' : '$4.99/month'}
-      </Text>
+      <Text style={styles.priceText}>{i18n.t('premiumPrice')}</Text>
 
       <TouchableOpacity style={styles.subscribeButton} onPress={handleSubscribe}>
-        <Text style={styles.subscribeButtonText}>
-          {isRussian ? 'Подписаться' : 'Subscribe'}
-        </Text>
+        <Text style={styles.subscribeButtonText}>{i18n.t('subscribe')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={styles.skipButtonText}>
-          {isRussian ? 'Продолжить бесплатно' : 'Continue with Free Version'}
-        </Text>
+        <Text style={styles.skipButtonText}>{i18n.t('continueFree')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -120,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SubscriptionScreen; 
+export default SubscriptionScreen;

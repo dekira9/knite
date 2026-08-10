@@ -11,6 +11,11 @@ export function computeFitCm(fitType: string, stitches: number): number {
   }
 }
 
+/** Extra cm added to armhole depth for men's garments. */
+export function armholeEaseExtraCm(garmentFitFor?: string | null): number {
+  return garmentFitFor === 'men' ? 3 : 0;
+}
+
 export function computeBodyBlock(chest: number, fit: number, stitches: number) {
   const SFit = Math.round(fit * stitches / 2) * 2;
   const SOgr = Math.round(chest * stitches / 2) * 2;

@@ -2,78 +2,51 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import * as Localization from 'expo-localization';
 import onboardingState from '@/state/onboardingState';
-import i18n, {updateLocale} from '@/utils/translations';
+import i18n, { updateLocale } from '@/utils/translations';
 import { Dimensions } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { SUPPORTED_LANGUAGES } from '@/utils/i18n/supportedLanguages';
 
 const windowWidth = Dimensions.get('window').width;
-
-const languages = [
-  { code: 'en', name: 'English', nativeName: 'English' },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-  { code: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-  { code: 'no', name: 'Norwegian', nativeName: 'Norsk' },
-  { code: 'fi', name: 'Finnish', nativeName: 'Suomi' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch' },
-  { code: 'fr', name: 'French', nativeName: 'Français' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español' },
-  { code: 'ja', name: 'Japanese', nativeName: '日本語' },
-  { code: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
-  { code: 'sk', name: 'Slovak', nativeName: 'Slovenčina' },
-  { code: 'ko', name: 'Korean', nativeName: '한국어' },
-  { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
-  { code: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
-];
 
 const LanguageScreen = observer(() => {
   const navigation = useNavigation();
   const route = useRoute();
-  const from = route.params?.from;
+  const from = (route.params as { from?: string } | undefined)?.from;
+  const currentLanguage = onboardingState.language;
 
   const selectLanguage = (langCode: string) => {
     onboardingState.setLanguage(langCode);
     updateLocale(langCode);
-    
+
     if (from === 'settings') {
       navigation.goBack();
     } else {
-      navigation.navigate('Measurement');
-      // handleSkip();
+      (navigation as any).navigate('Measurement');
     }
   };
-
-  const handleSkip = () => {
-    onboardingState.completeOnboarding();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Main' }],
-    });
-  };
-
-  const deviceLanguage = Localization.getLocales()[0].languageCode;
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer} style={{ backgroundColor: '#fff' }}>
       <View style={styles.container}>
-        {/* <Text style={styles.title}>{i18n.t('onboardingLanguage')}</Text> */}
-        <Text style={styles.title}>Choose language</Text>
-        
-        {languages.map((lang) => (
-          <TouchableOpacity
-            key={lang.code}
-            style={styles.languageButton}
-            onPress={() => selectLanguage(lang.code)}
-          >
-            <Text style={styles.languageName}>{lang.nativeName}</Text>
+        <Text style={styles.title}>{i18n.t('onboardingLanguage')}</Text>
 
-            <Text style={styles.languageNameTranslation}>{lang.name}</Text>
-
-          </TouchableOpacity>
-        ))}
+        {SUPPORTED_LANGUAGES.map((lang) => {
+          const selected = currentLanguage === lang.code;
+          return (
+            <TouchableOpacity
+              key={lang.code}
+              style={[styles.languageButton, selected && styles.languageButtonSelected]}
+              onPress={() => selectLanguage(lang.code)}
+            >
+              <Text style={[styles.languageName, selected && styles.languageNameSelected]}>
+                {lang.nativeName}
+              </Text>
+              <Text style={styles.languageNameTranslation}>{lang.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -98,11 +71,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
-  subtitle: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 40,
-  },
   languageButton: {
     backgroundColor: '#f0f0f0',
     width: windowWidth * 0.7,
@@ -110,10 +78,19 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 15,
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  languageButtonSelected: {
+    borderColor: Colors.light.tint,
+    backgroundColor: '#e8f4f8',
   },
   languageName: {
     fontSize: 18,
     fontWeight: '600',
+  },
+  languageNameSelected: {
+    color: Colors.light.tint,
   },
   languageNameTranslation: {
     fontSize: 14,
@@ -122,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LanguageScreen; 
+export default LanguageScreen;

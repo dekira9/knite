@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import ResultStepTitle from './ResultStepTitle';
+import ResultStepExpandable from './ResultStepExpandable';
+import HorizontalScrollWithDots from './HorizontalScrollWithDots';
 import { resultTypography } from './resultSharedStyles';
 
 // Color constants (aligned with other steps)
@@ -30,7 +32,12 @@ const Step4SeparatingSleeves = observer(({
   return (
     <View style={styles.container}>
       <ResultStepTitle step={4} titleKey="separatingBodyAndSleeves" />
-      
+
+      <ResultStepExpandable
+        previewSource={require('@/assets/images/icon.png')}
+        accessibilityLabel={i18n.t('separatingBodyAndSleeves')}
+        imageAspectRatio={2980 / 1406}
+      >
       <View style={styles.resultCard}>
         <View style={styles.separatingHeader}>
           <Text style={styles.subtitle}>{i18n.t('separatingBodyAndSleeves')}</Text>
@@ -66,7 +73,7 @@ const Step4SeparatingSleeves = observer(({
         </View>
 
         <View style={styles.divider}></View>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+      <HorizontalScrollWithDots>
         <View style={styles.separatingLayout}>
           <View style={styles.stitchBox}>
             <Text style={styles.textinBox}>{i18n.t('back')}</Text>
@@ -141,8 +148,9 @@ const Step4SeparatingSleeves = observer(({
             
           </View>
         </View>
-      </ScrollView>
+      </HorizontalScrollWithDots>
       </View>
+      </ResultStepExpandable>
     </View>
   );
 });
