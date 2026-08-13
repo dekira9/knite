@@ -2,7 +2,7 @@
   "expo": {
     "name": "Raglan Planner",
     "slug": "knite",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icLogo.png",
     "scheme": "myapp",

@@ -7,29 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001A17749B639159DCFBC36A /* libPods-RaglanPlanner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA95C46B06D7C6FA4482E01D /* libPods-RaglanPlanner.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		193901EC3B37843D917DE6E1 /* libPods-RaglanCalculator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 417BD4A091273A6C52A28AF3 /* libPods-RaglanCalculator.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		AD5DF75FA9642FCD96A61568 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 147A9CC9463C68B64A3AD8C9 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E67D3909E88D1A8CC71FA2D8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B9C984FDEF8D619CDE7877 /* ExpoModulesProvider.swift */; };
+		BD8FBF73A3149677AD1B9B06 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8FC880E8709ED2882999EF /* ExpoModulesProvider.swift */; };
+		C42D399263D79A5B62A76FC4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7F8DA56796F9DF7F87040661 /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13B07F961A680F5B00A75B9A /* RaglanCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaglanCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RaglanCalculator/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RaglanCalculator/Info.plist; sourceTree = "<group>"; };
-		147A9CC9463C68B64A3AD8C9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = RaglanCalculator/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		417BD4A091273A6C52A28AF3 /* libPods-RaglanCalculator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RaglanCalculator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CA3D351C645D1EDEB6311AC /* Pods-RaglanCalculator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaglanCalculator.release.xcconfig"; path = "Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator.release.xcconfig"; sourceTree = "<group>"; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = RaglanCalculator/SplashScreen.storyboard; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* RaglanPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaglanPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RaglanPlanner/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RaglanPlanner/Info.plist; sourceTree = "<group>"; };
+		5E8FC880E8709ED2882999EF /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-RaglanPlanner/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		7C0510655AA4FDC2DD0B480B /* Pods-RaglanPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaglanPlanner.release.xcconfig"; path = "Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner.release.xcconfig"; sourceTree = "<group>"; };
+		7F8DA56796F9DF7F87040661 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = RaglanPlanner/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		9EE95325998EFBA092A16146 /* Pods-RaglanPlanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaglanPlanner.debug.xcconfig"; path = "Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner.debug.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = RaglanPlanner/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E2B9C984FDEF8D619CDE7877 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-RaglanCalculator/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		EC8AD128981700F81AE1978A /* Pods-RaglanCalculator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaglanCalculator.debug.xcconfig"; path = "Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator.debug.xcconfig"; sourceTree = "<group>"; };
+		DA95C46B06D7C6FA4482E01D /* libPods-RaglanPlanner.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RaglanPlanner.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RaglanCalculator/AppDelegate.swift; sourceTree = "<group>"; };
-		F11748442D0722820044C1D9 /* RaglanCalculator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RaglanCalculator-Bridging-Header.h"; path = "RaglanCalculator/RaglanCalculator-Bridging-Header.h"; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RaglanPlanner/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* RaglanPlanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RaglanPlanner-Bridging-Header.h"; path = "RaglanPlanner/RaglanPlanner-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,44 +37,42 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				193901EC3B37843D917DE6E1 /* libPods-RaglanCalculator.a in Frameworks */,
+				001A17749B639159DCFBC36A /* libPods-RaglanPlanner.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* RaglanCalculator */ = {
+		13B07FAE1A68108700A75B9A /* RaglanPlanner */ = {
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
-				F11748442D0722820044C1D9 /* RaglanCalculator-Bridging-Header.h */,
+				F11748442D0722820044C1D9 /* RaglanPlanner-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				147A9CC9463C68B64A3AD8C9 /* PrivacyInfo.xcprivacy */,
+				7F8DA56796F9DF7F87040661 /* PrivacyInfo.xcprivacy */,
 			);
-			name = RaglanCalculator;
+			name = RaglanPlanner;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				417BD4A091273A6C52A28AF3 /* libPods-RaglanCalculator.a */,
+				DA95C46B06D7C6FA4482E01D /* libPods-RaglanPlanner.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7A7D524AF84F15CF2ABC79FB /* Pods */ = {
+		77130B631C94BB1747F509A1 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				EC8AD128981700F81AE1978A /* Pods-RaglanCalculator.debug.xcconfig */,
-				8CA3D351C645D1EDEB6311AC /* Pods-RaglanCalculator.release.xcconfig */,
+				AA93A6FAA8E887A6013905EC /* RaglanPlanner */,
 			);
-			name = Pods;
-			path = Pods;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -87,12 +85,12 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* RaglanCalculator */,
+				13B07FAE1A68108700A75B9A /* RaglanPlanner */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				7A7D524AF84F15CF2ABC79FB /* Pods */,
-				9BD162CBD29940D198777572 /* ExpoModulesProviders */,
+				A52E2397160667733C2EC058 /* Pods */,
+				77130B631C94BB1747F509A1 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -102,17 +100,27 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* RaglanCalculator.app */,
+				13B07F961A680F5B00A75B9A /* RaglanPlanner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9BD162CBD29940D198777572 /* ExpoModulesProviders */ = {
+		A52E2397160667733C2EC058 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D916F340ABD446374BF102FA /* RaglanCalculator */,
+				9EE95325998EFBA092A16146 /* Pods-RaglanPlanner.debug.xcconfig */,
+				7C0510655AA4FDC2DD0B480B /* Pods-RaglanPlanner.release.xcconfig */,
 			);
-			name = ExpoModulesProviders;
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		AA93A6FAA8E887A6013905EC /* RaglanPlanner */ = {
+			isa = PBXGroup;
+			children = (
+				5E8FC880E8709ED2882999EF /* ExpoModulesProvider.swift */,
+			);
+			name = RaglanPlanner;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -121,40 +129,32 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = RaglanCalculator/Supporting;
-			sourceTree = "<group>";
-		};
-		D916F340ABD446374BF102FA /* RaglanCalculator */ = {
-			isa = PBXGroup;
-			children = (
-				E2B9C984FDEF8D619CDE7877 /* ExpoModulesProvider.swift */,
-			);
-			name = RaglanCalculator;
+			path = RaglanPlanner/Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* RaglanCalculator */ = {
+		13B07F861A680F5B00A75B9A /* RaglanPlanner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RaglanCalculator" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RaglanPlanner" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				665D1BC79EBB6E5338B25051 /* [Expo] Configure project */,
+				D236CF276FB5D8F768B4811B /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				6B6A8D2A5A3445B5B43B41D0 /* [CP] Embed Pods Frameworks */,
+				B1062B0E0D058635F1A59D68 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = RaglanCalculator;
-			productName = RaglanCalculator;
-			productReference = 13B07F961A680F5B00A75B9A /* RaglanCalculator.app */;
+			name = RaglanPlanner;
+			productName = RaglanPlanner;
+			productReference = 13B07F961A680F5B00A75B9A /* RaglanPlanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +170,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RaglanCalculator" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RaglanPlanner" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -183,7 +183,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* RaglanCalculator */,
+				13B07F861A680F5B00A75B9A /* RaglanPlanner */,
 			);
 		};
 /* End PBXProject section */
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				AD5DF75FA9642FCD96A61568 /* PrivacyInfo.xcprivacy in Resources */,
+				C42D399263D79A5B62A76FC4 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,44 +235,54 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RaglanCalculator-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-RaglanPlanner-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		665D1BC79EBB6E5338B25051 /* [Expo] Configure project */ = {
+		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/RaglanCalculator/RaglanCalculator.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-RaglanCalculator/expo-configure-project.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
 			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-RaglanCalculator/ExpoModulesProvider.swift",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-RaglanCalculator/expo-configure-project.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
-		6B6A8D2A5A3445B5B43B41D0 /* [CP] Embed Pods Frameworks */ = {
+		B1062B0E0D058635F1A59D68 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem.framework/ExpoFileSystem",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ExpoFont/ExpoFont.framework/ExpoFont",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ExpoImage/ExpoImage.framework/ExpoImage",
@@ -307,42 +317,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaglanPlanner/Pods-RaglanPlanner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
+		D236CF276FB5D8F768B4811B /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+			inputFileListPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/RaglanPlanner/RaglanPlanner.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-RaglanPlanner/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-RaglanPlanner/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaglanCalculator/Pods-RaglanCalculator-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-RaglanPlanner/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -352,7 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				E67D3909E88D1A8CC71FA2D8 /* ExpoModulesProvider.swift in Sources */,
+				BD8FBF73A3149677AD1B9B06 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,18 +361,18 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC8AD128981700F81AE1978A /* Pods-RaglanCalculator.debug.xcconfig */;
+			baseConfigurationReference = 9EE95325998EFBA092A16146 /* Pods-RaglanPlanner.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = RaglanCalculator/RaglanCalculator.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RaglanPlanner/RaglanPlanner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = RaglanCalculator/Info.plist;
+				INFOPLIST_FILE = RaglanPlanner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -387,8 +387,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilyadylko.knitapp;
-				PRODUCT_NAME = RaglanCalculator;
-				SWIFT_OBJC_BRIDGING_HEADER = "RaglanCalculator/RaglanCalculator-Bridging-Header.h";
+				PRODUCT_NAME = RaglanPlanner;
+				SWIFT_OBJC_BRIDGING_HEADER = "RaglanPlanner/RaglanPlanner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -398,13 +398,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8CA3D351C645D1EDEB6311AC /* Pods-RaglanCalculator.release.xcconfig */;
+			baseConfigurationReference = 7C0510655AA4FDC2DD0B480B /* Pods-RaglanPlanner.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = RaglanCalculator/RaglanCalculator.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RaglanPlanner/RaglanPlanner.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = RaglanCalculator/Info.plist;
+				INFOPLIST_FILE = RaglanPlanner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -419,8 +419,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ilyadylko.knitapp;
-				PRODUCT_NAME = RaglanCalculator;
-				SWIFT_OBJC_BRIDGING_HEADER = "RaglanCalculator/RaglanCalculator-Bridging-Header.h";
+				PRODUCT_NAME = RaglanPlanner;
+				SWIFT_OBJC_BRIDGING_HEADER = "RaglanPlanner/RaglanPlanner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -564,7 +564,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RaglanCalculator" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RaglanPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -573,7 +573,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RaglanCalculator" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RaglanPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

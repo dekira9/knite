@@ -8,7 +8,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
@@ -21,11 +20,6 @@ const HOME_BG_TOP = '#F5F0ED';
 const HOME_BG_BOTTOM = '#F4F0ED';
 const HOME_GOLD = '#B8956A';
 const HOME_INK = '#2A2A2A';
-const HOME_HERO_ASPECT = 853 / 763;
-
-/** Approximate chrome below the hero (CTAs + features), excluding tab bar. */
-const HOME_BOTTOM_CHROME = 210;
-
 const HOME_FEATURES = [
   {
     key: 'calc',
@@ -47,22 +41,13 @@ const HOME_FEATURES = [
 export default observer(() => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-  const tabBarHeight = useBottomTabBarHeight();
+  const { height: windowHeight } = useWindowDimensions();
   const isCompact = windowHeight < 740;
   const [activeFeatureKey, setActiveFeatureKey] = React.useState<string | null>(
     null,
   );
 
   const topPad = insets.top + (isCompact ? 8 : 12);
-  const brandBlockApprox = isCompact ? 150 : 192;
-  const heroMaxHeight = Math.max(
-    180,
-    windowHeight - topPad - brandBlockApprox - HOME_BOTTOM_CHROME - tabBarHeight,
-  );
-  const heroFullWidthHeight = windowWidth / HOME_HERO_ASPECT;
-  const heroHeight = Math.min(heroFullWidthHeight, heroMaxHeight);
-  const heroWidth = heroHeight * HOME_HERO_ASPECT;
 
   const beginFlow = (mode: 'sample' | 'custom') => {
     introState.prepareStyleChoice(mode);
@@ -104,7 +89,7 @@ export default observer(() => {
 
         <Image
           source={require('@/assets/images/home1.svg')}
-          style={{ width: heroWidth, height: heroHeight }}
+          style={styles.heroImage}
           contentFit="contain"
         />
       </View>
@@ -223,6 +208,10 @@ const styles = StyleSheet.create({
   taglineCompact: {
     marginTop: 10,
     marginBottom: 10,
+  },
+  heroImage: {
+    width: '100%',
+    aspectRatio: 853 / 763,
   },
   featuresRow: {
     flexDirection: 'row',
