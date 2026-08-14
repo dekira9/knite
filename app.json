@@ -2,7 +2,7 @@
   "expo": {
     "name": "Raglan Planner",
     "slug": "knite",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icLogoRP1.png",
     "scheme": "myapp",
@@ -12,11 +12,12 @@
       "bundleIdentifier": "com.ilyadylko.knitapp"
     },
     "android": {
+      "package": "com.ilyadylko.knitapp",
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icLogoRP1.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.ilyadylko.knitapp"
+      }
     },
     "plugins": [
       [
