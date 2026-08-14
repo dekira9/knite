@@ -4,7 +4,7 @@
     "slug": "knite",
     "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/images/icLogo.png",
+    "icon": "./assets/images/icLogoRP1.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/android-adaptive-foreground.png",
+        "foregroundImage": "./assets/images/icLogoRP1.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.ilyadylko.knitapp"
@@ -22,7 +22,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/android-adaptive-foreground.png",
+          "image": "./assets/images/icLogoRP1.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
