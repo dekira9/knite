@@ -11,6 +11,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { computeRegularRaglanLineMaxFromMeasurements } from '@/utils/calculateRaglan';
 import { track, trackMeasurementStep } from '@/utils/analytics';
+import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
 
 const LineraglanWidth = () => {
   const colorScheme = useColorScheme();
@@ -25,27 +26,37 @@ const LineraglanWidth = () => {
   });
   const [sliderValue, setSliderValue] = useState(introState.raglanLineWidth.toString());
 
-  // Функция для обработки изменений в Slider
+  const parsedValue = parseInt(sliderValue, 10);
+  const clampedValue = Math.min(
+    Kmax,
+    Math.max(Kmin, Number.isFinite(parsedValue) ? parsedValue : Kmin),
+  );
+  const canContinue = sliderValue !== '' && /^\d+$/.test(sliderValue);
+
   const handleSliderChange = (value: number) => {
     setSliderValue(Math.round(value).toString());
   };
 
-  // Функция для обработки изменений в TextInput
+  // Only whole numbers 0…Kmax (no decimals, signs, or other chars).
   const handleTextInputChange = (value: string) => {
     if (value === '') {
-      setSliderValue(''); // Позволяем очистить поле ввода
+      setSliderValue('');
+      return;
+    }
+    if (!/^\d+$/.test(value)) {
+      return;
+    }
+    const numericValue = parseInt(value, 10);
+    if (numericValue > Kmax) {
+      setSliderValue(Kmax.toString());
     } else {
-      const numericValue = parseInt(value, 10);
-      if (!isNaN(numericValue) && numericValue >= Kmin && numericValue <= Kmax) {
-        setSliderValue(value);
-      } else {
-        setSliderValue(''); // Очищаем поле ввода, если значение некорректно
-      }
+      setSliderValue(String(numericValue));
     }
   };
 
   const handleNext = () => {
-    const nextValue = Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin));
+    if (!canContinue) return;
+    const nextValue = Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10)));
     introState.setRaglanLineWidth(nextValue);
     introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
@@ -55,25 +66,55 @@ const LineraglanWidth = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingScreen
+      contentContainerStyle={styles.container}
+      footerStyle={styles.footer}
+      footer={
+        <TouchableOpacity
+          style={[
+            styles.nextButton,
+            { backgroundColor: canContinue ? Colors[theme].tint : '#C6C6C6' },
+          ]}
+          onPress={handleNext}
+          disabled={!canContinue}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canContinue }}
+        >
+          <Text style={styles.buttonText}>{i18n.t('next')}</Text>
+        </TouchableOpacity>
+      }
+    >
       <Image
         source={require('@/assets/images/LineRaglOWidth.png')}
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('RaglanLineWidth')}</Text>
+      <Text style={styles.title}>{i18n.t('raglanLineStitchCount')}</Text>
       <View style={styles.inputContainer}>
-      <TouchableOpacity onPress={() => handleTextInputChange(((parseInt(sliderValue, 10) || Kmin) - 1).toString())}>
-        <Text style={styles.arrow}>-</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            handleTextInputChange(
+              (Math.max(Kmin, (parseInt(sliderValue, 10) || Kmin) - 1)).toString(),
+            )
+          }
+        >
+          <Text style={styles.arrow}>-</Text>
+        </TouchableOpacity>
         <TextInput
           style={styles.input}
           value={sliderValue}
-          keyboardType="numeric"
-          //placeholder="Введите значение"
-          onChangeText={handleTextInputChange}  
+          keyboardType="number-pad"
+          returnKeyType="done"
+          blurOnSubmit
+          onChangeText={handleTextInputChange}
         />
-        <TouchableOpacity onPress={() => handleTextInputChange(((parseInt(sliderValue, 10) || Kmin) + 1).toString())}>
+        <TouchableOpacity
+          onPress={() =>
+            handleTextInputChange(
+              (Math.min(Kmax, (parseInt(sliderValue, 10) || Kmin) + 1)).toString(),
+            )
+          }
+        >
           <Text style={styles.arrow}>+</Text>
         </TouchableOpacity>
         <Text style={styles.inputLabel}>{i18n.t('stitches')}</Text>
@@ -83,34 +124,28 @@ const LineraglanWidth = () => {
         minimumValue={Kmin}
         maximumValue={Kmax}
         step={1}
-        value={Math.min(Kmax, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin))}
+        value={clampedValue}
         onValueChange={handleSliderChange}
         minimumTrackTintColor="#000000"
-  maximumTrackTintColor="#CCCCCC"
-  thumbTintColor="#000000" // Эта строка определяет цвет бегунка
+        maximumTrackTintColor="#CCCCCC"
+        thumbTintColor="#000000"
       />
       <View style={styles.sliderLabels}>
-        <Text style={styles.labelText}>{Kmin} {i18n.t('stitches')}</Text>
-        <Text style={styles.labelText}>{Kmax} {i18n.t('stitches')}</Text>
+        <Text style={styles.labelText}>
+          {Kmin} {i18n.t('stitches')}
+        </Text>
+        <Text style={styles.labelText}>
+          {Kmax} {i18n.t('stitches')}
+        </Text>
       </View>
-      <TouchableOpacity
-        style={[
-          styles.nextButton,
-          { backgroundColor: Colors[theme].tint },
-        ]}
-        onPress={handleNext}
-      >
-        <Text style={styles.buttonText}>{i18n.t('next')}</Text>
-      </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingScreen>
   );
-}
+};
 
 export default observer(LineraglanWidth);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#fff',
@@ -140,7 +175,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 14,
-    color: '666',
+    color: '#666',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -148,7 +183,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -161,11 +195,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#E5E7EB',
+  },
   nextButton: {
+    alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,
-    marginTop: 30,
   },
   buttonText: {
     color: '#fff',

@@ -14,15 +14,21 @@ import {
 type Props = {
   children: React.ReactNode;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  /** Fixed below the scroll area; lifts with keyboard overlap padding. */
+  footer?: React.ReactNode;
+  footerStyle?: StyleProp<ViewStyle>;
 };
 
 /**
  * Lifts form content above the soft keyboard.
- * Docks content to the bottom; only pads when the window was NOT already resized.
+ * Optional footer stays pinned under the scroll view.
+ * Extra bottom pad only when the window was NOT already resized (Android).
  */
 export default function KeyboardAvoidingScreen({
   children,
   contentContainerStyle,
+  footer,
+  footerStyle,
 }: Props) {
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   /** Extra bottom inset only when keyboard overlays the window (not when Android already resized). */
@@ -53,6 +59,9 @@ export default function KeyboardAvoidingScreen({
     };
   }, []);
 
+  // With a pinned footer, keep scroll content top-aligned so the CTA stays visible.
+  const dockContent = keyboardOpen && !footer;
+
   return (
     <View style={[styles.flex, overlap > 0 ? { paddingBottom: overlap } : null]}>
       <ScrollView
@@ -60,7 +69,7 @@ export default function KeyboardAvoidingScreen({
         contentContainerStyle={[
           styles.content,
           contentContainerStyle,
-          keyboardOpen ? styles.contentKeyboardOpen : null,
+          dockContent ? styles.contentKeyboardOpen : null,
         ]}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -69,6 +78,7 @@ export default function KeyboardAvoidingScreen({
       >
         {children}
       </ScrollView>
+      {footer ? <View style={footerStyle}>{footer}</View> : null}
     </View>
   );
 }

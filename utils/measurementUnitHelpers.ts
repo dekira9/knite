@@ -1,5 +1,32 @@
 export const CM_PER_INCH = 2.54;
 
+/** Digits + at most one decimal separator; at most 1 digit after it. Strips -, letters, 2nd dot, etc. */
+export function sanitizeOneDecimalInput(raw: string): string {
+  const normalized = raw.replace(',', '.');
+  let out = '';
+  let seenDot = false;
+  let decimals = 0;
+  for (const ch of normalized) {
+    if (ch >= '0' && ch <= '9') {
+      if (seenDot) {
+        if (decimals >= 1) continue;
+        decimals += 1;
+      }
+      out += ch;
+    } else if (ch === '.' && !seenDot) {
+      seenDot = true;
+      out += ch;
+    }
+  }
+  return out;
+}
+
+export function isPositiveMeasurement(value: string): boolean {
+  if (!value || value === '.') return false;
+  const n = parseFloat(String(value).replace(',', '.'));
+  return Number.isFinite(n) && n > 0;
+}
+
 export function cmToIn(cm: string): string {
   const val = parseFloat(cm.replace(',', '.'));
   if (isNaN(val)) return '';

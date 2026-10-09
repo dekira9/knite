@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { trackMeasurementStep } from '@/utils/analytics';
+import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
@@ -31,6 +32,8 @@ const RibbingWidthV: React.FC = observer(() => {
     Math.min(LRezMaxV, Math.max(LRezMinV, Number(introState.ribbingWidthV) || LRezMinV)),
   );
   const [inchInput, setInchInput] = useState(cmToIn(localRibbingWidthV));
+
+  const canContinue = Number.isFinite(localRibbingWidthV) && localRibbingWidthV > 0;
 
   const updateFromCm = (cmValue: number) => {
     setLocalRibbingWidthV(cmValue);
@@ -60,25 +63,46 @@ const RibbingWidthV: React.FC = observer(() => {
   };
 
   const handleNext = () => {
+    if (!canContinue) return;
     introState.setRibbingWidthV(localRibbingWidthV.toString());
     trackMeasurementStep('ribbing_width', { style: 'v-neck' });
     (navigation as any).navigate('LineraglanV');
   };
 
   return (
-    <View style={styles.container}>
-      <Image 
+    <KeyboardAvoidingScreen
+      contentContainerStyle={styles.container}
+      footerStyle={styles.footer}
+      footer={
+        <TouchableOpacity
+          style={[
+            styles.nextButton,
+            { backgroundColor: canContinue ? Colors[theme].tint : '#C6C6C6' },
+          ]}
+          onPress={handleNext}
+          disabled={!canContinue}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canContinue }}
+        >
+          <Text style={styles.buttonText}>{i18n.t('next')}</Text>
+        </TouchableOpacity>
+      }
+    >
+      <Image
         source={require('@/assets/images/ribwidthV.svg')}
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('collarWidth')}</Text>
+      <Text style={styles.title}>{i18n.t('neckbandWidth')}</Text>
 
       {isMetric ? (
         <View style={styles.inputContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => {
-              const newValue = Math.max(LRezMinV, parseFloat((localRibbingWidthV - 0.1).toFixed(1)));
+              const newValue = Math.max(
+                LRezMinV,
+                parseFloat((localRibbingWidthV - 0.1).toFixed(1)),
+              );
               updateFromCm(newValue);
             }}
           >
@@ -89,11 +113,16 @@ const RibbingWidthV: React.FC = observer(() => {
             value={localRibbingWidthV.toFixed(1)}
             onChangeText={handleCmChange}
             keyboardType="numeric"
+            returnKeyType="done"
+            blurOnSubmit
             placeholder=""
           />
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => {
-              const newValue = Math.min(LRezMaxV, parseFloat((localRibbingWidthV + 0.1).toFixed(1)));
+              const newValue = Math.min(
+                LRezMaxV,
+                parseFloat((localRibbingWidthV + 0.1).toFixed(1)),
+              );
               updateFromCm(newValue);
             }}
           >
@@ -108,6 +137,8 @@ const RibbingWidthV: React.FC = observer(() => {
             value={inchInput}
             onChangeText={handleInchChange}
             keyboardType="numeric"
+            returnKeyType="done"
+            blurOnSubmit
             placeholder=""
           />
           <Text style={styles.inputLabel}>in</Text>
@@ -133,17 +164,7 @@ const RibbingWidthV: React.FC = observer(() => {
           {isMetric ? `${LRezMaxV.toFixed(1)} cm` : `${cmToIn(LRezMaxV)} in`}
         </Text>
       </View>
-
-      <TouchableOpacity
-        style={[
-          styles.nextButton,
-          { backgroundColor: Colors[theme].tint },
-        ]}
-        onPress={handleNext}
-      >
-        <Text style={styles.buttonText}>{i18n.t('next')}</Text>
-      </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingScreen>
   );
 });
 
@@ -151,7 +172,6 @@ export default RibbingWidthV;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -166,12 +186,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30,
     textAlign: 'center',
-  },
-  value: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
   },
   slider: {
     width: '100%',
@@ -212,15 +226,23 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     fontWeight: 'bold',
   },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#E5E7EB',
+  },
   nextButton: {
+    alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,
-    marginTop: 30,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '500',
   },
-}); 
+});

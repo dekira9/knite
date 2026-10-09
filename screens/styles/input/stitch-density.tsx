@@ -10,18 +10,23 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { trackMeasurementStep } from '@/utils/analytics';
 import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
+import {
+  isPositiveMeasurement,
+  sanitizeOneDecimalInput,
+} from '@/utils/measurementUnitHelpers';
+
 const INCH_PER_CM = 2.54;
 
 const per10cmToPer4in = (val: string): string => {
   const v = parseFloat(val.replace(',', '.'));
   if (isNaN(v)) return '';
-  return (v * 4 * INCH_PER_CM / 10).toFixed(1);
+  return ((v * 4 * INCH_PER_CM) / 10).toFixed(1);
 };
 
 const per4inToPer10cm = (val: string): string => {
   const v = parseFloat(val.replace(',', '.'));
   if (isNaN(v)) return '';
-  return (v * 10 / (4 * INCH_PER_CM)).toFixed(1);
+  return ((v * 10) / (4 * INCH_PER_CM)).toFixed(1);
 };
 
 export default observer(() => {
@@ -38,23 +43,25 @@ export default observer(() => {
     setInchValue(per10cmToPer4in(introState.stitchDensity));
   }, [introState.stitchDensity]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => inputRef.current?.focus(), 100);
-    return () => clearTimeout(timeoutId);
-  }, []);
+  const canContinue = isMetric
+    ? isPositiveMeasurement(localValue)
+    : isPositiveMeasurement(inchValue);
 
   const handleCmChange = (value: string) => {
-    setLocalValue(value);
-    setInchValue(per10cmToPer4in(value));
+    const sanitized = sanitizeOneDecimalInput(value);
+    setLocalValue(sanitized);
+    setInchValue(per10cmToPer4in(sanitized));
   };
 
   const handleInchChange = (value: string) => {
-    setInchValue(value);
-    const cm = per4inToPer10cm(value);
+    const sanitized = sanitizeOneDecimalInput(value);
+    setInchValue(sanitized);
+    const cm = per4inToPer10cm(sanitized);
     if (cm) setLocalValue(cm);
   };
 
   const handleNext = () => {
+    if (!canContinue) return;
     if (localValue.trim() !== '') {
       introState.setStitchDensity(localValue);
     }
@@ -63,53 +70,73 @@ export default observer(() => {
   };
 
   return (
-    <KeyboardAvoidingScreen contentContainerStyle={styles.container}>
-        <Image
-          source={isMetric ? require('@/assets/images/density.svg') : require('@/assets/images/density2Inch.svg')}
-          style={styles.image}
-          contentFit="contain"
-        />
-
-        <Text style={styles.title}>{isMetric ? i18n.t('stitchDensityCM') : i18n.t('stitchDensityIN')}</Text>
-
-        <View style={styles.rowContainer}>
-          {isMetric ? (
-            <View style={styles.fieldContainer}>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={styles.input}
-                  value={localValue}
-                  onChangeText={handleCmChange}
-                  keyboardType="numeric"
-                  placeholder=""
-                />
-                <Text style={styles.unit}>/ 10 cm</Text>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.fieldContainer}>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={styles.input}
-                  value={inchValue}
-                  onChangeText={handleInchChange}
-                  keyboardType="numeric"
-                  placeholder=""
-                />
-                <Text style={styles.unit}>/ 4 in</Text>
-              </View>
-            </View>
-          )}
-        </View>
-
+    <KeyboardAvoidingScreen
+      contentContainerStyle={styles.container}
+      footerStyle={styles.footer}
+      footer={
         <TouchableOpacity
-          style={[styles.nextButton, { backgroundColor: Colors[theme].tint }]}
+          style={[
+            styles.nextButton,
+            { backgroundColor: canContinue ? Colors[theme].tint : '#C6C6C6' },
+          ]}
           onPress={handleNext}
+          disabled={!canContinue}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canContinue }}
         >
           <Text style={styles.buttonText}>{i18n.t('next')}</Text>
         </TouchableOpacity>
+      }
+    >
+      <Image
+        source={
+          isMetric
+            ? require('@/assets/images/density.svg')
+            : require('@/assets/images/density2Inch.svg')
+        }
+        style={styles.image}
+        contentFit="contain"
+      />
+
+      <Text style={styles.title}>
+        {isMetric ? i18n.t('stitchDensityCM') : i18n.t('stitchDensityIN')}
+      </Text>
+
+      <View style={styles.rowContainer}>
+        {isMetric ? (
+          <View style={styles.fieldContainer}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                ref={inputRef}
+                style={styles.input}
+                value={localValue}
+                onChangeText={handleCmChange}
+                keyboardType="numeric"
+                returnKeyType="done"
+                blurOnSubmit
+                placeholder=""
+              />
+              <Text style={styles.unit}>/ 10 cm</Text>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.fieldContainer}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                ref={inputRef}
+                style={styles.input}
+                value={inchValue}
+                onChangeText={handleInchChange}
+                keyboardType="numeric"
+                returnKeyType="done"
+                blurOnSubmit
+                placeholder=""
+              />
+              <Text style={styles.unit}>/ 4 in</Text>
+            </View>
+          </View>
+        )}
+      </View>
     </KeyboardAvoidingScreen>
   );
 });
@@ -119,7 +146,8 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
-  },  image: {
+  },
+  image: {
     width: 200,
     height: 200,
     marginBottom: 20,
@@ -134,7 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     gap: 15,
-    marginBottom: 30,
+    marginBottom: 16,
   },
   fieldContainer: {
     alignItems: 'center',
@@ -157,7 +185,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#666',
   },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#E5E7EB',
+  },
   nextButton: {
+    alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,

@@ -84,7 +84,10 @@ const SampleMeasurementsBanner = observer(() => {
     );
     if (introState.depthNeckV !== undefined) {
       const totalDepth = introState.depthNeckV + introState.ribbingWidthV;
-      params.push({ label: i18n.t('depthNeck'), value: formatLength(totalDepth) });
+      params.push({
+        label: i18n.t('depthNeck'),
+        value: formatLength(parseFloat(totalDepth.toFixed(1))),
+      });
     }
   } else {
     params.push(

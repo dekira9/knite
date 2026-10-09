@@ -12,6 +12,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { computeVNeckDepthBoundsFromMeasurements } from '@/utils/calculateRaglan';
 import { track, trackMeasurementStep } from '@/utils/analytics';
+import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
@@ -42,11 +43,16 @@ const DepthNeckV = () => {
   const maxDisplay = LHVmax + HrezV;
 
   const [sliderValue, setSliderValue] = useState(
-    introState.depthNeckV !== undefined ? 
-      (introState.depthNeckV + HrezV).toFixed(1) : 
-      minDisplay.toFixed(1)
+    introState.depthNeckV !== undefined
+      ? (introState.depthNeckV + HrezV).toFixed(1)
+      : minDisplay.toFixed(1),
   );
   const [inchInput, setInchInput] = useState(() => cmToIn(parseFloat(sliderValue)));
+
+  const displayValue = isMetric
+    ? parseFloat(String(sliderValue).replace(',', '.'))
+    : parseFloat(String(inchInput).replace(',', '.'));
+  const canContinue = Number.isFinite(displayValue) && displayValue > 0;
 
   const updateBoth = (cmStr: string) => {
     setSliderValue(cmStr);
@@ -70,9 +76,11 @@ const DepthNeckV = () => {
     } else {
       const cleanValue = value.replace(',', '.');
       const numericValue = parseFloat(cleanValue);
-      if (!isNaN(numericValue) && 
-          numericValue >= minDisplay && 
-          numericValue <= maxDisplay) {
+      if (
+        !isNaN(numericValue) &&
+        numericValue >= minDisplay &&
+        numericValue <= maxDisplay
+      ) {
         const roundedValue = parseFloat(numericValue.toFixed(1));
         updateBoth(roundedValue.toFixed(1));
       } else {
@@ -84,7 +92,10 @@ const DepthNeckV = () => {
 
   const handleInchChange = (value: string) => {
     setInchInput(value);
-    if (value === '') { setSliderValue(''); return; }
+    if (value === '') {
+      setSliderValue('');
+      return;
+    }
     const inVal = parseFloat(value.replace(',', '.'));
     if (isNaN(inVal)) return;
     const cmVal = parseFloat((inVal * CM_PER_INCH).toFixed(1));
@@ -94,10 +105,11 @@ const DepthNeckV = () => {
   };
 
   const handleNext = () => {
-    const displayValue = parseFloat(sliderValue);
-    const safeDisplayValue = Number.isNaN(displayValue)
+    if (!canContinue) return;
+    const parsedDisplay = parseFloat(sliderValue);
+    const safeDisplayValue = Number.isNaN(parsedDisplay)
       ? minDisplay
-      : Math.min(maxDisplay, Math.max(minDisplay, displayValue));
+      : Math.min(maxDisplay, Math.max(minDisplay, parsedDisplay));
     const actualValue = parseFloat((safeDisplayValue - HrezV).toFixed(1));
     introState.setDepthNeckV(actualValue);
     introState.markMeasurementsCustom();
@@ -108,35 +120,64 @@ const DepthNeckV = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingScreen
+      contentContainerStyle={styles.container}
+      footerStyle={styles.footer}
+      footer={
+        <TouchableOpacity
+          style={[
+            styles.nextButton,
+            { backgroundColor: canContinue ? Colors[theme].tint : '#C6C6C6' },
+          ]}
+          onPress={handleNext}
+          disabled={!canContinue}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canContinue }}
+        >
+          <Text style={styles.buttonText}>{i18n.t('next')}</Text>
+        </TouchableOpacity>
+      }
+    >
       <Image
         source={require('@/assets/images/neckdepthV.png')}
         style={styles.image}
         contentFit="contain"
       />
-      <Text style={styles.title}>{i18n.t('depthNeck')}</Text>
+      <Text style={styles.title}>{i18n.t('depthNeckHint')}</Text>
 
       {isMetric ? (
         <View style={styles.inputContainer}>
-          <TouchableOpacity onPress={() => {
-            const currentValue = parseFloat(sliderValue) || minDisplay;
-            const newValue = Math.max(minDisplay, parseFloat((currentValue - 0.1).toFixed(1)));
-            updateBoth(newValue.toFixed(1));
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              const currentValue = parseFloat(sliderValue) || minDisplay;
+              const newValue = Math.max(
+                minDisplay,
+                parseFloat((currentValue - 0.1).toFixed(1)),
+              );
+              updateBoth(newValue.toFixed(1));
+            }}
+          >
             <Text style={styles.arrow}>-</Text>
           </TouchableOpacity>
           <TextInput
             style={styles.input}
             value={sliderValue}
             keyboardType="numeric"
+            returnKeyType="done"
+            blurOnSubmit
             placeholder=""
-            onChangeText={handleTextInputChange}  
+            onChangeText={handleTextInputChange}
           />
-          <TouchableOpacity onPress={() => {
-            const currentValue = parseFloat(sliderValue) || minDisplay;
-            const newValue = Math.min(maxDisplay, parseFloat((currentValue + 0.1).toFixed(1)));
-            updateBoth(newValue.toFixed(1));
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              const currentValue = parseFloat(sliderValue) || minDisplay;
+              const newValue = Math.min(
+                maxDisplay,
+                parseFloat((currentValue + 0.1).toFixed(1)),
+              );
+              updateBoth(newValue.toFixed(1));
+            }}
+          >
             <Text style={styles.arrow}>+</Text>
           </TouchableOpacity>
           <Text style={styles.inputLabel}>cm</Text>
@@ -147,6 +188,8 @@ const DepthNeckV = () => {
             style={styles.input}
             value={inchInput}
             keyboardType="numeric"
+            returnKeyType="done"
+            blurOnSubmit
             placeholder=""
             onChangeText={handleInchChange}
           />
@@ -173,34 +216,26 @@ const DepthNeckV = () => {
           {isMetric ? `${maxDisplay.toFixed(1)} cm` : `${cmToIn(maxDisplay)} in`}
         </Text>
       </View>
-
-      <TouchableOpacity
-        style={[
-          styles.nextButton,
-          { backgroundColor: Colors[theme].tint },
-        ]}
-        onPress={handleNext}
-      >
-        <Text style={styles.buttonText}>{i18n.t('next')}</Text>
-      </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingScreen>
   );
-}
+};
 
 export default observer(DepthNeckV);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#ffffff',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
+    lineHeight: 22,
+    color: '#333',
+    paddingHorizontal: 4,
   },
   image: {
     width: screenWidth * 0.8,
@@ -242,11 +277,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
   },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#E5E7EB',
+  },
   nextButton: {
+    alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,
-    marginTop: 30,
   },
   buttonText: {
     color: '#fff',

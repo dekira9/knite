@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
@@ -10,7 +10,12 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { trackMeasurementStep } from '@/utils/analytics';
 import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
-import { cmToIn, inToCm } from '@/utils/measurementUnitHelpers';
+import {
+  cmToIn,
+  inToCm,
+  isPositiveMeasurement,
+  sanitizeOneDecimalInput,
+} from '@/utils/measurementUnitHelpers';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -20,31 +25,53 @@ export default observer(() => {
   const inputRef = useRef<TextInput>(null);
   const [inchValue, setInchValue] = useState(() => cmToIn(introState.chestCircumference));
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => inputRef.current?.focus(), 100);
-    return () => clearTimeout(timeoutId);
-  }, []);
+  const canContinue = isMetric
+    ? isPositiveMeasurement(introState.chestCircumference)
+    : isPositiveMeasurement(inchValue);
+
+  const goNext = () => {
+    if (!canContinue) return;
+    trackMeasurementStep('chest', { style: introState.style || 'unknown' });
+    (navigation as any).navigate('StitchDensity');
+  };
 
   const handleCmChange = (value: string) => {
-    introState.setChestCircumference(value);
-    setInchValue(cmToIn(value));
+    const sanitized = sanitizeOneDecimalInput(value);
+    introState.setChestCircumference(sanitized);
+    setInchValue(cmToIn(sanitized));
   };
 
   const handleInchChange = (value: string) => {
-    setInchValue(value);
-    const cm = inToCm(value);
+    const sanitized = sanitizeOneDecimalInput(value);
+    setInchValue(sanitized);
+    const cm = inToCm(sanitized);
     if (cm) introState.setChestCircumference(cm);
   };
 
   return (
-    <KeyboardAvoidingScreen contentContainerStyle={styles.container}>
+    <KeyboardAvoidingScreen
+      contentContainerStyle={styles.container}
+      footerStyle={styles.footer}
+      footer={
+        <TouchableOpacity
+          style={[
+            styles.nextButton,
+            { backgroundColor: canContinue ? Colors[theme].tint : '#C6C6C6' },
+          ]}
+          onPress={goNext}
+          disabled={!canContinue}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !canContinue }}
+        >
+          <Text style={styles.buttonText}>{i18n.t('next')}</Text>
+        </TouchableOpacity>
+      }
+    >
       <Image
         source={require('@/assets/images/chest.svg')}
         style={styles.image}
         contentFit="contain"
       />
-
-      <Text style={styles.title}>{i18n.t('chestCircumference')}</Text>
 
       <View style={styles.rowContainer}>
         {isMetric ? (
@@ -55,6 +82,8 @@ export default observer(() => {
               value={introState.chestCircumference}
               onChangeText={handleCmChange}
               keyboardType="numeric"
+              returnKeyType="done"
+              blurOnSubmit
               placeholder=""
             />
             <Text style={styles.unit}>cm</Text>
@@ -67,22 +96,14 @@ export default observer(() => {
               value={inchValue}
               onChangeText={handleInchChange}
               keyboardType="numeric"
+              returnKeyType="done"
+              blurOnSubmit
               placeholder=""
             />
             <Text style={styles.unit}>in</Text>
           </View>
         )}
       </View>
-
-      <TouchableOpacity
-        style={[styles.nextButton, { backgroundColor: Colors[theme].tint }]}
-        onPress={() => {
-          trackMeasurementStep('chest', { style: introState.style || 'unknown' });
-          (navigation as any).navigate('StitchDensity');
-        }}
-      >
-        <Text style={styles.buttonText}>{i18n.t('next')}</Text>
-      </TouchableOpacity>
     </KeyboardAvoidingScreen>
   );
 });
@@ -98,17 +119,11 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
   rowContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     gap: 15,
-    marginBottom: 30,
+    marginBottom: 16,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -128,7 +143,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#666',
   },
+  footer: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#E5E7EB',
+  },
   nextButton: {
+    alignItems: 'center',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 8,
