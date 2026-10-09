@@ -1,0 +1,45 @@
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native build caches (Windows paths break Linux EAS builders)
+android/build/
+android/app/build/
+android/app/.cxx/
+android/.gradle/
+ios/build/
+ios/Pods/
+ios/DerivedData/
+
+# Native secrets
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro / debug
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS / local
+.DS_Store
+*.pem
+.env*.local
+*.tsbuildinfo
+app-example
+tmp_*.txt
+.idea/
+.vscode/
+eas-build-out.json
+eas-build-err.txt
+eas-build-log.txt
+**/*.log
