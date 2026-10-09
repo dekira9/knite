@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isSupportedLanguage } from '@/utils/i18n/supportedLanguages';
 
 const OnboardingState = types
   .model({
@@ -7,10 +8,11 @@ const OnboardingState = types
     measurementSystem: types.optional(types.string, 'metric'),
     hasCompletedOnboarding: types.optional(types.boolean, false),
     hasSubscription: types.optional(types.boolean, false),
+    hasSeenHomeIntro: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     setLanguage(lang: string) {
-      self.language = lang;
+      self.language = isSupportedLanguage(lang) ? lang : 'en';
       this.persistState();
     },
     setMeasurementSystem(system: string) {
@@ -29,6 +31,10 @@ const OnboardingState = types
       self.hasCompletedOnboarding = isComplete;
       this.persistState();
     },
+    setHasSeenHomeIntro(value: boolean) {
+      self.hasSeenHomeIntro = value;
+      this.persistState();
+    },
     async persistState() {
       try {
         await AsyncStorage.setItem('onboardingState', JSON.stringify({
@@ -36,6 +42,7 @@ const OnboardingState = types
           measurementSystem: self.measurementSystem,
           hasCompletedOnboarding: self.hasCompletedOnboarding,
           hasSubscription: self.hasSubscription,
+          hasSeenHomeIntro: self.hasSeenHomeIntro,
         }));
       } catch (error) {
         console.error('Failed to save onboarding state:', error);
@@ -46,11 +53,13 @@ const OnboardingState = types
       measurementSystem: string;
       hasCompletedOnboarding: boolean;
       hasSubscription: boolean;
+      hasSeenHomeIntro?: boolean;
     }) {
-      self.language = state.language;
+      self.language = isSupportedLanguage(state.language) ? state.language : 'en';
       self.measurementSystem = state.measurementSystem;
       self.hasCompletedOnboarding = state.hasCompletedOnboarding;
       self.hasSubscription = state.hasSubscription;
+      self.hasSeenHomeIntro = state.hasSeenHomeIntro ?? false;
     },
     async loadPersistedState() {
       try {
