@@ -18,6 +18,7 @@ export const resultLegendStart = {
   ar: "بداية الحياكة",
   pt: "Início da malha",
   lt: "Triko pradžia",
+  pl: "Początek dziania",
 };
 
 export const resultLegendCollar = {
@@ -38,6 +39,7 @@ export const resultLegendCollar = {
   ar: "1 — الياقة",
   pt: "1 — Gola",
   lt: "1 — Apykaklė",
+  pl: "1 — Kołnierz",
 };
 
 export const resultLegendFront = {
@@ -58,6 +60,7 @@ export const resultLegendFront = {
   ar: "2 — الأمام",
   pt: "2 — Frente",
   lt: "2 — Priekis",
+  pl: "2 — Przód",
 };
 
 export const resultLegendSleeve = {
@@ -78,6 +81,7 @@ export const resultLegendSleeve = {
   ar: "2 — الكم",
   pt: "2 — Manga",
   lt: "2 — Rankovė",
+  pl: "2 — Rękaw",
 };
 
 export const resultLegendBack = {
@@ -98,6 +102,7 @@ export const resultLegendBack = {
   ar: "2 — الظهر",
   pt: "2 — Costas",
   lt: "2 — Nugara",
+  pl: "2 — Tył",
 };
 
 export const resultLegendRaglan = {
@@ -118,6 +123,7 @@ export const resultLegendRaglan = {
   ar: "2 — خط الراغلان",
   pt: "2 — Linha raglan",
   lt: "2 — Raglan linija",
+  pl: "2 — Linia raglanu",
 };
 
 export const resultLegendCorpus = {
@@ -138,6 +144,7 @@ export const resultLegendCorpus = {
   ar: "3 — إطالة الظهر ",
   pt: "3 — Alongamento das costas",
   lt: "3 — Nugaros ilginimas",
+  pl: "3 — Wydłużenie tyłu",
 };
 
 export const resultLegendUnderarm = {
@@ -158,6 +165,7 @@ export const resultLegendUnderarm = {
   ar: "4 — غرز\nتحت الإبط",
   pt: "4 — Pontos\nda axila",
   lt: "4 — Pažasties\nakys",
+  pl: "4 — Oczka\npod pachą",
 };
 
 export const resultLegendTitle = {
@@ -178,6 +186,7 @@ export const resultLegendTitle = {
   ar: "الرموز",
   pt: "Símbolos",
   lt: "Ženklai",
+  pl: "Symbole",
 };
 
 export const resultLegendExpand = {
@@ -198,6 +207,7 @@ export const resultLegendExpand = {
   ar: "عرض الكل",
   pt: "Mostrar tudo",
   lt: "Rodyti viską",
+  pl: "Pokaż wszystko",
 };
 
 export const resultLegendCollapse = {
@@ -218,4 +228,5 @@ export const resultLegendCollapse = {
   ar: "إخفاء",
   pt: "Ocultar",
   lt: "Slėpti",
+  pl: "Ukryj",
 };

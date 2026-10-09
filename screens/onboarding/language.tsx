@@ -7,6 +7,7 @@ import i18n, { updateLocale } from '@/utils/translations';
 import { Dimensions } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { SUPPORTED_LANGUAGES } from '@/utils/i18n/supportedLanguages';
+import { setAnalyticsUserProperties, track } from '@/utils/analytics';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -19,6 +20,9 @@ const LanguageScreen = observer(() => {
   const selectLanguage = (langCode: string) => {
     onboardingState.setLanguage(langCode);
     updateLocale(langCode);
+    const source = from === 'settings' ? 'settings' : 'onboarding';
+    setAnalyticsUserProperties({ language: langCode });
+    track('language_selected', { language: langCode, source });
 
     if (from === 'settings') {
       navigation.goBack();

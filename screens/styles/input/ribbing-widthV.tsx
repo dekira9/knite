@@ -10,6 +10,7 @@ import { screenWidth } from '@/utils/Layout';
 import { observer } from 'mobx-react-lite';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { trackMeasurementStep } from '@/utils/analytics';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
@@ -60,6 +61,7 @@ const RibbingWidthV: React.FC = observer(() => {
 
   const handleNext = () => {
     introState.setRibbingWidthV(localRibbingWidthV.toString());
+    trackMeasurementStep('ribbing_width', { style: 'v-neck' });
     (navigation as any).navigate('LineraglanV');
   };
 

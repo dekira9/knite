@@ -15,7 +15,10 @@ type Props = {
 };
 
 function formatRhythm({ rowsPerStitch, count }: IncreaseRhythm): string {
-  return `1×${rowsPerStitch}: ${count}`;
+  if (rowsPerStitch === 1) {
+    return i18n.t('increaseRhythmEveryRow', { count });
+  }
+  return i18n.t('increaseRhythmTimes', { n: rowsPerStitch, count });
 }
 
 function RowNumberChips({ rowsString }: { rowsString: string }) {
@@ -41,11 +44,12 @@ function RowNumberChips({ rowsString }: { rowsString: string }) {
 
 export default observer(function IncreaseOptionSection({ rhythms, rowsString }: Props) {
   const [helpVisible, setHelpVisible] = useState(false);
+  const hasRows = Boolean(rowsString?.trim());
 
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{i18n.t('option')}</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('resultHelpIncreaseTitle')}</Text>
         <TouchableOpacity
           style={styles.helpButton}
           onPress={() => setHelpVisible(true)}
@@ -57,20 +61,22 @@ export default observer(function IncreaseOptionSection({ rhythms, rowsString }: 
         </TouchableOpacity>
       </View>
 
-      <View style={styles.rhythmRow}>
+      <Text style={styles.hint}>{i18n.t('increaseAlongRaglanHint')}</Text>
+
+      {hasRows ? (
+        <>
+          <Text style={styles.rowsLabel}>{i18n.t('RowsWithAdding')}:</Text>
+          <RowNumberChips rowsString={rowsString!} />
+        </>
+      ) : null}
+
+      <View style={[styles.rhythmRow, hasRows && styles.rhythmRowSecondary]}>
         {rhythms.map((rhythm, index) => (
           <View key={`${rhythm.rowsPerStitch}-${index}`} style={styles.rhythmChip}>
             <Text style={styles.rhythmText}>{formatRhythm(rhythm)}</Text>
           </View>
         ))}
       </View>
-
-      {rowsString ? (
-        <>
-          <Text style={styles.rowsLabel}>{i18n.t('RowsWithAdding')}:</Text>
-          <RowNumberChips rowsString={rowsString} />
-        </>
-      ) : null}
 
       <ResultHelpModal
         visible={helpVisible}
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   sectionTitle: {
     fontSize: 14,
@@ -118,12 +124,23 @@ const styles = StyleSheet.create({
     color: '#009FE3',
     lineHeight: 16,
   },
+  hint: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#374151',
+    textAlign: 'center',
+    lineHeight: 18,
+    marginBottom: 10,
+  },
   rhythmRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 4,
+  },
+  rhythmRowSecondary: {
+    marginTop: 10,
   },
   rhythmChip: {
     backgroundColor: '#fff',
@@ -134,8 +151,8 @@ const styles = StyleSheet.create({
     borderColor: '#D1D5DB',
   },
   rhythmText: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 13,
+    fontWeight: '600',
     color: '#1A1A1A',
   },
   rowsLabel: {

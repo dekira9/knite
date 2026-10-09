@@ -3,12 +3,16 @@ import {
   calculateIncreaseRows1x2_1x3,
   calculateIncreaseRows1x2_1x1,
   calculateIncreaseRows1x4_1x3,
+  calculateIncreaseRows1x4_1x1,
+  calculateIncreaseRows1x3_1x1,
 } from '@/screens/styles/input/result/increaseRowsRegular';
 import {
   calculateIncreaseRows1x2_1x4V,
   calculateIncreaseRows1x2_1x3V,
   calculateIncreaseRows1x2_1x1V,
   calculateIncreaseRows1x4_1x3V,
+  calculateIncreaseRows1x4_1x1V,
+  calculateIncreaseRows1x3_1x1V,
 } from '@/screens/styles/input/result/increaseRowsVNeck';
 
 export type PrecomputedVStringProps = {
@@ -16,6 +20,8 @@ export type PrecomputedVStringProps = {
   resultString23V: string;
   resultString21V: string;
   resultString43V: string;
+  resultString41V?: string;
+  resultString31V?: string;
   RowPrib1x4StringV: string;
   RowPrib1x3StringV: string;
   RowPrib1x2StringV: string;
@@ -28,6 +34,8 @@ export function mapPrecomputedVStrings(props: PrecomputedVStringProps): Increase
     resultString23: props.resultString23V,
     resultString21: props.resultString21V,
     resultString43: props.resultString43V,
+    resultString41: props.resultString41V ?? '',
+    resultString31: props.resultString31V ?? '',
     rowPrib1x4String: props.RowPrib1x4StringV,
     rowPrib1x3String: props.RowPrib1x3StringV,
     rowPrib1x2String: props.RowPrib1x2StringV,
@@ -40,6 +48,8 @@ export type IncreaseRowStrings = {
   resultString23: string;
   resultString21: string;
   resultString43: string;
+  resultString41: string;
+  resultString31: string;
   rowPrib1x4String: string;
   rowPrib1x3String: string;
   rowPrib1x2String: string;
@@ -77,12 +87,16 @@ export function buildRegularIncreaseRowStrings(input: IncreaseRowInputs): Increa
   const { resultString23 } = calculateIncreaseRows1x2_1x3(nhFront, sfx, prib1x3_f, prib1x2_f);
   const { resultString21 } = calculateIncreaseRows1x2_1x1(nhFront, sfx, prib1x1_f, prib1x2_f);
   const { resultString43 } = calculateIncreaseRows1x4_1x3(nhFront, sfx, prib1x4_f, prib1x3_rib_f);
+  const { resultString41 } = calculateIncreaseRows1x4_1x1(nhFront, sfx, prib1x1_f, pr1x4_f);
+  const { resultString31 } = calculateIncreaseRows1x3_1x1(nhFront, sfx, prib1x1_f, prib1x3_f);
 
   return {
     resultString24,
     resultString23,
     resultString21,
     resultString43,
+    resultString41,
+    resultString31,
     ...buildRowPribStrings(sfx),
   };
 }
@@ -94,12 +108,16 @@ export function buildVNeckIncreaseRowStrings(input: IncreaseRowInputs): Increase
   const { resultString23V } = calculateIncreaseRows1x2_1x3V(nhFront, sfx, prib1x3_f, prib1x2_f);
   const { resultString21V } = calculateIncreaseRows1x2_1x1V(nhFront, sfx, prib1x1_f, prib1x2_f);
   const { resultString43V } = calculateIncreaseRows1x4_1x3V(nhFront, sfx, prib1x4_f, prib1x3_rib_f);
+  const { resultString41V } = calculateIncreaseRows1x4_1x1V(nhFront, sfx, prib1x1_f, pr1x4_f);
+  const { resultString31V } = calculateIncreaseRows1x3_1x1V(nhFront, sfx, prib1x1_f, prib1x3_f);
 
   return {
     resultString24: resultString24V ?? '',
     resultString23: resultString23V ?? '',
     resultString21: resultString21V ?? '',
     resultString43: resultString43V ?? '',
+    resultString41: resultString41V ?? '',
+    resultString31: resultString31V ?? '',
     ...buildRowPribStrings(sfx),
   };
 }
@@ -129,7 +147,12 @@ export function getIncreaseRowsFromType(
       return parseRowString(strings.resultString23, nullable);
     case '1x2, 1x1':
       return parseRowString(strings.resultString21, nullable);
+    case '1x4, 1x1':
+      return parseRowString(strings.resultString41, nullable);
+    case '1x3, 1x1':
+      return parseRowString(strings.resultString31, nullable);
     case '1x3, 1x4':
+    case '1x4, 1x3':
       return parseRowString(strings.resultString43, nullable);
     case '1x3':
       return parseRowString(strings.rowPrib1x3String, nullable);

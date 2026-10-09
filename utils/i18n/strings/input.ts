@@ -18,6 +18,7 @@ export const headCircumference = {
   ar: "محيط الرأس",
   pt: "Circunferência da cabeça",
   lt: "Galvos apimtis",
+  pl: "Obwód głowy",
 };
 
 export const wizardStepOf = {
@@ -38,6 +39,7 @@ export const wizardStepOf = {
   ar: "الخطوة %{current} من %{total}",
   pt: "Passo %{current} de %{total}",
   lt: "Žingsnis %{current} iš %{total}",
+  pl: "Krok %{current} z %{total}",
 };
 
 export const neckCircumference = {
@@ -58,6 +60,7 @@ export const neckCircumference = {
   ar: "محيط العنق",
   pt: "Circunferência do pescoço",
   lt: "Kaklo apimtis",
+  pl: "Obwód szyi",
 };
 
 export const chestCircumference = {
@@ -78,6 +81,7 @@ export const chestCircumference = {
   ar: "محيط الصدر",
   pt: "Circunferência do peito",
   lt: "Krūtinės apimtis",
+  pl: "Obwód klatki piersiowej",
 };
 
 export const finishedChestCircumference = {
@@ -98,6 +102,7 @@ export const finishedChestCircumference = {
   ar: "محيط صدر القطعة النهائية",
   pt: "Circunferência do peito da peça pronta",
   lt: "Gaminio krūtinės apimtis",
+  pl: "Obwód klatki gotowego wyrobu",
 };
 
 export const rowDensityCM = {
@@ -118,6 +123,7 @@ export const rowDensityCM = {
   ar: "كثافة الصفوف (صفوف في 10 سم)",
   pt: "Densidade de linhas (linhas a 10 cm)",
   lt: "Eilučių tankis (eilutės 10 cm)",
+  pl: "Gęstość rzędów (rzędy na 10 cm)",
 };
 
 export const rowDensityIN = {
@@ -138,6 +144,7 @@ export const rowDensityIN = {
   ar: "كثافة الصفوف (صفوف في 4 بوصات)",
   pt: "Densidade de linhas (linhas a 4 polegadas)",
   lt: "Eilučių tankis (eilutės 4 coliuose)",
+  pl: "Gęstość rzędów (rzędy na 4 cale)",
 };
 
 export const stitchDensityCM = {
@@ -158,6 +165,7 @@ export const stitchDensityCM = {
   ar: "كثافة الغرز (غرز في 10 سم)",
   pt: "Densidade de pontos (pontos em 10 cm)",
   lt: "Siūlių tankis (siūlės 10 cm)",
+  pl: "Gęstość oczek (oczka na 10 cm)",
 };
 
 export const stitchDensityIN = {
@@ -178,6 +186,7 @@ export const stitchDensityIN = {
   ar: "كثافة الغرز (غرز في 4 بوصات)",
   pt: "Densidade de pontos (pontos em 4 polegadas)",
   lt: "Siūlių tankis (siūlės 4 coliuose)",
+  pl: "Gęstość oczek (oczka na 4 cale)",
 };
 
 export const stitchDensity = { 
@@ -197,7 +206,8 @@ export const stitchDensity = {
   tr: "Dikiş Yoğunluğu",
   ar: "كثافة الغرز",
   pt: "Densidade de pontos",
-  lt: "Siūlių tankis"
+  lt: "Siūlių tankis",
+  pl: "Gęstość oczek",
 };
 
 export const chooseFitType = {
@@ -218,6 +228,7 @@ export const chooseFitType = {
   ar: "اختر نوع الملابس",
   pt: "Escolher o tipo de ajuste",
   lt: "Pasirinkite pasformą",
+  pl: "Wybierz dopasowanie",
 };
 
 export const garmentFitFor = {
@@ -238,6 +249,7 @@ export const garmentFitFor = {
   ar: "الملابس لـ",
   pt: "Peça para",
   lt: "Modelis",
+  pl: "Sweter dla",
 };
 
 export const garmentFitForWomen = {
@@ -258,6 +270,7 @@ export const garmentFitForWomen = {
   ar: "نساء",
   pt: "Mulher",
   lt: "Moterims",
+  pl: "Kobiet",
 };
 
 export const garmentFitForMen = {
@@ -278,6 +291,7 @@ export const garmentFitForMen = {
   ar: "رجال",
   pt: "Homem",
   lt: "Vyrams",
+  pl: "Mężczyzn",
 };
 
 export const fitted = {
@@ -298,6 +312,7 @@ export const fitted = {
   ar: "مناسب",
   pt: "Ajustado",
   lt: "Prisitaikantis",
+  pl: "Dopasowany",
 };
 
 export const fittedDescription = {
@@ -318,6 +333,7 @@ export const fittedDescription = {
   ar: "يلتصق بالقوام. يبرز الخطوط. راحة قليلة جدًا.",
   pt: "Ajusta-se à figura. Destaca a silhueta. Folga mínima.",
   lt: "Priglunda prie figūros. Pabrėžia siluetą. Minimalus laisvumas.",
+  pl: "Obcisły krój. Podkreśla sylwetkę. Minimalny luz.",
 };
 
 export const fittedBullet1 = {
@@ -338,6 +354,7 @@ export const fittedBullet1 = {
   ar: "يلتصق بالجسم",
   pt: "ajusta-se ao corpo",
   lt: "priglunda",
+  pl: "przylega do ciała",
 };
 
 export const fittedBullet2 = {
@@ -358,6 +375,7 @@ export const fittedBullet2 = {
   ar: "راحة قليلة",
   pt: "folga mínima",
   lt: "minimalus laisvumas",
+  pl: "minimalny luz",
 };
 
 export const fittedBullet3 = {
@@ -378,6 +396,7 @@ export const fittedBullet3 = {
   ar: "يبرز القوام",
   pt: "destaca a figura",
   lt: "pabrėžia figūrą",
+  pl: "podkreśla sylwetkę",
 };
 
 export const semiFitted = {
@@ -398,6 +417,7 @@ export const semiFitted = {
   ar: "نصف مناسب",
   pt: "Semi-ajustado",
   lt: "Pusiaukraščiai prisitaikantis",
+  pl: "Półobcisły",
 };
 
 export const semiFittedDescription = {
@@ -418,6 +438,7 @@ export const semiFittedDescription = {
   ar: "لا يلتصق.\nقليل من الراحة.",
   pt: "Não aperta.\nUm pouco de folga.",
   lt: "Nestipriai priglunda.\nŠiek tiek laisvumo.",
+  pl: "Nie przylega.\nNiewielki luz.",
 };
 
 export const semiFittedLine1 = {
@@ -438,6 +459,7 @@ export const semiFittedLine1 = {
   ar: "لا يلتصق",
   pt: "não aperta",
   lt: "nestipriai priglunda",
+  pl: "nie przylega",
 };
 
 export const semiFittedLine2 = {
@@ -458,6 +480,7 @@ export const semiFittedLine2 = {
   ar: "قليل من الراحة",
   pt: "um pouco de folga",
   lt: "šiek tiek laisvumo",
+  pl: "niewielki luz",
 };
 
 export const loose = {
@@ -478,6 +501,7 @@ export const loose = {
   ar: "مريح",
   pt: "Largo",
   lt: "Laisvas",
+  pl: "Luźny",
 };
 
 export const looseDescription = {
@@ -498,6 +522,7 @@ export const looseDescription = {
   ar: "قصة فضفاضة. مساحة أكبر في الصدر والخصر والوركين. راحة وحرية حركة.",
   pt: "Caimento folgado. Mais espaço no peito, cintura e ancas. Conforto e liberdade de movimento.",
   lt: "Laisvas kirpimas. Daugiau erdvės krūtinėje, juosmenyje ir klubų srityje. Komfortas ir judėjimo laisvė.",
+  pl: "Luźny krój. Więcej miejsca w klatce, talii i biodrach. Wygoda i swoboda ruchu.",
 };
 
 export const looseLine1 = {
@@ -518,6 +543,7 @@ export const looseLine1 = {
   ar: "مساحة أكبر في الصدر",
   pt: "mais espaço no peito",
   lt: "daugiau erdvės krūtinėje",
+  pl: "więcej miejsca w klatce",
 };
 
 export const looseLine2 = {
@@ -538,6 +564,7 @@ export const looseLine2 = {
   ar: "راحة دون حجم زائد",
   pt: "folga sem volume a mais",
   lt: "laisvumas be pertekliaus",
+  pl: "luz bez zbędnej objętości",
 };
 
 export const oversized = {
@@ -558,6 +585,7 @@ export const oversized = {
   ar: "كبير جدا",
   pt: "Muito grande",
   lt: "Perdaugai",
+  pl: "Oversized",
 };
 
 export const oversizedDescription = {
@@ -578,6 +606,7 @@ export const oversizedDescription = {
   ar: "أقصى راحة. قوام واسع، أسلوب أوفرسايز.",
   pt: "Folga máxima. Silhueta larga, estilo oversized.",
   lt: "Maksimalus laisvumas. Platus siluetas, oversize stilius.",
+  pl: "Maksymalny luz. Szeroka sylwetka, styl oversized.",
 };
 
 export const oversizedLine1 = {
@@ -598,6 +627,7 @@ export const oversizedLine1 = {
   ar: "قوام واسع",
   pt: "silhueta larga",
   lt: "platūs siluetas",
+  pl: "szeroka sylwetka",
 };
 
 export const oversizedLine2 = {
@@ -618,6 +648,7 @@ export const oversizedLine2 = {
   ar: "حجم مقصود",
   pt: "volume intencional",
   lt: "tyčinis tūris",
+  pl: "zamierzona objętość",
 };
 
 export const mainMeasurements = {
@@ -638,6 +669,7 @@ export const mainMeasurements = {
   ar: "القياسات الرئيسية",
   pt: "Medidas principais",
   lt: "Pagrindiniai matavimai",
+  pl: "Główne wymiary",
 };
 
 export const increases = {
@@ -658,6 +690,7 @@ export const increases = {
   ar: "الزيادات",
   pt: "Aumentos",
   lt: "Prieaugliai",
+  pl: "Dodawania",
 };
 
 export const ribbingWidth = {
@@ -678,6 +711,7 @@ export const ribbingWidth = {
   ar: "عرض الريبنج",
   pt: "Largura da rib",
   lt: "Ribbingo plotis",
+  pl: "Wysokość ściągacza",
 };
 
 export const RaglanLineWidth = {
@@ -698,6 +732,7 @@ export const RaglanLineWidth = {
   ar: "عرض خط الراغلان",
   pt: "Largura da linha raglan",
   lt: "Raglano linijos plotis",
+  pl: "Szerokość linii raglanu",
 };
 
 export const stitches = {
@@ -718,6 +753,7 @@ export const stitches = {
   ar: "غرز",
   pt: "Pontos",
   lt: "Kilpa",
+  pl: "Oczka",
 };
 
 export const ribbing = {
@@ -738,6 +774,7 @@ export const ribbing = {
   ar: "حياكة مضلعة",
   pt: "Canelado",
   lt: "Raištis",
+  pl: "Ściągacz",
 };
 
 export const rows = {
@@ -758,6 +795,7 @@ export const rows = {
   ar: "صفوف",
   pt: "Linhas",
   lt: "Eilutės",
+  pl: "Rzędy",
 };
 
 export const fitType = {
@@ -779,6 +817,7 @@ export const fitType = {
   ar: "نوع الملابس",
   pt: "Tipo de ajuste",
   lt: "Prigludimo tipas",
+  pl: "Rodzaj dopasowania",
 };
 
 export const depthNeck = {
@@ -799,6 +838,7 @@ export const depthNeck = {
   ar: "عمق الح脖",
   pt: "Profundidade do colo",
   lt: "Kaklo gylis",
+  pl: "Głębokość dekoltu",
 };
 
 export const raglanLineWidth = {
@@ -819,6 +859,7 @@ export const raglanLineWidth = {
   ar: "خط الريجلان",
   pt: "Linha Raglan",
   lt: "Raglan Linija",
+  pl: "Szerokość linii raglanu",
 };
 
 export const rowDensity = {
@@ -839,6 +880,7 @@ export const rowDensity = {
   ar: "كثافة الأسطر",
   pt: "Densidade de linhas",
   lt: "Eilučių tankis",
+  pl: "Gęstość rzędów",
 };
 
 export const collarWidth = {
@@ -859,5 +901,6 @@ export const collarWidth = {
   ar: " عرض الياقة",
   pt: "Largura da gola",
   lt: "Apykaklės plotis",
+  pl: "Szerokość kołnierza",
 };
 

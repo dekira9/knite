@@ -12,6 +12,7 @@ import introState from '@/state/introState';
 import { observer } from 'mobx-react-lite';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
+import { setAnalyticsUserProperties, track } from '@/utils/analytics';
 
 export default observer(function ChooseStyle() {
   const navigation = useNavigation();
@@ -32,11 +33,16 @@ export default observer(function ChooseStyle() {
   ];
 
   const selectStyleSample = async (styleId: 'regular' | 'v-neck') => {
+    setAnalyticsUserProperties({ style: styleId });
+    track('style_selected', { style: styleId, mode: 'sample' });
     await introState.beginSampleFlow(styleId);
     (navigation as any).navigate('Result');
   };
 
   const selectStyleCustom = (styleId: 'regular' | 'v-neck') => {
+    setAnalyticsUserProperties({ style: styleId });
+    track('style_selected', { style: styleId, mode: 'custom' });
+    track('project_created', { style: styleId });
     introState.beginCustomFlow(styleId);
     (navigation as any).navigate('Input', {
       screen: 'Head',

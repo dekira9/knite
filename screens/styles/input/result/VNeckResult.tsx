@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
@@ -15,6 +15,7 @@ import ResultStepV from './ResultStepV';
 import ResultParamsLegendPanel from './ResultParamsLegendPanel';
 import ResultClosingBanner from './ResultClosingBanner';
 import { Colors } from '@/constants/Colors';
+import { track } from '@/utils/analytics';
 export default observer(function VNeckResult() {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
@@ -31,8 +32,25 @@ export default observer(function VNeckResult() {
     handleCarouselScroll,
   } = useRegularResultScroll();
 
+  const resultViewed = useRef(false);
+
   useEffect(() => {
-    void introState.syncRaglanFromSupabase();
+    const style = introState.style === 'v-neck' ? 'v-neck' : 'regular';
+    const sample = introState.usesSampleMeasurements;
+    if (!resultViewed.current) {
+      resultViewed.current = true;
+      track('result_viewed', { style, sample });
+    }
+    let cancelled = false;
+    void introState.syncRaglanFromSupabase().then((success) => {
+      if (cancelled) {
+        return;
+      }
+      track('calculation_finished', { success, style, sample });
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [
     introState.headCircumference,
     introState.neckCircumference,
@@ -116,6 +134,8 @@ export default observer(function VNeckResult() {
           resultString23V={precompute.resultString23V}
           resultString21V={precompute.resultString21V}
           resultString43V={precompute.resultString43V}
+          resultString41V={precompute.resultString41V}
+          resultString31V={precompute.resultString31V}
           RowPrib1x4StringV={precompute.RowPrib1x4StringV}
           RowPrib1x3StringV={precompute.RowPrib1x3StringV}
           RowPrib1x2StringV={precompute.RowPrib1x2StringV}

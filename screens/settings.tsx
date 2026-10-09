@@ -10,6 +10,7 @@ import { resetAllState } from '@/state/reset';
 import { CommonActions } from '@react-navigation/native';
 import { findLanguage } from '@/utils/i18n/supportedLanguages';
 import { Colors } from '@/constants/Colors';
+import { setAnalyticsUserProperties, track } from '@/utils/analytics';
 
 const Settings = observer(() => {
   const navigation = useNavigation();
@@ -39,7 +40,10 @@ const Settings = observer(() => {
 
   const toggleMeasurementSystem = () => {
     const currentSystem = onboardingState.measurementSystem;
-    onboardingState.setMeasurementSystem(currentSystem === 'metric' ? 'imperial' : 'metric');
+    const nextSystem = currentSystem === 'metric' ? 'imperial' : 'metric';
+    onboardingState.setMeasurementSystem(nextSystem);
+    setAnalyticsUserProperties({ measurement_system: nextSystem });
+    track('measurement_system_changed', { measurement_system: nextSystem });
   };
 
   const handleDeveloperPress = () => {

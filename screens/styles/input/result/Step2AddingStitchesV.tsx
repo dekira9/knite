@@ -18,6 +18,8 @@ interface Step2AddingStitchesVProps {
   resultString23V: string;
   resultString21V: string;
   resultString43V: string;
+  resultString41V: string;
+  resultString31V: string;
   RowPrib1x4StringV: string;
   RowPrib1x3StringV: string;
   RowPrib1x2StringV: string;
@@ -31,6 +33,8 @@ const Step2AddingStitchesV = observer(({
   resultString23V,
   resultString21V,
   resultString43V,
+  resultString41V,
+  resultString31V,
   RowPrib1x4StringV,
   RowPrib1x3StringV,
   RowPrib1x2StringV,
@@ -77,8 +81,10 @@ const Step2AddingStitchesV = observer(({
           {i18n.t('addingStitchesAlongTheRaglanLine')}
         </Text>
 
-        <View style={resultCardStyles.infoRow}>
-          <Text style={resultTypography.label}>{i18n.t('additionsOnOneSide')}</Text>
+        <View style={[resultCardStyles.infoRow, { alignItems: 'flex-start' }]}>
+          <Text style={[resultTypography.label, resultCardStyles.infoLabel]}>
+            {i18n.t('additionsOnOneSide')}
+          </Text>
           <Text style={resultTypography.value}>+{results.SfxV}</Text>
         </View>
 
@@ -112,20 +118,11 @@ const Step2AddingStitchesV = observer(({
 
         <View style={resultCardStyles.divider} />
 
-        <ResultChartRow title={i18n.t('back')} color={RESULT_COLORS.back} onPress={navigateToBackV} />
-        <RaglanPartRow color={RESULT_COLORS.back} stitches={results.SFrontV} increasePerSide={results.SfxV} />
-
-        <View style={resultCardStyles.divider} />
-
-        <ResultChartRow title={i18n.t('front')} color={RESULT_COLORS.front} onPress={navigateToFrontV} />
-        <RaglanPartRow color={RESULT_COLORS.front} stitches={results.SFrontV} increasePerSide={results.SfxV} />
-
-        <View style={resultCardStyles.divider} />
-
-        <ResultChartRow title={i18n.t('sleeve')} color={RESULT_COLORS.sleeve} onPress={navigateToSleeveV} />
-        <RaglanPartRow color={RESULT_COLORS.sleeve} stitches={results.SaV} increasePerSide={results.SfxV} />
-
-        <View style={resultCardStyles.divider} />
+        {Array.isArray(results.usedIncreaseTypeV) && results.usedIncreaseTypeV.length > 1 ? (
+          <Text style={[resultTypography.label, styles.rhythmChoiceHint]}>
+            {i18n.t('chooseIncreaseRhythmHint')}
+          </Text>
+        ) : null}
 
         {results.usedIncreaseTypeV?.includes('1x2, 1x4') && (
           <IncreaseOptionSection
@@ -162,6 +159,7 @@ const Step2AddingStitchesV = observer(({
               { rowsPerStitch: 4, count: results.PR_1x4_fV },
               { rowsPerStitch: 1, count: results.prib_1x1_fV },
             ]}
+            rowsString={resultString41V}
           />
         )}
         {results.usedIncreaseTypeV?.includes('1x2, 1x3') && (
@@ -180,6 +178,7 @@ const Step2AddingStitchesV = observer(({
               { rowsPerStitch: 3, count: results.prib_1x3_fV },
               { rowsPerStitch: 1, count: results.prib_1x1_fV },
             ]}
+            rowsString={resultString31V}
           />
         )}
         {results.usedIncreaseTypeV?.includes('1x4') && (
@@ -208,6 +207,21 @@ const Step2AddingStitchesV = observer(({
             rowsString={RowPrib1x3StringV}
           />
         )}
+
+        <View style={resultCardStyles.divider} />
+
+        <ResultChartRow title={i18n.t('back')} color={RESULT_COLORS.back} onPress={navigateToBackV} />
+        <RaglanPartRow color={RESULT_COLORS.back} stitches={results.SFrontV} increasePerSide={results.SfxV} />
+
+        <View style={resultCardStyles.divider} />
+
+        <ResultChartRow title={i18n.t('front')} color={RESULT_COLORS.front} onPress={navigateToFrontV} />
+        <RaglanPartRow color={RESULT_COLORS.front} stitches={results.SFrontV} increasePerSide={results.SfxV} />
+
+        <View style={resultCardStyles.divider} />
+
+        <ResultChartRow title={i18n.t('sleeve')} color={RESULT_COLORS.sleeve} onPress={navigateToSleeveV} />
+        <RaglanPartRow color={RESULT_COLORS.sleeve} stitches={results.SaV} increasePerSide={results.SfxV} />
         </View>
 
         <FrontV
@@ -251,6 +265,12 @@ const styles = StyleSheet.create({
   },
   sectionHint: {
     marginBottom: 12,
+  },
+  rhythmChoiceHint: {
+    textAlign: 'center',
+    marginBottom: 12,
+    fontWeight: '600',
+    color: RESULT_COLORS.textPrimary,
   },
   knitIcon: {
     width: 25,

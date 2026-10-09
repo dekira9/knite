@@ -4,6 +4,8 @@ import {
   calculateIncreaseRows1x2_1x3V,
   calculateIncreaseRows1x2_1x1V,
   calculateIncreaseRows1x4_1x3V,
+  calculateIncreaseRows1x4_1x1V,
+  calculateIncreaseRows1x3_1x1V,
   calculateVNeckIncreases01,
   calculateVNeckIncreases11,
   calculateVNeckIncreases12,
@@ -96,6 +98,18 @@ export function computeVNeckIncreasePrecompute(results: RaglanOutput, collar: Co
     results.PRib_1x4_fV,
     results.PRib_1x3_fV,
   );
+  const { resultString41V } = calculateIncreaseRows1x4_1x1V(
+    results.NHFrontV,
+    results.SfxV,
+    results.prib_1x1_fV,
+    results.PR_1x4_fV,
+  );
+  const { resultString31V } = calculateIncreaseRows1x3_1x1V(
+    results.NHFrontV,
+    results.SfxV,
+    results.prib_1x1_fV,
+    results.prib_1x3_fV,
+  );
 
   return {
     ...collarStrings,
@@ -103,6 +117,8 @@ export function computeVNeckIncreasePrecompute(results: RaglanOutput, collar: Co
     resultString23V,
     resultString21V,
     resultString43V,
+    resultString41V,
+    resultString31V,
     ...buildRowPribStrings(results.SfxV),
   };
 }

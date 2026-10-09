@@ -16,6 +16,7 @@ import { observer } from 'mobx-react-lite';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import { setMyProjectsTabActive } from '@/navigation/myProjectsTabActive';
+import { track } from '@/utils/analytics';
 
 type ProjectState = {
   style?: string;
@@ -66,13 +67,18 @@ export default observer(function MyProjects() {
 
   const beginNewProject = () => {
     introState.prepareStyleChoice('custom');
+    track('flow_started', { mode: 'custom', source: 'projects' });
     (navigation as any).navigate('ChooseStyle');
   };
 
   const handleOpenProject = (id: string) => {
     const project = introState.savedProjects.find((p) => p.id === id);
-    introState.restoreProject(id);
     const state = project?.state as ProjectState | undefined;
+    track('project_opened', {
+      style: state?.style === 'v-neck' ? 'v-neck' : 'regular',
+      finished: Boolean(state?.introFinished),
+    });
+    introState.restoreProject(id);
     if (state?.introFinished) {
       (navigation as any).navigate('Result');
     } else {
@@ -89,7 +95,10 @@ export default observer(function MyProjects() {
       {
         text: i18n.t('deleteProject'),
         style: 'destructive',
-        onPress: () => introState.deleteProject(id),
+        onPress: () => {
+          introState.deleteProject(id);
+          track('project_deleted');
+        },
       },
     ]);
   };

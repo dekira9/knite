@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { observer } from 'mobx-react-lite';
@@ -8,20 +8,9 @@ import onboardingState from '@/state/onboardingState';
 import i18n from '@/utils/translations';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-
-const CM_PER_INCH = 2.54;
-
-const cmToIn = (cm: string): string => {
-  const val = parseFloat(cm.replace(',', '.'));
-  if (isNaN(val)) return '';
-  return (val / CM_PER_INCH).toFixed(1);
-};
-
-const inToCm = (inches: string): string => {
-  const val = parseFloat(inches.replace(',', '.'));
-  if (isNaN(val)) return '';
-  return (val * CM_PER_INCH).toFixed(1);
-};
+import { trackMeasurementStep } from '@/utils/analytics';
+import KeyboardAvoidingScreen from '@/components/KeyboardAvoidingScreen';
+import { cmToIn, inToCm } from '@/utils/measurementUnitHelpers';
 
 export default observer(() => {
   const navigation = useNavigation();
@@ -48,62 +37,58 @@ export default observer(() => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <Image
-          source={require('@/assets/images/chest.svg')}
-          style={styles.image}
-          contentFit="contain"
-        />
+    <KeyboardAvoidingScreen contentContainerStyle={styles.container}>
+      <Image
+        source={require('@/assets/images/chest.svg')}
+        style={styles.image}
+        contentFit="contain"
+      />
 
-        <Text style={styles.title}>{i18n.t('chestCircumference')}</Text>
+      <Text style={styles.title}>{i18n.t('chestCircumference')}</Text>
 
-        <View style={styles.rowContainer}>
-          {isMetric ? (
-            <View style={styles.fieldContainer}>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={styles.input}
-                  value={introState.chestCircumference}
-                  onChangeText={handleCmChange}
-                  keyboardType="numeric"
-                  placeholder=""
-                />
-                <Text style={styles.unit}>cm</Text>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.fieldContainer}>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={styles.input}
-                  value={inchValue}
-                  onChangeText={handleInchChange}
-                  keyboardType="numeric"
-                  placeholder=""
-                />
-                <Text style={styles.unit}>in</Text>
-              </View>
-            </View>
-          )}
-        </View>
-
-        <TouchableOpacity
-          style={[styles.nextButton, { backgroundColor: Colors[theme].tint }]}
-          onPress={() => (navigation as any).navigate('StitchDensity')}
-        >
-          <Text style={styles.buttonText}>{i18n.t('next')}</Text>
-        </TouchableOpacity>
+      <View style={styles.rowContainer}>
+        {isMetric ? (
+          <View style={styles.inputContainer}>
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              value={introState.chestCircumference}
+              onChangeText={handleCmChange}
+              keyboardType="numeric"
+              placeholder=""
+            />
+            <Text style={styles.unit}>cm</Text>
+          </View>
+        ) : (
+          <View style={styles.inputContainer}>
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              value={inchValue}
+              onChangeText={handleInchChange}
+              keyboardType="numeric"
+              placeholder=""
+            />
+            <Text style={styles.unit}>in</Text>
+          </View>
+        )}
       </View>
-    </TouchableWithoutFeedback>
+
+      <TouchableOpacity
+        style={[styles.nextButton, { backgroundColor: Colors[theme].tint }]}
+        onPress={() => {
+          trackMeasurementStep('chest', { style: introState.style || 'unknown' });
+          (navigation as any).navigate('StitchDensity');
+        }}
+      >
+        <Text style={styles.buttonText}>{i18n.t('next')}</Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingScreen>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -124,9 +109,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 15,
     marginBottom: 30,
-  },
-  fieldContainer: {
-    alignItems: 'center',
   },
   inputContainer: {
     flexDirection: 'row',

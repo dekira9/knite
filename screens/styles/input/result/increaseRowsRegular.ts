@@ -157,6 +157,84 @@ export const calculateIncreaseRows1x2_1x1 = (
     return { PozC, RowC, RowN21, RowA21, RowPrib1x2_1x1, resultString21 };
 };
 
+/** Rows for mixed 1x4 + 1x1 (same placement idea as 1x2 + 1x1). */
+export const calculateIncreaseRows1x4_1x1 = (
+  NHFront: number,
+  Sfx: number,
+  prib_1x1_f: number,
+  _PR_1x4_f: number
+) => {
+  if (!prib_1x1_f || !NHFront) {
+    return { resultString41: '' };
+  }
+
+  const KC = Sfx / prib_1x1_f;
+  const C = Array.from({ length: prib_1x1_f }, (_, c) => c + 1);
+  const PozC = C.map((c) => Math.floor(KC * c));
+
+  const RowC = PozC.map((c, cIndex) => {
+    const adjustedIndex = cIndex + 1;
+    return (c - 1) * 4 + 1 - (adjustedIndex - 1);
+  });
+  const RowN41 = Array.from({ length: NHFront }, (_, i) => i + 1);
+
+  RowC.forEach((c) => {
+    const index = RowN41.indexOf(c);
+    if (index !== -1) {
+      RowN41.splice(index, 1);
+    }
+  });
+
+  const RowA41: number[] = [];
+  for (let i = 0; i < RowN41.length; i += 4) {
+    RowA41.push(RowN41[i]);
+  }
+
+  const RowPrib1x4_1x1 = [...RowA41, ...RowC].sort((a, b) => a - b);
+  const resultString41 = RowPrib1x4_1x1.join(', ');
+
+  return { PozC, RowC, RowN41, RowA41, RowPrib1x4_1x1, resultString41 };
+};
+
+/** Rows for mixed 1x3 + 1x1 (same placement idea as 1x2 + 1x1). */
+export const calculateIncreaseRows1x3_1x1 = (
+  NHFront: number,
+  Sfx: number,
+  prib_1x1_f: number,
+  _prib_1x3_f: number
+) => {
+  if (!prib_1x1_f || !NHFront) {
+    return { resultString31: '' };
+  }
+
+  const KC = Sfx / prib_1x1_f;
+  const C = Array.from({ length: prib_1x1_f }, (_, c) => c + 1);
+  const PozC = C.map((c) => Math.floor(KC * c));
+
+  const RowC = PozC.map((c, cIndex) => {
+    const adjustedIndex = cIndex + 1;
+    return (c - 1) * 3 + 1 - (adjustedIndex - 1);
+  });
+  const RowN31 = Array.from({ length: NHFront }, (_, i) => i + 1);
+
+  RowC.forEach((c) => {
+    const index = RowN31.indexOf(c);
+    if (index !== -1) {
+      RowN31.splice(index, 1);
+    }
+  });
+
+  const RowA31: number[] = [];
+  for (let i = 0; i < RowN31.length; i += 3) {
+    RowA31.push(RowN31[i]);
+  }
+
+  const RowPrib1x3_1x1 = [...RowA31, ...RowC].sort((a, b) => a - b);
+  const resultString31 = RowPrib1x3_1x1.join(', ');
+
+  return { PozC, RowC, RowN31, RowA31, RowPrib1x3_1x1, resultString31 };
+};
+
 {
     /*расчет рядов с прибавками для 1x4, 1x3*/
 }

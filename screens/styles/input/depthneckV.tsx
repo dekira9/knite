@@ -11,6 +11,7 @@ import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { computeVNeckDepthBoundsFromMeasurements } from '@/utils/calculateRaglan';
+import { track, trackMeasurementStep } from '@/utils/analytics';
 
 const CM_PER_INCH = 2.54;
 const cmToIn = (cm: number): string => (cm / CM_PER_INCH).toFixed(1);
@@ -101,6 +102,8 @@ const DepthNeckV = () => {
     introState.setDepthNeckV(actualValue);
     introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
+    trackMeasurementStep('neck_depth', { style: 'v-neck' });
+    track('measurements_completed', { style: 'v-neck' });
     (navigation as any).navigate('Result');
   };
 

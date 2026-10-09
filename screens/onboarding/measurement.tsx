@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from '@/state/onboardingState';
 import i18n from '@/utils/translations';
+import { setAnalyticsUserProperties, track } from '@/utils/analytics';
 
 const MeasurementScreen = observer(() => {
   const navigation = useNavigation();
@@ -11,6 +12,15 @@ const MeasurementScreen = observer(() => {
   const selectSystem = (system: string) => {
     onboardingState.setMeasurementSystem(system);
     onboardingState.completeOnboarding();
+    setAnalyticsUserProperties({
+      measurement_system: system,
+      onboarding_completed: true,
+      language: onboardingState.language,
+    });
+    track('onboarding_completed', {
+      measurement_system: system,
+      language: onboardingState.language,
+    });
     navigation.reset({
       index: 0,
       routes: [{ name: 'Main' }],

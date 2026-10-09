@@ -18,6 +18,7 @@ export const next = {
   ar: "التالي",
   pt: "Próximo",
   lt: "Kitas",
+  pl: "Dalej",
 };
 
 export const calculate = {
@@ -38,6 +39,7 @@ export const calculate = {
   ar: "حساب",
   pt: "Calcular",
   lt: "Apskaičiuoti",
+  pl: "Oblicz",
 };
 
 export const end = {
@@ -58,6 +60,7 @@ export const end = {
   ar: "نهاية",  
   pt: "Fim",
   lt: "Pabaiga",
+  pl: "Koniec",
 };
 
 export const plan = {
@@ -78,6 +81,7 @@ export const plan = {
   ar: "الخطة",
   pt: "Plano",
   lt: "Planas",
+  pl: "Plan",
 };
 
 export const knittingPlan = {
@@ -98,6 +102,7 @@ export const knittingPlan = {
   ar: "خطة الحياكة",
   pt: "Plano de tricô",
   lt: "Mezgimo planas",
+  pl: "Plan dziania",
 };
 
 export const step = {
@@ -118,6 +123,7 @@ export const step = {
   ar: "الخطوة",
   pt: "Etapa",
   lt: "Šuolis", 
+  pl: "Krok",
 };
 
 export const action = {
@@ -138,6 +144,7 @@ export const action = {
   ar: "العملية",
   pt: "Ação",
   lt: "Veiksmas",
+  pl: "Czynność",
 };
 
 export const start = {
@@ -158,6 +165,7 @@ export const start = {
   ar: "بدء",
   pt: "Início",
   lt: "Pradžia",
+  pl: "Start",
 };
 
 export const adding = {  
@@ -178,6 +186,7 @@ export const adding = {
   ar: "الزيادات",
   pt: "Aumentos",
   lt: "Prieaugliai",
+  pl: "Dodawanie",
 };
 
 export const back = {
@@ -198,6 +207,7 @@ export const back = {
   ar: "خلف",
   pt: "Costas",
   lt: "Atgal",
+  pl: "Tył",
 };
 
 export const front = {
@@ -218,6 +228,7 @@ export const front = {
   ar: "أمامي",
   pt: "Frente",
   lt: "Priekis",
+  pl: "Przód",
 };
 
 export const sleeve = {
@@ -238,6 +249,7 @@ export const sleeve = {
   ar: "أكتاف",
   pt: "Manga",
   lt: "Rankas",
+  pl: "Rękaw",
 };
 
 export const create = {
@@ -258,6 +270,7 @@ export const create = {
   ar: "إنشاء",
   pt: "Criar",
   lt: "Sukurti",
+  pl: "Utwórz",
 };
 
 export const Result = {
@@ -278,6 +291,7 @@ export const Result = {
   ar: "نتيجة",
   pt: "Resultado",
   lt: "Rezultatas",
+  pl: "Wynik",
 };
 
 export const expandMeasurements = {
@@ -298,6 +312,7 @@ export const expandMeasurements = {
   ar: "إظهار",
   pt: "Mostrar",
   lt: "Rodyti",
+  pl: "Pokaż",
 };
 
 export const openStepDetails = {
@@ -318,6 +333,7 @@ export const openStepDetails = {
   ar: "فتح",
   pt: "Abrir",
   lt: "Atidaryti",
+  pl: "Otwórz",
 };
 
 export const collapseMeasurements = {
@@ -338,6 +354,7 @@ export const collapseMeasurements = {
   ar: "إخفاء",
   pt: "Ocultar",
   lt: "Slėpti",
+  pl: "Ukryj",
 };
 
 export const parametersHeading = {
@@ -358,6 +375,7 @@ export const parametersHeading = {
   ar: "المعلمات",
   pt: "Parâmetros",
   lt: "Parametrai",
+  pl: "Parametry",
 };
 
 export const editParameters = {
@@ -378,6 +396,7 @@ export const editParameters = {
   ar: "تعديل المعلمات",
   pt: "Editar parâmetros",
   lt: "Keisti parametrus",
+  pl: "Edytuj parametry",
 };
 
 /** Short label for the Edit parameters tab. */
@@ -399,6 +418,7 @@ export const tabParameters = {
   ar: "المعلمات",
   pt: "Parâmetros",
   lt: "Parametrai",
+  pl: "Parametry",
 };
 
 export const knittingPlanClosingLine1 = {
@@ -419,6 +439,7 @@ export const knittingPlanClosingLine1 = {
   ar: "الأساس جاهز.",
   pt: "A base está pronta.",
   lt: "Pagrindas paruoštas.",
+  pl: "Podstawa gotowa.",
 };
 
 export const knittingPlanClosingLine2 = {
@@ -439,4 +460,5 @@ export const knittingPlanClosingLine2 = {
   ar: "الآن — خيالك.",
   pt: "Agora — a sua imaginação.",
   lt: "Dabar — jūsų vaizduotė.",
+  pl: "Teraz — Twoja wyobraźnia.",
 };

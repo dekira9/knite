@@ -18,6 +18,7 @@ export const knittingChart = {
   ar: "مخطط التريك",
   pt: "Diagrama de tricô",  
   lt: "Dėlių diagrama",
+  pl: "Schemat dziania",
 };
 
 export const knittingCharts = {
@@ -38,6 +39,7 @@ export const knittingCharts = {
   ar: "مخططات الحياكة",
   pt: "Gráficos de tricô",
   lt: "Mezgimo schemos",
+  pl: "Schematy dziania",
 };
 
 /** Short label for the Knitting charts tab. */
@@ -59,6 +61,7 @@ export const tabCharts = {
   ar: "المخططات",
   pt: "Gráficos",
   lt: "Schemos",
+  pl: "Schematy",
 };
 
 export const lastRowOfCollar = {
@@ -79,6 +82,7 @@ export const lastRowOfCollar = {
   ar: "آخر صف من الياقة",
   pt: "Última fileira da gola",  
   lt: "Paskutinis apykaklės rūšis",
+  pl: "Ostatni rząd kołnierza",
 };
 
 export const castOnRow = {
@@ -98,7 +102,8 @@ export const castOnRow = {
   tr: "Başlangıç sırası",
   ar: "صف البداية",
   pt: "Carreira de montagem",
-  lt: "Pradinis eilutė"
+  lt: "Pradinis eilutė",
+  pl: "Rząd nabierania",
 };
 
 export const knitWithYourPatternAfterRibbing = {
@@ -118,7 +123,8 @@ export const knitWithYourPatternAfterRibbing = {
   tr: "Lastikten sonra deseninize göre örün",
   ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
   pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  lt: "Megzkite pagal raštą po elastinės dalies",
+  pl: "Po ściągaczu dziergaj swoim wzorem",
 };
 
 export const knittingAfterRibbing = {
@@ -138,7 +144,8 @@ export const knittingAfterRibbing = {
   tr: "Lastikten sonra deseninize göre örün",
   ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
   pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  lt: "Megzkite pagal raštą po elastinės dalies",
+  pl: "Dzianie po ściągaczu",
 };
 
 export const knittingChartRibbing = {
@@ -159,6 +166,7 @@ export const knittingChartRibbing = {
   ar: "مخطط التريك",
   pt: "Diagrama de tricô",
   lt: "Dėlių diagrama",
+  pl: "Schemat ściągacza",
 };
 
 export const backKnittingChart = {
@@ -179,6 +187,7 @@ export const backKnittingChart = {
   ar: "مخطط التريك الخلفي",
   pt: "Diagrama de tricô das costas",
   lt: "Nugaros mezgimo diagrama",
+  pl: "Schemat tyłu",
 };
 
 export const frontKnittingChart = {
@@ -199,6 +208,7 @@ export const frontKnittingChart = {
   ar: "مخطط التريك الأمامي",
   pt: "Diagrama de tricô da frente",
   lt: "Priekio mezgimo diagrama",
+  pl: "Schemat przodu",
 };
 
 export const sleeveKnittingChart = {
@@ -219,6 +229,7 @@ export const sleeveKnittingChart = {
   ar: "مخطط التريك للكم",
   pt: "Diagrama de tricô da manga",
   lt: "Rankogalio mezgimo diagrama",
+  pl: "Schemat rękawa",
 };
 
 export const knitting = {
@@ -239,6 +250,7 @@ export const knitting = {
   ar: "الحياكة",
   pt: "Tricotar",
   lt: "Megzgauti",
+  pl: "Dzianie",
 };
 
 export const fromTheRibbing = {
@@ -259,6 +271,7 @@ export const fromTheRibbing = {
   ar: "من الربط",
   pt: "do rib",
   lt: "iš reznių",
+  pl: "od ściągacza",
 };
 
 export const row1ForPart = {
@@ -279,6 +292,7 @@ export const row1ForPart = {
   ar: "الجزء 1 للأجزاء",
   pt: "Linha 1 para peça",
   lt: "Rūšių 1 eilutė",
+  pl: "Rząd 1 części",
 };
 
 export const row2ForPart = {
@@ -299,6 +313,7 @@ export const row2ForPart = {
   ar: "الجزء 2 للأجزاء",
   pt: "Linha 2 para peça",
   lt: "Rūšių 2 eilutė",
+  pl: "Rząd 2 części",
 };
 
 export const turn = {
@@ -319,6 +334,7 @@ export const turn = {
   ar: "استدارة",
   pt: "Virar",
   lt: "Sukimti",
+  pl: "Odwróć",
 };
 
 export const row = {
@@ -339,6 +355,7 @@ export const row = {
   ar: "السطر",
   pt: "Linha",
   lt: "Eilutė",
+  pl: "Rząd",
 };
 
 export const underarmStitches = {
@@ -359,6 +376,7 @@ export const underarmStitches = {
   ar: "غرز تحت الإبط",
   pt: "Pontos da axila",
   lt: "Pažasties akys",
+  pl: "Oczka pod pachą",
 };
 
 export const fromTheBack = {
@@ -379,6 +397,7 @@ export const fromTheBack = {
   ar: "من الخلف",
   pt: "De trás",
   lt: "Iš galo",
+  pl: "Od tyłu",
 };
 
 export const option = {
@@ -399,6 +418,7 @@ export const option = {
   ar: "خيار",
   pt: "Opção",
   lt: "Pasirinkimas",
+  pl: "Wariant",
 };
 
 export const per = {
@@ -419,6 +439,7 @@ export const per = {
   ar: "لكل",
   pt: "por",
   lt: "į",
+  pl: "na",
 };
 
 export const sm = {
@@ -439,6 +460,7 @@ export const sm = {
   ar: "cm",
   pt: "cm",
   lt: "cm",
+  pl: "cm",
 };
 
 export const AdditionRows = {
@@ -459,6 +481,7 @@ export const AdditionRows = {
   ar: "الصفوف التي تحتوي على إضافات",
   pt: "linhas com adições", 
   lt: "Rūšių su pridėtimi",
+  pl: "Rzędy z dodawaniem",
 };
 
 export const necklineKnitting = {
@@ -479,6 +502,7 @@ export const necklineKnitting = {
   ar: "حياكة خط العنق",
   pt: "Tricot da garganta",
   lt: "Kaklo mezgimas",
+  pl: "Dzianie dekoltu",
 };
 
 export const collarKnitting = {
@@ -499,6 +523,7 @@ export const collarKnitting = {
   ar: "حياكة الياقة",
   pt: "Tricô de gola",
   lt: "Apykaklės mezgimas",
+  pl: "Dzianie kołnierza",
 };
 
 export const knittingAfterCollar = {
@@ -518,7 +543,8 @@ export const knittingAfterCollar = {
   tr: "Lastikten sonra deseninize göre örün",
   ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
   pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  lt: "Megzkite pagal raštą po elastinės dalies",
+  pl: "Dzianie po kołnierzu",
 };
 
 export const collarKnittingChart = {
@@ -539,6 +565,7 @@ export const collarKnittingChart = {
   ar: "مخطط التريك للياقة",
   pt: "Diagrama de tricô da gola",
   lt: "Apykaklės mezgimo diagrama",
+  pl: "Schemat kołnierza",
 };
 
 export const collar = {
@@ -559,6 +586,7 @@ export const collar = {
   ar: "ياقة",
   pt: "Gola",
   lt: "Apykaklė",
+  pl: "Kołnierz",
 };
 
 export const fromTheCollar = {
@@ -579,6 +607,7 @@ export const fromTheCollar = {
   ar: "من الياقة",
   pt: "da gola",
   lt: "iš apykaklės",
+  pl: "od kołnierza",
 };
 
 export const left = {
@@ -599,6 +628,7 @@ export const left = {
   ar: "يسار",
   pt: "esquerda",
   lt: "kairė",
+  pl: "lewo",
 };
 
 export const right = {
@@ -619,6 +649,7 @@ export const right = {
   ar: "يمين",
   pt: "direita",
   lt: "dešinė",
+  pl: "prawo",
 };
 
 export const currentRow = {
@@ -639,6 +670,7 @@ export const currentRow = {
   ar: "السطر الحالي",
   pt: "Linha Atual",
   lt: "Dabartinė eilutė",
+  pl: "Bieżący rząd",
 };
 
 export const chartLegendTitle = {
@@ -659,6 +691,7 @@ export const chartLegendTitle = {
   ar: "المفتاح",
   pt: "Legenda",
   lt: "Legenda",
+  pl: "Legenda",
 };
 
 export const chartZoomHint = {
@@ -679,6 +712,7 @@ export const chartZoomHint = {
   ar: "اقرص للتكبير · انقر مرتين لإعادة التعيين",
   pt: "Belisque para zoom · Toque duas vezes para repor",
   lt: "Suspauskite priartinimui · Dukart bakstelėkite atstatyti",
+  pl: "Uszczypnij, aby powiększyć · Podwójne stuknięcie resetuje",
 };
 
 export const chartPreviousRow = {
@@ -699,6 +733,7 @@ export const chartPreviousRow = {
   ar: "السطر السابق",
   pt: "Linha anterior",
   lt: "Ankstesnė eilutė",
+  pl: "Poprzedni rząd",
 };
 
 export const chartNextRow = {
@@ -719,6 +754,7 @@ export const chartNextRow = {
   ar: "السطر التالي",
   pt: "Próxima linha",
   lt: "Kita eilutė",
+  pl: "Następny rząd",
 };
 
 export const stop = {
@@ -739,6 +775,7 @@ export const stop = {
   ar: "توقف",
   pt: "Parar",
   lt: "Sustabdyti",
+  pl: "Stop",
 };
 
 export const howToMakeIncrease = {
@@ -759,6 +796,7 @@ export const howToMakeIncrease = {
   ar: "كيفية عمل الزيادة",
   pt: "Como fazer um aumento",
   lt: "Kaip daryti prieaugį",
+  pl: "Jak robić dodawanie",
 };
 
 export const chartStopSavedTitle = {
@@ -779,6 +817,7 @@ export const chartStopSavedTitle = {
   ar: "تم حفظ التوقف",
   pt: "Paragem guardada",
   lt: "Sustojimas išsaugotas",
+  pl: "Stop zapisany",
 };
 
 export const chartStopSavedMessage = {
@@ -799,6 +838,7 @@ export const chartStopSavedMessage = {
   ar: "تم حفظ الصف %{row}. سيظهر على بطاقة المشروع.",
   pt: "Linha %{row} guardada. Aparecerá no cartão do projeto.",
   lt: "Eilutė %{row} išsaugota. Ji bus rodoma projekto kortelėje.",
+  pl: "Rząd %{row} zapisany. Pojawi się na karcie projektu.",
 };
 
 export const viewChart = {
@@ -819,4 +859,5 @@ export const viewChart = {
   ar: "عرض الرسم البياني",
   pt: "Ver diagrama",
   lt: "Diagramą peržiūrėti",
+  pl: "Zobacz schemat",
 };

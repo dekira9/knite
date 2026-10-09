@@ -18,26 +18,28 @@ export const resultHelpIncreaseTitle = {
   ar: "إيقاع الزيادات",
   pt: "Ritmo de aumentos",
   lt: "Prieauglių ritmas",
+  pl: "Rytm dodawań",
 };
 
 export const resultHelpIncreaseBody = {
-  en: "1×2 means add 1 stitch every 2nd row. The number after the colon is how many times that rhythm is used. The chips below are the row numbers where you add stitches.",
-  ru: "1×2 — прибавить 1 петлю каждый 2-й ряд. Число после двоеточия — сколько раз повторить этот ритм. Ниже — номера рядов с прибавками.",
-  sv: "1×2 betyder 1 maska varannan rad. Talet efter kolon är hur många gånger rytmen upprepas. Rutorna nedan visar radnummer med ökningar.",
-  no: "1×2 betyr 1 maske annenhver rad. Tallet etter kolon er hvor mange ganger rytmen gjentas. Brikkene nedenfor er radnumrene med økninger.",
-  fi: "1×2 tarkoittaa 1 silmukka joka toinen rivi. Luvun jälkeen kaksoispiste kertoo, montako kertaa rytmi toistuu. Alla olevat merkit ovat lisäysrivien numerot.",
-  de: "1×2 bedeutet: in jeder 2. Reihe 1 Masche zunehmen. Die Zahl nach dem Doppelpunkt gibt an, wie oft dieser Rhythmus verwendet wird. Die Markierungen unten sind die Reihennummern mit Zunahmen.",
-  fr: "1×2 signifie ajouter 1 maille tous les 2 rangs. Le nombre après les deux points indique combien de fois ce rythme est utilisé. Les pastilles ci-dessous sont les numéros de rangs avec augmentations.",
-  es: "1×2 significa añadir 1 punto cada 2 filas. El número después de los dos puntos indica cuántas veces se repite ese ritmo. Las fichas de abajo son los números de filas con aumentos.",
-  ja: "1×2は2段ごとに1目増やす意味です。コロンの後の数字はそのリズムを何回使うかです。下のチップは増やし目の段番号です。",
-  cs: "1×2 znamená přidat 1 oko každý 2. řádek. Číslo za dvojtečkou udává, kolikrát se rytmus opakuje. Značky níže jsou čísla řádků s přidáváním.",
-  bg: "1×2 означава 1 петля на всеки 2-ри ред. Числото след двоеточието показва колко пъти се повтаря ритъмът. Чиповете по-долу са номерата на редовете с прибавки.",
-  sk: "1×2 znamená pridať 1 oko každý 2. rad. Číslo za dvojbodkou udáva, koľkokrát sa rytmus opakuje. Značky nižšie sú čísla riadkov s pridávaním.",
-  ko: "1×2는 2단마다 1코를 늘리는 뜻입니다. 콜론 뒤 숫자는 그 리듬을 몇 번 쓰는지입니다. 아래 칩은 늘림이 있는 단 번호입니다.",
-  tr: "1×2, her 2. sırada 1 ilmek artırmak demektir. İki noktadan sonraki sayı bu ritmin kaç kez kullanıldığını gösterir. Alttaki işaretler artırma yapılan sıra numaralarıdır.",
-  ar: "1×2 يعني إضافة غرزة واحدة كل صف ثانٍ. الرقم بعد النقطتين هو عدد مرات استخدام هذا الإيقاع. الرموز أدناه هي أرقام الصفوف التي فيها زيادات.",
-  pt: "1×2 significa adicionar 1 ponto a cada 2ª carreira. O número após os dois pontos indica quantas vezes esse ritmo é usado. As fichas abaixo são os números das carreiras com aumentos.",
-  lt: "1×2 reiškia pridėti 1 akį kas 2 eilutę. Skaičius po dvitaškio rodo, kiek kartų kartojamas ritmas. Žemiau esantys ženklai – eilučių numeriai su prieaugliu.",
+  en: "“1 stitch every 2 rows × 8” means increase once every 2 rows, 8 times. If two rhythms are shown, do not choose — follow the row numbers; they already combine both rhythms.",
+  ru: "«1 петля каждые 2 ряда × 8» — прибавка раз в 2 ряда, всего 8 раз. Если ритмов два — не выбирайте: смотрите номера рядов, они уже объединены.",
+  sv: "“1 maska var 2:e rad × 8” betyder öka varannan rad, 8 gånger. Vid två rytmer: välj inte — följ radnumren; de kombinerar redan båda.",
+  no: "“1 maske hver 2. rad × 8” betyr øk annenhver rad, 8 ganger. Ved to rytmer: ikke velg — følg radnumrene; de kombinerer allerede begge.",
+  fi: "“1 silmukka joka 2. rivi × 8” tarkoittaa lisäystä joka toisella rivillä, 8 kertaa. Kahdessa rytmissä älä valitse — seuraa rivinumeroita; ne yhdistävät molemmat.",
+  de: "„1 Masche alle 2 Reihen × 8“ heißt: alle 2 Reihen zunehmen, 8 Mal. Bei zwei Rhythmen nicht wählen — folge den Reihennummern; sie kombinieren beide.",
+  fr: "« 1 maille tous les 2 rangs × 8 » = augmenter tous les 2 rangs, 8 fois. Si deux rythmes apparaissent, ne choisissez pas — suivez les numéros de rangs, déjà combinés.",
+  es: "“1 punto cada 2 filas × 8” significa aumentar cada 2 filas, 8 veces. Si hay dos ritmos, no elijas — sigue los números de fila; ya combinan ambos.",
+  ja: "「2段ごとに1目 × 8」は2段に1回、計8回増やす意味です。リズムが2つあっても選ばず、段番号に従ってください（両方を合わせ済み）。",
+  cs: "„1 oko každých 2 řad × 8“ znamená přidávat každé 2 řady, celkem 8×. Při dvou rytmech nevybírejte — sledujte čísla řad; už jsou sloučena.",
+  bg: "„1 петля на всеки 2 реда × 8“ означава прибавка на всеки 2 реда, 8 пъти. Ако има два ритъма — не избирайте: следвайте номерата на редовете, те вече са комбинирани.",
+  sk: "„1 oko každých 2 radov × 8“ znamená pridávať každé 2 rady, 8-krát. Pri dvoch rytmoch nevyberajte — sledujte čísla radov; už sú zlúčené.",
+  ko: "“2단마다 1코 × 8”은 2단마다 한 번, 총 8번 늘리라는 뜻입니다. 리듬이 두 개여도 고르지 말고 단 번호를 따르세요(이미 합쳐짐).",
+  tr: "“Her 2 sırada 1 ilmek × 8” her 2 sırada bir, toplam 8 kez artırmak demektir. İki ritim varsa seçmeyin — sıra numaralarına bakın; ikisi birleştirilmiştir.",
+  ar: "«غرزة كل صفين × 8» تعني الزيادة كل صفين، 8 مرات. إن وُجد إيقاعان فلا تختاري — اتبعي أرقام الصفوف؛ هما مدمجان مسبقاً.",
+  pt: "“1 ponto a cada 2 carreiras × 8” significa aumentar a cada 2 carreiras, 8 vezes. Se houver dois ritmos, não escolha — siga os números das carreiras; já estão combinados.",
+  lt: "„1 akis kas 2 eilutes × 8“ reiškia prieaugį kas 2 eilutes, 8 kartus. Jei ritmai du — nesirinkite: žiūrėkite eilučių numerius; jie jau sujungti.",
+  pl: "„1 oczko co 2 rzędy × 8” oznacza dodawanie raz na 2 rzędy, łącznie 8 razy. Jeśli widać dwa rytmy — nie wybieraj: patrz na numery rzędów; są już połączone.",
 };
 
 export const resultHelpLegendTitle = {
@@ -58,6 +60,7 @@ export const resultHelpLegendTitle = {
   ar: "كيفية قراءة هذه الشاشة",
   pt: "Como ler esta tela",
   lt: "Kaip skaityti šį ekraną",
+  pl: "Jak czytać ten ekran",
 };
 
 export const resultHelpLegendBody = {
@@ -78,6 +81,7 @@ export const resultHelpLegendBody = {
   ar: "الألوان تميز أجزاء المخطط. الأرقام تُظهر ترتيب الحياكة — الأجزاء ذات الرقم نفسه تُحياك معًا على دائرة. اضغط على رمز أو افتح المخطط.",
   pt: "As cores marcam as partes no plano. Os números mostram a ordem de tricô — partes com o mesmo número são trabalhadas juntas em circular. Toque num símbolo ou abra o diagrama.",
   lt: "Spalvos žymi dalis plane. Skaičiai rodo mezgimo eiliškumą — dalys su tuo pačiu skaičiumi mezgiamos kartu ratu. Bakstelėkite simbolį arba atidarykite schemą.",
+  pl: "Kolory oznaczają części wyrobu na planie. Cyfry — kolejność dziania: części z tą samą cyfrą dzierga się jednocześnie w okrążeniu. Stuknij symbol, aby zobaczyć szczegóły, lub otwórz schemat.",
 };
 
 export const resultHelpLastRowTitle = {
@@ -98,6 +102,7 @@ export const resultHelpLastRowTitle = {
   ar: "آخر صف من الياقة",
   pt: "Última carreira da gola",
   lt: "Paskutinė apykaklės eilutė",
+  pl: "Ostatni rząd kołnierza",
 };
 
 export const resultHelpLastRowBody = {
@@ -118,6 +123,7 @@ export const resultHelpLastRowBody = {
   ar: "الأصفر يحدد الياقة (الخطوة 1) — آخر صف من الياقة قبل الحياكة على دائرة.",
   pt: "Amarelo marca a gola (passo 1) — última carreira de barra antes do tricô circular.",
   lt: "Geltona žymi apykaklę (1 žingsnis) — paskutinė gumos eilutė prieš mezgimą ratu.",
+  pl: "Żółty — kołnierz (krok 1), ostatni rząd ściągacza przed dzianiem w okrążeniu.",
 };
 
 export const resultHelpStartTitle = {
@@ -138,6 +144,7 @@ export const resultHelpStartTitle = {
   ar: "نقطة البداية",
   pt: "Ponto de início",
   lt: "Pradžios taškas",
+  pl: "Punkt startu",
 };
 
 export const resultHelpStartBody = {
@@ -158,6 +165,7 @@ export const resultHelpStartBody = {
   ar: "الدائرة الحمراء تُحدد بداية الحياكة على دائرة.",
   pt: "O círculo vermelho marca o início da malha circular.",
   lt: "Raudonas apskritimas žymi mezgimo ratu pradžią.",
+  pl: "Czerwona kropka oznacza początek dziania w okrążeniu.",
 };
 
 export const resultHelpUnderarmTitle = {
@@ -178,6 +186,7 @@ export const resultHelpUnderarmTitle = {
   ar: "غرز تحت الإبط",
   pt: "Pontos da axila",
   lt: "Pažasties akys",
+  pl: "Oczka pod pachą",
 };
 
 export const resultHelpUnderarmBody = {
@@ -198,6 +207,7 @@ export const resultHelpUnderarmBody = {
   ar: "غرز تُزاد تحت الإبطين عند فصل العمل إلى الجسم (الأمام/الخلف) والأكمام.",
   pt: "Pontos montados adicionalmente debaixo dos braços ao separar o trabalho em corpo (frente/costas) e mangas.",
   lt: "Papildomai po pažastimis renkamos akys, kai darbas skiriamas į liemenį (priekį/nugarą) ir rankoves.",
+  pl: "Oczka nabierane dodatkowo pod pachami przy rozdzielaniu pracy na tułów (przód/tył) i rękawy.",
 };
 
 export const resultHelpKnitCollarTitle = {
@@ -218,6 +228,7 @@ export const resultHelpKnitCollarTitle = {
   ar: "غرز من الياقة",
   pt: "Pontos da gola",
   lt: "Akys nuo apykaklės",
+  pl: "Oczka od kołnierza",
 };
 
 export const resultHelpKnitCollarBody = {
@@ -238,6 +249,7 @@ export const resultHelpKnitCollarBody = {
   ar: "في مخطط الرقبة V: اربط هذه الغرز من حافة الياقة.",
   pt: "No diagrama gola V: tricotar estes pontos da borda da gola.",
   lt: "V formos iškirpte: megzti šias akis nuo apykaklės krašto.",
+  pl: "Na schemacie dekoltu w serek różowobrązowe komórki — oczka dziergane od krawędzi kołnierza przy formowaniu dekoltu.",
 };
 
 export const resultHelpDecreaseTitle = {
@@ -258,6 +270,7 @@ export const resultHelpDecreaseTitle = {
   ar: "التناقصات",
   pt: "Diminuições",
   lt: "Sumažinimai",
+  pl: "Ujmowania",
 };
 
 export const resultHelpDecreaseBody = {
@@ -278,4 +291,5 @@ export const resultHelpDecreaseBody = {
   ar: "الأسود يحدد صفوف التناقص في مخطط الرقبة V.",
   pt: "Preto marca carreiras de diminuições no diagrama gola V.",
   lt: "Juoda žymi sumažinimų eilutes V formos schemoje.",
+  pl: "Czerń na schemacie — rzędy z ujmowaniami przy formowaniu dekoltu w serek.",
 };

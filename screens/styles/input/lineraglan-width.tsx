@@ -10,6 +10,7 @@ import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { computeRegularRaglanLineMaxFromMeasurements } from '@/utils/calculateRaglan';
+import { track, trackMeasurementStep } from '@/utils/analytics';
 
 const LineraglanWidth = () => {
   const colorScheme = useColorScheme();
@@ -48,6 +49,8 @@ const LineraglanWidth = () => {
     introState.setRaglanLineWidth(nextValue);
     introState.markMeasurementsCustom();
     introState.setIntroFinished(true);
+    trackMeasurementStep('raglan_line', { style: 'regular' });
+    track('measurements_completed', { style: 'regular' });
     (navigation as any).navigate('Result');
   };
 

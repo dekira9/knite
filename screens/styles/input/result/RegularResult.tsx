@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import introState from '@/state/introState';
@@ -16,6 +16,7 @@ import Step3BackLengthening from './Step3BackLengthening';
 import Step4SeparatingSleeves from './Step4SeparatingSleeves';
 import ResultClosingBanner from './ResultClosingBanner';
 import { Colors } from '@/constants/Colors';
+import { track } from '@/utils/analytics';
 export default observer(() => {
   const navigation = useNavigation();
   const results = introState.calculateRaglan();
@@ -32,8 +33,25 @@ export default observer(() => {
     handleCarouselScroll,
   } = useRegularResultScroll();
 
+  const resultViewed = useRef(false);
+
   useEffect(() => {
-    void introState.syncRaglanFromSupabase();
+    const style = introState.style === 'v-neck' ? 'v-neck' : 'regular';
+    const sample = introState.usesSampleMeasurements;
+    if (!resultViewed.current) {
+      resultViewed.current = true;
+      track('result_viewed', { style, sample });
+    }
+    let cancelled = false;
+    void introState.syncRaglanFromSupabase().then((success) => {
+      if (cancelled) {
+        return;
+      }
+      track('calculation_finished', { success, style, sample });
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [
     introState.headCircumference,
     introState.neckCircumference,
@@ -70,7 +88,7 @@ export default observer(() => {
     );
   }
 
-  const { resultString24, resultString23, resultString21, resultString43 } =
+  const { resultString24, resultString23, resultString21, resultString43, resultString41, resultString31 } =
     computeRegularIncreasePrecompute(results);
 
   return (
@@ -101,6 +119,8 @@ export default observer(() => {
           resultString23={resultString23}
           resultString21={resultString21}
           resultString43={resultString43}
+          resultString41={resultString41}
+          resultString31={resultString31}
         />
 
         <Step3BackLengthening

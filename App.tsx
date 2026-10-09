@@ -11,6 +11,8 @@ import OnboardingNavigator from './navigation/OnboardingNavigator';
 import MainNavigator from './navigation/MainNavigator';
 import { updateLocale } from './utils/translations';
 import { isSupportedLanguage } from './utils/i18n/supportedLanguages';
+import { initAnalytics, setAnalyticsUserProperties, track } from './utils/analytics';
+import { maybePromptSoftUpdate } from './utils/appUpdateCheck';
 
 const Stack = createStackNavigator();
 
@@ -32,10 +34,29 @@ const App = observer(() => {
         onboardingState.setLanguage(lang);
       }
       updateLocale(lang);
+      initAnalytics();
+      setAnalyticsUserProperties({
+        language: lang,
+        measurement_system: onboardingState.measurementSystem,
+        onboarding_completed: onboardingState.hasCompletedOnboarding,
+      });
+      track('app_opened', {
+        onboarding_completed: onboardingState.hasCompletedOnboarding,
+      });
       setIsLoading(false);
     };
     loadState();
   }, []);
+
+  useEffect(() => {
+    if (isLoading || !onboardingState.hasCompletedOnboarding) {
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      void maybePromptSoftUpdate();
+    }, 1200);
+    return () => clearTimeout(timeoutId);
+  }, [isLoading, onboardingState.hasCompletedOnboarding]);
 
   if (isLoading) {
     return (

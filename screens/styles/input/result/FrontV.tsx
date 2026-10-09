@@ -10,6 +10,18 @@ import {
   getIncreaseRowsFromType,
   mapPrecomputedVStrings,
 } from '@/screens/styles/raglan/increaseRowSelection';
+import FrontVUnderstandingCarousel from './FrontVUnderstandingCarousel';
+import { RESULT_COLORS } from './resultSharedStyles';
+
+const CREATE_STITCH_BLUE = '#00ADF2';
+
+const DRAWING_LEGEND = [
+  { color: RESULT_COLORS.front, labelKey: 'drawingLegendFront' as const },
+  { color: RESULT_COLORS.sleeve, labelKey: 'drawingLegendSleeve' as const },
+  { color: RESULT_COLORS.back, labelKey: 'drawingLegendBack' as const },
+  { color: RESULT_COLORS.raglan, labelKey: 'drawingLegendRaglan' as const },
+  { color: CREATE_STITCH_BLUE, labelKey: 'drawingLegendAdded' as const },
+];
 
 // Color constants
 const COLORS = {
@@ -123,18 +135,19 @@ const FrontV = observer(({
           /> 
           
         </View>
-        <View style={{marginBottom: 10, marginLeft: 0, padding: 5, backgroundColor: '#E6E6E6', borderRadius: 8, alignItems: 'center'}}>
+        <View style={styles.drawingBlock}>
           <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-            <Text style={styles.resultText}>{i18n.t('drawingForUnderstanding')}</Text>  
+            <Text style={styles.drawingTitle}>{i18n.t('drawingForUnderstanding')}</Text>  
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent: 'flex-start'}}> 
-              <Image
-                source={require('@/assets/images/frontVan.png')}
-                style={styles.frontImage}
-              />
-            </View>
-          </ScrollView>
+          <View style={styles.drawingLegend}>
+            {DRAWING_LEGEND.map((item) => (
+              <View key={item.labelKey} style={styles.drawingLegendItem}>
+                <View style={[styles.drawingLegendSwatch, { backgroundColor: item.color }]} />
+                <Text style={styles.drawingLegendLabel}>{i18n.t(item.labelKey)}</Text>
+              </View>
+            ))}
+          </View>
+          <FrontVUnderstandingCarousel />
         </View>
         {/*1*/} 
         <View style={styles.horizontalRow}>
@@ -142,7 +155,7 @@ const FrontV = observer(({
         </View>
           
         <View style={styles.horizontalRow}>
-          <Text style={styles.resultText}> 1: {i18n.t('row1ForPart')} R </Text>
+          <Text style={styles.resultText}> 1: {i18n.t('row1ForPart')} L </Text>
         </View>
           
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
@@ -199,7 +212,7 @@ const FrontV = observer(({
         {/*2*/}
           
         <View style={styles.horizontalRow}>
-          <Text style={styles.resultText}> 2: {i18n.t('row2ForPart')} R </Text>
+          <Text style={styles.resultText}> 2: {i18n.t('row2ForPart')} L </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
@@ -232,7 +245,7 @@ const FrontV = observer(({
         {/*3*/} 
 
         <View style={styles.horizontalRow}>
-          <Text style={styles.resultText}> 3: {i18n.t('row1ForPart')} L </Text>
+          <Text style={styles.resultText}> 3: {i18n.t('row1ForPart')} R </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
@@ -288,7 +301,7 @@ const FrontV = observer(({
         {/*4*/}
 
         <View style={styles.horizontalRow}>
-          <Text style={styles.resultText}> 4: {i18n.t('row2ForPart')} L </Text>
+          <Text style={styles.resultText}> 4: {i18n.t('row2ForPart')} R </Text>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={styles.horizontalRow}>
@@ -441,12 +454,42 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
   },
-  frontImage: {
+  drawingBlock: {
+    marginBottom: 10,
+    marginHorizontal: -16,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: '#2C5546',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  drawingTitle: {
+    fontSize: 14,
+    color: '#E5E7EB',
+    marginBottom: 5,
+  },
+  drawingLegend: {
     width: '100%',
-    aspectRatio: 2,
-    height: undefined,
-    resizeMode: 'contain',
-    padding: 300,
+    marginBottom: 10,
+    gap: 6,
+    paddingHorizontal: 4,
+  },
+  drawingLegendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  drawingLegendSwatch: {
+    width: 17,
+    height: 17,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+  },
+  drawingLegendLabel: {
+    flex: 1,
+    fontSize: 13,
+    color: '#E5E7EB',
   },
   stepHeader: {
     flexDirection: 'row',

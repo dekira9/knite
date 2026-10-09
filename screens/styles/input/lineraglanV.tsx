@@ -10,6 +10,7 @@ import { screenWidth } from '@/utils/Layout';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { computeVNeckRaglanLineMaxFromMeasurements } from '@/utils/calculateRaglan';
+import { trackMeasurementStep } from '@/utils/analytics';
 
 const LineraglanV = () => {
   const colorScheme = useColorScheme();
@@ -57,6 +58,7 @@ const LineraglanV = () => {
   const handleNext = () => {
     const nextValue = Math.min(KmaxV, Math.max(Kmin, parseInt(sliderValue, 10) || Kmin));
     introState.setRaglanLineWidthV(nextValue);
+    trackMeasurementStep('raglan_line', { style: 'v-neck' });
     (navigation as any).navigate('DepthNeckV');
   };
 

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import i18n from '@/utils/translations';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
+import { trackMeasurementStep } from '@/utils/analytics';
 
 const FIT_IMAGES = {
   women: {
@@ -52,6 +53,11 @@ export default observer(() => {
   const selectFit = (fitId: string) => {
     introState.setFitType(fitId);
     introState.setStyleChosen(true);
+    trackMeasurementStep('fit', {
+      style: introState.style || 'unknown',
+      fit_type: fitId,
+      garment: introState.garmentFitFor === 'men' ? 'men' : 'women',
+    });
 
     const selectedStyle = introState.style;
     if (selectedStyle === 'regular') {

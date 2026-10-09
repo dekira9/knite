@@ -8,6 +8,8 @@ import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import i18n from '../utils/translations';
 import { setTabBarExtrasMode, clearTabBarExtrasModeIf } from './editParametersTabVisibility';
+import introState from '@/state/introState';
+import { track } from '@/utils/analytics';
 
 import RaglanIndexScreen from '@/screens/styles/raglan/index';
 import RibbingScreen from '@/screens/styles/raglan/ribbing';
@@ -16,6 +18,13 @@ import FrontScreen from '@/screens/styles/raglan/front';
 import SleeveScreen from '@/screens/styles/raglan/sleeve';
 
 const Stack = createStackNavigator();
+
+function trackChartOpened(chart: 'ribbing' | 'back' | 'front' | 'sleeve') {
+  track('chart_opened', {
+    chart,
+    style: introState.style === 'v-neck' ? 'v-neck' : 'regular',
+  });
+}
 
 export default observer(function RaglanNavigator() {
   const colorScheme = useColorScheme();
@@ -74,21 +83,25 @@ export default observer(function RaglanNavigator() {
           name="Ribbing"
           component={RibbingScreen}
           options={{ title: i18n.t('collarKnittingChart'), presentation: 'card' }}
+          listeners={{ focus: () => trackChartOpened('ribbing') }}
         />
         <Stack.Screen
           name="Back"
           component={BackScreen}
           options={{ title: i18n.t('backKnittingChart'), presentation: 'card' }}
+          listeners={{ focus: () => trackChartOpened('back') }}
         />
         <Stack.Screen
           name="Front"
           component={FrontScreen}
           options={{ title: i18n.t('frontKnittingChart'), presentation: 'card' }}
+          listeners={{ focus: () => trackChartOpened('front') }}
         />
         <Stack.Screen
           name="Sleeve"
           component={SleeveScreen}
           options={{ title: i18n.t('sleeveKnittingChart'), presentation: 'card' }}
+          listeners={{ focus: () => trackChartOpened('sleeve') }}
         />
       </Stack.Navigator>
     </View>
