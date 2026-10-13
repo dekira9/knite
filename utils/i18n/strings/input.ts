@@ -798,6 +798,27 @@ export const raglanLineStitchCount = {
   pl: "Liczba oczek w linii raglanu",
 };
 
+export const raglanLineSplitHint = {
+  en: "In this project, when the knitting is separated into body and sleeves, the stitches of each raglan line are split between the body (front or back) and the adjacent sleeve: evenly if the number is even; if odd, the larger share goes to the body.",
+  ru: "В проекте при разделении вязания на корпус и рукава петли каждой линии реглана делятся между корпусом (передом или спинкой) и соседним рукавом: при чётном числе — поровну, при нечётном — большая часть переходит на корпус.",
+  sv: "I projektet delas maskorna i varje raglanlinje, när arbetet delas i kropp och ärmar, mellan kroppen (fram- eller bakstycke) och den angränsande ärmen: jämnt vid jämnt antal; vid udda antal går den större delen till kroppen.",
+  no: "I prosjektet deles maskene i hver raglanlinje, når strikkinga deles i kropp og ermer, mellom kroppen (for- eller bakstykke) og det tilstøtende ermet: jevnt ved partall; ved oddetall går den største delen til kroppen.",
+  fi: "Projektissa raglanlinjan silmukat jaetaan kehon (etu- tai takakappale) ja viereisen hihan kesken, kun neulonta jaetaan runkoon ja hihoihin: parillisella määrällä tasan; parittomalla suurempi osa menee runkoon.",
+  de: "In diesem Projekt werden beim Trennen in Rumpf und Ärmel die Maschen jeder Raglanlinie zwischen Rumpf (Vorder- oder Rückenteil) und dem angrenzenden Ärmel aufgeteilt: bei gerader Zahl gleichmäßig; bei ungerader Zahl geht der größere Teil an den Rumpf.",
+  fr: "Dans ce projet, lors de la séparation du tricot en corps et manches, les mailles de chaque ligne raglan sont réparties entre le corps (devant ou dos) et la manche adjacente : à parts égales si le nombre est pair ; si impair, la plus grande part va au corps.",
+  es: "En este proyecto, al separar el tejido en cuerpo y mangas, los puntos de cada línea de raglán se reparte entre el cuerpo (delantero o espalda) y la manga adyacente: a partes iguales si el número es par; si es impar, la mayor parte pasa al cuerpo.",
+  ja: "このプロジェクトでは、身頃と袖に分けるとき、各ラグランラインの目は身頃（前または後ろ）と隣の袖で分けます。偶数なら半分ずつ、奇数なら多い方が身頃側になります。",
+  cs: "V projektu se při rozdělení pletení na trup a rukávy oka každé raglánové linie dělí mezi trup (přední nebo zadní díl) a sousední rukáv: při sudém počtu rovnoměrně; při lichém větší část připadne trupu.",
+  bg: "В проекта при разделяне на плетивото на корпус и ръкави бримките на всяка реглан линия се делят между корпуса (пред или гръб) и съседния ръкав: при четен брой — поравно; при нечетен — по-голямата част отива към корпуса.",
+  sk: "V projekte sa pri rozdelení pletenia na trup a rukávy oká každej raglánovej línie delia medzi trup (predný alebo zadný diel) a susedný rukáv: pri párnom počte rovnomerne; pri nepárnom väčšia časť pripadne trupu.",
+  ko: "이 프로젝트에서는 몸통과 소매로 나눌 때 각 래글런 라인의 코를 몸통(앞판 또는 등판)과 인접 소매로 나눕니다. 짝수면 균등하게, 홀수면 더 많은 쪽이 몸통으로 갑니다.",
+  tr: "Bu projede örgü gövde ve kollara ayrılırken her raglan hattındaki ilmekler gövde (ön veya arka) ile komşu kol arasında bölünür: çift sayıda eşit; tek sayıda büyük kısım gövdeye geçer.",
+  ar: "في هذا المشروع، عند فصل الحياكة إلى الجسم والأكمام، تُقسَم غرز كل خط راغلان بين الجسم (الأمام أو الخلف) والكم المجاور: بالتساوي إذا كان العدد زوجيًا؛ وإذا كان فرديًا فالحصة الأكبر تذهب إلى الجسم.",
+  pt: "Neste projeto, ao separar o tricô em corpo e mangas, os pontos de cada linha raglan são distribuídos entre o corpo (frente ou costas) e a manga adjacente: igualmente se o número for par; se for ímpar, a maior parte passa para o corpo.",
+  lt: "Šiame projekte, dalijant mezgimą į korpusą ir rankoves, kiekvienos raglano linijos akys dalijamos tarp korpuso (priekio arba nugaros) ir gretimos rankovės: lyginiu skaičiumi — po lygiai; nelyginiu — didesnė dalis tenka korpusui.",
+  pl: "W projekcie przy rozdzielaniu robótki na korpus i rękawy oczka każdej linii reglanu dzielą się między korpus (przód lub tył) a sąsiedni rękaw: przy parzystej liczbie po równo, przy nieparzystej większa część przechodzi na korpus.",
+};
+
 export const stitches = {
   en: "Stitches",
   ru: "Петли",
@@ -906,7 +927,7 @@ export const depthNeck = {
 
 export const depthNeckHint = {
   en: "Vertical distance from the jugular notch to the lowest point of the V-neck",
-  ru: "Расстояние по вертикали от яремной впадины до самой нижней точки V воротника",
+  ru: "Расстояние по вертикали от яремной впадины до самой нижней точки V бейки горловины",
   sv: "Vertikalt avstånd från jugulargraven till V-halsens lägsta punkt",
   no: "Vertikal avstand fra jugulargraven til laveste punkt på V-halsen",
   fi: "Pystysuora etäisyys kaulakuopasta V-kaula-aukon alimpaan kohtaan",
@@ -968,23 +989,23 @@ export const rowDensity = {
 };
 
 export const collarWidth = {
-  en: "Collar Width",
-  ru: "Ширина воротника",
-  sv: "Kragets bredd",
-  no: "Kragebredde",
-  fi: "Kauluksen leveys",
-  de: "Kragensbreite",
-  fr: "Largeur du col",
-  es: "Ancho del cuello",
-  ja: "襟幅",
-  cs: "Šířka límce",
-  bg: "Ширина на яката",
-  sk: "Šírka goliera",
-  ko: "칼라 폭",
-  tr: "Yaka genişliği",
-  ar: " عرض الياقة",
-  pt: "Largura da gola",
-  lt: "Apykaklės plotis",
-  pl: "Szerokość kołnierza",
+  en: "Neckband width",
+  ru: "Ширина бейки горловины",
+  sv: "Halskantens bredd",
+  no: "Halskantens bredde",
+  fi: "Kauluksen reunuksen leveys",
+  de: "Breite der Halsblende",
+  fr: "Largeur de la bande d’encolure",
+  es: "Ancho del ribete de cuello",
+  ja: "ネックバンドの幅",
+  cs: "Šířka lemu výstřihu",
+  bg: "Ширина на бейката на деколтето",
+  sk: "Šírka lemu výstrihu",
+  ko: "넥밴드 너비",
+  tr: "Yaka bandı genişliği",
+  ar: "عرض شريطة العنق",
+  pt: "Largura do viés de gola",
+  lt: "Kaklo juostos plotis",
+  pl: "Szerokość plisy dekoltu",
 };
 

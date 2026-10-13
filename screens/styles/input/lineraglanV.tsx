@@ -142,6 +142,7 @@ const LineraglanV = () => {
           {KmaxV} {i18n.t('stitches')}
         </Text>
       </View>
+      <Text style={styles.hint}>{i18n.t('raglanLineSplitHint')}</Text>
     </KeyboardAvoidingScreen>
   );
 };
@@ -206,6 +207,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#E5E7EB',
+  },
+  hint: {
+    fontSize: 15,
+    lineHeight: 20,
+    color: '#6B7280',
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 4,
   },
   nextButton: {
     alignItems: 'center',

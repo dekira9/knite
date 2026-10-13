@@ -97,6 +97,7 @@ export const TRANSLATION_KEYS = [
   "neckbandWidth",
   "RaglanLineWidth",
   "raglanLineStitchCount",
+  "raglanLineSplitHint",
   "stitches",
   "ribbing",
   "rows",
