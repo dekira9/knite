@@ -1,0 +1,15 @@
+---
+description: React Navigation structure and screen registration
+globs: navigation/**/*.tsx
+alwaysApply: false
+---
+
+# Navigation
+
+- Root: `App.tsx` — `Onboarding` | `Main` from `onboardingState.hasCompletedOnboarding`.
+- `MainNavigator`: bottom tabs → `Styles`, `Settings`.
+- `StylesNavigator`: `StylesHome` → `Input` | `Result` | `Raglan` (nested stack navigators).
+- New input screens: register in `InputNavigator.tsx` and add route to `IntroProgress` step arrays (`INTRO_STEPS_REGULAR` / `INTRO_STEPS_V_NECK`).
+- Result is a single screen in `ResultNavigator`; branching is inside `screens/styles/input/result/result.tsx`.
+- Raglan charts: register only in `RaglanNavigator.tsx`; use facades in `screens/styles/raglan/{ribbing,back,front,sleeve}.tsx` for style split.
+- Headers: `InputNavigator` uses custom `CustomHeader`; `RaglanNavigator` uses Ionicons back button.

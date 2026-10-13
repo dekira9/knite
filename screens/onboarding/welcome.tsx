@@ -1,0 +1,78 @@
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
+import { useNavigation } from '@react-navigation/native';
+import onboardingState from '@/state/onboardingState';
+import { useEffect } from 'react';
+
+export default function WelcomeScreen() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (onboardingState.hasCompletedOnboarding) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
+    }
+  }, [onboardingState.hasCompletedOnboarding]);
+
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require('@/assets/images/regular-collar.png')}
+        style={styles.image}
+        contentFit="contain"
+      />
+      <Text style={styles.title}>Welcome to Raglan Planner</Text>
+      <Text style={styles.subtitle}>Your personal assistant for knitting plans</Text>
+      
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('Language')}
+      >
+        <Text style={styles.buttonText}>Get Started</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  image: {
+    width: '80%',
+    height: 200,
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    width: '80%',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+}); 

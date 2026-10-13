@@ -1,0 +1,23 @@
+# Native shells (rarely edited; large generated trees)
+ios/
+android/
+
+# Static assets (SVG/PNG; not app logic)
+assets/
+
+# Lockfiles and caches
+yarn.lock
+ios/Podfile.lock
+node_modules/
+.expo/
+dist/
+web-build/
+
+# Temp / merge artifacts
+tmp_*.txt
+
+# Supabase CLI temp
+supabase/.temp/
+
+# Test snapshots
+**/__snapshots__/
