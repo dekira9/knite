@@ -30,7 +30,7 @@ alwaysApply: false
 
 ## Large screens
 
-`frontV.tsx`, `ribbingV.tsx`, `Step2AddingStitches*.tsx` — change the smallest sub-section; avoid full-file rewrites.
+`Step2AddingStitches*.tsx` — change the smallest sub-section; avoid full-file rewrites. `frontV`, `ribbingV`, `vNeckFrontGrid`, `FrontV`, `ResultStepV`, `Step3*`, `Step4*` are split: edit the file in `<name>Parts/` (map in `docs/HOTSPOTS.md`).
 
 ## Input screens
 

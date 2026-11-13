@@ -39,3 +39,10 @@ app-example
 
 # Local temp / merge notes (not for repo)
 tmp_*.txt
+
+# App Store Connect / Google Play CLI (tools/store). Secrets stay local.
+tools/store/secrets/**
+!tools/store/secrets/.gitkeep
+!tools/store/secrets/apple.json.example
+tools/store/venv/
+tools/store/credentials.json

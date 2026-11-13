@@ -13,7 +13,7 @@ alwaysApply: false
   - `result/` — split: `shared.ts`, `steps.ts`, `legend.ts`, `help.ts` (see `docs/i18n/RESULT_KEY_INDEX.md`)
 - Keys list: `utils/i18n/translationKeys.ts` — add new keys there and in merge.
 - Pattern per key: `export const keyName = { en: "...", ru: "...", ... }`.
-- **Never read the whole result strings tree.** Grep `export const <keyName>` → edit one block in the matching sub-file.
+- **Use the script, do not open strings files:** `yarn i18n get <key>` prints one block; `yarn i18n add <domain> <key> --en ".." --ru ".." [--de ".."]` appends the block (missing locales copy `en`) and registers it in `translationKeys.ts`; `yarn i18n set <key> --<loc> ".."` changes given locales. Domains: `onboarding`, `input`, `charts`, `result/{shared,steps,legend,help}`. Only multi-line values need a manual edit (grep `export const <keyName>`, edit that block).
 - **New keys — all locales in `SUPPORTED_LANGUAGES`.** Prefer real translations. If a locale is not ready yet, copy `en` temporarily (UI still switches; English is the honest fallback via i18n-js). Always provide at least `en` + `ru`.
 - **Editing existing keys:** keep locales already present; when changing copy, update at least `en` + `ru`, and prefer updating every locale in the block.
 - Full locale set: en, ru, sv, no, fi, de, fr, es, ja, cs, bg, sk, ko, tr, ar, pt, lt.

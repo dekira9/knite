@@ -39,9 +39,9 @@ Grep before reading. Paths are relative to project root.
 | `renderLeftIncreaseArray` | `increaseArrayRenderers.tsx` |
 | `renderRightIncreaseArray` | `increaseArrayRenderers.tsx` |
 | `renderBodyGrid` | `increaseArrayRenderers.tsx` |
-| `computeVNeckData` | `vNeckFrontGrid.tsx` |
-| `renderVNeckLeftArray` | `vNeckFrontGrid.tsx` |
-| `renderVNeckRightArray` | `vNeckFrontGrid.tsx` |
+| `computeVNeckData` | `vNeckFrontGridParts/calc.ts` (re-exported by `vNeckFrontGrid.tsx`) |
+| `renderVNeckLeftArray` | `vNeckFrontGridParts/renderVNeckLeftArray.tsx` |
+| `renderVNeckRightArray` | `vNeckFrontGridParts/renderVNeckRightArray.tsx` |
 | `useRaglanChartState` | `useRaglanChartState.ts` |
 | `computeRibbingVCellCounts` | `ribbingVCollarGrid.ts` |
 | `raglanChartChromeStyleDefs` | `raglanChartChromeStyles.ts` |

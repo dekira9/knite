@@ -29,7 +29,7 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 |------|-------|
 | Increase type switch, row strings, side cell count | `screens/styles/raglan/increaseRowSelection.ts` |
 | Left/right/body grid JSX (regular) | `screens/styles/raglan/increaseArrayRenderers.tsx` |
-| V-neck front shaping grid | `screens/styles/raglan/vNeckFrontGrid.tsx` |
+| V-neck front shaping grid | `screens/styles/raglan/vNeckFrontGridParts/` |
 | Chart row highlight / type picker state | `screens/styles/raglan/useRaglanChartState.ts` |
 | Routing regular vs v-neck | Facades: `screens/styles/raglan/{ribbing,back,front,sleeve}.tsx` |
 | Layout-only per piece | `*O.tsx` (regular) or `*V.tsx` (v-neck) |
@@ -39,7 +39,7 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 | Task | Files |
 |------|-------|
 | Cell counts per row, increase dispatch | `screens/styles/raglan/ribbingVCollarGrid.ts` |
-| Layout, transforms, JSX | `screens/styles/raglan/ribbingV.tsx` |
+| Layout, transforms, JSX | `screens/styles/raglan/ribbingVParts/` (entry `ribbingV.tsx`; map in `docs/HOTSPOTS.md`) |
 
 ## Result wizard
 
@@ -54,7 +54,7 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 | V-neck precompute | `useVNeckIncreasePrecompute.ts` |
 | V-neck carousel | `VNeckResultCarousel.tsx` |
 | Step UI (regular) | `Step1Ribbing.tsx` … `Step4SeparatingSleeves.tsx` |
-| Step UI (v-neck) | `Step*V.tsx`, `ResultStepV.tsx`, `FrontV.tsx` |
+| Step UI (v-neck) | `Step*V.tsx`, `ResultStepV.tsx`, `FrontV.tsx` — big ones split into `<name>Parts/` (Step3/Step4 parts shared with regular) |
 
 ## State & persistence
 
@@ -86,6 +86,15 @@ Workflow: grep key in `translationKeys.ts` → edit one `export const` in the ma
 |------|------|
 | New input step | `navigation/InputNavigator.tsx` + `components/IntroProgress.tsx` |
 | New chart screen | `navigation/RaglanNavigator.tsx` + facade in `screens/styles/raglan/` |
+
+## Store listings (App Store / Google Play)
+
+| Task | Files |
+|------|------|
+| Keywords, description, name, What's New, URLs, category | `tools/store/asm.py` + `tools/store/metadata/ios_*.json` |
+| Play title / short / full description | `tools/store/play.py` + `tools/store/metadata/play_*.json` |
+| Keys and setup | `tools/store/README.md`, `tools/store/credentials.py` |
+| Why downloads are low, growth plan and its stages | `docs/GROWTH_PLAN.md` |
 
 ## Do not open unless asked
 

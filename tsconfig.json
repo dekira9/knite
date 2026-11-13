@@ -8,6 +8,14 @@
       ]
     }
   },
+  "exclude": [
+    "node_modules",
+    "ios",
+    "android",
+    "supabase",
+    "scripts",
+    "tools"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx"

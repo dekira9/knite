@@ -8,40 +8,28 @@ Open **only** the section that matches your task. Grep symbols in `docs/SYMBOLS.
 |------|-------|----------|
 | `increaseRowSelection.ts` | ~145 | Raglan increase-row strings, type switch, side cell counts |
 | `increaseArrayRenderers.tsx` | ~101 | Left/right increase columns, body grid cells |
-| `vNeckFrontGrid.tsx` | ~430 | V-neck front chart shaping (left/right arrays, stitch counts) |
+| `vNeckFrontGrid.tsx` → `vNeckFrontGridParts/` | ~480 total | V-neck front chart shaping (left/right arrays, stitch counts) |
 | `useRaglanChartState.ts` | ~40 | Highlighted row + increase-type picker state |
 | `ribbingVCollarGrid.ts` | ~95 | V-neck collar increase dispatch + cell counts |
 | `raglanChartChromeStyles.ts` | ~100 | Shared option-picker + bottom controls styles |
 
 Chart screens (`*O`, `*V`) import these — fix increase logic **once** here, not in six screens.
 
-## `frontV.tsx` (~590 lines) — v-neck front chart
+## Split screens: open the `*Parts/` file, not the entry
 
-| Lines | Section |
-|-------|---------|
-| 35–67 | State hook, `increaseRows` via shared helpers |
-| 68–107 | `vNeckData` + stitch counters (delegates to `vNeckFrontGrid.tsx`) |
-| 112–320 | JSX layout, increase-type carousel, legend |
-| 321+ | `StyleSheet` |
+Big v-neck screens are thin entries (same path and exports) plus a sibling `<name>Parts/` folder. Each part starts with a one-line comment saying what it holds: `head -1 <folder>/*` is the cheapest map.
 
-V-neck grid math: `vNeckFrontGrid.tsx`. Raglan line increases: `increaseRowSelection.ts` + `increaseArrayRenderers.tsx`.
+| Entry (lines) | Parts folder | Where things live |
+|---|---|---|
+| `raglan/frontV.tsx` (~175) | `raglan/frontVParts/` | `FrontVIncreaseOptions` (increase-type picker), `FrontVPaginationDots`, `styles.ts`; grid math in `vNeckFrontGridParts/` |
+| `raglan/vNeckFrontGrid.tsx` (re-exports) | `raglan/vNeckFrontGridParts/` | `calc.ts` (`computeVNeckData`, row lengths, cell data), `renderVNeckLeftArray.tsx`, `renderVNeckRightArray.tsx`, `types.ts` |
+| `raglan/ribbingV.tsx` (~120) | `raglan/ribbingVParts/` | `calc.ts` (angles, transforms, stop-row math), `useRibbingVHighlight.ts`, `RibbingVChartGrid` (layout), `RibbingVCollarRows` / `...Right` (collar increases via `ribbingVCollarGrid.ts`), `RibbingVStitchGrid`, `RibbingVLegend`, `styles.ts` |
+| `result/FrontV.tsx` (~80) | `result/FrontVParts/` | `calc.ts` (row stitch counts), `FrontVAction1Intro` / `Action1CalcSection` / `Action2Section` / `Action3Section`, `FrontVRow1PairScroll`, `FrontVRow2PinkScroll`, `styles.ts`; increase strings via `mapPrecomputedVStrings` |
+| `result/ResultStepV.tsx` (~30) | `result/ResultStepVParts/` | `calc.ts` (totals, length format), `ResultStepVCard`, `SleeveSideSection`, `CorpusBreakdownScroll`, `StitchesLengthRows`, `styles.ts` |
+| `result/Step3BackLengthening.tsx` + `V` (~70 each) | `result/Step3BackLengtheningParts/` (shared) | `BackLengtheningCard`, `PartsDivisionCard` take precomputed values as props; per-variant `stylesRegular.ts` / `stylesVNeck.ts` |
+| `result/Step4SeparatingSleeves.tsx` + `V` (~45 each) | `result/Step4SeparatingSleevesParts/` | `SeparatingSleevesRegularCard`, `SeparatingSleevesVNeckCard`, `stylesRegular.ts` / `stylesVNeck.ts` |
 
-## `ribbingV.tsx` (~820 lines) — v-neck collar chart
-
-| Lines | Grep / section |
-|-------|----------------|
-| 22–50 | State, angle transforms, `collarIncreaseInput` |
-| 46–90 | `computeRibbingVCellCounts` usage |
-| 116–255 | `renderLine1` … `renderRightSleeve` |
-| 257–430 | `renderRows`, `renderRowsRight` (use `selectVNeckCollarIncreases`) |
-| 431–500 | Row navigation, main JSX |
-| 500+ | `StyleSheet` |
-
-Collar increase dispatch: `ribbingVCollarGrid.ts`.
-
-## `result/FrontV.tsx` (~519 lines) — v-neck front result preview
-
-Uses `mapPrecomputedVStrings` + `getIncreaseRowsFromType` from `increaseRowSelection.ts`. V-neck yellow-cell math stays local.
+The entries pick which `results.*` fields (regular vs `*V`) go into the shared parts; fix field choice there, layout in the part.
 
 ## `RegularResult.tsx` (~160 lines) — regular result orchestrator
 
@@ -70,8 +58,6 @@ Uses `mapPrecomputedVStrings` + `getIncreaseRowsFromType` from `increaseRowSelec
 | `Step2AddingStitches.tsx` | 546 | Regular step 2 — increase tables |
 | `Step2AddingStitchesV.tsx` | 589 | V-neck step 2 |
 | `Step1RibbingV.tsx` | 492 | V-neck step 1 |
-| `Step3BackLengthening.tsx` / `*V.tsx` | 465 | Back lengthening |
-| `ResultStepV.tsx` | 492 | Shared v-neck result step shell |
 
 ## `introState.ts` (~425 lines)
 

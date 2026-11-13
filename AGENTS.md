@@ -1,85 +1,50 @@
 # Knite (Raglan Planner) — agent guide
 
-Expo React Native app: knit raglan sweater measurements, step-by-step results, and chart screens. **Not** Expo Router — navigation is React Navigation stacks under `navigation/`.
+Expo React Native app: raglan sweater measurements → step-by-step result → chart screens. React Navigation stacks in `navigation/` (**not** Expo Router).
+
+Find files through the docs, not by browsing: `docs/TASK_ROUTER.md` (task → files), `docs/HOTSPOTS.md` (line-level edit map), `docs/SYMBOLS.md` (grep index), `docs/ARCHITECTURE.md` (flow), `docs/RAGLAN_GLOSSARY.md` (legacy field names: **grep it, never read `introState.ts` to guess a field**).
 
 ## Quick map
 
 | Area | Path |
 |------|------|
-| App root | `App.tsx` → Onboarding or Main |
-| Navigators | `navigation/*.tsx` |
-| Measurements + charts UI | `screens/styles/`, `screens/onboarding/` |
-| Global knitting state | `state/introState.ts` (MST + persistence) |
-| Locale / units onboarding | `state/onboardingState.ts` |
-| i18n | `utils/translations.ts` + `utils/i18n/strings/{onboarding,input,result/,charts}.ts` |
-| Remote raglan math | `utils/calculateRaglanCoreRemote.ts` → Supabase `calculate-raglan` |
-| Raglan core (shared with edge) | `utils/raglan/` — `calculateRaglan.ts` re-exports; see `docs/RAGLAN_GLOSSARY.md` |
-| Local increase-row helpers | `screens/styles/input/result/helpers.ts` |
-| Raglan output types | `utils/raglan/types.ts` (`RaglanOutput`) |
-| Legacy field meanings | `docs/RAGLAN_GLOSSARY.md` — **grep before reading `introState.ts`** |
-| Typed raglan state access | `state/raglanSelectors.ts` — `pickRaglanVariant`, `pickActiveRaglanVariant` |
+| Navigators | `navigation/*.tsx` (App → Onboarding or Main → StylesNavigator → Input / Result / Raglan) |
+| Screens | `screens/styles/` (input wizard, `input/result/`, `raglan/` charts), `screens/onboarding/` |
+| State | `state/introState.ts` (MST, persisted), `state/onboardingState.ts` (language, units), typed access `state/raglanSelectors.ts` |
+| Raglan math | `utils/raglan/` (shared with Supabase edge `calculate-raglan`; device calls it via `utils/calculateRaglanCoreRemote.ts`); UI row helpers `screens/styles/input/result/helpers.ts` |
+| i18n | `utils/i18n/strings/` — edit only through `yarn i18n get|add|set` |
+| Store listings | `tools/store/` — Python CLI for App Store Connect (`asm.py`) and Google Play (`play.py`); see its `README.md`. Keys in `~/bare/.secrets/store/` (shared, outside the repo) |
 
-See `docs/ARCHITECTURE.md` for flow diagram; `docs/TASK_ROUTER.md` for task→file lookup; `docs/HOTSPOTS.md` for line-level edit map; `docs/SYMBOLS.md` for grep index.
+## Style variants `regular` / `v-neck`
 
-## Navigation flow
+`RaglanStyleId` (`constants/samplePresets.ts`), stored on `introState.style`. Facades pick the implementation: `input/result/result.tsx` → `RegularResult` | `VNeckResult`; `raglan/{ribbing,front,back,sleeve}.tsx` → `*O.tsx` | `*V.tsx`. Big screens keep their pieces in a sibling `<name>Parts/` folder: open the piece you need, not the whole set. Twins (`Sgor` / `SgorV`, …) are listed in `RAGLAN_VARIANT_FIELDS`; shared logic changes in both variants.
 
-```
-App
-├── OnboardingNavigator (language, measurement — Welcome optional)
-└── MainNavigator (tabs)
-    └── StylesNavigator
-        ├── StylesHome
-        ├── InputNavigator (measurement wizard)
-        ├── ResultNavigator (single Result screen)
-        └── RaglanNavigator (ribbing, back, front, sleeve charts)
-```
+## Invariants (never change without a migration)
 
-## Style variants: `regular` vs `v-neck`
+- **AsyncStorage keys:** `introState`, `introSavedProjects`, `onboardingState`. `introState` fields = `INTRO_STATE_PERSISTED_KEYS` (`state/introStatePersistedKeys.ts`); renames go through `state/introStateMigration.ts`.
+- **Paired fields** change together (`RAGLAN_VARIANT_FIELDS`).
+- **Raglan math contract:** `RaglanOutput` (`utils/raglan/types.ts`) and `utils/raglan/__tests__/goldenSample.json` change only on purpose, with the edge function redeployed.
+- **Style ids** `'regular' | 'v-neck'` are persisted in saved projects.
+- **New i18n keys:** every locale in `SUPPORTED_LANGUAGES`; at least real `en` + `ru` (the script copies `en` into the rest).
 
-- Type: `RaglanStyleId` in `constants/samplePresets.ts` — `'regular' | 'v-neck'`.
-- Stored on `introState.style`; set from `screens/styles/styles.tsx`.
-- **Facade pattern** — thin routers pick implementation:
-  - `screens/styles/input/result/result.tsx` → `RegularResult` | `VNeckResult`
-  - `screens/styles/raglan/{ribbing,front,back,sleeve}.tsx` → `*O.tsx` (regular) | `*V.tsx` (v-neck)
-- Input steps differ: `components/IntroProgress.tsx` lists `INTRO_STEPS_REGULAR` vs `INTRO_STEPS_V_NECK` (extra `DepthNeckV`, `RibbingWidthV`, `LineraglanV`).
-- State fields are often duplicated (`Sgor` / `SgorV`, etc.) — use `state/raglanSelectors.ts` or `RAGLAN_VARIANT_FIELDS` instead of memorizing pairs; when changing shared logic, update both variants.
+## Checks (before you say "done")
 
-## State rules
+- `yarn verify` (types ratchet, ESLint, Jest, ~20 s) must be green; after calculation changes also `yarn test:raglan`; after nav/state/calc changes see `docs/TEST_PLAN.md`.
+- Fast loop: `yarn typecheck [paths]` (`--known` shows frozen errors), `npx eslint <files>`, `npx jest <path>`. Never raw `npx tsc` (~475 baseline errors).
+- Old errors are frozen in `tsc-baseline.json` / `eslint-suppressions.json`; after fixing some run `yarn typecheck:update` / `yarn lint:prune`. Never edit them by hand.
+- No `any`, `@ts-ignore`, `eslint-disable` to get green. Keep ESLint slim (no Expo preset). AsyncStorage is mocked in `jest.setup.js`.
 
-- **introState**: all measurement strings, computed numbers, saved projects (`AsyncStorage`). Actions include `setStyle`, `syncRaglanFromSupabase()`, project save/load.
-- **onboardingState**: `language`, `measurementSystem`, `hasCompletedOnboarding`, `hasSubscription`.
-- Reset helper: `state/reset.ts`.
-- Sample values: `constants/samplePresets.ts` (`SAMPLE_MEASUREMENTS`).
+## Reading budget
 
-## Calculations
+- Folder rules load on their own (nested `CLAUDE.md` imports the matching `.cursor/rules/*.mdc`; edit the `.mdc`).
+- Heavy paths are blocked in `.claude/settings.json`. Root leftovers `calculateIncreaseRows .js`, `calculateIncreaseRows.obf.js`, `ScV.jpg`, `unnamed.png` are unused.
+- Files still over ~400 lines: open by section (grep, then `sed -n`): `state/introState.ts`, `screens/styles/input/result/RegularResultSummary.tsx`, `utils/i18n/strings/**` (use `yarn i18n` instead).
+- Without an explicit request: no edits to `ios/`, `android/`, EAS config, bulk `assets/`; no merging `*O`/`*V` screens or collapsing `introState` fields.
 
-- Primary path: Supabase edge function `calculate-raglan` (see `SUPABASE_SETUP.md`). Client: `calculateRaglanRemote()` in `utils/calculateRaglanCoreRemote.ts`.
-- UI-only row/increase strings: `screens/styles/input/result/helpers.ts` (many `calculate*` exports; `*V` suffix = v-neck variants).
-- Do not assume `utils/calculateRaglan.ts` runs on device unless explicitly wired.
+## Keeping the map current
 
-## i18n
-
-- `utils/i18n/strings/` — one `export const keyName` per UI string. **New keys: all locales in `SUPPORTED_LANGUAGES`** (`utils/i18n/supportedLanguages.ts`); at least `en` + `ru`, other locales may temporarily copy `en`. Result domain split: `strings/result/{shared,steps,legend,help}.ts` — see `docs/i18n/RESULT_KEY_INDEX.md`.
-- Register new keys in `utils/i18n/translationKeys.ts`. Use `i18n.t('key')` in screens.
-- Result-step math split: `screens/styles/input/result/{increaseRowsRegular,vNeckCornerIncreases,increaseRowsVNeck}.ts` (re-exported from `helpers.ts`).
-
-## What to avoid without explicit request
-
-- Editing `ios/`, `android/`, EAS config, or bulk `assets/`.
-- Reading entire monolith screens (`frontV.tsx`, `ribbingV.tsx`, `RegularResult.tsx`) — use `docs/HOTSPOTS.md` or shared `screens/styles/raglan/increaseRowSelection.ts`.
-- Merging `*O`/`*V` screens or collapsing `introState` fields in one PR (persistence risk).
-
-## Regression checklist
-
-`docs/TEST_PLAN.md` — run after nav/state/calculation changes.
+A change to invariants, navigation, persisted state or file layout updates this file, the matching `.cursor/rules/*.mdc` and `docs/TASK_ROUTER.md` / `docs/HOTSPOTS.md` in the same change. Docs in English; delete stale docs.
 
 ## Commands
 
-```bash
-yarn install
-yarn start          # expo start
-yarn ios / yarn android
-yarn test          # unit tests (incl. utils/raglan)
-yarn test:raglan   # golden compare + raglan tests
-yarn lint
-```
+`yarn start` · `yarn ios` / `yarn android` · `yarn verify` · `yarn typecheck [paths]` · `yarn test` · `yarn test:raglan` · `yarn lint` · `yarn i18n get|add|set`

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./node_modules/**)",
+      "Read(./ios/**)",
+      "Read(./android/**)",
+      "Read(./assets/**)",
+      "Read(./dist/**)",
+      "Read(./.expo/**)",
+      "Read(./yarn.lock)",
+      "Read(./calculateIncreaseRows.obf.js)",
+      "Read(./ScV.jpg)",
+      "Read(./unnamed.png)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

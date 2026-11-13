@@ -88,9 +88,9 @@ Line-level edit map: `docs/HOTSPOTS.md`.
 | `utils/i18n/strings/*.ts` | ~350–720 per domain | Per-locale UI copy |
 | `utils/translations.ts` | ~15 | I18n bootstrap |
 | `state/introState.ts` | 700+ | MST model + actions |
-| `screens/styles/raglan/vNeckFrontGrid.tsx` | ~430 | V-neck front chart shaping (extracted from `frontV.tsx`) |
-| `screens/styles/raglan/frontV.tsx` | ~590 | V-neck front chart layout + carousel |
-| `screens/styles/raglan/ribbingV.tsx` | ~810 | V-neck collar chart layout |
+| `screens/styles/raglan/vNeckFrontGrid.tsx` + `vNeckFrontGridParts/` | ~10 + 480 | V-neck front chart shaping |
+| `screens/styles/raglan/frontV.tsx` + `frontVParts/` | ~175 + 440 | V-neck front chart layout + carousel |
+| `screens/styles/raglan/ribbingV.tsx` + `ribbingVParts/` | ~120 + 820 | V-neck collar chart layout (see `docs/HOTSPOTS.md`) |
 | `screens/styles/raglan/ribbingVCollarGrid.ts` | ~95 | V-neck collar increase dispatch |
 | `screens/styles/input/result/RegularResult.tsx` | ~160 | Regular result orchestrator |
 | `screens/styles/input/result/RegularResultSummary.tsx` | ~320 | Final corpus/sleeve summary |
