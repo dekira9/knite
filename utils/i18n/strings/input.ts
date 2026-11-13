@@ -18,6 +18,7 @@ export const headCircumference = {
   ar: "محيط الرأس",
   pt: "Circunferência da cabeça",
   lt: "Galvos apimtis",
+  pl: "Obwód głowy",
 };
 
 export const wizardStepOf = {
@@ -38,6 +39,28 @@ export const wizardStepOf = {
   ar: "الخطوة %{current} من %{total}",
   pt: "Passo %{current} de %{total}",
   lt: "Žingsnis %{current} iš %{total}",
+  pl: "Krok %{current} z %{total}",
+};
+
+export const measurementFirstStepHint = {
+  en: "This is the first step. Enter a value and tap Next.",
+  ru: "Это первый шаг. Введите значение и нажмите Далее.",
+  sv: "Detta är första steget. Ange ett värde och tryck på Nästa.",
+  no: "Dette er det første steget. Skriv inn en verdi og trykk Neste.",
+  fi: "Tämä on ensimmäinen vaihe. Syötä arvo ja napauta Seuraava.",
+  de: "Das ist der erste Schritt. Wert eingeben und auf Weiter tippen.",
+  fr: "C’est la première étape. Saisissez une valeur et appuyez sur Suivant.",
+  es: "Este es el primer paso. Introduce un valor y pulsa Siguiente.",
+  ja: "最初のステップです。値を入力して「次へ」をタップしてください。",
+  cs: "Toto je první krok. Zadejte hodnotu a klepněte na Další.",
+  bg: "Това е първата стъпка. Въведете стойност и натиснете Напред.",
+  sk: "Toto je prvý krok. Zadajte hodnotu a klepnite na Ďalej.",
+  ko: "첫 단계입니다. 값을 입력한 뒤 다음을 누르세요.",
+  tr: "Bu ilk adımdır. Bir değer girin ve İleri’ye dokunun.",
+  ar: "هذه هي الخطوة الأولى. أدخل قيمة ثم اضغط التالي.",
+  pt: "Este é o primeiro passo. Introduza um valor e toque em Seguinte.",
+  lt: "Tai pirmas žingsnis. Įveskite reikšmę ir bakstelėkite Toliau.",
+  pl: "To pierwszy krok. Wpisz wartość i naciśnij Dalej.",
 };
 
 export const neckCircumference = {
@@ -58,6 +81,7 @@ export const neckCircumference = {
   ar: "محيط العنق",
   pt: "Circunferência do pescoço",
   lt: "Kaklo apimtis",
+  pl: "Obwód szyi",
 };
 
 export const chestCircumference = {
@@ -78,6 +102,7 @@ export const chestCircumference = {
   ar: "محيط الصدر",
   pt: "Circunferência do peito",
   lt: "Krūtinės apimtis",
+  pl: "Obwód klatki piersiowej",
 };
 
 export const finishedChestCircumference = {
@@ -98,86 +123,91 @@ export const finishedChestCircumference = {
   ar: "محيط صدر القطعة النهائية",
   pt: "Circunferência do peito da peça pronta",
   lt: "Gaminio krūtinės apimtis",
+  pl: "Obwód klatki gotowego wyrobu",
 };
 
 export const rowDensityCM = {
-  en: "Row Density (rows in 10 cm)",
-  ru: "Плотность рядов (ряды в 10 см)",
-  sv: "Raddensitet (rader i 10 cm)",
-  no: "Raddensitet (rader i 10 cm)",  
-  fi: "Raddensitet (silmukat 10 cm)",
-  de: "Reihendichte (Reihen in 10 cm)",
-  fr: "Densité de rangs (rangs en 10 cm)",
-  es: "Densidad de filas (filas en 10 cm)",   
-  ja: "密度 (10 cmあたりの行数)",
-  cs: "Hustota řad (řady v 10 cm)",
-  bg: "Плътност на редовете (редове в 10 см)",
-  sk: "Hustota riadkov (riadky v 10 cm)",
-  ko: "밀도 (10 cm당 행 수)",
-  tr: "Sıra Yoğunluğu (10 cm'deki sıralar)",
-  ar: "كثافة الصفوف (صفوف في 10 سم)",
-  pt: "Densidade de linhas (linhas a 10 cm)",
-  lt: "Eilučių tankis (eilutės 10 cm)",
+  en: "Number of rows in 10 cm",
+  ru: "Количество рядов в 10 см",
+  sv: "Antal rader i 10 cm",
+  no: "Antall rader i 10 cm",
+  fi: "Rivien määrä 10 cm:llä",
+  de: "Anzahl der Reihen in 10 cm",
+  fr: "Nombre de rangs sur 10 cm",
+  es: "Número de filas en 10 cm",
+  ja: "10 cmあたりの段数",
+  cs: "Počet řad na 10 cm",
+  bg: "Брой редове в 10 см",
+  sk: "Počet riadkov na 10 cm",
+  ko: "10 cm당 단 수",
+  tr: "10 cm’deki sıra sayısı",
+  ar: "عدد الصفوف في 10 سم",
+  pt: "Número de carreiras em 10 cm",
+  lt: "Eilučių skaičius 10 cm",
+  pl: "Liczba rzędów na 10 cm",
 };
 
 export const rowDensityIN = {
-  en: "Row Density (rows in 4 in)",
-  ru: "Плотность рядов (ряды в 4 дюймах)",
-  sv: "Raddensitet (rader i 4 tum)",
-  no: "Raddensitet (rader i 4 tommer)",
-  fi: "Raddensitet (rivit 4 tuumaa)",
-  de: "Reihendichte (Reihen in 4 Zoll)",
-  fr: "Densité de rangs (rangs en 4 pouces)",
-  es: "Densidad de filas (filas en 4 pulgadas)",
-  ja: "密度 (4インチあたりの行数)",
-  cs: "Hustota řad (řady ve 4 palcích)",
-  bg: "Плътност на редовете (редове в 4 инча)",
-  sk: "Hustota riadkov (riadky v 4 palcoch)",
-  ko: "행 밀도 (4인치당 행 수)",
-  tr: "Sıra Yoğunluğu (4 inçteki sıralar)",
-  ar: "كثافة الصفوف (صفوف في 4 بوصات)",
-  pt: "Densidade de linhas (linhas a 4 polegadas)",
-  lt: "Eilučių tankis (eilutės 4 coliuose)",
+  en: "Number of rows in 4 inches",
+  ru: "Количество рядов в 4 дюймах",
+  sv: "Antal rader i 4 tum",
+  no: "Antall rader i 4 tommer",
+  fi: "Rivien määrä 4 tuumalla",
+  de: "Anzahl der Reihen in 4 Zoll",
+  fr: "Nombre de rangs sur 4 pouces",
+  es: "Número de filas en 4 pulgadas",
+  ja: "4インチあたりの段数",
+  cs: "Počet řad na 4 palce",
+  bg: "Брой редове в 4 инча",
+  sk: "Počet riadkov na 4 palce",
+  ko: "4인치당 단 수",
+  tr: "4 inçteki sıra sayısı",
+  ar: "عدد الصفوف في 4 بوصات",
+  pt: "Número de carreiras em 4 polegadas",
+  lt: "Eilučių skaičius 4 coliuose",
+  pl: "Liczba rzędów na 4 cale",
 };
 
 export const stitchDensityCM = {
-  en: "Stitch Density (stitches in 10 cm)",
-  ru: "Плотность петель (петли в 10 см)",
-  sv: "Masktäthet (maskor i 10 cm)",
-  no: "Masketetthet (masker i 10 cm)",
-  fi: "Silmätiheys (silmukat 10 cm)",  
-  de: "Maschendichte (Maschen in 10 cm)",
-  fr: "Densité de mailles (mailles en 10 cm)",
-  es: "Densidad de puntadas (puntadas en 10 cm)",
-  ja: "ステッチ密度 (10 cmあたりのステッチ数)",
-  cs: "Hustota stehů (stehy v 10 cm)",
-  bg: "Плътност на бримките (бримки в 10 см)",
-  sk: "Hustota stehov (stehy v 10 cm)",
-  ko: "스티치 밀도 (10 cm당 스티치 수)",
-  tr: "Dikiş Yoğunluğu (10 cm'de dikişler)",
-  ar: "كثافة الغرز (غرز في 10 سم)",
-  pt: "Densidade de pontos (pontos em 10 cm)",
-  lt: "Siūlių tankis (siūlės 10 cm)",
+  en: "Number of stitches in 10 cm",
+  ru: "Количество петель в 10 см",
+  sv: "Antal maskor i 10 cm",
+  no: "Antall masker i 10 cm",
+  fi: "Silmukoiden määrä 10 cm:llä",
+  de: "Anzahl der Maschen in 10 cm",
+  fr: "Nombre de mailles sur 10 cm",
+  es: "Número de puntos en 10 cm",
+  ja: "10 cmあたりの目数",
+  cs: "Počet oček na 10 cm",
+  bg: "Брой бримки в 10 см",
+  sk: "Počet očiek na 10 cm",
+  ko: "10 cm당 코 수",
+  tr: "10 cm’deki ilmek sayısı",
+  ar: "عدد الغرز في 10 سم",
+  pt: "Número de pontos em 10 cm",
+  lt: "Akių skaičius 10 cm",
+  pl: "Liczba oczek na 10 cm",
 };
 
 export const stitchDensityIN = {
-  en: "Stitch Density (stitches in 4 in)",
-  ru: "Плотность петель (петли в 4 дюймах)",
-  sv: "Masktäthet (maskor i 4 tum)",
-  no: "Masketetthet (masker i 4 tommer)",
-  fi: "Silmätiheys (silmukat 4 tuumaa)",
-  de: "Maschendichte (Maschen in 4 Zoll)",
-  fr: "Densité de mailles (mailles en 4 pouces)",
-  es: "Densidad de puntadas (puntadas en 4 pulgadas)",
-  ja: "ステッチ密度 (4インチあたりのステッチ数)",
-  cs: "Hustota stehů (stehy ve 4 palcích)",
-  bg: "Плътност на бримките (бримки в 4 инча)", 
-  sk: "Hustota stehov (stehy v 4 palcoch)",
-  ko: "스티치 밀도 (4인치당 스티치 수)",
-  tr: "Dikiş Yoğunluğu (4 inçte dikişler)",
-  ar: "كثافة الغرز (غرز في 4 بوصات)",
-  pt: "Densidade de pontos (pontos em 4 polegadas)",
-  lt: "Siūlių tankis (siūlės 4 coliuose)",
+  en: "Number of stitches in 4 inches",
+  ru: "Количество петель в 4 дюймах",
+  sv: "Antal maskor i 4 tum",
+  no: "Antall masker i 4 tommer",
+  fi: "Silmukoiden määrä 4 tuumalla",
+  de: "Anzahl der Maschen in 4 Zoll",
+  fr: "Nombre de mailles sur 4 pouces",
+  es: "Número de puntos en 4 pulgadas",
+  ja: "4インチあたりの目数",
+  cs: "Počet oček na 4 palce",
+  bg: "Брой бримки в 4 инча",
+  sk: "Počet očiek na 4 palce",
+  ko: "4인치당 코 수",
+  tr: "4 inçteki ilmek sayısı",
+  ar: "عدد الغرز في 4 بوصات",
+  pt: "Número de pontos em 4 polegadas",
+  lt: "Akių skaičius 4 coliuose",
+  pl: "Liczba oczek na 4 cale",
 };
 
 export const stitchDensity = { 
@@ -197,7 +227,8 @@ export const stitchDensity = {
   tr: "Dikiş Yoğunluğu",
   ar: "كثافة الغرز",
   pt: "Densidade de pontos",
-  lt: "Siūlių tankis"
+  lt: "Siūlių tankis",
+  pl: "Gęstość oczek",
 };
 
 export const chooseFitType = {
@@ -218,6 +249,7 @@ export const chooseFitType = {
   ar: "اختر نوع الملابس",
   pt: "Escolher o tipo de ajuste",
   lt: "Pasirinkite pasformą",
+  pl: "Wybierz dopasowanie",
 };
 
 export const garmentFitFor = {
@@ -238,6 +270,7 @@ export const garmentFitFor = {
   ar: "الملابس لـ",
   pt: "Peça para",
   lt: "Modelis",
+  pl: "Sweter dla",
 };
 
 export const garmentFitForWomen = {
@@ -258,6 +291,7 @@ export const garmentFitForWomen = {
   ar: "نساء",
   pt: "Mulher",
   lt: "Moterims",
+  pl: "Kobiet",
 };
 
 export const garmentFitForMen = {
@@ -278,6 +312,7 @@ export const garmentFitForMen = {
   ar: "رجال",
   pt: "Homem",
   lt: "Vyrams",
+  pl: "Mężczyzn",
 };
 
 export const fitted = {
@@ -298,6 +333,7 @@ export const fitted = {
   ar: "مناسب",
   pt: "Ajustado",
   lt: "Prisitaikantis",
+  pl: "Dopasowany",
 };
 
 export const fittedDescription = {
@@ -318,6 +354,7 @@ export const fittedDescription = {
   ar: "يلتصق بالقوام. يبرز الخطوط. راحة قليلة جدًا.",
   pt: "Ajusta-se à figura. Destaca a silhueta. Folga mínima.",
   lt: "Priglunda prie figūros. Pabrėžia siluetą. Minimalus laisvumas.",
+  pl: "Obcisły krój. Podkreśla sylwetkę. Minimalny luz.",
 };
 
 export const fittedBullet1 = {
@@ -338,6 +375,7 @@ export const fittedBullet1 = {
   ar: "يلتصق بالجسم",
   pt: "ajusta-se ao corpo",
   lt: "priglunda",
+  pl: "przylega do ciała",
 };
 
 export const fittedBullet2 = {
@@ -358,6 +396,7 @@ export const fittedBullet2 = {
   ar: "راحة قليلة",
   pt: "folga mínima",
   lt: "minimalus laisvumas",
+  pl: "minimalny luz",
 };
 
 export const fittedBullet3 = {
@@ -378,6 +417,7 @@ export const fittedBullet3 = {
   ar: "يبرز القوام",
   pt: "destaca a figura",
   lt: "pabrėžia figūrą",
+  pl: "podkreśla sylwetkę",
 };
 
 export const semiFitted = {
@@ -398,6 +438,7 @@ export const semiFitted = {
   ar: "نصف مناسب",
   pt: "Semi-ajustado",
   lt: "Pusiaukraščiai prisitaikantis",
+  pl: "Półobcisły",
 };
 
 export const semiFittedDescription = {
@@ -418,6 +459,7 @@ export const semiFittedDescription = {
   ar: "لا يلتصق.\nقليل من الراحة.",
   pt: "Não aperta.\nUm pouco de folga.",
   lt: "Nestipriai priglunda.\nŠiek tiek laisvumo.",
+  pl: "Nie przylega.\nNiewielki luz.",
 };
 
 export const semiFittedLine1 = {
@@ -438,6 +480,7 @@ export const semiFittedLine1 = {
   ar: "لا يلتصق",
   pt: "não aperta",
   lt: "nestipriai priglunda",
+  pl: "nie przylega",
 };
 
 export const semiFittedLine2 = {
@@ -458,6 +501,7 @@ export const semiFittedLine2 = {
   ar: "قليل من الراحة",
   pt: "um pouco de folga",
   lt: "šiek tiek laisvumo",
+  pl: "niewielki luz",
 };
 
 export const loose = {
@@ -478,6 +522,7 @@ export const loose = {
   ar: "مريح",
   pt: "Largo",
   lt: "Laisvas",
+  pl: "Luźny",
 };
 
 export const looseDescription = {
@@ -498,6 +543,7 @@ export const looseDescription = {
   ar: "قصة فضفاضة. مساحة أكبر في الصدر والخصر والوركين. راحة وحرية حركة.",
   pt: "Caimento folgado. Mais espaço no peito, cintura e ancas. Conforto e liberdade de movimento.",
   lt: "Laisvas kirpimas. Daugiau erdvės krūtinėje, juosmenyje ir klubų srityje. Komfortas ir judėjimo laisvė.",
+  pl: "Luźny krój. Więcej miejsca w klatce, talii i biodrach. Wygoda i swoboda ruchu.",
 };
 
 export const looseLine1 = {
@@ -518,6 +564,7 @@ export const looseLine1 = {
   ar: "مساحة أكبر في الصدر",
   pt: "mais espaço no peito",
   lt: "daugiau erdvės krūtinėje",
+  pl: "więcej miejsca w klatce",
 };
 
 export const looseLine2 = {
@@ -538,6 +585,7 @@ export const looseLine2 = {
   ar: "راحة دون حجم زائد",
   pt: "folga sem volume a mais",
   lt: "laisvumas be pertekliaus",
+  pl: "luz bez zbędnej objętości",
 };
 
 export const oversized = {
@@ -558,6 +606,7 @@ export const oversized = {
   ar: "كبير جدا",
   pt: "Muito grande",
   lt: "Perdaugai",
+  pl: "Oversized",
 };
 
 export const oversizedDescription = {
@@ -578,6 +627,7 @@ export const oversizedDescription = {
   ar: "أقصى راحة. قوام واسع، أسلوب أوفرسايز.",
   pt: "Folga máxima. Silhueta larga, estilo oversized.",
   lt: "Maksimalus laisvumas. Platus siluetas, oversize stilius.",
+  pl: "Maksymalny luz. Szeroka sylwetka, styl oversized.",
 };
 
 export const oversizedLine1 = {
@@ -598,6 +648,7 @@ export const oversizedLine1 = {
   ar: "قوام واسع",
   pt: "silhueta larga",
   lt: "platūs siluetas",
+  pl: "szeroka sylwetka",
 };
 
 export const oversizedLine2 = {
@@ -618,6 +669,7 @@ export const oversizedLine2 = {
   ar: "حجم مقصود",
   pt: "volume intencional",
   lt: "tyčinis tūris",
+  pl: "zamierzona objętość",
 };
 
 export const mainMeasurements = {
@@ -638,6 +690,7 @@ export const mainMeasurements = {
   ar: "القياسات الرئيسية",
   pt: "Medidas principais",
   lt: "Pagrindiniai matavimai",
+  pl: "Główne wymiary",
 };
 
 export const increases = {
@@ -658,26 +711,49 @@ export const increases = {
   ar: "الزيادات",
   pt: "Aumentos",
   lt: "Prieaugliai",
+  pl: "Dodawania",
 };
 
 export const ribbingWidth = {
-  en: "Ribbing Width",
-  ru: "Ширина резинки",
-  sv: "Ribbningens bredd",
-  no: "Ribbningens bredde",
-  fi: "Ribbningen leveys",
-  de: "Ribbningen Breite",
-  fr: "Largeur de Côtes",
-  es: "Ancho de rib",
-  ja: "リブの幅",
-  cs: "Šířka ribbingu",
-  bg: "Ширина резинки",
-  sk: "Ribbingen šírka",
-  ko: "리브 너비",
-  tr: "Ribbing Genişliği",
-  ar: "عرض الريبنج",
-  pt: "Largura da rib",
-  lt: "Ribbingo plotis",
+  en: "Neckband",
+  ru: "Бейка горловины",
+  sv: "Halskant",
+  no: "Halskant",
+  fi: "Kauluksen reunus",
+  de: "Halsblende",
+  fr: "Bande d’encolure",
+  es: "Ribete de cuello",
+  ja: "ネックバンド",
+  cs: "Lem výstřihu",
+  bg: "Бейка на деколтето",
+  sk: "Lem výstrihu",
+  ko: "넥밴드",
+  tr: "Yaka bandı",
+  ar: "شريطة العنق",
+  pt: "Viés de gola",
+  lt: "Kaklo juosta",
+  pl: "Plisa dekoltu",
+};
+
+export const neckbandWidth = {
+  en: "Neckband width",
+  ru: "Ширина бейки горловины",
+  sv: "Halskantens bredd",
+  no: "Halskantens bredde",
+  fi: "Kauluksen reunuksen leveys",
+  de: "Breite der Halsblende",
+  fr: "Largeur de la bande d’encolure",
+  es: "Ancho del ribete de cuello",
+  ja: "ネックバンドの幅",
+  cs: "Šířka lemu výstřihu",
+  bg: "Ширина на бейката на деколтето",
+  sk: "Šírka lemu výstrihu",
+  ko: "넥밴드 너비",
+  tr: "Yaka bandı genişliği",
+  ar: "عرض شريطة العنق",
+  pt: "Largura do viés de gola",
+  lt: "Kaklo juostos plotis",
+  pl: "Szerokość plisy dekoltu",
 };
 
 export const RaglanLineWidth = {
@@ -698,6 +774,49 @@ export const RaglanLineWidth = {
   ar: "عرض خط الراغلان",
   pt: "Largura da linha raglan",
   lt: "Raglano linijos plotis",
+  pl: "Szerokość linii raglanu",
+};
+
+export const raglanLineStitchCount = {
+  en: "Number of stitches in the raglan line",
+  ru: "Количество петель в линии реглана",
+  sv: "Antal maskor i raglanlinjen",
+  no: "Antall masker i raglanlinjen",
+  fi: "Silmukoiden määrä raglanlinjassa",
+  de: "Anzahl der Maschen in der Raglanlinie",
+  fr: "Nombre de mailles dans la ligne raglan",
+  es: "Número de puntos en la línea raglán",
+  ja: "ラグランラインの目数",
+  cs: "Počet oček v raglánové linii",
+  bg: "Брой бримки в реглан линията",
+  sk: "Počet očiek v raglánovej línii",
+  ko: "래글런 라인의 코 수",
+  tr: "Raglan çizgisindeki ilmek sayısı",
+  ar: "عدد الغرز في خط الراغلان",
+  pt: "Número de pontos na linha raglan",
+  lt: "Akių skaičius raglano linijoje",
+  pl: "Liczba oczek w linii raglanu",
+};
+
+export const raglanLineSplitHint = {
+  en: "In this project, when the knitting is separated into body and sleeves, the stitches of each raglan line are split between the body (front or back) and the adjacent sleeve: evenly if the number is even; if odd, the larger share goes to the body.",
+  ru: "В проекте при разделении вязания на корпус и рукава петли каждой линии реглана делятся между корпусом (передом или спинкой) и соседним рукавом: при чётном числе — поровну, при нечётном — большая часть переходит на корпус.",
+  sv: "I projektet delas maskorna i varje raglanlinje, när arbetet delas i kropp och ärmar, mellan kroppen (fram- eller bakstycke) och den angränsande ärmen: jämnt vid jämnt antal; vid udda antal går den större delen till kroppen.",
+  no: "I prosjektet deles maskene i hver raglanlinje, når strikkinga deles i kropp og ermer, mellom kroppen (for- eller bakstykke) og det tilstøtende ermet: jevnt ved partall; ved oddetall går den største delen til kroppen.",
+  fi: "Projektissa raglanlinjan silmukat jaetaan kehon (etu- tai takakappale) ja viereisen hihan kesken, kun neulonta jaetaan runkoon ja hihoihin: parillisella määrällä tasan; parittomalla suurempi osa menee runkoon.",
+  de: "In diesem Projekt werden beim Trennen in Rumpf und Ärmel die Maschen jeder Raglanlinie zwischen Rumpf (Vorder- oder Rückenteil) und dem angrenzenden Ärmel aufgeteilt: bei gerader Zahl gleichmäßig; bei ungerader Zahl geht der größere Teil an den Rumpf.",
+  fr: "Dans ce projet, lors de la séparation du tricot en corps et manches, les mailles de chaque ligne raglan sont réparties entre le corps (devant ou dos) et la manche adjacente : à parts égales si le nombre est pair ; si impair, la plus grande part va au corps.",
+  es: "En este proyecto, al separar el tejido en cuerpo y mangas, los puntos de cada línea de raglán se reparte entre el cuerpo (delantero o espalda) y la manga adyacente: a partes iguales si el número es par; si es impar, la mayor parte pasa al cuerpo.",
+  ja: "このプロジェクトでは、身頃と袖に分けるとき、各ラグランラインの目は身頃（前または後ろ）と隣の袖で分けます。偶数なら半分ずつ、奇数なら多い方が身頃側になります。",
+  cs: "V projektu se při rozdělení pletení na trup a rukávy oka každé raglánové linie dělí mezi trup (přední nebo zadní díl) a sousední rukáv: při sudém počtu rovnoměrně; při lichém větší část připadne trupu.",
+  bg: "В проекта при разделяне на плетивото на корпус и ръкави бримките на всяка реглан линия се делят между корпуса (пред или гръб) и съседния ръкав: при четен брой — поравно; при нечетен — по-голямата част отива към корпуса.",
+  sk: "V projekte sa pri rozdelení pletenia na trup a rukávy oká každej raglánovej línie delia medzi trup (predný alebo zadný diel) a susedný rukáv: pri párnom počte rovnomerne; pri nepárnom väčšia časť pripadne trupu.",
+  ko: "이 프로젝트에서는 몸통과 소매로 나눌 때 각 래글런 라인의 코를 몸통(앞판 또는 등판)과 인접 소매로 나눕니다. 짝수면 균등하게, 홀수면 더 많은 쪽이 몸통으로 갑니다.",
+  tr: "Bu projede örgü gövde ve kollara ayrılırken her raglan hattındaki ilmekler gövde (ön veya arka) ile komşu kol arasında bölünür: çift sayıda eşit; tek sayıda büyük kısım gövdeye geçer.",
+  ar: "في هذا المشروع، عند فصل الحياكة إلى الجسم والأكمام، تُقسَم غرز كل خط راغلان بين الجسم (الأمام أو الخلف) والكم المجاور: بالتساوي إذا كان العدد زوجيًا؛ وإذا كان فرديًا فالحصة الأكبر تذهب إلى الجسم.",
+  pt: "Neste projeto, ao separar o tricô em corpo e mangas, os pontos de cada linha raglan são distribuídos entre o corpo (frente ou costas) e a manga adjacente: igualmente se o número for par; se for ímpar, a maior parte passa para o corpo.",
+  lt: "Šiame projekte, dalijant mezgimą į korpusą ir rankoves, kiekvienos raglano linijos akys dalijamos tarp korpuso (priekio arba nugaros) ir gretimos rankovės: lyginiu skaičiumi — po lygiai; nelyginiu — didesnė dalis tenka korpusui.",
+  pl: "W projekcie przy rozdzielaniu robótki na korpus i rękawy oczka każdej linii reglanu dzielą się między korpus (przód lub tył) a sąsiedni rękaw: przy parzystej liczbie po równo, przy nieparzystej większa część przechodzi na korpus.",
 };
 
 export const stitches = {
@@ -718,6 +837,7 @@ export const stitches = {
   ar: "غرز",
   pt: "Pontos",
   lt: "Kilpa",
+  pl: "Oczka",
 };
 
 export const ribbing = {
@@ -738,6 +858,7 @@ export const ribbing = {
   ar: "حياكة مضلعة",
   pt: "Canelado",
   lt: "Raištis",
+  pl: "Ściągacz",
 };
 
 export const rows = {
@@ -758,6 +879,7 @@ export const rows = {
   ar: "صفوف",
   pt: "Linhas",
   lt: "Eilutės",
+  pl: "Rzędy",
 };
 
 export const fitType = {
@@ -779,11 +901,12 @@ export const fitType = {
   ar: "نوع الملابس",
   pt: "Tipo de ajuste",
   lt: "Prigludimo tipas",
+  pl: "Rodzaj dopasowania",
 };
 
 export const depthNeck = {
   en: "Neck Depth",
-  ru: "Глубина горловины",  
+  ru: "Глубина горловины",
   sv: "Halsdjup",
   no: "Halsdybde",
   fi: "Halssyvyys",
@@ -799,6 +922,28 @@ export const depthNeck = {
   ar: "عمق الح脖",
   pt: "Profundidade do colo",
   lt: "Kaklo gylis",
+  pl: "Głębokość dekoltu",
+};
+
+export const depthNeckHint = {
+  en: "Vertical distance from the jugular notch to the lowest point of the V-neck",
+  ru: "Расстояние по вертикали от яремной впадины до самой нижней точки V бейки горловины",
+  sv: "Vertikalt avstånd från jugulargraven till V-halsens lägsta punkt",
+  no: "Vertikal avstand fra jugulargraven til laveste punkt på V-halsen",
+  fi: "Pystysuora etäisyys kaulakuopasta V-kaula-aukon alimpaan kohtaan",
+  de: "Vertikaler Abstand von der Jugulargrube zum tiefsten Punkt des V-Ausschnitts",
+  fr: "Distance verticale de la fossette jugulaire au point le plus bas du col en V",
+  es: "Distancia vertical desde la fosa yugular hasta el punto más bajo del cuello en V",
+  ja: "頚切痕からVネックの最下点までの垂直距離",
+  cs: "Svislá vzdálenost od hrdelní jamky k nejnižšímu bodu výstřihu do V",
+  bg: "Вертикално разстояние от яремната ямка до най-ниската точка на V деколтето",
+  sk: "Zvislá vzdialenosť od hrdelnej jamky k najnižšiemu bodu výstrihu do V",
+  ko: "경정맥 오목에서 V넥 최저점까지의 수직 거리",
+  tr: "Juguler çukurdan V yakanın en alt noktasına dikey mesafe",
+  ar: "المسافة العمودية من الحفرة الوداجية إلى أدنى نقطة في الياقة على شكل V",
+  pt: "Distância vertical da fossa jugular ao ponto mais baixo do decote em V",
+  lt: "Vertikalus atstumas nuo jungo duobutės iki žemiausio V kaklo taško",
+  pl: "Odległość pionowa od wcięcia szyjnego do najniższego punktu dekoltu w serek",
 };
 
 export const raglanLineWidth = {
@@ -819,6 +964,7 @@ export const raglanLineWidth = {
   ar: "خط الريجلان",
   pt: "Linha Raglan",
   lt: "Raglan Linija",
+  pl: "Szerokość linii raglanu",
 };
 
 export const rowDensity = {
@@ -839,25 +985,27 @@ export const rowDensity = {
   ar: "كثافة الأسطر",
   pt: "Densidade de linhas",
   lt: "Eilučių tankis",
+  pl: "Gęstość rzędów",
 };
 
 export const collarWidth = {
-  en: "Collar Width",
-  ru: "Ширина воротника",
-  sv: "Kragets bredd",
-  no: "Kragebredde",
-  fi: "Kauluksen leveys",
-  de: "Kragensbreite",
-  fr: "Largeur du col",
-  es: "Ancho del cuello",
-  ja: "襟幅",
-  cs: "Šířka límce",
-  bg: "Ширина на яката",
-  sk: "Šírka goliera",
-  ko: "칼라 폭",
-  tr: "Yaka genişliği",
-  ar: " عرض الياقة",
-  pt: "Largura da gola",
-  lt: "Apykaklės plotis",
+  en: "Neckband width",
+  ru: "Ширина бейки горловины",
+  sv: "Halskantens bredd",
+  no: "Halskantens bredde",
+  fi: "Kauluksen reunuksen leveys",
+  de: "Breite der Halsblende",
+  fr: "Largeur de la bande d’encolure",
+  es: "Ancho del ribete de cuello",
+  ja: "ネックバンドの幅",
+  cs: "Šířka lemu výstřihu",
+  bg: "Ширина на бейката на деколтето",
+  sk: "Šírka lemu výstrihu",
+  ko: "넥밴드 너비",
+  tr: "Yaka bandı genişliği",
+  ar: "عرض شريطة العنق",
+  pt: "Largura do viés de gola",
+  lt: "Kaklo juostos plotis",
+  pl: "Szerokość plisy dekoltu",
 };
 

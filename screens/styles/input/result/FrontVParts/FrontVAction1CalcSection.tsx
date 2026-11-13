@@ -28,23 +28,23 @@ export function FrontVAction1CalcSection({
       <FrontVRow1PairScroll
         results={results}
         increaseStrings={increaseStrings}
-        rowLabel={` 1: ${i18n.t('row1ForPart')} R `}
+        rowLabel={` 1: ${i18n.t('row1ForPart')} L `}
       />
       <FrontVRow2PinkScroll
         results={results}
         increaseStrings={increaseStrings}
-        rowLabel={` 2: ${i18n.t('row2ForPart')} R `}
+        rowLabel={` 2: ${i18n.t('row2ForPart')} L `}
       />
 
       <FrontVRow1PairScroll
         results={results}
         increaseStrings={increaseStrings}
-        rowLabel={` 3: ${i18n.t('row1ForPart')} L `}
+        rowLabel={` 3: ${i18n.t('row1ForPart')} R `}
       />
       <FrontVRow2PinkScroll
         results={results}
         increaseStrings={increaseStrings}
-        rowLabel={` 4: ${i18n.t('row2ForPart')} L `}
+        rowLabel={` 4: ${i18n.t('row2ForPart')} R `}
       />
     </>
   );

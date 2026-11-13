@@ -1,11 +1,11 @@
 export function computeFitCm(fitType: string, stitches: number): number {
   switch (fitType) {
     case 'semi-fitted':
-      return Math.round(2 * stitches) / stitches;
-    case 'loose':
       return Math.round(6 * stitches) / stitches;
+    case 'loose':
+      return Math.round(12 * stitches) / stitches;
     case 'oversized':
-      return Math.round(10 * stitches) / stitches;
+      return Math.round(20 * stitches) / stitches;
     default:
       return 0;
   }

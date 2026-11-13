@@ -1,10 +1,22 @@
-// Action 1 intro rows, start image, and front diagram scroll for FrontV.
+// Action 1 intro rows, start image, and front drawing (legend + carousel) for FrontV.
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
 import i18n from '@/utils/translations';
+import FrontVUnderstandingCarousel from '../FrontVUnderstandingCarousel';
+import { RESULT_COLORS } from '../resultSharedStyles';
 import { styles } from './styles';
+
+const CREATE_STITCH_BLUE = '#00ADF2';
+
+const DRAWING_LEGEND = [
+  { color: RESULT_COLORS.front, labelKey: 'drawingLegendFront' as const },
+  { color: RESULT_COLORS.sleeve, labelKey: 'drawingLegendSleeve' as const },
+  { color: RESULT_COLORS.back, labelKey: 'drawingLegendBack' as const },
+  { color: RESULT_COLORS.raglan, labelKey: 'drawingLegendRaglan' as const },
+  { color: CREATE_STITCH_BLUE, labelKey: 'drawingLegendAdded' as const },
+];
 
 interface FrontVAction1IntroProps {
   nHv: number;
@@ -45,16 +57,7 @@ export function FrontVAction1Intro({ nHv }: FrontVAction1IntroProps) {
           contentFit="contain"
         />
       </View>
-      <View
-        style={{
-          marginBottom: 10,
-          marginLeft: 0,
-          padding: 5,
-          backgroundColor: '#E6E6E6',
-          borderRadius: 8,
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.drawingBlock}>
         <View
           style={{
             flexDirection: 'row',
@@ -62,25 +65,26 @@ export function FrontVAction1Intro({ nHv }: FrontVAction1IntroProps) {
             marginBottom: 10,
           }}
         >
-          <Text style={styles.resultText}>
+          <Text style={styles.drawingTitle}>
             {i18n.t('drawingForUnderstanding')}
           </Text>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 10,
-              justifyContent: 'flex-start',
-            }}
-          >
-            <Image
-              source={require('@/assets/images/frontVan.png')}
-              style={styles.frontImage}
-            />
-          </View>
-        </ScrollView>
+        <View style={styles.drawingLegend}>
+          {DRAWING_LEGEND.map((item) => (
+            <View key={item.labelKey} style={styles.drawingLegendItem}>
+              <View
+                style={[
+                  styles.drawingLegendSwatch,
+                  { backgroundColor: item.color },
+                ]}
+              />
+              <Text style={styles.drawingLegendLabel}>
+                {i18n.t(item.labelKey)}
+              </Text>
+            </View>
+          ))}
+        </View>
+        <FrontVUnderstandingCarousel />
       </View>
     </>
   );

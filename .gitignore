@@ -17,6 +17,14 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+# Native build caches (must not ship to EAS — absolute local paths break Linux builds)
+android/build/
+android/app/build/
+android/app/.cxx/
+android/.gradle/
+ios/build/
+ios/Pods/
+
 # Metro
 .metro-health-check*
 

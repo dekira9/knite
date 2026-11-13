@@ -88,4 +88,10 @@ export const resultCardStyles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 12,
   },
+  /** Label that may wrap; keeps ~1/3 of the row free for the value. */
+  infoLabel: {
+    flexShrink: 1,
+    maxWidth: '66%',
+    marginRight: 12,
+  },
 });

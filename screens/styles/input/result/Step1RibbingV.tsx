@@ -123,7 +123,7 @@ const Step1RibbingV = observer(({
             />
             <BreakdownRow
               color={RESULT_COLORS.lastRowCollar}
-              label={i18n.t('additionsOnOneSide')}
+              label={i18n.t('additionsOnEachSideOfVLine')}
               value={results.SpribVcorn}
             />
           </View>

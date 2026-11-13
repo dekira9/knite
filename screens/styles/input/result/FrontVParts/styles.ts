@@ -62,12 +62,42 @@ export const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
   },
-  frontImage: {
+  drawingBlock: {
+    marginBottom: 10,
+    marginHorizontal: -16,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: '#2C5546',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  drawingTitle: {
+    fontSize: 14,
+    color: '#E5E7EB',
+    marginBottom: 5,
+  },
+  drawingLegend: {
     width: '100%',
-    aspectRatio: 2,
-    height: undefined,
-    resizeMode: 'contain',
-    padding: 300,
+    marginBottom: 10,
+    gap: 6,
+    paddingHorizontal: 4,
+  },
+  drawingLegendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  drawingLegendSwatch: {
+    width: 17,
+    height: 17,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+  },
+  drawingLegendLabel: {
+    flex: 1,
+    fontSize: 13,
+    color: '#E5E7EB',
   },
   stepHeader: {
     flexDirection: 'row',

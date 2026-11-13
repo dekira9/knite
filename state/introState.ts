@@ -13,6 +13,7 @@ import {
   applyPersistedIntroState,
   pickPersistedIntroState,
 } from "@/state/introStatePersistedKeys";
+import { trackKnittingProgressSaved } from "@/utils/analytics";
 
 function runAfterInteractions(task: () => void) {
   InteractionManager.runAfterInteractions(task);
@@ -583,6 +584,7 @@ const IntroState = types
       self.lastChartStoppedRow = safeRow;
       self.lastChartStoppedStitches = safeStitches;
 
+      trackKnittingProgressSaved(chartId, safeRow);
       void this.persistState();
     },
   }))

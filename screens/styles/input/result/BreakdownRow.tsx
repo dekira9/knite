@@ -14,12 +14,12 @@ export default function BreakdownRow({ color, label, value, detail }: Props) {
     <View style={styles.row}>
       <View style={styles.labelWrap}>
         <View style={[styles.swatch, { backgroundColor: color }]} />
-        <View>
-          <Text style={resultTypography.label}>{label}</Text>
+        <View style={styles.textWrap}>
+          <Text style={[resultTypography.label, styles.label]}>{label}</Text>
           {detail ? <Text style={styles.detail}>{detail}</Text> : null}
         </View>
       </View>
-      <Text style={resultTypography.chipValue}>{value}</Text>
+      <Text style={[resultTypography.chipValue, styles.value]}>{value}</Text>
     </View>
   );
 }
@@ -27,22 +27,39 @@ export default function BreakdownRow({ color, label, value, detail }: Props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     marginBottom: 8,
   },
   labelWrap: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 8,
     flexShrink: 1,
+    flexGrow: 1,
+    maxWidth: '66%',
     paddingRight: 8,
   },
   swatch: {
     width: 14,
     height: 14,
+    marginTop: 3,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#000',
+    flexShrink: 0,
+  },
+  textWrap: {
+    flexShrink: 1,
+    flexGrow: 1,
+  },
+  label: {
+    flexShrink: 1,
+  },
+  value: {
+    flexShrink: 0,
+    textAlign: 'right',
+    minWidth: 28,
+    marginTop: 1,
   },
   detail: {
     fontSize: 12,

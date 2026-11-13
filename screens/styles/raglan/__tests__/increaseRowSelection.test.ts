@@ -10,6 +10,8 @@ const sampleStrings: IncreaseRowStrings = {
   resultString23: '',
   resultString21: '',
   resultString43: '',
+  resultString41: '',
+  resultString31: '',
   rowPrib1x4String: '1, 5',
   rowPrib1x3String: '1, 4',
   rowPrib1x2String: '1, 3',

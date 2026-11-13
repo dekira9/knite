@@ -17,7 +17,8 @@ export const onboardingLanguage = {
   tr: "Dilinizi seçin",
   ar: "اختر لغتك",
   pt: "Escolha seu idioma",
-  lt: "Pasirinkite kalbą"
+  lt: "Pasirinkite kalbą",
+  pl: "Wybierz język",
 };
 
 export const measurementSystem = {
@@ -38,6 +39,7 @@ export const measurementSystem = {
   ar: "نظام القياس",
   pt: "Sistema de medida",
   lt: "Matavimo sistema",
+  pl: "System miar",
 };
 
 export const language = {
@@ -58,6 +60,7 @@ export const language = {
   ar: "لغة",
   pt: "Idioma",
   lt: "Kalba",
+  pl: "Język",
 };
 
 export const imperial = {
@@ -78,6 +81,7 @@ export const imperial = {
   ar: "إمبراطوري",
   pt: "Sistema imperial",
   lt: "Imperialinė",
+  pl: "Imperialny",
 };
 
 export const metric = {
@@ -98,6 +102,7 @@ export const metric = {
   ar: "متري",
   pt: "Métrico",
   lt: "Metrinis",
+  pl: "Metryczny",
 };
 
 export const chooseMeasurementSystem = {
@@ -118,6 +123,7 @@ export const chooseMeasurementSystem = {
   ar: "اختر نظام القياس",
   pt: "Escolha o sistema de medida",
   lt: "Pasirinkite matavimo sistemą",
+  pl: "Wybierz system miar",
 };
 
 export const metricUnitsHint = {
@@ -138,6 +144,7 @@ export const metricUnitsHint = {
   ar: "سنتيمتر (سم)",
   pt: "centímetros (cm)",
   lt: "centimetrai (cm)",
+  pl: "centymetry (cm)",
 };
 
 export const imperialUnitsHint = {
@@ -158,6 +165,7 @@ export const imperialUnitsHint = {
   ar: "بوصة (in)",
   pt: "polegadas (in)",
   lt: "coliai (in)",
+  pl: "cale (in)",
 };
 
 export const premiumAccess = {
@@ -178,6 +186,7 @@ export const premiumAccess = {
   ar: "الوصول المميز",
   pt: "Acesso Premium",
   lt: "Premium prieiga",
+  pl: "Dostęp Premium",
 };
 
 export const premiumFeatureCalculations = {
@@ -198,6 +207,7 @@ export const premiumFeatureCalculations = {
   ar: "حسابات متقدمة",
   pt: "Cálculos avançados",
   lt: "Išplėstiniai skaičiavimai",
+  pl: "Zaawansowane obliczenia",
 };
 
 export const premiumFeaturePatterns = {
@@ -218,6 +228,7 @@ export const premiumFeaturePatterns = {
   ar: "حفظ الأنماط",
   pt: "Armazenamento de padrões",
   lt: "Raštų saugojimas",
+  pl: "Przechowywanie wzorów",
 };
 
 export const premiumFeatureAdFree = {
@@ -238,6 +249,7 @@ export const premiumFeatureAdFree = {
   ar: "بدون إعلانات",
   pt: "Sem anúncios",
   lt: "Be reklamų",
+  pl: "Bez reklam",
 };
 
 export const premiumFeatureSupport = {
@@ -258,6 +270,7 @@ export const premiumFeatureSupport = {
   ar: "دعم ذو أولوية",
   pt: "Suporte prioritário",
   lt: "Prioritetinė pagalba",
+  pl: "Priorytetowe wsparcie",
 };
 
 export const premiumPrice = {
@@ -278,6 +291,7 @@ export const premiumPrice = {
   ar: "$4.99/شهر",
   pt: "$4.99/mês",
   lt: "$4.99/mėn.",
+  pl: "4,99 USD/miesiąc",
 };
 
 export const subscribe = {
@@ -298,6 +312,7 @@ export const subscribe = {
   ar: "اشترك",
   pt: "Assinar",
   lt: "Prenumeruoti",
+  pl: "Subskrybuj",
 };
 
 export const continueFree = {
@@ -318,6 +333,7 @@ export const continueFree = {
   ar: "المتابعة بالإصدار المجاني",
   pt: "Continuar com a versão gratuita",
   lt: "Tęsti nemokama versija",
+  pl: "Kontynuuj w wersji darmowej",
 };
 
 export const settings = {
@@ -338,6 +354,7 @@ export const settings = {
   ar: "الإعدادات",
   pt: "Configurações",
   lt: "Nustatymai",
+  pl: "Ustawienia",
 };
 
 export const styles = {
@@ -358,6 +375,7 @@ export const styles = {
   ar: "الرئيسية",
   pt: "Início",
   lt: "Pradžia",
+  pl: "Start",
 };
 
 export const chooseStyle = {
@@ -378,6 +396,7 @@ export const chooseStyle = {
   ar: "اختر نوع فتحة الرقبة",
   pt: "Escolha o tipo de decote",
   lt: "Pasirinkite iškirptės tipą",
+  pl: "Wybierz rodzaj dekoltu",
 };
 
 export const vNeck = {
@@ -398,6 +417,7 @@ export const vNeck = {
   ar: "رقبة على شكل V",
   pt: "Decote em V",
   lt: "V formos iškirptė",
+  pl: "Dekolt w serek",
 };
 
 export const regularCollar = {
@@ -418,6 +438,7 @@ export const regularCollar = {
   ar: "رقبة دائرية",
   pt: "Gola redonda",
   lt: "Apvali iškirptė",
+  pl: "Zwykły kołnierz",
 };
 
 export const startKnitting = {
@@ -438,6 +459,7 @@ export const startKnitting = {
   ar: "ابدأ التريك",
   pt: "Começar a tricotar",
   lt: "Pradėti plėstis",
+  pl: "Zacznij dzianie",
 };
 
 export const newStyle = {
@@ -458,6 +480,7 @@ export const newStyle = {
   ar: "نمط جديد",
   pt: "Novo estilo",
   lt: "Naujas stilius",
+  pl: "Nowy styl",
 };
 
 export const newProject = {
@@ -478,6 +501,7 @@ export const newProject = {
   ar: "مشروع جديد",
   pt: "Novo projeto",
   lt: "Naujas projektas",
+  pl: "Nowy projekt",
 };
 
 export const projectNamePlaceholder = {
@@ -498,6 +522,7 @@ export const projectNamePlaceholder = {
   ar: "اسم المشروع",
   pt: "Nome do projeto",
   lt: "Projekto pavadinimas",
+  pl: "Nazwa projektu",
 };
 
 export const myProjects = {
@@ -518,6 +543,7 @@ export const myProjects = {
   ar: "مشاريعي",
   pt: "Meus projetos",
   lt: "Mano projektai",
+  pl: "Moje projekty",
 };
 
 /** Short label for the My Projects tab. */
@@ -539,6 +565,7 @@ export const tabProjects = {
   ar: "المشاريع",
   pt: "Projetos",
   lt: "Projektai",
+  pl: "Projekty",
 };
 
 export const tabRegion = {
@@ -559,6 +586,7 @@ export const tabRegion = {
   ar: "المنطقة",
   pt: "Região",
   lt: "Regionas",
+  pl: "Region",
 };
 
 export const deleteProject = {
@@ -579,6 +607,7 @@ export const deleteProject = {
   ar: "حذف المشروع",
   pt: "Excluir projeto",
   lt: "Ištrinti projektą",
+  pl: "Usuń projekt",
 };
 
 export const deleteProjectConfirm = {
@@ -599,6 +628,7 @@ export const deleteProjectConfirm = {
   ar: "هل أنت متأكد أنك تريد حذف هذا المشروع؟",
   pt: "Tem certeza de que deseja excluir este projeto?",
   lt: "Ar tikrai norite ištrinti šį projektą?",
+  pl: "Czy na pewno chcesz usunąć ten projekt?",
 };
 
 export const cancel = {
@@ -619,6 +649,7 @@ export const cancel = {
   ar: "إلغاء",
   pt: "Cancelar",
   lt: "Atšaukti",
+  pl: "Anuluj",
 };
 
 export const sampleBannerTitle = {
@@ -639,6 +670,7 @@ export const sampleBannerTitle = {
   ar: "خطة نموذجية",
   pt: "Plano de exemplo",
   lt: "Pavyzdinis planas",
+  pl: "Przykładowy plan",
 };
 
 export const sampleBannerSubtitle = {
@@ -659,6 +691,7 @@ export const sampleBannerSubtitle = {
   ar: "الصدر ~92 سم، العيّنة 24×32 لكل 10 سم. أدخل عيّنتك ومقاساتك لكنزتك.",
   pt: "Peito ~92 cm, amostra 24×32 por 10 cm. Introduza a sua amostra e medidas para a sua camisola.",
   lt: "Krūtinė ~92 cm, bandinys 24×32 / 10 cm. Įveskite savo bandinį ir matmenis megztiniui.",
+  pl: "Klatka ~92 cm, próbka 24×32 na 10 cm. Podaj swoją próbkę i wymiary dla swojego swetra.",
 };
 
 export const enterMyMeasurements = {
@@ -679,6 +712,7 @@ export const enterMyMeasurements = {
   ar: "احسب لمقاسي",
   pt: "Calcular para o meu tamanho",
   lt: "Skaičiuoti mano dydžiui",
+  pl: "Oblicz na mój rozmiar",
 };
 
 export const stylesSampleHint = {
@@ -699,6 +733,7 @@ export const stylesSampleHint = {
   ar: "اختر فتحة رقبة لعرض خطة حياكة نموذجية (~مقاس نسائي M).",
   pt: "Escolha um decote para ver um plano de exemplo (~tamanho mulher M).",
   lt: "Pasirinkite iškirptę ir pamatysite pavyzdinį mezgimo planą (~moterų M).",
+  pl: "Wybierz dekolt, aby zobaczyć przykładowy plan (~rozmiar M damski).",
 };
 
 export const stylesCustomHint = {
@@ -719,26 +754,28 @@ export const stylesCustomHint = {
   ar: "بعد ذلك أدخل المقاسات والمعلمات الأخرى.",
   pt: "De seguida, introduza as medidas e outros parâmetros.",
   lt: "Toliau įveskite matmenis ir kitus parametrus.",
+  pl: "Następnie podaj wymiary i inne parametry.",
 };
 
 export const homeTitle = {
   en: "Raglan Planner",
-  ru: "Планировщик реглана",
-  sv: "Raglan-planerare",
-  no: "Raglan-planlegger",
-  fi: "Raglan-suunnittelija",
-  de: "Raglan-Planer",
-  fr: "Planificateur raglan",
-  es: "Planificador de raglán",
-  ja: "ラグランプランナー",
-  cs: "Plánovač raglánu",
-  bg: "Планировчик за реглан",
-  sk: "Plánovač raglánu",
-  ko: "래글런 플래너",
-  tr: "Raglan planlayıcı",
-  ar: "مخطط الراغلان",
-  pt: "Planejador de raglan",
-  lt: "Raglano planuoklis",
+  ru: "Raglan Planner",
+  sv: "Raglan Planner",
+  no: "Raglan Planner",
+  fi: "Raglan Planner",
+  de: "Raglan Planner",
+  fr: "Raglan Planner",
+  es: "Raglan Planner",
+  ja: "Raglan Planner",
+  cs: "Raglan Planner",
+  bg: "Raglan Planner",
+  sk: "Raglan Planner",
+  ko: "Raglan Planner",
+  tr: "Raglan Planner",
+  ar: "Raglan Planner",
+  pt: "Raglan Planner",
+  lt: "Raglan Planner",
+  pl: "Raglan Planner",
 };
 
 export const homeBrandLine1 = {
@@ -759,6 +796,7 @@ export const homeBrandLine1 = {
   ar: "TOP-DOWN",
   pt: "TOP-DOWN",
   lt: "TOP-DOWN",
+  pl: "TOP-DOWN",
 };
 
 export const homeBrandLine2 = {
@@ -779,6 +817,7 @@ export const homeBrandLine2 = {
   ar: "RAGLAN PLANNER",
   pt: "RAGLAN PLANNER",
   lt: "RAGLAN PLANNER",
+  pl: "RAGLAN PLANNER",
 };
 
 export const homeTagline = {
@@ -799,6 +838,7 @@ export const homeTagline = {
   ar: "خطّط. احيك. ارتدِ.",
   pt: "PLANEJE. TRICOTE. VISTA.",
   lt: "PLANUOK. MEZGK. DĖVĖK.",
+  pl: "PLANUJ. DZIERGAJ. NOŚ.",
 };
 
 export const homeFeatureCalc = {
@@ -819,6 +859,7 @@ export const homeFeatureCalc = {
   ar: "حسابات دقيقة",
   pt: "Cálculos precisos",
   lt: "Tikslūs skaičiavimai",
+  pl: "Dokładne obliczenia",
 };
 
 export const homeFeatureRaglan = {
@@ -839,6 +880,7 @@ export const homeFeatureRaglan = {
   ar: "راجلان من الأعلى دائريًا",
   pt: "Raglan de cima em círculo",
   lt: "Raglanas iš viršaus ratu",
+  pl: "Raglan od góry w okrążeniu",
 };
 
 export const homeFeatureSize = {
@@ -859,6 +901,7 @@ export const homeFeatureSize = {
   ar: "مقاسك المثالي",
   pt: "Seu tamanho ideal",
   lt: "Jūsų idealus dydis",
+  pl: "Twój idealny rozmiar",
 };
 
 export const createNewProject = {
@@ -879,6 +922,7 @@ export const createNewProject = {
   ar: "إنشاء مشروع جديد",
   pt: "Criar novo projeto",
   lt: "Sukurti naują projektą",
+  pl: "Utwórz nowy projekt",
 };
 
 export const homeSubtitle = {
@@ -899,6 +943,7 @@ export const homeSubtitle = {
   ar: "خطة حياكة خطوة بخطوة حسب مقاساتك.",
   pt: "Plano de tricô passo a passo com base nas suas medidas.",
   lt: "Žingsnis po žingsnio mezgimo planas pagal jūsų matmenis.",
+  pl: "Krok po kroku plan dziania na podstawie Twoich wymiarów.",
 };
 
 export const viewExample = {
@@ -919,6 +964,7 @@ export const viewExample = {
   ar: "عرض الخطة النموذجية",
   pt: "Ver plano de exemplo",
   lt: "Žiūrėti pavyzdinį planą",
+  pl: "Zobacz przykładowy plan",
 };
 
 export const viewExampleHint = {
@@ -939,6 +985,7 @@ export const viewExampleHint = {
   ar: "~دقيقتان · مقاس نموذجي، وليس مقاسك",
   pt: "~2 min · tamanho de exemplo, não o seu",
   lt: "~2 min · pavyzdinis dydis, ne jūsų",
+  pl: "~2 min · przykładowy rozmiar, nie Twój",
 };
 
 export const startWithMyMeasurements = {
@@ -959,6 +1006,7 @@ export const startWithMyMeasurements = {
   ar: "كنزي",
   pt: "A minha camisola",
   lt: "Mano megztinis",
+  pl: "Mój sweter",
 };
 
 export const startWithMyMeasurementsHint = {
@@ -979,6 +1027,7 @@ export const startWithMyMeasurementsHint = {
   ar: "أدخل العيّنة ومقاسات الجسم",
   pt: "Introduza a amostra e as medidas corporais",
   lt: "Įveskite bandinį ir kūno matmenis",
+  pl: "Podaj próbkę i wymiary ciała",
 };
 
 export const continueProject = {
@@ -999,6 +1048,7 @@ export const continueProject = {
   ar: "متابعة",
   pt: "Continuar",
   lt: "Tęsti",
+  pl: "Kontynuuj",
 };
 
 export const sampleBadge = {
@@ -1019,6 +1069,7 @@ export const sampleBadge = {
   ar: "مثال",
   pt: "Exemplo",
   lt: "Pavyzdys",
+  pl: "Przykład",
 };
 
 export const homeIntroTitle = {
@@ -1039,6 +1090,7 @@ export const homeIntroTitle = {
   ar: "كيف تريد أن تبدأ؟",
   pt: "Como gostaria de começar?",
   lt: "Kaip norėtumėte pradėti?",
+  pl: "Jak chcesz zacząć?",
 };
 
 export const homeIntroSubtitle = {
@@ -1059,6 +1111,7 @@ export const homeIntroSubtitle = {
   ar: "استكشف بخطة نموذجية أو انتقل مباشرة إلى مقاساتك.",
   pt: "Explore com um plano de exemplo ou vá direto às suas medidas.",
   lt: "Peržiūrėkite pavyzdinį planą arba iš karto įveskite savo matmenis.",
+  pl: "Zobacz przykładowy plan albo od razu przejdź do swoich wymiarów.",
 };
 
 export const homeIntroExampleBtn = {
@@ -1079,6 +1132,7 @@ export const homeIntroExampleBtn = {
   ar: "عرض الخطة النموذجية",
   pt: "Ver plano de exemplo",
   lt: "Žiūrėti pavyzdinį planą",
+  pl: "Zobacz przykładowy plan",
 };
 
 export const homeIntroCustomBtn = {
@@ -1099,6 +1153,7 @@ export const homeIntroCustomBtn = {
   ar: "أدخل مقاساتي",
   pt: "Introduzir as minhas medidas",
   lt: "Įvesti savo matmenis",
+  pl: "Podaj moje wymiary",
 };
 
 export const emptyProjects = {
@@ -1119,6 +1174,7 @@ export const emptyProjects = {
   ar: "ستظهر مشاريع كنزاتك هنا.",
   pt: "Os seus projetos de camisola aparecerão aqui.",
   lt: "Čia bus rodomi jūsų megztinių projektai.",
+  pl: "Tutaj pojawią się Twoje projekty swetrów.",
 };
 
 export const newCalculation = {
@@ -1139,4 +1195,89 @@ export const newCalculation = {
   ar: "حساب جديد",
   pt: "Novo cálculo",
   lt: "Naujas skaičiavimas",
+  pl: "Nowe obliczenie",
+};
+
+export const updateAvailableTitle = {
+  en: "New version available",
+  ru: "Доступна новая версия",
+  sv: "Ny version tillgänglig",
+  no: "Ny versjon tilgjengelig",
+  fi: "Uusi versio saatavilla",
+  de: "Neue Version verfügbar",
+  fr: "Nouvelle version disponible",
+  es: "Nueva versión disponible",
+  ja: "新しいバージョンがあります",
+  cs: "Je dostupná nová verze",
+  bg: "Налична е нова версия",
+  sk: "Je dostupná nová verzia",
+  ko: "새 버전이 있습니다",
+  tr: "Yeni sürüm mevcut",
+  ar: "يتوفر إصدار جديد",
+  pt: "Nova versão disponível",
+  lt: "Yra nauja versija",
+  pl: "Dostępna nowa wersja",
+};
+
+export const updateAvailableMessage = {
+  en: "A newer version of Raglan Planner is available in the store. You can update now or continue using this version.",
+  ru: "В магазине есть новая версия Raglan Planner. Можно обновить сейчас или продолжить с этой версией.",
+  sv: "En nyare version av Raglan Planner finns i butiken. Du kan uppdatera nu eller fortsätta med den här versionen.",
+  no: "En nyere versjon av Raglan Planner er tilgjengelig i butikken. Du kan oppdatere nå eller fortsette med denne versjonen.",
+  fi: "Uudempi versio Raglan Plannerista on saatavilla kaupassa. Voit päivittää nyt tai jatkaa tällä versiolla.",
+  de: "Im Store ist eine neuere Version von Raglan Planner verfügbar. Du kannst jetzt aktualisieren oder diese Version weiter nutzen.",
+  fr: "Une version plus récente de Raglan Planner est disponible dans le store. Vous pouvez mettre à jour maintenant ou continuer avec cette version.",
+  es: "Hay una versión más reciente de Raglan Planner en la tienda. Puedes actualizar ahora o seguir con esta versión.",
+  ja: "ストアに新しいバージョンの Raglan Planner があります。今すぐ更新するか、このバージョンのまま続けられます。",
+  cs: "V obchodě je novější verze Raglan Planner. Můžete aktualizovat teď, nebo pokračovat s touto verzí.",
+  bg: "В магазина има по-нова версия на Raglan Planner. Можете да обновите сега или да продължите с тази версия.",
+  sk: "V obchode je novšia verzia Raglan Planner. Môžete aktualizovať teraz alebo pokračovať s touto verziou.",
+  ko: "스토어에 더 새로운 Raglan Planner 버전이 있습니다. 지금 업데이트하거나 이 버전을 계속 사용할 수 있습니다.",
+  tr: "Mağazada Raglan Planner'ın daha yeni bir sürümü var. Şimdi güncelleyebilir veya bu sürümle devam edebilirsiniz.",
+  ar: "يتوفر إصدار أحدث من Raglan Planner في المتجر. يمكنك التحديث الآن أو متابعة استخدام هذا الإصدار.",
+  pt: "Há uma versão mais recente do Raglan Planner na loja. Pode atualizar agora ou continuar com esta versão.",
+  lt: "Parduotuvėje yra naujesnė Raglan Planner versija. Galite atnaujinti dabar arba toliau naudoti šią versiją.",
+  pl: "W sklepie jest nowsza wersja Raglan Planner. Możesz zaktualizować teraz lub kontynuować tę wersję.",
+};
+
+export const updateAvailableLater = {
+  en: "Later",
+  ru: "Позже",
+  sv: "Senare",
+  no: "Senere",
+  fi: "Myöhemmin",
+  de: "Später",
+  fr: "Plus tard",
+  es: "Más tarde",
+  ja: "後で",
+  cs: "Později",
+  bg: "По-късно",
+  sk: "Neskôr",
+  ko: "나중에",
+  tr: "Sonra",
+  ar: "لاحقًا",
+  pt: "Mais tarde",
+  lt: "Vėliau",
+  pl: "Później",
+};
+
+export const updateAvailableAction = {
+  en: "Update",
+  ru: "Обновить",
+  sv: "Uppdatera",
+  no: "Oppdater",
+  fi: "Päivitä",
+  de: "Aktualisieren",
+  fr: "Mettre à jour",
+  es: "Actualizar",
+  ja: "更新",
+  cs: "Aktualizovat",
+  bg: "Обнови",
+  sk: "Aktualizovať",
+  ko: "업데이트",
+  tr: "Güncelle",
+  ar: "تحديث",
+  pt: "Atualizar",
+  lt: "Atnaujinti",
+  pl: "Aktualizuj",
 };

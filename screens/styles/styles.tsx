@@ -15,6 +15,7 @@ import { observer } from 'mobx-react-lite';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
+import { track } from '@/utils/analytics';
 
 const HOME_BG_TOP = '#F5F0ED';
 const HOME_BG_BOTTOM = '#F4F0ED';
@@ -48,9 +49,12 @@ export default observer(() => {
   );
 
   const topPad = insets.top + (isCompact ? 8 : 12);
+  // Tab bar (~66+) + room for multi-line feature captions under the icons.
+  const bottomPad = 56 + Math.max(insets.bottom, 8) + 10 + 48;
 
   const beginFlow = (mode: 'sample' | 'custom') => {
     introState.prepareStyleChoice(mode);
+    track('flow_started', { mode, source: 'home' });
     (navigation as any).navigate('ChooseStyle');
   };
 
@@ -59,9 +63,10 @@ export default observer(() => {
       style={[styles.homeContainer, { paddingTop: topPad }]}
       contentContainerStyle={[
         styles.homeContent,
-        { paddingBottom: 24 },
+        { paddingBottom: bottomPad },
       ]}
       bounces
+      keyboardShouldPersistTaps="handled"
     >
       <StatusBar style="dark" />
 
@@ -217,13 +222,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     marginTop: 24,
-    marginBottom: 8,
+    marginBottom: 16,
     gap: 8,
   },
   featureItem: {
     flex: 1,
     alignItems: 'center',
-    minHeight: 72,
+    minHeight: 96,
   },
   featureIcon: {
     width: 44,

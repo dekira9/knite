@@ -18,6 +18,7 @@ export const knittingChart = {
   ar: "مخطط التريك",
   pt: "Diagrama de tricô",  
   lt: "Dėlių diagrama",
+  pl: "Schemat dziania",
 };
 
 export const knittingCharts = {
@@ -38,6 +39,7 @@ export const knittingCharts = {
   ar: "مخططات الحياكة",
   pt: "Gráficos de tricô",
   lt: "Mezgimo schemos",
+  pl: "Schematy dziania",
 };
 
 /** Short label for the Knitting charts tab. */
@@ -59,26 +61,28 @@ export const tabCharts = {
   ar: "المخططات",
   pt: "Gráficos",
   lt: "Schemos",
+  pl: "Schematy",
 };
 
 export const lastRowOfCollar = {
-  en: "Last row of collar",
-  ru: "Последний ряд воротника",
-  sv: "Sista raden av kragen",
-  no: "Siste rad av kragen",  
-  fi: "Kauluksen viimeinen rivi",
-  de: "Letzte Reihe des Kragens",
-  fr: "Dernière rangée du col",
-  es: "Última fila del cuello",
-  ja: "襟の最後の段",
-  cs: "Poslední řada límce",  
-  bg: "Последен ред на яката",
-  sk: "Posledný rad goliera",
-  ko: "칼라의 마지막 행",
-  tr: "Yakanın son sırası",
-  ar: "آخر صف من الياقة",
-  pt: "Última fileira da gola",  
-  lt: "Paskutinis apykaklės rūšis",
+  en: "Last row of the neckband",
+  ru: "Последний ряд бейки горловины",
+  sv: "Sista raden av halskanten",
+  no: "Siste rad av halskanten",
+  fi: "Kauluksen reunuksen viimeinen rivi",
+  de: "Letzte Reihe der Halsblende",
+  fr: "Dernier rang de la bande d’encolure",
+  es: "Última fila del ribete de cuello",
+  ja: "ネックバンドの最後の段",
+  cs: "Poslední řada lemu výstřihu",
+  bg: "Последен ред на бейката на деколтето",
+  sk: "Posledný rad lemu výstrihu",
+  ko: "넥밴드의 마지막 단",
+  tr: "Yaka bandının son sırası",
+  ar: "آخر صف من شريطة العنق",
+  pt: "Última carreira do viés de gola",
+  lt: "Paskutinė kaklo juostos eilutė",
+  pl: "Ostatni rząd plisy dekoltu",
 };
 
 export const castOnRow = {
@@ -98,7 +102,8 @@ export const castOnRow = {
   tr: "Başlangıç sırası",
   ar: "صف البداية",
   pt: "Carreira de montagem",
-  lt: "Pradinis eilutė"
+  lt: "Pradinis eilutė",
+  pl: "Rząd nabierania",
 };
 
 export const knitWithYourPatternAfterRibbing = {
@@ -118,7 +123,8 @@ export const knitWithYourPatternAfterRibbing = {
   tr: "Lastikten sonra deseninize göre örün",
   ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
   pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  lt: "Megzkite pagal raštą po elastinės dalies",
+  pl: "Po ściągaczu dziergaj swoim wzorem",
 };
 
 export const knittingAfterRibbing = {
@@ -138,7 +144,8 @@ export const knittingAfterRibbing = {
   tr: "Lastikten sonra deseninize göre örün",
   ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
   pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  lt: "Megzkite pagal raštą po elastinės dalies",
+  pl: "Dzianie po ściągaczu",
 };
 
 export const knittingChartRibbing = {
@@ -159,6 +166,7 @@ export const knittingChartRibbing = {
   ar: "مخطط التريك",
   pt: "Diagrama de tricô",
   lt: "Dėlių diagrama",
+  pl: "Schemat ściągacza",
 };
 
 export const backKnittingChart = {
@@ -179,6 +187,7 @@ export const backKnittingChart = {
   ar: "مخطط التريك الخلفي",
   pt: "Diagrama de tricô das costas",
   lt: "Nugaros mezgimo diagrama",
+  pl: "Schemat tyłu",
 };
 
 export const frontKnittingChart = {
@@ -199,6 +208,7 @@ export const frontKnittingChart = {
   ar: "مخطط التريك الأمامي",
   pt: "Diagrama de tricô da frente",
   lt: "Priekio mezgimo diagrama",
+  pl: "Schemat przodu",
 };
 
 export const sleeveKnittingChart = {
@@ -219,6 +229,7 @@ export const sleeveKnittingChart = {
   ar: "مخطط التريك للكم",
   pt: "Diagrama de tricô da manga",
   lt: "Rankogalio mezgimo diagrama",
+  pl: "Schemat rękawa",
 };
 
 export const knitting = {
@@ -239,6 +250,7 @@ export const knitting = {
   ar: "الحياكة",
   pt: "Tricotar",
   lt: "Megzgauti",
+  pl: "Dzianie",
 };
 
 export const fromTheRibbing = {
@@ -259,6 +271,7 @@ export const fromTheRibbing = {
   ar: "من الربط",
   pt: "do rib",
   lt: "iš reznių",
+  pl: "od ściągacza",
 };
 
 export const row1ForPart = {
@@ -279,6 +292,7 @@ export const row1ForPart = {
   ar: "الجزء 1 للأجزاء",
   pt: "Linha 1 para peça",
   lt: "Rūšių 1 eilutė",
+  pl: "Rząd 1 części",
 };
 
 export const row2ForPart = {
@@ -299,6 +313,7 @@ export const row2ForPart = {
   ar: "الجزء 2 للأجزاء",
   pt: "Linha 2 para peça",
   lt: "Rūšių 2 eilutė",
+  pl: "Rząd 2 części",
 };
 
 export const turn = {
@@ -319,6 +334,7 @@ export const turn = {
   ar: "استدارة",
   pt: "Virar",
   lt: "Sukimti",
+  pl: "Odwróć",
 };
 
 export const row = {
@@ -339,6 +355,7 @@ export const row = {
   ar: "السطر",
   pt: "Linha",
   lt: "Eilutė",
+  pl: "Rząd",
 };
 
 export const underarmStitches = {
@@ -359,6 +376,7 @@ export const underarmStitches = {
   ar: "غرز تحت الإبط",
   pt: "Pontos da axila",
   lt: "Pažasties akys",
+  pl: "Oczka pod pachą",
 };
 
 export const fromTheBack = {
@@ -379,6 +397,7 @@ export const fromTheBack = {
   ar: "من الخلف",
   pt: "De trás",
   lt: "Iš galo",
+  pl: "Od tyłu",
 };
 
 export const option = {
@@ -399,6 +418,7 @@ export const option = {
   ar: "خيار",
   pt: "Opção",
   lt: "Pasirinkimas",
+  pl: "Wariant",
 };
 
 export const per = {
@@ -419,6 +439,7 @@ export const per = {
   ar: "لكل",
   pt: "por",
   lt: "į",
+  pl: "na",
 };
 
 export const sm = {
@@ -439,6 +460,7 @@ export const sm = {
   ar: "cm",
   pt: "cm",
   lt: "cm",
+  pl: "cm",
 };
 
 export const AdditionRows = {
@@ -459,6 +481,7 @@ export const AdditionRows = {
   ar: "الصفوف التي تحتوي على إضافات",
   pt: "linhas com adições", 
   lt: "Rūšių su pridėtimi",
+  pl: "Rzędy z dodawaniem",
 };
 
 export const necklineKnitting = {
@@ -479,106 +502,112 @@ export const necklineKnitting = {
   ar: "حياكة خط العنق",
   pt: "Tricot da garganta",
   lt: "Kaklo mezgimas",
+  pl: "Dzianie dekoltu",
 };
 
 export const collarKnitting = {
-  en: "Collar knitting",
-  ru: "Вязание воротника",
-  sv: "Kragstickning",
-  no: "Kragestrikking",
-  fi: "Kauluksen neulominen",
-  de: "Kragenstricken",
-  fr: "Tricot de col",
-  es: "Tejido de cuello",
-  ja: "襟の編み物",
-  cs: "Pletení límce",
-  bg: "Плетене на яката",
-  sk: "Pletenie goliera",
-  ko: "칼라 뜨개질",
-  tr: "Yaka örgüsü",
-  ar: "حياكة الياقة",
-  pt: "Tricô de gola",
-  lt: "Apykaklės mezgimas",
+  en: "Neckband knitting",
+  ru: "Вязание бейки горловины",
+  sv: "Halskantstickning",
+  no: "Halskantstrikking",
+  fi: "Kauluksen reunuksen neulominen",
+  de: "Halsblende stricken",
+  fr: "Tricot de la bande d’encolure",
+  es: "Tejido del ribete de cuello",
+  ja: "ネックバンドの編み",
+  cs: "Pletení lemu výstřihu",
+  bg: "Плетене на бейката на деколтето",
+  sk: "Pletenie lemu výstrihu",
+  ko: "넥밴드 뜨기",
+  tr: "Yaka bandı örgüsü",
+  ar: "حياكة شريطة العنق",
+  pt: "Tricô do viés de gola",
+  lt: "Kaklo juostos mezgimas",
+  pl: "Dzianie plisy dekoltu",
 };
 
 export const knittingAfterCollar = {
-  en: "Knitting after the collar",
-  ru: "Вязание после воротника",
-  sv: "Sticka efter halsen",
-  no: "Strikk etter halsen",
-  fi: "Neulo kaulan jälkeen",
-  de: "Nach dem Bündchen stricken",
-  fr: "Tricoter après le col",
-  es: "Tejer después del cuello",
-  ja: "リブ編みの後はパターンに従って編んでください",
-  cs: "Pletení podle vzoru po lemu",
-  bg: "Плетене по схемата след ластика",
-  sk: "Pletenie podľa vzoru po leme",
-  ko: "립 이후 패턴대로 뜨세요",
-  tr: "Lastikten sonra deseninize göre örün",
-  ar: "قم بالحياكة وفقًا للنمط بعد الكفة",
-  pt: "Tricote de acordo com seu padrão após o punho",
-  lt: "Megzkite pagal raštą po elastinės dalies"
+  en: "Knitting after the neckband",
+  ru: "Вязание после бейки горловины",
+  sv: "Stickning efter halskanten",
+  no: "Strikking etter halskanten",
+  fi: "Neulominen kauluksen reunuksen jälkeen",
+  de: "Stricken nach der Halsblende",
+  fr: "Tricot après la bande d’encolure",
+  es: "Tejido después del ribete de cuello",
+  ja: "ネックバンドの後の編み",
+  cs: "Pletení po lemu výstřihu",
+  bg: "Плетене след бейката на деколтето",
+  sk: "Pletenie po leme výstrihu",
+  ko: "넥밴드 이후 뜨기",
+  tr: "Yaka bandından sonra örgü",
+  ar: "الحياكة بعد شريطة العنق",
+  pt: "Tricô após o viés de gola",
+  lt: "Mezgimas po kaklo juostos",
+  pl: "Dzianie po plisie dekoltu",
 };
 
 export const collarKnittingChart = {
-  en: "Collar knitting chart",
-  ru: "Схема вязания воротника",
-  sv: "Krage stickdiagram",
-  no: "Krage strikkediagram",
-  fi: "Kaulus neulekaavio",
-  de: "Kragen Strickdiagramm",
-  fr: "Diagramme de tricot de col",
-  es: "Diagrama de tejido de cuello",
-  ja: "襟の編み方",
-  cs: "Diagram pletení límce",
-  bg: "Схема за плетене на яката",
-  sk: "Diagram pletenia goliera",
-  ko: "칼라 뜨개질 차트",
-  tr: "Yaka örgü şeması",
-  ar: "مخطط التريك للياقة",
-  pt: "Diagrama de tricô da gola",
-  lt: "Apykaklės mezgimo diagrama",
+  en: "Neckband knitting chart",
+  ru: "Схема вязания бейки горловины",
+  sv: "Halskantens stickdiagram",
+  no: "Halskantens strikkediagram",
+  fi: "Kauluksen reunuksen neulekaavio",
+  de: "Strickdiagramm der Halsblende",
+  fr: "Diagramme de tricot de la bande d’encolure",
+  es: "Diagrama de tejido del ribete de cuello",
+  ja: "ネックバンドの編み図",
+  cs: "Schéma pletení lemu výstřihu",
+  bg: "Схема за плетене на бейката на деколтето",
+  sk: "Schéma pletenia lemu výstrihu",
+  ko: "넥밴드 뜨개 도안",
+  tr: "Yaka bandı örgü şeması",
+  ar: "مخطط حياكة شريطة العنق",
+  pt: "Diagrama de tricô do viés de gola",
+  lt: "Kaklo juostos mezgimo schema",
+  pl: "Schemat plisy dekoltu",
 };
 
 export const collar = {
-  en: "Collar",
-  ru: "Воротник",
-  sv: "Krag",
-  no: "Krage",
-  fi: "Kauluksen",
-  de: "Kragen",
-  fr: "Col",
-  es: "Cuello",
-  ja: "襟",
-  cs: "Límec",
-  bg: "Яката",
-  sk: "Goliera",
-  ko: "칼라",
-  tr: "Yaka",
-  ar: "ياقة",
-  pt: "Gola",
-  lt: "Apykaklė",
+  en: "Neckband",
+  ru: "Бейка горловины",
+  sv: "Halskant",
+  no: "Halskant",
+  fi: "Kauluksen reunus",
+  de: "Halsblende",
+  fr: "Bande d’encolure",
+  es: "Ribete de cuello",
+  ja: "ネックバンド",
+  cs: "Lem výstřihu",
+  bg: "Бейка на деколтето",
+  sk: "Lem výstrihu",
+  ko: "넥밴드",
+  tr: "Yaka bandı",
+  ar: "شريطة العنق",
+  pt: "Viés de gola",
+  lt: "Kaklo juosta",
+  pl: "Plisa dekoltu",
 };
 
 export const fromTheCollar = {
-  en: "from the collar",
-  ru: "из воротника",
-  sv: "från kragen",
-  no: "fra kragen",
-  fi: "kauluksesta",
-  de: "aus dem Kragen",
-  fr: "du col",
-  es: "del el cuello",
-  ja: "襟から",
-  cs: "z límce",
-  bg: "от яката",
-  sk: "z goliera",
-  ko: "칼라에서",
-  tr: "yakadan",
-  ar: "من الياقة",
-  pt: "da gola",
-  lt: "iš apykaklės",
+  en: "from the neckband",
+  ru: "из бейки горловины",
+  sv: "från halskanten",
+  no: "fra halskanten",
+  fi: "kauluksen reunuksesta",
+  de: "aus der Halsblende",
+  fr: "de la bande d’encolure",
+  es: "del ribete de cuello",
+  ja: "ネックバンドから",
+  cs: "z lemu výstřihu",
+  bg: "от бейката на деколтето",
+  sk: "z lemu výstrihu",
+  ko: "넥밴드에서",
+  tr: "yaka bandından",
+  ar: "من شريطة العنق",
+  pt: "do viés de gola",
+  lt: "iš kaklo juostos",
+  pl: "od plisy dekoltu",
 };
 
 export const left = {
@@ -599,6 +628,7 @@ export const left = {
   ar: "يسار",
   pt: "esquerda",
   lt: "kairė",
+  pl: "lewo",
 };
 
 export const right = {
@@ -619,6 +649,7 @@ export const right = {
   ar: "يمين",
   pt: "direita",
   lt: "dešinė",
+  pl: "prawo",
 };
 
 export const currentRow = {
@@ -639,6 +670,7 @@ export const currentRow = {
   ar: "السطر الحالي",
   pt: "Linha Atual",
   lt: "Dabartinė eilutė",
+  pl: "Bieżący rząd",
 };
 
 export const chartLegendTitle = {
@@ -659,6 +691,7 @@ export const chartLegendTitle = {
   ar: "المفتاح",
   pt: "Legenda",
   lt: "Legenda",
+  pl: "Legenda",
 };
 
 export const chartZoomHint = {
@@ -679,6 +712,7 @@ export const chartZoomHint = {
   ar: "اقرص للتكبير · انقر مرتين لإعادة التعيين",
   pt: "Belisque para zoom · Toque duas vezes para repor",
   lt: "Suspauskite priartinimui · Dukart bakstelėkite atstatyti",
+  pl: "Uszczypnij, aby powiększyć · Podwójne stuknięcie resetuje",
 };
 
 export const chartPreviousRow = {
@@ -699,6 +733,7 @@ export const chartPreviousRow = {
   ar: "السطر السابق",
   pt: "Linha anterior",
   lt: "Ankstesnė eilutė",
+  pl: "Poprzedni rząd",
 };
 
 export const chartNextRow = {
@@ -719,6 +754,7 @@ export const chartNextRow = {
   ar: "السطر التالي",
   pt: "Próxima linha",
   lt: "Kita eilutė",
+  pl: "Następny rząd",
 };
 
 export const stop = {
@@ -739,6 +775,7 @@ export const stop = {
   ar: "توقف",
   pt: "Parar",
   lt: "Sustabdyti",
+  pl: "Stop",
 };
 
 export const howToMakeIncrease = {
@@ -759,6 +796,7 @@ export const howToMakeIncrease = {
   ar: "كيفية عمل الزيادة",
   pt: "Como fazer um aumento",
   lt: "Kaip daryti prieaugį",
+  pl: "Jak robić dodawanie",
 };
 
 export const chartStopSavedTitle = {
@@ -779,6 +817,7 @@ export const chartStopSavedTitle = {
   ar: "تم حفظ التوقف",
   pt: "Paragem guardada",
   lt: "Sustojimas išsaugotas",
+  pl: "Stop zapisany",
 };
 
 export const chartStopSavedMessage = {
@@ -799,6 +838,7 @@ export const chartStopSavedMessage = {
   ar: "تم حفظ الصف %{row}. سيظهر على بطاقة المشروع.",
   pt: "Linha %{row} guardada. Aparecerá no cartão do projeto.",
   lt: "Eilutė %{row} išsaugota. Ji bus rodoma projekto kortelėje.",
+  pl: "Rząd %{row} zapisany. Pojawi się na karcie projektu.",
 };
 
 export const viewChart = {
@@ -819,4 +859,5 @@ export const viewChart = {
   ar: "عرض الرسم البياني",
   pt: "Ver diagrama",
   lt: "Diagramą peržiūrėti",
+  pl: "Zobacz schemat",
 };

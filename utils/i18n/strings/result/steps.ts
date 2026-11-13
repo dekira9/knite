@@ -10,15 +10,16 @@ export const sequenceOfAdditions = {
   fr: "Séquence d'augmentations",
   es: "Secuencia de aumentos",
   ja: "増加のシーケンス",
-  cs: "Posloupnost přidávání",  
-  bg: "Последователност на прибавки", 
+  cs: "Posloupnost přidávání",
+  bg: "Последователност на прибавки",
   sk: "Postupnosť pridávaní",
   ko: "증가 시퀀스",
   tr: "Artış dizisi",
   ar: "تسلسل الزيادات",
   pt: "Sequência de aumentos",
-  lt: "Pridėjimų seka", 
-  }
+  lt: "Pridėjimų seka",
+  pl: "Kolejność dodawań",
+};
 
 export const drawingForUnderstanding = {
   en: "Drawing for understanding",
@@ -29,15 +30,16 @@ export const drawingForUnderstanding = {
   de: "Zeichnung für Verständnis",
   fr: "Dessin pour la compréhension",
   es: "Dibujo para entender",
-  ja: "理解のための図", 
+  ja: "理解のための図",
   cs: "Vizualizace pro pochopení",
   bg: "Чертеж за разбиране",
   sk: "Vizualizácia pre pochopenie",
   ko: "이해를 위한 그림",
   tr: "Anlaşılması için çizim",
-  ar: "رسم للفهم",  
+  ar: "رسم للفهم",
   pt: "Desen para compreensão",
   lt: "Pagalvotų supratymo vaizdas",
+  pl: "Rysunek pomocniczy",
 };
 
 export const calculationForYou = {
@@ -58,26 +60,28 @@ export const calculationForYou = {
   ar: "حساب لك",
   pt: "Cálculo para você",
   lt: "Skaičiavimas jums",
+  pl: "Obliczenie dla Ciebie",
 };
 
 export const knitTheStitchesFromTheCollar = {
-  en: "Knit the stitches from the collar",
-  ru: "Вязать петли от воротника",
-  sv: "Sticka maskorna från kragen",
-  no: "Strikk maskene fra kragen",
-  fi: "Neulo silmukat kauluksesta",
-  de: "Die Maschen vom Kragen stricken",
-  fr: "Tricoter les mailles du col",
-  es: "Tejer los puntos del cuello",
-  ja: "襟から目を編む",
-  cs: "Plést oka z límce",   
-  bg: "Плетете петлите от яката",
-  sk: "Pliesť oka z goliera",
-  ko: "칼라에서 바늘땀을 뜨다",
-  tr: "Yakadan ilmekleri örmek",
-  ar: "حياكة الغرز من الياقة",
-  pt: "Tricotar os pontos da gola",
-  lt: "Mezgti akis nuo apykaklės",
+  en: "Knit the stitches from the neckband",
+  ru: "Вязать петли от бейки горловины",
+  sv: "Sticka maskorna från halskanten",
+  no: "Strikk maskene fra halskanten",
+  fi: "Neulo silmukat kauluksen reunuksesta",
+  de: "Die Maschen von der Halsblende stricken",
+  fr: "Tricoter les mailles de la bande d’encolure",
+  es: "Tejer los puntos del ribete de cuello",
+  ja: "ネックバンドから目を編む",
+  cs: "Plést oka z lemu výstřihu",
+  bg: "Плетете петлите от бейката на деколтето",
+  sk: "Pliesť oka z lemu výstrihu",
+  ko: "넥밴드에서 코를 뜨다",
+  tr: "Yaka bandından ilmekleri örmek",
+  ar: "حياكة الغرز من شريطة العنق",
+  pt: "Tricotar os pontos do viés de gola",
+  lt: "Mezgti akis nuo kaklo juostos",
+  pl: "Dzierz oczka od plisy dekoltu",
 };
 
 export const thereAreNoStitches = {
@@ -98,6 +102,7 @@ export const thereAreNoStitches = {
   ar: "لا يوجد إبر",
   pt: "Não há agulhas", 
   lt: "Nėra stiklų",
+  pl: "Brak oczek",
 };
 
 export const addingStitchesAlongTheRaglanLine = {
@@ -118,6 +123,7 @@ export const addingStitchesAlongTheRaglanLine = {
   ar: "ربط الإبر من الربط",
   pt: "Costurar as agulhas do rib",
   lt: "Įvesti stiklų iš reznių",
+  pl: "Dodawanie oczek wzdłuż linii raglanu",
 };
 
 export const decreaseTheStitches = {
@@ -138,6 +144,7 @@ export const decreaseTheStitches = {
   ar: "قلل الإبر",
   pt: "Diminuir as agulhas",
   lt: "Sumažinti stiklus",
+  pl: "Ujmij oczka",
 };
 
 export const decreasesOnOneSide = {
@@ -158,6 +165,7 @@ export const decreasesOnOneSide = {
   ar: "النقص على جانب واحد",
   pt: "Diminuições em um lado",
   lt: "Vienojo pusių sumažinimas",  
+  pl: "Ujmowania z jednej strony",
 };
 
 export const oneStitchForTwoRows = {
@@ -178,6 +186,7 @@ export const oneStitchForTwoRows = {
   ar: "واحد للغزل لمرتين",
   pt: "Uma malha para dois carrés",
   lt: "Vieno kelio du rūšių", 
+  pl: "Jedno oczko na dwa rzędy",
 };
 
 export const oneStitchForThreeRows = {
@@ -198,6 +207,7 @@ export const oneStitchForThreeRows = {
   ar: "واحد للغزل لثلاثة أسطر",
   pt: "Uma malha para três carrés",
   lt: "Vieno kelio trims rūšių",  
+  pl: "Jedno oczko na trzy rzędy",
 };
 
 export const oneStitchForFourRows = {
@@ -218,6 +228,7 @@ export const oneStitchForFourRows = {
   ar: "واحد للغزل لأربعة أسطر", 
   pt: "Uma malha para quatro carrés",
   lt: "Vieno kelio keturių rūšių",
+  pl: "Jedno oczko na cztery rzędy",
 };
 
 export const oneStitchForOneRow = {
@@ -238,6 +249,7 @@ export const oneStitchForOneRow = {
   ar: "واحد للغزل لسطر واحد",
   pt: "Uma malha para um carré",
   lt: "Vieno kelio vienam rūšiui",
+  pl: "Jedno oczko na jeden rząd",
 };
 
 export const RowsWithAdding = {
@@ -258,6 +270,7 @@ export const RowsWithAdding = {
   ar: "الصفوف التي تحتوي على إضافات",
   pt: "Linhas com adições", 
   lt: "Rūšių su pridėtimi",
+  pl: "Rzędy z dodawaniami",
 };
 
 export const separateTheSleeve = {
@@ -278,6 +291,7 @@ export const separateTheSleeve = {
   ar: "تقسيم الأكتاف",
   pt: "Separar mangas",
   lt: "Atskirti rankus",  
+  pl: "Oddziel rękaw",
 };
 
 export const raglanline = {
@@ -298,6 +312,7 @@ export const raglanline = {
   ar: "خط الراغلان",
   pt: "Linha raglan",
   lt: "Raglano linija",
+  pl: "Linia raglanu",
 };
 
 export const raglan = {
@@ -318,6 +333,7 @@ export const raglan = {
   ar: "راغلان",
   pt: "Raglã",
   lt: "Raglanas",
+  pl: "Raglan",
 };
 
 export const line = {
@@ -338,6 +354,7 @@ export const line = {
   ar: "خط", 
   pt: "Linha",
   lt: "Linija",
+  pl: "Linia",
 };
 
 export const separatingBodyAndSleeves = {
@@ -358,6 +375,7 @@ export const separatingBodyAndSleeves = {
   ar: "تقسيم الجسم والأكتاف",
   pt: "Separar mangas", 
   lt: "Atskirti rankus",
+  pl: "Rozdzielanie tułowia i rękawów",
 };
 
 export const parts = {
@@ -378,6 +396,7 @@ export const parts = {
   ar: "أجزاء",
   pt: "Partes",
   lt: "Dalis",
+  pl: "Części",
 };
 
 export const corpus = {
@@ -398,6 +417,7 @@ export const corpus = {
   ar: "جسم",
   pt: "Corpo",
   lt: "Kūnas",
+  pl: "Tułów",
 };
 
 export const backLengthening = {
@@ -418,6 +438,7 @@ export const backLengthening = {
   ar: "إطالة الظهر ",
   pt: "Alongamento das costas",
   lt: "Nugaros ilginimas",  
+  pl: "Wydłużenie tyłu",
 };
 
 export const backLengtheningSlouchHint = {
@@ -438,6 +459,7 @@ export const backLengtheningSlouchHint = {
   ar: "للأشخاص ذوي القامة المنحنية يُفضّل زيادة عدد صفوف الإطالة.",
   pt: "Para pessoas com postura arredondada, recomenda-se aumentar o número de carreiras de alongamento.",
   lt: "Žmonėms su sulinkusia laikysena rekomenduojama padidinti pailginimo eilučių skaičių.",
+  pl: "Przy zaokrąglonej postawie zaleca się zwiększyć liczbę rzędów wydłużenia.",
 };
 
 export const created = {
@@ -458,26 +480,28 @@ export const created = {
   ar: "منشأ",
   pt: "Criado",
   lt: "Sukurtas",
+  pl: "Utworzono",
 };
 
 export const step1CollarIntro = {
-  en: "Cast on the stitch count below and knit the ribbing for the listed number of rows in the round. This card shows the last ribbing row (yellow) — the starting point for raglan knitting.",
-  ru: "Наберите указанное число петель и провяжите резинку по кругу заданное число рядов. Ниже — параметры последнего ряда воротника (жёлтый): с него начинается вязание реглана.",
-  sv: "Lägg upp maskantalet nedan och sticka resåren i angivet antal varv i rundt. Detta kort visar sista kragenraden (gul) — startpunkten för raglanstickning.",
-  no: "Legg opp maskantallet nedenfor og strikk vrangborden i oppgitt antall omganger rundt. Dette kortet viser siste kragerad (gul) — startpunktet for raglanstrikking.",
-  fi: "Luo alla oleva silmukkamäärä ja neulo joustinneule annetun määrän kierroksia ympyränä. Tämä kortti näyttää kauluksen viimeisen rivin (keltainen) — raglan-neuleen lähtökohdan.",
-  de: "Schlagen Sie die unten angegebene Maschenzahl an und stricken Sie das Bündchen in der angegebenen Rundenzahl im Rund. Diese Karte zeigt die letzte Kragenreihe (gelb) — den Startpunkt für das Raglanstricken.",
-  fr: "Montez le nombre de mailles ci-dessous et tricotez la bordure côtelée sur le nombre de rangs indiqué en rond. Cette fiche montre le dernier rang du col (jaune) — le point de départ du tricot raglan.",
-  es: "Monta el número de puntos indicado y teje el elástico durante el número de filas indicado en redondo. Esta tarjeta muestra la última fila del cuello (amarillo) — el punto de partida del tejido raglan.",
-  ja: "下の目数を作り目し、指定段数リブ編みを輪で編みます。このカードは襟の最終段（黄色）— ラグラン編みの起点です。",
-  cs: "Nasaďte uvedený počet ok a plete žebrování v uvedeném počtu řad dokola. Tato karta ukazuje poslední řadu límce (žlutá) — výchozí bod pro raglánové pletení.",
-  bg: "Наберете посочения брой петли и плетете рибата посочения брой редове на кръг. Тази карта показва последния ред на яката (жълт) — началната точка за реглан плетене.",
-  sk: "Nasaďte uvedený počet očí a pletie žebrovanie v uvedenom počte radov dokola. Táto karta ukazuje posledný rad goliera (žltý) — východiskový bod pre raglánové pletenie.",
-  ko: "아래 코 수를 잡고 지정된 단 수만큼 립을 원형으로 뜨세요. 이 카드는 칼라 마지막 단(노란색)— 라글란 뜨기의 시작점입니다.",
-  tr: "Aşağıdaki ilmek sayısını bırakın ve belirtilen sıra sayısı kadar lastiği yuvarlak örün. Bu kart yakanın son sırasını (sarı) gösterir — raglan örgüsünün başlangıç noktası.",
-  ar: "ألقِ عدد الغرز أدناه واخلط الياقة لعدد الصفوف المذكور على دائرة. هذه البطاقة تعرض آخر صف من الياقة (أصفر) — نقطة بداية حياكة الراجلان.",
-  pt: "Monte o número de pontos abaixo e tricote a barra pelo número de carreiras indicado em circular. Este cartão mostra a última carreira da gola (amarelo) — o ponto de partida do tricô raglan.",
-  lt: "Numeskite nurodytą akų skaičių ir megzkite gumą nurodytą eilučių skaičių ratu. Ši kortelė rodo paskutinę apykaklės eilutę (geltona) — reglano mezgimo pradžią.",
+  en: "Cast on the stitch count below and knit the ribbing for the listed number of rows in the round. This card shows the last neckband row (yellow) — the starting point for raglan knitting.",
+  ru: "Наберите указанное число петель и провяжите резинку по кругу заданное число рядов. Ниже — параметры последнего ряда бейки горловины (жёлтый): с него начинается вязание реглана.",
+  sv: "Lägg upp maskantalet nedan och sticka resåren i angivet antal varv i rundt. Detta kort visar sista halskantraden (gul) — startpunkten för raglanstickning.",
+  no: "Legg opp maskantallet nedenfor og strikk vrangborden i oppgitt antall omganger rundt. Dette kortet viser siste halskantrad (gul) — startpunktet for raglanstrikking.",
+  fi: "Luo alla oleva silmukkamäärä ja neulo joustinneule annetun määrän kierroksia ympyränä. Tämä kortti näyttää kauluksen reunuksen viimeisen rivin (keltainen) — raglan-neuleen lähtökohdan.",
+  de: "Schlagen Sie die unten angegebene Maschenzahl an und stricken Sie das Bündchen in der angegebenen Rundenzahl im Rund. Diese Karte zeigt die letzte Reihe der Halsblende (gelb) — den Startpunkt für das Raglanstricken.",
+  fr: "Montez le nombre de mailles ci-dessous et tricotez la bordure côtelée sur le nombre de rangs indiqué en rond. Cette fiche montre le dernier rang de la bande d’encolure (jaune) — le point de départ du tricot raglan.",
+  es: "Monta el número de puntos indicado y teje el elástico durante el número de filas indicado en redondo. Esta tarjeta muestra la última fila del ribete de cuello (amarillo) — el punto de partida del tejido raglan.",
+  ja: "下の目数を作り目し、指定段数リブ編みを輪で編みます。このカードはネックバンドの最終段（黄色）— ラグラン編みの起点です。",
+  cs: "Nasaďte uvedený počet ok a plete žebrování v uvedeném počtu řad dokola. Tato karta ukazuje poslední řadu lemu výstřihu (žlutá) — výchozí bod pro raglánové pletení.",
+  bg: "Наберете посочения брой петли и плетете рибата посочения брой редове на кръг. Тази карта показва последния ред на бейката на деколтето (жълт) — началната точка за реглан плетене.",
+  sk: "Nasaďte uvedený počet očí a pletie žebrovanie v uvedenom počte radov dokola. Táto karta ukazuje posledný rad lemu výstrihu (žltý) — východiskový bod pre raglánové pletenie.",
+  ko: "아래 코 수를 잡고 지정된 단 수만큼 립을 원형으로 뜨세요. 이 카드는 넥밴드 마지막 단(노란색)— 라글란 뜨기의 시작점입니다.",
+  tr: "Aşağıdaki ilmek sayısını bırakın ve belirtilen sıra sayısı kadar lastiği yuvarlak örün. Bu kart yaka bandının son sırasını (sarı) gösterir — raglan örgüsünün başlangıç noktası.",
+  ar: "ألقِ عدد الغرز أدناه واخلط الضلوع لعدد الصفوف المذكور على دائرة. هذه البطاقة تعرض آخر صف من شريطة العنق (أصفر) — نقطة بداية حياكة الراجلان.",
+  pt: "Monte o número de pontos abaixo e tricote a barra pelo número de carreiras indicado em circular. Este cartão mostra a última carreira do viés de gola (amarelo) — o ponto de partida do tricô raglan.",
+  lt: "Numeskite nurodytą akų skaičių ir megzkite gumą nurodytą eilučių skaičių ratu. Ši kortelė rodo paskutinę kaklo juostos eilutę (geltona) — reglano mezgimo pradžią.",
+  pl: "Nabierz podaną liczbę oczek i dziergaj ściągacz przez podaną liczbę rzędów w okrążeniu. Ta karta pokazuje ostatni rząd plisy dekoltu (żółty) — punkt startu raglanu.",
 };
 
 export const step1CastOnInstruction = {
@@ -498,6 +522,7 @@ export const step1CastOnInstruction = {
   ar: "اصنعي الغرز: استخدمي إبرًا دائرية. اصنعي غرزة واحدة أكثر من العدد المحسوب للإغلاق بشكل دائري.",
   pt: "Monte os pontos: use agulhas circulares. Monte 1 ponto a mais do que o número calculado para fechar em redondo.",
   lt: "Surinkite akis: naudokite apvalias virbalus. Surinkite 1 akį daugiau nei apskaičiuota, kad uždarytumėte į ratą.",
+  pl: "Nabieranie: użyj drutów okrągłych. Nabierz 1 oczko więcej niż w obliczeniu, aby zamknąć okrążenie.",
 };
 
 export const step1FormVNeckHint = {
@@ -518,6 +543,7 @@ export const step1FormVNeckHint = {
   ar: "شكّلي فتحة الرقبة على شكل V بإجراء الزيادات.",
   pt: "Modele o decote em V fazendo aumentos.",
   lt: "Formuokite V formos iškirptę darydami prieaugius.",
+  pl: "Uformuj dekolt w serek, wykonując dodawania.",
 };
 
 export const step1StitchBreakdown = {
@@ -538,6 +564,7 @@ export const step1StitchBreakdown = {
   ar: "غرز لكل جزء",
   pt: "Pontos por parte",
   lt: "Akys pagal dalį",
+  pl: "Oczka według części",
 };
 
 export const step1RoundOrder = {
@@ -558,6 +585,7 @@ export const step1RoundOrder = {
   ar: "صف واحد — توزيع الغرز",
   pt: "Uma carreira — distribuição de pontos",
   lt: "Vienas ratas — akų išdėstymas",
+  pl: "Jedno okrążenie — układ oczek",
 };
 
 export const step1RoundOrderHint = {
@@ -578,6 +606,7 @@ export const step1RoundOrderHint = {
   ar: "اقرأ من اليسار إلى اليمين من النقطة الحمراء. التسمية = الجزء، الرقم = غرز متتالية.",
   pt: "Leia da esquerda para a direita a partir do ponto vermelho. Rótulo = parte, número = pontos seguidos.",
   lt: "Skaitykite iš kairės į dešinę nuo raudono taško. Etiketė = dalis, skaičius = akys iš eilės.",
+  pl: "Czytaj od lewej do prawej od czerwonej kropki. Etykieta = część, liczba = oczka w rzędzie.",
 };
 
 export const step1PerSleeve = {
@@ -598,6 +627,7 @@ export const step1PerSleeve = {
   ar: "لكل كم",
   pt: "por manga",
   lt: "rankovei",
+  pl: "na rękaw",
 };
 
 export const step1PerRaglanLine = {
@@ -618,24 +648,270 @@ export const step1PerRaglanLine = {
   ar: "لكل خط راجلان",
   pt: "por linha raglan",
   lt: "reglano linijai",
+  pl: "na linię raglanu",
 };
 
 export const additionsOnOneSide = {
-  en: "Additions on one side",
-  ru: "Прибавки на одну сторону",
-  sv: "Ökningar på ena sida",
-  no: "Økninger på en side",  
-  fi: "Yhden puolen lisäykset",
-  de: "Eine Seitenverlängerung",
-  fr: "Ajouts sur un côté",
-  es: "Aumentos en un lado",
-  ja: "片側の増加",
-  cs: "Přidávání na jednu stranu",  
-  bg: "Прибавки на една страна",
-  sk: "Pridávanie na jednu stranu",
-  ko: "한 쪽의 증가",
-  tr: "Bir tarafındaki artışlar",
-  ar: "الزيادات على جانب واحد",
-  pt: "Aumentos em um lado",  
-  lt: "Vienojo pusių pridėjimai",
+  en: "On each side of the raglan line",
+  ru: "С каждой стороны линии реглана",
+  sv: "På varje sida av raglanlinjen",
+  no: "På hver side av raglanlinjen",
+  fi: "Raglanlinjan kummallakin puolella",
+  de: "Auf jeder Seite der Raglanlinie",
+  fr: "De chaque côté de la ligne raglan",
+  es: "A cada lado de la línea raglan",
+  ja: "ラグランラインの両側それぞれ",
+  cs: "Na každé straně raglánové linie",
+  bg: "От всяка страна на реглан линията",
+  sk: "Na každej strane raglánovej línie",
+  ko: "래글런 선의 양쪽 각각",
+  tr: "Raglan çizgisinin her iki yanında",
+  ar: "على كل جانب من خط الراجلان",
+  pt: "De cada lado da linha raglan",
+  lt: "Kiekvienoje raglano linijos pusėje",
+  pl: "Z każdej strony linii raglanu",
+};
+
+export const additionsOnEachSideOfVLine = {
+  en: "Add on each side of the V-line",
+  ru: "Прибавить с каждой стороны от линии V",
+  sv: "Öka på varje sida av V-linjen",
+  no: "Øk på hver side av V-linjen",
+  fi: "Lisää V-linjan kummallekin puolelle",
+  de: "Auf jeder Seite der V-Linie zunehmen",
+  fr: "Augmenter de chaque côté de la ligne V",
+  es: "Aumentar a cada lado de la línea V",
+  ja: "Vラインの両側に増やす",
+  cs: "Přidat na každé straně V-linie",
+  bg: "Прибавете от всяка страна на V-линията",
+  sk: "Pridať na každej strane V-linie",
+  ko: "V선 양쪽에 늘리기",
+  tr: "V çizgisinin her iki yanında artır",
+  ar: "أضيفي على كل جانب من خط V",
+  pt: "Aumentar de cada lado da linha V",
+  lt: "Pridėti kiekvienoje V linijos pusėje",
+  pl: "Dodać z każdej strony linii V",
+};
+
+export const increaseAlongRaglanHint = {
+  en: "Add 1 stitch on each side of the raglan line on the rows listed below.",
+  ru: "Прибавляйте по 1 петле с каждой стороны линии реглана в указанных рядах.",
+  sv: "Öka med 1 maska på varje sida av raglanlinjen på raderna nedan.",
+  no: "Øk med 1 maske på hver side av raglanlinjen på radene nedenfor.",
+  fi: "Lisää 1 silmukka raglanlinjan kummallekin puolelle alla olevilla riveillä.",
+  de: "Nimm auf jeder Seite der Raglanlinie in den unten genannten Reihen 1 Masche zu.",
+  fr: "Augmentez de 1 maille de chaque côté de la ligne raglan aux rangs listés ci-dessous.",
+  es: "Aumenta 1 punto a cada lado de la línea raglan en las filas indicadas abajo.",
+  ja: "下の段で、ラグランラインの両側に1目ずつ増やします。",
+  cs: "Na každé straně raglánové linie přidejte 1 oko v níže uvedených řadách.",
+  bg: "Добавяйте по 1 петля от всяка страна на реглан линията в посочените редове.",
+  sk: "Na každej strane raglánovej línie pridajte 1 oko v nižšie uvedených radoch.",
+  ko: "아래 단에서 래글런 선 양쪽에 1코씩 늘리세요.",
+  tr: "Aşağıdaki sıralarda raglan çizgisinin her iki yanında 1 ilmek artırın.",
+  ar: "أضيفي غرزة واحدة على كل جانب من خط الراجلان في الصفوف المذكورة أدناه.",
+  pt: "Aumente 1 ponto de cada lado da linha raglan nas carreiras listadas abaixo.",
+  lt: "Pridėkite po 1 akį kiekvienoje raglano linijos pusėje žemiau nurodytose eilutėse.",
+  pl: "Dodawaj po 1 oczku z każdej strony linii raglanu w podanych rzędach.",
+};
+
+export const chooseIncreaseRhythmHint = {
+  en: "Use the increase rhythm that suits you",
+  ru: "Используйте удобный вам ритм прибавок",
+  sv: "Använd den ökningsrytm som passar dig",
+  no: "Bruk økerytmen som passer deg",
+  fi: "Käytä sinulle sopivaa lisäysrytmiä",
+  de: "Verwende den Zunahmerhythmus, der dir passt",
+  fr: "Utilisez le rythme d'augmentations qui vous convient",
+  es: "Usa el ritmo de aumentos que te convenga",
+  ja: "使いやすい増やし目のリズムを使ってください",
+  cs: "Použijte rytmus přidávání, který vám vyhovuje",
+  bg: "Използвайте удобен за вас ритъм на прибавки",
+  sk: "Použite rytmus pridávania, ktorý vám vyhovuje",
+  ko: "편한 늘리기 리듬을 사용하세요",
+  tr: "Size uygun artırma ritmini kullanın",
+  ar: "استخدمي إيقاع الزيادات المناسب لك",
+  pt: "Use o ritmo de aumentos que lhe convier",
+  lt: "Naudokite jums patogų prieauglių ritmą",
+  pl: "Użyj wygodnego dla Ciebie rytmu dodawań",
+};
+
+export const increaseRhythmTimes = {
+  en: "1 stitch every %{n} rows × %{count}",
+  ru: "1 петля каждые %{n} ряда × %{count}",
+  sv: "1 maska var %{n}:e rad × %{count}",
+  no: "1 maske hver %{n}. rad × %{count}",
+  fi: "1 silmukka joka %{n}. rivi × %{count}",
+  de: "1 Masche alle %{n} Reihen × %{count}",
+  fr: "1 maille tous les %{n} rangs × %{count}",
+  es: "1 punto cada %{n} filas × %{count}",
+  ja: "%{n}段ごとに1目 × %{count}",
+  cs: "1 oko každých %{n} řad × %{count}",
+  bg: "1 петля на всеки %{n} реда × %{count}",
+  sk: "1 oko každých %{n} radov × %{count}",
+  ko: "%{n}단마다 1코 × %{count}",
+  tr: "Her %{n} sırada 1 ilmek × %{count}",
+  ar: "غرزة واحدة كل %{n} صفوف × %{count}",
+  pt: "1 ponto a cada %{n} carreiras × %{count}",
+  lt: "1 akis kas %{n} eilutes × %{count}",
+  pl: "1 oczko co %{n} rzędy × %{count}",
+};
+
+export const increaseRhythmEveryRow = {
+  en: "1 stitch every row × %{count}",
+  ru: "1 петля в каждом ряду × %{count}",
+  sv: "1 maska varje rad × %{count}",
+  no: "1 maske hver rad × %{count}",
+  fi: "1 silmukka joka rivillä × %{count}",
+  de: "1 Masche in jeder Reihe × %{count}",
+  fr: "1 maille à chaque rang × %{count}",
+  es: "1 punto en cada fila × %{count}",
+  ja: "毎段1目 × %{count}",
+  cs: "1 oko v každé řadě × %{count}",
+  bg: "1 петля на всеки ред × %{count}",
+  sk: "1 oko v každom rade × %{count}",
+  ko: "매단 1코 × %{count}",
+  tr: "Her sırada 1 ilmek × %{count}",
+  ar: "غرزة واحدة في كل صف × %{count}",
+  pt: "1 ponto em cada carreira × %{count}",
+  lt: "1 akis kiekvienoje eilutėje × %{count}",
+  pl: "1 oczko w każdym rzędzie × %{count}",
+};
+
+function drawingLegendLocales(en: string, ru: string) {
+  return {
+    en,
+    ru,
+    sv: en,
+    no: en,
+    fi: en,
+    de: en,
+    fr: en,
+    es: en,
+    ja: en,
+    cs: en,
+    bg: en,
+    sk: en,
+    ko: en,
+    tr: en,
+    ar: en,
+    pt: en,
+    lt: en,
+    pl: en,
+  };
+}
+
+export const drawingLegendFront = drawingLegendLocales('Front stitches', 'Петли переда');
+export const drawingLegendSleeve = drawingLegendLocales('Sleeve stitches', 'Петли рукава');
+export const drawingLegendBack = drawingLegendLocales('Back stitches', 'Петли спины');
+export const drawingLegendRaglan = drawingLegendLocales('Raglan line stitches', 'Петли линий реглана');
+export const drawingLegendAdded = drawingLegendLocales('Added stitches', 'Прибавленные петли');
+
+/** Caption under the first V-neck understanding slide. */
+export const drawingGuideSlide1 = {
+  en: "Following the knitting chart, work the first row of front part L from the wrong side: immediately after the raglan line, create an increased stitch and knit the front stitches from the neckband.",
+  ru: "Вяжите по схеме вязания первый ряд переда части L по изнаночной стороне: сразу после линии реглана создайте прибавленную петлю и провяжите петли переда из бейки горловины.",
+  sv: "Sticka enligt stickschemat första raden av framstyckets del L från avigsidan: direkt efter raglanlinjen, skapa en ökad maska och sticka framstyckets maskor från halskanten.",
+  no: "Strikk etter strikketdiagrammet første raden av forstykkets del L fra vrangen: rett etter raglanlinjen, lag en økt maske og strikk forstykkets masker fra halskanten.",
+  fi: "Neulo neulontakaavion mukaan etukappaleen osan L ensimmäinen rivi nurjalta: heti raglanlinjan jälkeen luo lisätty silmukka ja neulo etukappaleen silmukat kauluksen reunuksesta.",
+  de: "Stricken Sie nach dem Strickdiagramm die erste Reihe des Vorderteils Teil L von der linken Seite: direkt nach der Raglanlinie eine Zunahme bilden und die Vorderteilmaschen von der Halsblende stricken.",
+  fr: "Suivez le diagramme de tricot pour le premier rang du devant partie L sur l'envers : juste après la ligne raglan, créez une maille augmentée et tricotez les mailles du devant depuis la bande d’encolure.",
+  es: "Sigue el diagrama de tejido para la primera fila del delantero parte L por el revés: justo después de la línea de raglán, crea un punto aumentado y teje los puntos del delantero desde el ribete de cuello.",
+  ja: "編み図に従い、前身頃パーツLの1段目を裏側から編みます。ラグランラインの直後に増し目を作り、ネックバンドから前身頃の目を編みます。",
+  cs: "Podle schématu upleťte první řadu předního dílu části L z rubové strany: hned za raglánovou linií vytvořte přidané oko a upleťte oka předního dílu z lemu výstřihu.",
+  bg: "Плетете по схемата първия ред на предната част L от опаката страна: веднага след реглан линията създайте добавена бримка и изплетете бримките на предната част от бейката на деколтето.",
+  sk: "Podľa schémy upleťte prvý rad predného dielu časti L z rubovej strany: hneď za raglánovou líniou vytvorte pridané oko a upleťte oká predného dielu z lemu výstrihu.",
+  ko: "뜨개 도안에 따라 앞판 부분 L의 첫 단을 안쪽에서 뜨세요. 래글런 선 바로 다음에 늘린 코를 만들고 넥밴드에서 가져온 앞판 코를 뜨세요.",
+  tr: "Örgü şemasına göre ön parçanın L bölümünün birinci sırasını ters yüzden örün: raglan hattından hemen sonra artırılmış ilmek oluşturun ve yaka bandından ön parça ilmeklerini örün.",
+  ar: "انسجي وفق مخطط الحياكة الصف الأول من أمام الجزء L من الجهة الخلفية: مباشرة بعد خط الراغلان أنشئي غرزة مزيدة وانسجي غرز الأمام من شريطة العنق.",
+  pt: "Siga o diagrama de tricô na primeira carreira da frente parte L pelo avesso: logo após a linha raglan, crie um ponto aumentado e tricote os pontos da frente a partir do viés de gola.",
+  lt: "Pagal mezgimo schemą numegzkite priekinės dalies L pirmą eilutę iš kairės pusės: iš karto po raglano linijos sukurkite pridėtą akį ir numegzkite priekinės dalies akis nuo kaklo juostos.",
+  pl: "Według schematu przerób pierwszy rząd przodu części L na lewej stronie: zaraz za linią reglanu utwórz oczko dodane i przerób oczka przodu z plisy dekoltu.",
+};
+
+/** Caption under the second V-neck understanding slide. */
+export const drawingGuideSlide2 = {
+  en: "Turn the work to the right side and knit the second row of part L up to the raglan line.",
+  ru: "Поверните вязание на лицевую сторону и вяжите второй ряд части L до линии реглана.",
+  sv: "Vänd arbetet till rätsidan och sticka andra raden av del L fram till raglanlinjen.",
+  no: "Vend arbeidet til retten og strikk andre rad av del L frem til raglanlinjen.",
+  fi: "Käännä työ oikealle puolelle ja neulo osan L toinen rivi raglanlinjaan asti.",
+  de: "Wenden Sie die Arbeit auf die rechte Seite und stricken Sie die zweite Reihe von Teil L bis zur Raglanlinie.",
+  fr: "Tournez l'ouvrage sur l'endroit et tricotez le deuxième rang de la partie L jusqu'à la ligne raglan.",
+  es: "Gira la labor al derecho y teje la segunda fila de la parte L hasta la línea de raglán.",
+  ja: "作品を表側に返し、パーツLの2段目をラグランラインまで編みます。",
+  cs: "Otočte práci na lícovou stranu a pleťte druhou řadu části L až k raglánové linii.",
+  bg: "Обърнете плетивото на лицевата страна и плетете втория ред на част L до реглан линията.",
+  sk: "Otočte prácu na lícu a pleťte druhý rad časti L až k raglánovej línii.",
+  ko: "작품을 겉으로 뒤집어 부분 L의 두 번째 단을 래글런 선까지 뜨세요.",
+  tr: "İşi ön yüze çevirin ve L parçasının ikinci sırasını raglan hattına kadar örün.",
+  ar: "اقلبي العمل إلى الجهة الأمامية وانسجي الصف الثاني من الجزء L حتى خط الراغلان.",
+  pt: "Vire o trabalho para o lado direito e tricote a segunda carreira da parte L até a linha raglan.",
+  lt: "Apverskite darbą į dešinę pusę ir megzkite dalies L antrą eilutę iki raglano linijos.",
+  pl: "Odwróć robótkę na prawą stronę i rób drugi rząd części L do linii reglanu.",
+};
+
+/** Caption under the third V-neck understanding slide (frontV23). */
+export const drawingGuideSlide3 = {
+  en: "Work on the right side in the direction of the red arrow: the sleeve, back, and raglan-line stitches. Work the increases according to the knitting charts for these parts.",
+  ru: "Вяжите по лицевой стороне в направлении красной стрелки: петли рукавов, спинки и линий реглана. Прибавки выполняйте по схемам вязания этих частей.",
+  sv: "Sticka på rätsidan i den röda pilens riktning: ärmarnas, ryggens och raglanlinjernas maskor. Gör ökningarna enligt stickdiagrammen för dessa delar.",
+  no: "Strikk på retten i den røde pilens retning: ermenes, ryggens og raglanlinjenes masker. Lag økningene etter strikketdiagrammene for disse delene.",
+  fi: "Neulo oikealla puolella punaisen nuolen suuntaan: hihojen, selän ja raglanlinjojen silmukat. Tee lisäykset näiden osien neulontakaavioiden mukaan.",
+  de: "Stricken Sie auf der rechten Seite in Richtung des roten Pfeils: die Maschen der Ärmel, des Rückenteils und der Raglanlinien. Die Zunahmen nach den Strickdiagrammen dieser Teile arbeiten.",
+  fr: "Tricotez sur l'endroit dans le sens de la flèche rouge : les mailles des manches, du dos et des lignes raglan. Faites les augmentations selon les diagrammes de tricot de ces parties.",
+  es: "Teje por el derecho en la dirección de la flecha roja: los puntos de las mangas, la espalda y las líneas de raglán. Haz los aumentos según los diagramas de tejido de estas partes.",
+  ja: "表側で赤い矢印の方向に、袖・後身頃・ラグランラインの目を編みます。増し目は各パーツの編み図に従って行います。",
+  cs: "Pleťte na lícové straně ve směru červené šipky: oka rukávů, zadního dílu a raglánových linií. Přírustky provádějte podle schémat pletení těchto částí.",
+  bg: "Плетете по лицевата страна в посока на червената стрелка: бримките на ръкавите, гърба и реглан линиите. Прибавките правете по схемите за плетене на тези части.",
+  sk: "Pleťte na líci v smere červenej šípky: oká rukávov, chrbátu a raglánových línií. Pridávania robte podľa schém pletenia týchto častí.",
+  ko: "겉면에서 빨간 화살표 방향으로 소매·등·래글런 선의 코를 뜨세요. 늘리기는 각 부분의 뜨개 도안에 따라 하세요.",
+  tr: "Ön yüzde kırmızı ok yönünde örün: kolların, sırtın ve raglan hatlarının ilmekleri. Artışları bu parçaların örgü şemalarına göre yapın.",
+  ar: "اعملي من الجهة الأمامية باتجاه السهم الأحمر: غرز الأكمام والظهر وخطوط الراغلان. نفّذي الزيادات وفق مخططات الحياكة لهذه الأجزاء.",
+  pt: "Tricote pelo lado direito na direção da seta vermelha: os pontos das mangas, das costas e das linhas raglan. Faça os aumentos segundo os diagramas de tricô dessas partes.",
+  lt: "Mezgkite dešine puse raudonos rodyklės kryptimi: rankovių, nugaros ir raglano linijų akis. Pridėjimus darykite pagal šių dalių mezgimo schemas.",
+  pl: "Rób na prawej stronie w kierunku czerwonej strzałki: oczka rękawów, tyłu i linii reglanu. Dodawania wykonuj według schematów robienia tych części.",
+};
+
+/** Caption under the fourth V-neck understanding slide (frontV3). */
+export const drawingGuideSlide4 = {
+  en: "Following the knitting chart, work the first row of front part R from the right side: immediately after the raglan line, create an increased stitch and knit the front stitches from the neckband.",
+  ru: "Вяжите по схеме вязания первый ряд переда части R по лицевой стороне: сразу после линии реглана создайте прибавленную петлю и провяжите петли переда из бейки горловины.",
+  sv: "Sticka enligt stickschemat första raden av framstyckets del R från rätsidan: direkt efter raglanlinjen, skapa en ökad maska och sticka framstyckets maskor från halskanten.",
+  no: "Strikk etter strikketdiagrammet første raden av forstykkets del R fra retten: rett etter raglanlinjen, lag en økt maske og strikk forstykkets masker fra halskanten.",
+  fi: "Neulo neulontakaavion mukaan etukappaleen osan R ensimmäinen rivi oikealta: heti raglanlinjan jälkeen luo lisätty silmukka ja neulo etukappaleen silmukat kauluksen reunuksesta.",
+  de: "Stricken Sie nach dem Strickdiagramm die erste Reihe des Vorderteils Teil R von der rechten Seite: direkt nach der Raglanlinie eine Zunahme bilden und die Vorderteilmaschen von der Halsblende stricken.",
+  fr: "Suivez le diagramme de tricot pour le premier rang du devant partie R sur l'endroit : juste après la ligne raglan, créez une maille augmentée et tricotez les mailles du devant depuis la bande d’encolure.",
+  es: "Sigue el diagrama de tejido para la primera fila del delantero parte R por el derecho: justo después de la línea de raglán, crea un punto aumentado y teje los puntos del delantero desde el ribete de cuello.",
+  ja: "編み図に従い、前身頃パーツRの1段目を表側から編みます。ラグランラインの直後に増し目を作り、ネックバンドから前身頃の目を編みます。",
+  cs: "Podle schématu upleťte první řadu předního dílu části R z lícové strany: hned za raglánovou linií vytvořte přidané oko a upleťte oka předního dílu z lemu výstřihu.",
+  bg: "Плетете по схемата първия ред на предната част R от лицевата страна: веднага след реглан линията създайте добавена бримка и изплетете бримките на предната част от бейката на деколтето.",
+  sk: "Podľa schémy upleťte prvý rad predného dielu časti R z líca: hneď za raglánovou líniou vytvorte pridané oko a upleťte oká predného dielu z lemu výstrihu.",
+  ko: "뜨개 도안에 따라 앞판 부분 R의 첫 단을 겉에서 뜨세요. 래글런 선 바로 다음에 늘린 코를 만들고 넥밴드에서 가져온 앞판 코를 뜨세요.",
+  tr: "Örgü şemasına göre ön parçanın R bölümünün birinci sırasını ön yüzden örün: raglan hattından hemen sonra artırılmış ilmek oluşturun ve yaka bandından ön parça ilmeklerini örün.",
+  ar: "انسجي وفق مخطط الحياكة الصف الأول من أمام الجزء R من الجهة الأمامية: مباشرة بعد خط الراغلان أنشئي غرزة مزيدة وانسجي غرز الأمام من شريطة العنق.",
+  pt: "Siga o diagrama de tricô na primeira carreira da frente parte R pelo lado direito: logo após a linha raglan, crie um ponto aumentado e tricote os pontos da frente a partir do viés de gola.",
+  lt: "Pagal mezgimo schemą numegzkite priekinės dalies R pirmą eilutę dešine puse: iš karto po raglano linijos sukurkite pridėtą akį ir numegzkite priekinės dalies akis nuo kaklo juostos.",
+  pl: "Według schematu przerób pierwszy rząd przodu części R na prawej stronie: zaraz za linią reglanu utwórz oczko dodane i przerób oczka przodu z plisy dekoltu.",
+};
+
+/** Caption under the fifth V-neck understanding slide (frontV4). */
+export const drawingGuideSlide5 = {
+  en: "Turn the work and switch to the wrong side. Knit the second front row of part R up to the raglan line. Then knit the sleeves, the back, and the raglan lines in the direction of the blue arrow until the start of knitting.",
+  ru: "Разверните вязание и перейдите на изнаночную сторону. Вяжите второй ряд переда в части R до линии реглана. Далее вяжите рукава, спинку и линии реглана по направлению голубой стрелки до начала вязания.",
+  sv: "Vänd arbetet och gå över till avigsidan. Sticka andra framsidesraden av del R fram till raglanlinjen. Fortsätt sedan sticka ärmarna, bakstycket och raglanlinjerna i den blå pilens riktning till stickningens början.",
+  no: "Vend arbeidet og gå over til vrangen. Strikk andre forstykkesrad av del R frem til raglanlinjen. Strikk deretter ermene, bakstykket og raglanlinjene i retning av den blå pilen til starten av strikking.",
+  fi: "Käännä työ ja siirry nurjalle puolelle. Neulo etukappaleen osan R toinen rivi raglanlinjaan asti. Neulo sitten hihat, takakappale ja raglanlinjat sinisen nuolen suuntaan neulomisen alkuun asti.",
+  de: "Wenden Sie die Arbeit und gehen Sie auf die linke Seite. Stricken Sie die zweite Vorderteilreihe von Teil R bis zur Raglanlinie. Stricken Sie dann die Ärmel, den Rücken und die Raglanlinien in Richtung des blauen Pfeils bis zum Anfang des Strickens.",
+  fr: "Tournez l'ouvrage et passez sur l'envers. Tricotez le deuxième rang du devant de la partie R jusqu'à la ligne raglan. Ensuite, tricotez les manches, le dos et les lignes raglan dans le sens de la flèche bleue jusqu'au début du tricot.",
+  es: "Gira la labor y pasa al revés. Teje la segunda fila del delantero de la parte R hasta la línea de raglán. Luego teje las mangas, la espalda y las líneas de raglán en dirección de la flecha azul hasta el inicio del tejido.",
+  ja: "作品を返し、裏側に移ります。パーツRの前身頃の2段目をラグランラインまで編みます。その後、青い矢印の方向に袖・後ろ身頃・ラグランラインを編み始めまで編みます。",
+  cs: "Otočte práci a přejděte na rubovou stranu. Pleťte druhou řadu předního dílu části R až k raglánové linii. Poté pleťte rukávy, zadní díl a raglánové linie ve směru modré šipky až k začátku pletení.",
+  bg: "Обърнете плетивото и преминете на опаката страна. Плетете втория ред на предната част R до реглан линията. След това плетете ръкавите, гърба и реглан линиите по посока на синята стрелка до началото на плетенето.",
+  sk: "Otočte prácu a prejdite na rubovú stranu. Pleťte druhý rad predného dielu časti R až k raglánovej línii. Potom pleťte rukávy, zadný diel a raglánové línie v smere modrej šípky až k začiatku pletenia.",
+  ko: "작품을 뒤집어 안쪽으로 넘어가세요. 부분 R의 앞판 두 번째 단을 래글런 선까지 뜨세요. 그다음 파란 화살표 방향으로 소매, 등판, 래글런 선을 뜨기 시작점까지 뜨세요.",
+  tr: "İşi çevirin ve ters yüze geçin. R parçasının ön ikinci sırasını raglan hattına kadar örün. Ardından mavi ok yönünde kolları, arkayı ve raglan hatlarını örgü başlangıcına kadar örün.",
+  ar: "اقلبي العمل وانتقلي إلى الجهة الخلفية. انسجي الصف الثاني من أمام الجزء R حتى خط الراغلان. ثم انسجي الأكمام والظهر وخطوط الراغلان باتجاه السهم الأزرق حتى بداية الحياكة.",
+  pt: "Vire o trabalho e passe para o avesso. Tricote a segunda carreira da frente da parte R até a linha raglan. Em seguida, tricote as mangas, as costas e as linhas raglan na direção da seta azul até o início do tricô.",
+  lt: "Apverskite darbą ir pereikite į kairę pusę. Megzkite priekinės dalies R antrą eilutę iki raglano linijos. Toliau megzkite rankoves, nugarą ir raglano linijas mėlynos rodyklės kryptimi iki mezgimo pradžios.",
+  pl: "Odwróć robótkę i przejdź na lewą stronę. Rób drugi rząd przodu części R do linii reglanu. Następnie rób rękawy, tył i linie reglanu w kierunku niebieskiej strzałki do początku robienia.",
 };

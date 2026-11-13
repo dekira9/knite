@@ -121,6 +121,82 @@ export const calculateIncreaseRows1x2_1x1V = (
 
 {/* конец расчета рядов с прибавками для 1x2, 1x1*/}
 
+export const calculateIncreaseRows1x4_1x1V = (
+  NHFrontV: number,
+  SfxV: number,
+  prib_1x1_fV: number,
+  _PR_1x4_fV: number
+) => {
+  if (!prib_1x1_fV || !NHFrontV) {
+    return { resultString41V: '' };
+  }
+
+  const KCv = SfxV / prib_1x1_fV;
+  const Cv = Array.from({ length: prib_1x1_fV }, (_, c) => c + 1);
+  const PozCv = Cv.map((c) => Math.floor(KCv * c));
+
+  const RowCv = PozCv.map((c, cIndex) => {
+    const adjustedIndex = cIndex + 1;
+    return (c - 1) * 4 + 1 - (adjustedIndex - 1);
+  });
+  const RowN41v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
+
+  RowCv.forEach((c) => {
+    const index = RowN41v.indexOf(c);
+    if (index !== -1) {
+      RowN41v.splice(index, 1);
+    }
+  });
+
+  const RowA41v: number[] = [];
+  for (let i = 0; i < RowN41v.length; i += 4) {
+    RowA41v.push(RowN41v[i]);
+  }
+
+  const RowPrib1x4_1x1V = [...RowA41v, ...RowCv].sort((a, b) => a - b);
+  const resultString41V = RowPrib1x4_1x1V.join(', ');
+
+  return { PozCv, RowCv, RowN41v, RowA41v, RowPrib1x4_1x1V, resultString41V };
+};
+
+export const calculateIncreaseRows1x3_1x1V = (
+  NHFrontV: number,
+  SfxV: number,
+  prib_1x1_fV: number,
+  _prib_1x3_fV: number
+) => {
+  if (!prib_1x1_fV || !NHFrontV) {
+    return { resultString31V: '' };
+  }
+
+  const KCv = SfxV / prib_1x1_fV;
+  const Cv = Array.from({ length: prib_1x1_fV }, (_, c) => c + 1);
+  const PozCv = Cv.map((c) => Math.floor(KCv * c));
+
+  const RowCv = PozCv.map((c, cIndex) => {
+    const adjustedIndex = cIndex + 1;
+    return (c - 1) * 3 + 1 - (adjustedIndex - 1);
+  });
+  const RowN31v = Array.from({ length: NHFrontV }, (_, i) => i + 1);
+
+  RowCv.forEach((c) => {
+    const index = RowN31v.indexOf(c);
+    if (index !== -1) {
+      RowN31v.splice(index, 1);
+    }
+  });
+
+  const RowA31v: number[] = [];
+  for (let i = 0; i < RowN31v.length; i += 3) {
+    RowA31v.push(RowN31v[i]);
+  }
+
+  const RowPrib1x3_1x1V = [...RowA31v, ...RowCv].sort((a, b) => a - b);
+  const resultString31V = RowPrib1x3_1x1V.join(', ');
+
+  return { PozCv, RowCv, RowN31v, RowA31v, RowPrib1x3_1x1V, resultString31V };
+};
+
 {/*расчет рядов с прибавками для 1x4, 1x3*/}
 
 export const calculateIncreaseRows1x4_1x3V = (
