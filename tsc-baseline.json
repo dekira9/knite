@@ -30,6 +30,5 @@
   "utils/Layout.ts": 1,
   "utils/i18n/__tests__/localeReactivity.test.ts": 10,
   "utils/i18n/__tests__/mergeTranslations.test.ts": 12,
-  "utils/i18n/__tests__/supportedLanguages.test.ts": 14,
   "utils/raglan/__tests__/calculateRaglan.test.ts": 27
 }
