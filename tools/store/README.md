@@ -61,6 +61,28 @@ python3 play.py update --dry-run
 python3 play.py update        # commits; on any error the edit is discarded
 ```
 
+## More tools (ported from ExamPrep-platform)
+
+All take the app ids from `apps/knite.json` (no secrets there) and the keys from `~/bare/.secrets/store/`. Snapshots and backups go to `docs/aso-snapshots/`.
+
+```bash
+python3 dump_listings.py [out_dir]                   # read-only dump of live iOS + Play listings
+python3 ios_listings.py apply <metadata.json> [--dry-run]   # name/subtitle/keywords, backup first
+python3 ios_listings.py rollback <backup.json>
+python3 play_listings.py apply <listings.json> [--dry-run]  # title/short/full, backup first
+python3 play_listings.py rollback <backup.json>
+python3 ios_screenshots.py backup [out_dir]          # download every live screenshot
+python3 ios_screenshots.py replace-ipad <frames_dir> [--version X.Y.Z] [--dry-run]
+python3 ios_screenshots.py cpp <spec.json> [--dry-run]       # Custom Product Pages (drafts)
+python3 ios_ppo.py status                            # Product Page Optimization tests
+python3 ios_ppo.py upload <frames_dir> --locales en-US [--dry-run]
+python3 set_subscription_price.py --show --apple-product <id> --play <sub>:<basePlan>
+python3 set_subscription_price.py --usd 9.99 --dry-run --apple-product <id> --play <sub>:<basePlan>
+python3 retention_messaging.py show|apply|submit [--spec metadata/retention_messaging.json]
+```
+
+Each script's docstring has the full usage. `retention_messaging.py` needs a spec at `metadata/retention_messaging.json` (`{"app": "knite", "message": {"referenceName", "subscriptions", "localizations"}, ...}`, see the docstring); knite has none yet.
+
 ## EAS
 
 Store keys live outside the repo (`~/bare/.secrets/store/`), so EAS uploads cannot include them. EAS uses `.gitignore` (there is no `.easignore`), which still excludes `tools/store/secrets/**` and `tools/store/venv/`.

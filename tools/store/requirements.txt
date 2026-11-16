@@ -3,7 +3,10 @@ urllib3<2.0
 PyJWT==2.8.0
 cryptography==42.0.2
 
-# play.py — Google Play Android Publisher API
+# play.py, play_listings.py, dump_listings.py, set_subscription_price.py — Google Play Android Publisher API
 google-auth>=2.0.0
 google-auth-oauthlib>=1.0.0
 google-api-python-client>=2.0.0
+
+# ios_screenshots.py, ios_ppo.py — image sizes
+Pillow>=10.0.0

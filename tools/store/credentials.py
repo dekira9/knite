@@ -12,6 +12,7 @@ STORE_ROOT = Path(__file__).resolve().parent
 SECRETS_DIR = Path(
     os.environ.get("STORE_SECRETS_DIR", "~/bare/.secrets/store")
 ).expanduser()
+APPS_DIR = STORE_ROOT / "apps"
 METADATA_DIR = STORE_ROOT / "metadata"
 
 APPLE_CONFIG_FILE = SECRETS_DIR / "apple.json"
@@ -71,3 +72,17 @@ def google_service_account_file() -> Path:
             f"Copy Play service account JSON to {GOOGLE_SERVICE_ACCOUNT_FILE}"
         )
     return GOOGLE_SERVICE_ACCOUNT_FILE
+
+
+def list_app_keys() -> list[str]:
+    return sorted(p.stem for p in APPS_DIR.glob("*.json"))
+
+
+def load_app_config(app_key: str = "knite") -> dict:
+    """apps/<app_key>.json (store ids, no secrets) merged with the Apple API auth."""
+    app_path = APPS_DIR / f"{app_key}.json"
+    if not app_path.exists():
+        raise KeyError(f"Unknown app config: {app_key} ({app_path})")
+    cfg = json.loads(app_path.read_text(encoding="utf-8"))
+    cfg.update(load_apple_auth())
+    return cfg
