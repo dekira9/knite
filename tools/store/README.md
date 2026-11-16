@@ -2,6 +2,8 @@
 
 CLI for App Store Connect and Google Play listings. Not part of the Expo app (same setup as KalimbaDrop `tools/store`).
 
+Setting up on Windows with a limited key (step by step, in Russian): [SETUP_WINDOWS.md](SETUP_WINDOWS.md).
+
 App: bundle / package `com.ilyadylko.knitapp`, App Store app id `6740062991`.
 
 ## Setup
