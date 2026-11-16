@@ -12,7 +12,7 @@ import requests
 
 STORE_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(STORE_ROOT))
-from credentials import METADATA_DIR, load_apple_auth  # noqa: E402
+from credentials import METADATA_DIR, apple_token, load_apple_auth  # noqa: E402
 
 CREDENTIALS_FILE = STORE_ROOT / "credentials.json"
 KEYWORDS_FILE = METADATA_DIR / "ios_keywords.json"
@@ -52,9 +52,7 @@ def pick_editable(items):
 
 
 def token(cfg):
-    payload = {"iss": cfg["issuer_id"], "exp": int(time.time()) + 1200, "aud": "appstoreconnect-v1"}
-    hdr = {"alg": "ES256", "kid": cfg["key_id"], "typ": "JWT"}
-    return jwt.encode(payload, cfg["private_key"], algorithm="ES256", headers=hdr)
+    return apple_token(cfg)
 
 
 def headers(cfg):

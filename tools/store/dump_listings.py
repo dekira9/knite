@@ -7,13 +7,12 @@ import datetime, json, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import jwt, requests
-from credentials import load_app_config, google_service_account_file
+from credentials import apple_token, load_app_config, google_service_account_file
 
 out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[2] / "docs/aso-snapshots" / f"listings-{datetime.date.today()}"
 out.mkdir(parents=True, exist_ok=True)
 cfg = load_app_config("knite")
-tok = jwt.encode({"iss": cfg["issuer_id"], "iat": int(time.time()), "exp": int(time.time()) + 1100, "aud": "appstoreconnect-v1"},
-                 cfg["private_key"], algorithm="ES256", headers={"kid": cfg["key_id"], "typ": "JWT"})
+tok = apple_token(cfg)
 s = requests.Session(); s.trust_env = False
 s.headers["Authorization"] = f"Bearer {tok}"
 B = "https://api.appstoreconnect.apple.com/v1"

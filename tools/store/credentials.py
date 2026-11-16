@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 
 STORE_ROOT = Path(__file__).resolve().parent
@@ -46,10 +47,16 @@ def load_apple_auth() -> dict:
 
     issuer_id = data.get("issuer_id") or os.environ.get("ASC_ISSUER_ID")
     key_id = data.get("key_id") or os.environ.get("ASC_KEY_ID")
-    if not issuer_id or not key_id:
+    # "team" (Integrations -> Team Keys, all apps) or "individual" (Individual Keys:
+    # the user's own roles and apps, no issuer id).
+    key_type = data.get("key_type") or os.environ.get("ASC_KEY_TYPE") or "team"
+    if key_type not in ("team", "individual"):
+        raise ValueError(f"key_type must be team or individual, got {key_type!r}")
+    if not key_id or (key_type == "team" and not issuer_id):
         raise FileNotFoundError(
-            f"Create {APPLE_CONFIG_FILE} with issuer_id and key_id, "
-            "or set ASC_ISSUER_ID / ASC_KEY_ID."
+            f"Create {APPLE_CONFIG_FILE} with key_id and issuer_id "
+            '(or key_id and "key_type": "individual"), '
+            "or set ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_TYPE."
         )
 
     if data.get("private_key"):
@@ -62,8 +69,27 @@ def load_apple_auth() -> dict:
     return {
         "issuer_id": issuer_id,
         "key_id": key_id,
+        "key_type": key_type,
         "private_key": private_key,
     }
+
+
+def apple_token(auth: dict, ttl: int = 1100) -> str:
+    """Signed App Store Connect JWT. Team keys carry iss, individual keys sub=user (max 20 min)."""
+    import jwt
+
+    now = int(time.time())
+    payload = {"iat": now, "exp": now + min(ttl, 1200), "aud": "appstoreconnect-v1"}
+    if auth.get("key_type") == "individual":
+        payload["sub"] = "user"
+    else:
+        payload["iss"] = auth["issuer_id"]
+    return jwt.encode(
+        payload,
+        auth["private_key"],
+        algorithm="ES256",
+        headers={"alg": "ES256", "kid": auth["key_id"], "typ": "JWT"},
+    )
 
 
 def google_service_account_file() -> Path:

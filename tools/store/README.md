@@ -19,13 +19,22 @@ One folder shared by all projects in `~/bare` (ExamPrep-platform, KalimbaDrop, k
 
 | File | Purpose |
 |------|---------|
-| `apple.json` | `issuer_id`, `key_id`, optional `private_key_file` (see `apple.json.example`) |
+| `apple.json` | Team key: `issuer_id`, `key_id`, optional `private_key_file` (`apple.json.example`). Individual key: `"key_type": "individual"`, `key_id`, no issuer (`apple.individual.json.example`) |
 | `AuthKey_<KEY_ID>.p8` | App Store Connect API key |
 | `service-account.json` | Google Play Android Publisher API |
 
 The Play service account (`client_email` in `service-account.json`) must be invited in Play Console → Users and permissions for `com.ilyadylko.knitapp` with store listing permission. `python3 play.py check` tells you whether it is.
 
 Optional `credentials.json` here overrides `app_id`, `support_url`, `privacy_url`, `whats_new`.
+
+### Access limited to some apps (Individual key)
+
+A Team key (Integrations → Team Keys) opens every app of the account. For someone who should reach only their own apps:
+
+- **App Store:** invite them in Users and Access with **App Manager** only (Finance, Customer Support and Admin always mean All Apps), untick Access to All Apps, tick their apps. They sign in and create their own key under Integrations → **Individual Keys**, then put `AuthKey_<KEY_ID>.p8` and an `apple.json` like `apple.individual.json.example` in their `~/bare/.secrets/store/`. The JWT then carries `sub: "user"` instead of `iss` (`credentials.apple_token`). Individual keys cannot use Sales and Finance or Provisioning.
+- **Google Play:** a separate service account (new JSON key in Google Cloud), invited in Play Console → Users and permissions with **app permissions** for their apps only, no account permissions. Its JSON is their `service-account.json`.
+
+Check both with `python3 asm.py check` and `python3 play.py check`.
 
 ## Listing copy
 

@@ -49,6 +49,7 @@ from google.oauth2 import service_account
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from credentials import (  # noqa: E402
     APPS_DIR,
+    apple_token,
     google_service_account_file,
     load_apple_auth,
 )
@@ -110,9 +111,7 @@ class Pace:
 class Apple:
     def __init__(self, per_second: float) -> None:
         auth = load_apple_auth()
-        self._issuer = auth["issuer_id"]
-        self._key_id = auth["key_id"]
-        self._private_key = auth["private_key"]
+        self._auth = auth
         self._token = ""
         self._token_exp = 0
         self._token_lock = threading.Lock()
@@ -126,12 +125,7 @@ class Apple:
             now = int(time.time())
             if now >= self._token_exp - 60:
                 exp = now + 15 * 60
-                self._token = jwt.encode(
-                    {"iss": self._issuer, "exp": exp, "aud": "appstoreconnect-v1"},
-                    self._private_key,
-                    algorithm="ES256",
-                    headers={"alg": "ES256", "kid": self._key_id, "typ": "JWT"},
-                )
+                self._token = apple_token(self._auth, ttl=exp - now)
                 self._token_exp = exp
             token = self._token
         return {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}

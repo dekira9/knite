@@ -32,7 +32,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import jwt
 import requests
-from credentials import load_app_config
+from credentials import apple_token, load_app_config
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,8 +40,7 @@ B = "https://api.appstoreconnect.apple.com/v1"
 
 
 def session(cfg):
-    tok = jwt.encode({"iss": cfg["issuer_id"], "iat": int(time.time()), "exp": int(time.time()) + 1100, "aud": "appstoreconnect-v1"},
-                     cfg["private_key"], algorithm="ES256", headers={"kid": cfg["key_id"], "typ": "JWT"})
+    tok = apple_token(cfg)
     s = requests.Session(); s.trust_env = False
     s.headers["Authorization"] = f"Bearer {tok}"
     return s
