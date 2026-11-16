@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "appfollow-knite": {
+      "type": "http",
+      "url": "https://mcp.appfollow.io/mcp"
+    }
+  }
+}
