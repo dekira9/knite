@@ -6,6 +6,8 @@ import ChooseStyleScreen from '@/screens/styles/ChooseStyle';
 import InputNavigator from './InputNavigator';
 import ResultScreenLayout from './ResultNavigator';
 import RaglanNavigator from './RaglanNavigator';
+import CountersListScreen from '@/screens/counter/CountersList';
+import CounterScreen from '@/screens/counter/Counter';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +24,8 @@ export default function StylesNavigator() {
       <Stack.Screen name="Input" component={InputNavigator} />
       <Stack.Screen name="Result" component={ResultScreenLayout} />
       <Stack.Screen name="Raglan" component={RaglanNavigator} />
+      <Stack.Screen name="Counters" component={CountersListScreen} />
+      <Stack.Screen name="Counter" component={CounterScreen} />
     </Stack.Navigator>
   );
 }

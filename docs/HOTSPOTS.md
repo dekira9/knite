@@ -88,6 +88,14 @@ Paired regular/V fields: `.cursor/rules/state.mdc`. Do not rename persisted keys
 
 Grep the key in `translationKeys.ts`, edit **one** `export const` in the matching domain file. Result keys: `docs/i18n/RESULT_KEY_INDEX.md`.
 
+## Row counter (standalone)
+
+| File | Role |
+|------|------|
+| `state/rowCounterState.ts` | MST store; AsyncStorage key `rowCounters`; plan counters (`kind: 'plan'`) |
+| `utils/knitPlan.ts` | Pure knit-by-plan engine (`buildKnitPlanSource`, row info, checkpoints) |
+| `screens/counter/counterParts/` | Plan-mode counter UI (`PlanRowHint`, `PlanCheckpointCard`, …) |
+
 ## Raglan calculation core
 
 | File | Role |

@@ -7,6 +7,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import onboardingState from './state/onboardingState';
 import introState from './state/introState';
+import rowCounterState from './state/rowCounterState';
 import OnboardingNavigator from './navigation/OnboardingNavigator';
 import MainNavigator from './navigation/MainNavigator';
 import { updateLocale } from './utils/translations';
@@ -25,7 +26,8 @@ const App = observer(() => {
     const loadState = async () => {
       await Promise.all([
         onboardingState.loadPersistedState(),
-        introState.loadPersistedState()
+        introState.loadPersistedState(),
+        rowCounterState.loadPersistedState(),
       ]);
       const lang = isSupportedLanguage(onboardingState.language)
         ? onboardingState.language

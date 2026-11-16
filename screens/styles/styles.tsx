@@ -7,7 +7,11 @@ import {
   ScrollView,
   useWindowDimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  ParamListBase,
+} from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utils/translations';
 import introState from '@/state/introState';
@@ -16,6 +20,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { Colors } from '@/constants/Colors';
 import { track } from '@/utils/analytics';
+import rowCounterState from '@/state/rowCounterState';
+import { ContinueKnittingSection } from '@/screens/counter/listParts/ContinueKnittingSection';
 
 const HOME_BG_TOP = '#F5F0ED';
 const HOME_BG_BOTTOM = '#F4F0ED';
@@ -40,10 +46,11 @@ const HOME_FEATURES = [
 ];
 
 export default observer(() => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const insets = useSafeAreaInsets();
   const { height: windowHeight } = useWindowDimensions();
   const isCompact = windowHeight < 740;
+  const hasCounters = rowCounterState.sortedCounters.length > 0;
   const [activeFeatureKey, setActiveFeatureKey] = React.useState<string | null>(
     null,
   );
@@ -55,7 +62,7 @@ export default observer(() => {
   const beginFlow = (mode: 'sample' | 'custom') => {
     introState.prepareStyleChoice(mode);
     track('flow_started', { mode, source: 'home' });
-    (navigation as any).navigate('ChooseStyle');
+    navigation.navigate('ChooseStyle');
   };
 
   return (
@@ -94,12 +101,16 @@ export default observer(() => {
 
         <Image
           source={require('@/assets/images/home1.svg')}
-          style={styles.heroImage}
+          style={
+            isCompact && hasCounters ? styles.heroImageCompact : styles.heroImage
+          }
           contentFit="contain"
         />
       </View>
 
       <View style={styles.homeBottom}>
+        {hasCounters ? <ContinueKnittingSection /> : null}
+
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => beginFlow('custom')}
@@ -113,6 +124,20 @@ export default observer(() => {
         >
           <Text style={styles.exampleLinkText}>{i18n.t('viewExample')}</Text>
         </TouchableOpacity>
+
+        {hasCounters ? null : (
+          <TouchableOpacity
+            style={styles.exampleLink}
+            onPress={() => {
+              track('counter_list_opened', { source: 'home' });
+              navigation.navigate('Counters');
+            }}
+          >
+            <Text style={styles.exampleLinkText}>
+              {i18n.t('rowCounterHomeButton')}
+            </Text>
+          </TouchableOpacity>
+        )}
 
         <View style={styles.featuresRow}>
           {HOME_FEATURES.map((feature) => {
@@ -217,6 +242,10 @@ const styles = StyleSheet.create({
   heroImage: {
     width: '100%',
     aspectRatio: 853 / 763,
+  },
+  heroImageCompact: {
+    width: '100%',
+    height: 120,
   },
   featuresRow: {
     flexDirection: 'row',

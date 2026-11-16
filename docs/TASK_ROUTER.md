@@ -67,6 +67,7 @@ Grep the symbol or key first. Open **only** the files listed for your task.
 | AsyncStorage save/load | `persistState`, `setPersistedState` |
 | Chart option-picker styling | `screens/styles/raglan/raglanChartChromeStyles.ts` |
 | Onboarding locale/units | `state/onboardingState.ts` |
+| Row counter (standalone + knit-by-plan) | `state/rowCounterState.ts`, `utils/knitPlan.ts`, `screens/counter/Counter.tsx`, `screens/counter/counterParts/` |
 | Global reset | `state/reset.ts` |
 
 ## i18n

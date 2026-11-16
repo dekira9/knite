@@ -9,8 +9,8 @@ Find files through the docs, not by browsing: `docs/TASK_ROUTER.md` (task → fi
 | Area | Path |
 |------|------|
 | Navigators | `navigation/*.tsx` (App → Onboarding or Main → StylesNavigator → Input / Result / Raglan) |
-| Screens | `screens/styles/` (input wizard, `input/result/`, `raglan/` charts), `screens/onboarding/` |
-| State | `state/introState.ts` (MST, persisted), `state/onboardingState.ts` (language, units), typed access `state/raglanSelectors.ts` |
+| Screens | `screens/styles/` (input wizard, `input/result/`, `raglan/` charts), `screens/onboarding/`, `screens/counter/` (row counter: `Counters` / `Counter` routes in StylesNavigator) |
+| State | `state/introState.ts` (MST, persisted), `state/onboardingState.ts` (language, units), `state/rowCounterState.ts` (row counters), typed access `state/raglanSelectors.ts` |
 | Raglan math | `utils/raglan/` (shared with Supabase edge `calculate-raglan`; device calls it via `utils/calculateRaglanCoreRemote.ts`); UI row helpers `screens/styles/input/result/helpers.ts` |
 | i18n | `utils/i18n/strings/` — edit only through `yarn i18n get|add|set` |
 | Store listings | `tools/store/` — Python CLI for App Store Connect (`asm.py`) and Google Play (`play.py`); see its `README.md`. Keys in `~/bare/.secrets/store/` (shared, outside the repo) |
@@ -21,7 +21,7 @@ Find files through the docs, not by browsing: `docs/TASK_ROUTER.md` (task → fi
 
 ## Invariants (never change without a migration)
 
-- **AsyncStorage keys:** `introState`, `introSavedProjects`, `onboardingState`. `introState` fields = `INTRO_STATE_PERSISTED_KEYS` (`state/introStatePersistedKeys.ts`); renames go through `state/introStateMigration.ts`.
+- **AsyncStorage keys:** `introState`, `introSavedProjects`, `onboardingState`, `rowCounters` (standalone row counter, `state/rowCounterState.ts`). `introState` fields = `INTRO_STATE_PERSISTED_KEYS` (`state/introStatePersistedKeys.ts`); renames go through `state/introStateMigration.ts`.
 - **Paired fields** change together (`RAGLAN_VARIANT_FIELDS`).
 - **Raglan math contract:** `RaglanOutput` (`utils/raglan/types.ts`) and `utils/raglan/__tests__/goldenSample.json` change only on purpose, with the edge function redeployed.
 - **Style ids** `'regular' | 'v-neck'` are persisted in saved projects.

@@ -1,0 +1,162 @@
+import { StyleSheet } from 'react-native';
+import { Colors } from '@/constants/Colors';
+
+export const counterScreenStyles = StyleSheet.create({
+  flex: { flex: 1 },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  content: {
+    paddingHorizontal: 20,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 8,
+    gap: 8,
+  },
+  headerIcon: {
+    padding: 4,
+  },
+  nameWrap: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  nameText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#11181C',
+    textAlign: 'center',
+  },
+  nameInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  missingProject: {
+    textAlign: 'center',
+    color: '#B45309',
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  countSection: {
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  rowLabel: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '500',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  bigCount: {
+    fontSize: 96,
+    fontWeight: '700',
+    color: Colors.light.tint,
+    lineHeight: 104,
+  },
+  ofTarget: {
+    fontSize: 18,
+    color: '#555',
+    marginTop: 4,
+  },
+  progressTrack: {
+    width: '100%',
+    height: 4,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 2,
+    marginTop: 12,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.light.tint,
+    borderRadius: 2,
+  },
+  doneText: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.light.tint,
+  },
+  tapArea: {
+    width: '100%',
+    borderRadius: 16,
+    backgroundColor: Colors.light.tint,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  tapPlus: {
+    fontSize: 56,
+    fontWeight: '300',
+    color: '#fff',
+    lineHeight: 60,
+  },
+  tapHint: {
+    marginTop: 8,
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.9)',
+    fontWeight: '500',
+  },
+  prevPhaseLink: {
+    alignSelf: 'center',
+    marginBottom: 12,
+    paddingVertical: 6,
+  },
+  prevPhaseText: {
+    fontSize: 14,
+    color: Colors.light.tint,
+    fontWeight: '600',
+  },
+  secondaryRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 20,
+  },
+  secondaryButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#e6ddd0',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  secondaryButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#444',
+  },
+  fieldLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#444',
+    marginBottom: 6,
+  },
+  fieldInput: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#FFFFFF',
+    fontSize: 15,
+    color: '#11181C',
+    marginBottom: 16,
+  },
+  noteInput: {
+    minHeight: 88,
+  },
+});
